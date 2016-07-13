@@ -1,0 +1,210 @@
+<html>
+	<script src = "/static/js/login.js"></script>	
+	<script type = 'text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js'></script>	
+	 
+	<!-- Latest compiled and minified CSS -->
+	
+	<script src = "/static/js/app.js"></script>	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	 <style>
+      html, body {
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+      }
+      #map {
+        height: 74%;
+      }
+      
+    </style>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script>
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 11,
+          center: {lat: -34.397, lng: 150.644}
+        });
+        var geocoder = new google.maps.Geocoder();
+        var infoWindow = new google.maps.InfoWindow({map: map});
+	geocodeAddress(geocoder, map);
+        
+        
+	if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('You are here');
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+
+        
+        
+      }
+      var arr = [];
+      var i = 0, j = 0;
+      
+     
+      function geocodeAddress(geocoder, resultsMap) {
+        
+		  {% for i in info %} 
+		  var add = "{{ i['add'] }}";
+          var category = "{{ i['category'] }}" 
+		  address = add;
+		  geocoder.geocode({'address': address}, function(results, status) {
+
+		  if (status === google.maps.GeocoderStatus.OK) {
+		    resultsMap.setCenter(results[0].geometry.location);
+		     var marker = new google.maps.Marker({
+		      map: resultsMap,
+                      category: category,
+		      position: results[0].geometry.location });
+		       arr.push(marker);
+		       addInfoWindow(marker, '<center><p><strong>Shibira</strong><br/></p><p id = "name"><strong>{{ i["name"]}}</strong> <br/><strong> venue:</strong><br/> {{ i["add"]}}<br/><strong> Date <strong><br/><strong> From:  </strong>{{ i["fromdate"]}}<strong> to:</strong>  {{ i["todate"]}}<br/> <strong>Timming</strong> <br/><strong> from:</strong> {{ i["starttime"]}}<strong> to:</strong> {{ i["endtime"]}}<br/> <a href=\'join?shibira_id={{ i["name"] }}\'>click to register</a></p> ');
+		  } else {
+		    alert('Geocode was not successful for the following reason: ' + status);
+		  }
+		});{% endfor %}
+	      }
+      
+       
+	function addInfoWindow(marker, message) {
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: message
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+                infoWindow.open(map, marker);
+		map.panTo(this.getPosition());
+            	map.setZoom(15);
+            });
+        }
+    
+    
+	filterMarkers = function (category) {
+	    for (i = 0; i < arr.length; i++) {
+		marker = arr[i];
+		// If is same category or category not picked
+		if (marker.category == category || category.length === 0) {
+		    marker.setVisible(true);
+		}
+		// Categories don't match 
+		else {
+		    marker.setVisible(false);
+		}
+	    }
+	}
+
+	initMap();
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2pJjI8-t-wcMuxw9GX1fdhiiZTwOpmVE&callback=initMap">
+    </script>
+
+
+
+	<nav class = "navbar navbar-inverse">
+		<div class = 'container-fluid'>
+		             
+		    <div class = 'navbar-header'>
+			<button type = 'button' class = 'navbar-toggle' data-toggle = "collapse" data-target = "#mainnavbar">
+				<span class="glyphicon glyphicon-user" style = "color:white"></span>
+						
+			</button>                
+			<div class = "col-md-offset-8">			
+				<a class = 'navbar-brand'>
+				    SamskritaBharati-ShibiraApp
+				</a>
+			</div>
+		    </div>
+		    <div class = "collapse navbar-collapse" id = 'mainnavbar'>
+			<div >			
+			<div class = "col-md-offset-7 padding-right:30px">			
+				<ul class = "nav navbar-nav">
+					  <li><a href="#">Hello Mr.   {{ name }}!!! </a></li>
+					   <li><a href="/logout">Logout</a></li>
+					
+				</ul>
+								
+				
+			</div>
+				
+						
+					
+	    		            
+	    </div>
+     </nav>
+	 <div class = "container-fluid, col-md-offset-0" >
+		    <ul class="nav nav-tabs">
+			 	
+			  <li class="active"><a data-toggle="tab" href="#home">Shibiras</a></li>
+			  <li><a data-toggle="tab" href="#menu1">Shibiras Joined</a></li>
+			  <li><a data-toggle="tab" href="#menu2">Other events</a></li>
+			</ul>  
+		 </div>
+<body  ng-app = 'myApp'>
+		
+	<div class="tab-content"> 
+      <div id="home" class="tab-pane fade in active container-fluid">
+         <div id = "map"></div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <script>
+                var messages = {{ messages | safe }};
+                for (var i=0; i<messages.length; i++) {
+                alert(messages[i]);
+                }
+            </script>
+            {% endif %}
+        {% endwith %}
+		<table class = "table" cellspacing = "0">
+            <div class = "container-fluid">
+            <tr>
+                <td><button value = "shibira" style = "width:100%" onclick = "filterMarkers(this.value);">shibiras</button></td>
+		        <td><button value = "class" style = "width:100%" onclick = "filterMarkers(this.value);" >classes</button></td>
+            </tr>
+            </div>
+        </table>        	        
+	  </div>
+	  <div id="menu1" class="tab-pane fade">
+	   <br/> 
+        <div class = "container-fluid">
+	        <sjoined></sjoined>
+        </div>    
+	  </div>
+	  <div id="menu2" class="tab-pane fade">
+	    <h3>Menu 2</h3>
+	    <p>Some content in menu 2.</p>
+	  </div>
+	</div>
+
+</div>
+</body>	
+	
+</html>
+
+			
+

@@ -1,0 +1,104 @@
+<html>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+	<meta name="google-signin-client_id" content="241914619184-ecdv0arfl89j4utfhijf1jshdrdmdsrh.apps.googleusercontent.com">	
+	<script type = 'text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js'></script>	
+	<script src="https://apis.google.com/js/platform.js" async defer></script>	
+	<!-- Latest compiled and minified CSS -->
+	<script src = "/static/js/login.js"></script>
+	<script src = "/static/js/app.js"></script>	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src = "/static/js/login.js"></script>	
+		
+	
+	
+		
+		
+			
+	
+<div ng-init = "showsignin = false, showsignup = false" ng-app = 'profile'>
+
+	<nav class = "navbar navbar-inverse">
+		<div class = 'container-fluid'>
+		             
+		    <div class = 'navbar-header'>
+		    	<button type = 'button' class = 'navbar-toggle' data-toggle = "collapse" data-target = "#mainnavbar">
+			    	<span class = 'icon-bar'></span>
+				    <span class = 'icon-bar'></span>
+				    <span class = 'icon-bar'></span>		
+			    </button>                
+			    <div class = "col-md-offset-8">			
+				    <a class = 'navbar-brand'>
+				        SamskritaBharati-ShibiraApp
+				    </a>
+			    </div>
+		        </div>
+		        <div class = "collapse navbar-collapse" id = 'mainnavbar'>
+			    <div >			
+			    <div class = "col-md-offset-7 padding-right:30px">			
+				    <ul class = "nav navbar-nav">
+					    <li><a href = "#" ng-click = " showsignup = false;showsignin = false">HOME</a></li>
+					    <li><a href = "#" ng-click = "showsignup = !showsignup; showsignin = false">SIGNUP</a></li>					
+					    <li><a href = "#" ng-click = "showsignin = !showsignin; showsignup = false">LOGIN</a></li>
+					</ul>
+				</div>						            
+	        </div>
+    </nav>
+    <landpage ng-hide = 'showsignup || showsignin'></landpage>
+	<body ng-app = 'myApp'>	
+        <div ng-show = 'showsignin'>
+            <center>	
+	            <br/><br/><br/><br/><br/>	
+                
+                    <div class="container-fluid">
+                    <div class = "col-width-md-6">
+                        <form class = "form-group" method=POST action= "login">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">username</label>
+                                <input type="text" class="form-control" name="username" placeholder="username" style = "width:250px"  >
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">password</label>
+                                <input type="password" class="form-control" name="password" placeholder="password" style = "width:250px">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block" style = "width:150px">login</button>
+                        </form>
+	                </div>
+                    </div>
+                        <br/>
+	            {%if error != Null %}
+		            {{ error }} 
+	            {% endif %}	
+		            {{use}}
+	<br/><br/>
+            <table>
+                <col width = "100">
+                <col width = "100">
+                <tr>
+                    <th colspan = "2"><center>Or Connect With<br/><br/></center></th>
+                </tr>
+                <tr>
+                    <td><fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button></td>
+		            <td><div class="g-signin2" data-onsuccess="onSignIn">click</div></td>
+		        </tr>
+            </table>          
+             <button class = "btn tn-primary" onclick = "signOut()">click to sign out</button>
+            <div id=message></div>
+		    <div id=status></div>
+        </center>
+    </div>    	
+    <signup ng-show = "showsignup"></signup>	
+    
+</div>
+</body>
+
+
+
+</html>
+
+

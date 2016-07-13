@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	
+  <head>
+    <title>find a shibira</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<script type = 'text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js'></script>	
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 80px;
+        padding: 20px;
+      }
+      #map {
+        height: 60%;
+      }
+      
+    </style>
+  </head>
+  <body>
+    
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 11,
+          center: {lat: -34.397, lng: 150.644}
+        });
+        var geocoder = new google.maps.Geocoder();
+        var infoWindow = new google.maps.InfoWindow({map: map});
+	geocodeAddress(geocoder, map);
+        
+        
+    if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+      }
+      var arr = [];
+      var i = 0, j = 0;
+      
+     
+      function geocodeAddress(geocoder, resultsMap) {
+        
+		  {% for i in info %} 
+		  var add = "{{ i['add'] }}";
+          var category = "{{ i['category'] }}" 
+		  address = add;
+		  geocoder.geocode({'address': address}, function(results, status) {
+
+		  if (status === google.maps.GeocoderStatus.OK) {
+		    resultsMap.setCenter(results[0].geometry.location);
+		     var marker = new google.maps.Marker({
+		      map: resultsMap,
+                      category: category,
+		      position: results[0].geometry.location });
+		       arr.push(marker);
+		       addInfoWindow(marker, '<center><p><strong>Shibira</strong><br/></p><p id = "name"><strong>{{ i["name"]}}</strong> <br/><strong> venue:</strong><br/> {{ i["add"]}}<br/><strong> Date <strong><br/><strong> From:  </strong>{{ i["fromdate"]}}<strong> to:</strong>  {{ i["todate"]}}<br/> <strong>Timming</strong> <br/><strong> from:</strong> {{ i["starttime"]}}<strong> to:</strong> {{ i["endtime"]}}<br/> <a href=\'join?shibira_id={{ i["name"] }}\'>click to register</a></p> ');
+		  } else {
+		    alert('Geocode was not successful for the following reason: ' + status);
+		  }
+		});{% endfor %}
+	      }
+      
+       
+	function addInfoWindow(marker, message) {
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: message
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+                infoWindow.open(map, marker);
+		map.panTo(this.getPosition());
+            	map.setZoom(15);
+            });
+        }
+    
+    
+	filterMarkers = function (category) {
+	    for (i = 0; i < arr.length; i++) {
+		marker = arr[i];
+		// If is same category or category not picked
+		if (marker.category == category || category.length === 0) {
+		    marker.setVisible(true);
+		}
+		// Categories don't match 
+		else {
+		    marker.setVisible(false);
+		}
+	    }
+	}
+
+	initMap();
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2pJjI8-t-wcMuxw9GX1fdhiiZTwOpmVE&callback=initMap">
+    </script>
+	<br/><br/><br/><br/><br/><br/>
+	<select id="type" onchange="filterMarkers(this.value);">
+    <option value="">Please select category</option>
+    <option value="shibira">shibira</option>
+    <option value = "class">class</option>
+</select>
+	<div class = "container-fluid">
+		<button value = "shibira" onclick = "filterMarkers(this.value);">shibira</button>
+		<button value = "class" onclick = "filterMarkers(this.value);">cass</button>	
+	</div>
+  </body>
+
+</html>

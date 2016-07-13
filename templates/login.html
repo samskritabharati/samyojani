@@ -1,0 +1,40 @@
+<html>
+	<script src = "/static/js/login.js"></script>	
+	<meta name="google-signin-client_id" content="241914619184-ecdv0arfl89j4utfhijf1jshdrdmdsrh.apps.googleusercontent.com">	
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<body>
+
+<center>	
+<div class="form-group">
+<form>
+        <label for="inputEmail">Email</label></br>
+        <input type="email" class="form-control;col-xs-width-10" id="inputEmail" placeholder="Email">
+   </div>
+        <div class="form-group">
+        <div class = "container-fluid">
+        <label for="inputPassword">Password</label><br/>
+        <input type="password" class="form-control; col-xs-width-10" id="inputPassword" placeholder="Password">
+   </div>
+   </div>
+   <button type="submit" class="btn btn-primary">Login</button>
+</form>
+
+	<br/><br/><br/><br/><br/>
+	
+		<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button><br/><br/>
+		<div class="g-signin2" data-onsuccess="onSignIn">click</div>
+		
+	<div id=message></div>
+		<div id=status></div>
+	<signup ng-show = "showsignup"></signup>	
+</center>	
+</body>
+<html>
