@@ -1,7 +1,7 @@
-from flask import Flask, redirect, url_for, session, request,render_template,flash
+from flask import *
 from pymongo import MongoClient
-
-
+import json
+from pprint import pprint
 
 app = Flask(__name__)
 app.secret_key = '123'
@@ -16,40 +16,36 @@ def index():
 @app.route('/landpage')
 def landpage():
 	return render_template('landpage.html')	
-@app.route('/login',methods = ['GET','POST'])
+@app.route('/login',methods = ['GET', 'POST'])
 def login():
-	
-	if request.method == 'POST':
-		error = None
-		session.pop('user',None)	
-		username = request.form.get('username')
-		password = request.form.get('password')
-   	   	if db.user.find_one({"username": username }) and db.user.find_one({"password": password }):
-			session['user'] = username
-			return redirect( "homepage" )	
-		else:
-			error = 'username or password is invalid'
-			return render_template('home.html', error = error) 	
-    #if request.method == 'POST':
-     #   username = request.args.get("email")
-		#username = "hello"
-		##if db.user.find_one({"username": username }):
-		#	session.pop('user', None)
-		#	session['user'] = username
-	#	return render_template("home.html", use = username)
+    error = None
+    session.pop('user',None)	
+    if request.method == 'POST':
+        userinfo = { \
+                'username' : request.form.get('email'), \
+                'name' : request.form.get('name'), \
+                'auth_src' : request.form.get('auth_src'), \
+            }
+        pprint(userinfo)
+        auth_src = userinfo['auth_src']
+        print "Importing auth_src " + auth_src + " into DB"
 
-	
-		 			
-	return render_template('home.html')
+        email = userinfo['username']
+        if not db.user.find_one({"username": email }):
+            print "Importing new user " + email + " into DB"
+            db.user.update({'username' : email}, userinfo, upsert=True)
+        session['user'] = email
 
-
+        return make_response(json.dumps({'redirect' : url_for("homepage") }))
+    else:
+	    return render_template('home.html')
 
 
 @app.route('/signup', methods = ['GET','POST'])
 def signup():
 	if request.method == 'POST':
 		username = request.form.get('username')
-		name = request.form.get('name')
+		name = requestk.form.get('name')
 		password = request.form.get('password')
 		db.user.insert({"name": name, "username": username, "password":password})
 		return redirect('/')	
@@ -99,7 +95,7 @@ def squit():
 @app.route('/logout')
 def logout():
     session.pop('user', None)
-    flash('you have logged out')
+    # flash('you have logged out')
     return render_template('home.html')
 
 
