@@ -1,5 +1,4 @@
 from flask import Flask, redirect, url_for, session, request,render_template,flash
-from flask_oauth import OAuth
 from pymongo import MongoClient
 
 
@@ -105,4 +104,4 @@ def logout():
 
 
 if __name__ == '__main__':
-	app.run(debug = True)
+	app.run(host="0.0.0.0", debug = True)
