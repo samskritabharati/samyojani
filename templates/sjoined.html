@@ -16,21 +16,23 @@
 
         <thead>
             <tr>
-                <th>Name of Teacher</th>
-                <th>Address</th>
-                <th>shibira Info</th>
-                <th>action</th>
+                <th>Contact</th>
+                <th>Where</th>
+                <th>When</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
+            {% set i = 0 %}
             {% for s in sjoined %}
+                {% set i = i + 1 %}
                 <tr>
-                    <td>{{ s["name"] }}</td>
-                    <td>{{ s["add"] }}</td>
-                    <td>From Time: {{ s["starttime"] }}<br/> To Time: {{ s["endtime"] }} <br/> Start Date: {{ s["fromdate"] }}</td>
-                    <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                    <td>{{ s["teachername"] }}</td>
+                    <td>{{ s["address"] }}</td>
+                    <td><strong>Date:</strong> {{ s["fromdate"] }}- {{s["todate"]}} <br/><strong> Time:</strong> {{ s["starttime"] }} - {{ s["endtime"] }}</td>
+                    <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#{{i}}" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                 </tr>
-                 <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                 <div class="modal fade" id="{{i}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
                     <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -43,7 +45,7 @@
        
                         </div>
                         <div class="modal-footer ">
-                            <a href = "/squit?teachername={{ s['name'] }}"><span class="glyphicon glyphicon-ok-sign"></span>Yes</a>
+                            <a href = "/squit?shibira_id={{ s['s_id'] }}"><span class="glyphicon glyphicon-ok-sign"></span>Yes</a>
                             <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
                         </div>
                         </div>

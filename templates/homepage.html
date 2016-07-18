@@ -72,7 +72,7 @@
       function geocodeAddress(geocoder, resultsMap) {
         
 		  {% for i in info %} 
-		  var add = "{{ i['add'] }}";
+		  var add = "{{ i['shibirainfo']['address'] }}";
           var category = "{{ i['category'] }}" 
 		  address = add;
 		  geocoder.geocode({'address': address}, function(results, status) {
@@ -84,7 +84,7 @@
                       category: category,
 		      position: results[0].geometry.location });
 		       arr.push(marker);
-		       addInfoWindow(marker, '<center><p><strong>Shibira</strong><br/></p><p id = "name"><strong>{{ i["name"]}}</strong> <br/><strong> venue:</strong><br/> {{ i["add"]}}<br/><strong> Date <strong><br/><strong> From:  </strong>{{ i["fromdate"]}}<strong> to:</strong>  {{ i["todate"]}}<br/> <strong>Timming</strong> <br/><strong> from:</strong> {{ i["starttime"]}}<strong> to:</strong> {{ i["endtime"]}}<br/> <a href=\'join?shibira_id={{ i["name"] }}\'>click to register</a></p> ');
+		       addInfoWindow(marker, '<center><p><strong>Shibira</strong><br/></p><p id = "name"><strong>{{ i["shibirainfo"]["teachername"]}}</strong> <br/><strong> venue:</strong><br/> {{ i["shibirainfo"]["address"]}}<br/><strong> Date <strong><br/><strong> From:  </strong>{{ i["shibirainfo"]["fromdate"]}}<strong> to:</strong>  {{ i["shibirainfo"]["todate"]}}<br/> <strong>Timming</strong> <br/><strong> from:</strong> {{ i["shibirainfo"]["starttime"]}}<strong> to:</strong> {{ i["shibirainfo"]["endtime"]}}<br/> <a href=\'join?shibira_id={{ i["shibirainfo"]["s_id"] }}\'>click to register</a></p> ');
 		  } else {
 		    alert('Geocode was not successful for the following reason: ' + status);
 		  }
@@ -136,8 +136,8 @@
 						
 			</button>                
 			<div class = "col-md-offset-8">			
-				<a class = 'navbar-brand'>
-				    SamskritaBharati-ShibiraApp
+				<a class = 'navbar-brand' style = "font-size:24">
+				 संवित्
 				</a>
 			</div>
 		    </div>
@@ -145,7 +145,7 @@
 			<div >			
 			<div class = "col-md-offset-7 padding-right:30px">			
 				<ul class = "nav navbar-nav">
-					  <li><a href="#">Hello Mr.   {{ name }}!!! </a></li>
+					  <li><a href="#">नमस्ते  {{ name }}!!! </a></li>
 					   <li><a href="/logout">Logout</a></li>
 					
 				</ul>
@@ -161,11 +161,11 @@
 	 <div class = "container-fluid, col-md-offset-0" >
 		    <ul class="nav nav-tabs">
 			 	
-			  <li class="active"><a data-toggle="tab" href="#home">Shibiras</a></li>
-			  <li><a data-toggle="tab" href="#menu1">Shibiras Joined</a></li>
-			  <li><a data-toggle="tab" href="#menu2">Other events</a></li>
+			  <li class="active"><a data-toggle="tab" href="#home">Join a Class</a></li>
+			  <li><a data-toggle="tab" href="#menu1">My Classes</a></li>
+			  <li><a data-toggle="tab" href="#menu2">Find a Tutor</a></li>
 			</ul>  
-		 </div>
+    </div>
 <body  ng-app = 'myApp'>
 		
 	<div class="tab-content"> 
@@ -184,9 +184,10 @@
 		<table class = "table" cellspacing = "0">
             <div class = "container-fluid">
             <tr>
-                <td><button value = "shibira" style = "width:100%" onclick = "filterMarkers(this.value);">shibiras</button></td>
-		        <td><button value = "class" style = "width:100%" onclick = "filterMarkers(this.value);" >classes</button></td>
-            </tr>
+                <td><button value = "shibira" style = "width:100%" onclick = "filterMarkers(this.value);">10-day Camps</button></td>
+		        <td><button value = "class" style = "width:100%" onclick = "filterMarkers(this.value);" >Weekly classes</button></td>
+            </tr> 
+
             </div>
         </table>        	        
 	  </div>
@@ -198,7 +199,7 @@
 	  </div>
 	  <div id="menu2" class="tab-pane fade">
 	    <h3>Menu 2</h3>
-	    <p>Some content in menu 2.</p>
+	    <p>Comming soon</p>
 	  </div>
 	</div>
 

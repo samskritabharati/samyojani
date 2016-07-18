@@ -55,7 +55,7 @@
    
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-	      
+	   
 	testAPI();
 	show = false;
     } else if (response.status === 'not_authorized') {
@@ -107,6 +107,7 @@
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
+
     });
   }
   function logout(){
@@ -114,6 +115,6 @@ FB.logout(function(response) {
   document.getElementById('status').innerHTML ='you are logged out'
 });
 }
-  	
+ 
 
 

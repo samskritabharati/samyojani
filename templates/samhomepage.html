@@ -1,0 +1,316 @@
+<html>
+	<script type = 'text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js'></script>	
+	<script src = "/static/js/app.js"></script>	 	
+	<meta name="viewport" content="width=device-width, user-scalable=no">	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+     <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+   
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script>
+  $( function() {
+    $( "#datepicker1" ).datepicker();
+  } );
+    $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+  $( function() {
+    $( "#datepicker3" ).datepicker();
+  } );
+  $( function() {
+    $( "#datepicker4" ).datepicker();
+  } );
+
+  </script>
+    	<nav class = "navbar navbar-inverse">
+		<div class = 'container-fluid'>
+		             
+		    <div class = 'navbar-header'>
+			<button type = 'button' class = 'navbar-toggle' data-toggle = "collapse" data-target = "#mainnavbar">
+				<span class="glyphicon glyphicon-user" style = "color:white"></span>
+						
+			</button>                
+			<div class = "col-md-offset-8">			
+				<a class = 'navbar-brand'>
+				     संवित्
+				</a>
+			</div>
+		    </div>
+		    <div class = "collapse navbar-collapse" id = 'mainnavbar'>
+			<div >			
+			<div class = "col-md-offset-7 padding-right:30px">			 			
+            	<ul class = "nav navbar-nav">
+					  <li><a href="#">नमस्ते {{ name }}!!! </a></li>
+					  <li><a href="/logout">Logout</a></li>
+				</ul>				
+			</div>
+    	    </div>
+        </nav>
+         <div class = "container-fluid, col-md-offset-0" >
+		    <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">Add ..</a></li>
+                <li><a data-toggle="tab" href="#menu1">My shibiras</a></li>
+                <li><a data-toggle="tab" href="#menu2">Other Events</a></li>
+            </ul>		 
+         </div>
+    <body ng-app = "myApp">       	 
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                <div class = "container-fluid"><center><br/></br><br/><br/></br><br/>
+                <p data-placement = "center" dat-toggle = "tooltip" title = "hostshibra"><button class = "btn btn-primary btn-lg" data-title = "hostshibira" data-toggle = "modal" data-target  = "#hostshibira">New shibiram</button><br/><br/>
+                <button class = "btn btn-primary btn-lg">New varga</button>
+                </center>
+            </div>
+            </div>
+            <div id="menu1" class="tab-pane fade">
+                <table class = "table table-striped">
+                <div class = "container-fluid">
+
+                    <thead>
+                        <tr>
+                            <th>शिक्षकः</th>
+                            <th>Address</th>
+                            <th>Timings</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set i = -1 %}
+                        {% set z = 0 %}
+                        {% for s in shibirainfo %}
+                            {% set i  = i + 1 %} 
+                            <tr>
+                                <td>{{ s['shibirainfo']['teachername'] }}</td>
+                                <td>{{ s['shibirainfo']["address"] }}</td>
+                                <td>Date: {{ s['shibirainfo']["fromdate"] }} - {{s['shibirainfo']['todate']}}<br/>Time: {{ s['shibirainfo']["starttime"] }} - {{ s['shibirainfo']["endtime"] }}</td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#a{{ i }}" ><span class="glyphicon glyphicon-trash"></span></button></p>
+                                <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#{{ i }}" ><span class="glyphicon glyphicon-pencil"></span></button></p>
+                                <p data-placement="top" data-toggle="tooltip" title="Show Students"><button class="btn btn-danger btn-xs" data-title="stats" data-toggle="modal" data-target="#b{{ i }}" ><span class="glyphicon glyphicon-stats"></span></button></p></td>
+                              </tr>
+                              <div class="modal fade" id="a{{ i }}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                                        <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                                   </div>
+                                   <div class="modal-body">
+                   
+                                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete the shibira?</div>
+                   
+                                    </div>
+                                    <div class="modal-footer ">
+                                        <a href = "/sdelete?s_id={{ s['shibirainfo']['s_id'] }}"><span class="glyphicon glyphicon-ok-sign"></span>Yes</a>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+                                    </div>
+                                    </div>
+                                    <!-- /.modal-content --> 
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                              </div>
+                              <div class="modal fade" id="{{ i }}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content"> 	
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                                        <h4 class="modal-title custom_align" id="Heading">Edit this entry</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class = "form" action = "edit" method = "POST">
+                                            <label>shibira id</label>
+                                            <input type = "text" class = "form-control" name = "s_id" id = "s_id" value = "{{s['shibirainfo']['s_id']}}" ></input>
+                                            <label>address</label>
+                                            <input type = "text" class = "form-control" name = "address" id = "address" value = "{{s['shibirainfo']['address']}}" ></input>
+                                            <label>शिक्षकः</label>
+                                            <input type = "text" class = "form-control" name = "teachername" id = "teachername" value = {{s['shibirainfo']['teachername']}} ></input>
+                                            <label>Start Date:</label>
+                                            <input type = "date" class = "form-control" name = "fromdate" id = "datepicker1" value = "{{s['shibirainfo']['fromdate']}}"></input>
+                                            <label>End Date:</label>
+                                            <input type = "date" class = "form-control" name = "todate" id = "datepicker" value = "{{s['shibirainfo']['todate']}}"></input>
+                                            <label>Start time:</label>
+                                            <input type = "time" class = "form-control" name = "starttime"  value = "{{s['shibirainfo']['starttime']}}"></input>
+                                            <label>End Time:</label>
+                                            <center><input type = "time" class = "form-control" name = "endtime" value = "{{s['shibirainfo']['endtime']}}"></input>
+                                            <br/><br/>
+                                            <input type = "submit" value = "Edit" style = "background-color:green;width:60px;height:35px;font-color:white" ></input>
+                                            
+                                        </form>
+                                             
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button></center>
+                                    </div> 	
+                                    <div class="modal-footer ">
+                                    </div>
+                                    </div>
+                                    <!-- /.modal-content --> 
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                              </div>
+                             
+                        {% endfor %}
+                    </tbody>
+                </div>
+                </table>
+            </div>
+            <div id="menu2" class="tab-pane fade">
+                <h3>Menu 2</h3>
+                <p>Some content in menu 2.</p>
+            </div>
+        </div>
+    </body>
+        {% set i = -1 %}
+        {% set z = -1 %}
+        {% set y = -1 %}
+    {% for s in shibirainfo %}
+         {%set i = i + 1%}
+         <div class = "container-fluid">
+         <div class="modal fade" id="b{{ i }}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content"> 	
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title custom_align" id="Heading">Edit this entry</h4>
+                </div>
+                <div class="modal-body">
+                        <h2>Participants</h2>
+                            <table class = "table table-striped">
+                                <div class = "container-fluid">
+                                <p><strong># Enrolled: {{list_students[i]|length}}</strong></p>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody> 
+                                    {% for k in list_students[i] %}
+                                        {% set z = z + 1%}
+                                        <div class = "container-fluid">
+                                        <tr>
+                                          <td>{{ k['name'] }}</td>
+                                          <td>{{ k['username'] }}</td>
+                                          <td><p data-placement="top" data-dismiss = "modal" data-toggle="tooltip" title="Deleteuser"><button class="btn btn-danger btn-xs" data-title="Deleteuser" data-toggle="modal" data-target="#c{{ z }}" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                                        </tr>
+                                        </div>
+                                    {% endfor %}
+                                </tbody>
+                                </div>
+                            </table>  
+                    </div> 	
+                <div class="modal-footer ">
+                   <center> <p data-placement = "center" dat-toggle = "tooltip" title = "hostshibra"><button class = "btn btn-primary btn-lg" data-title = "hostshibira" data-toggle = "modal" data-target  = "#{{i}}addstudent">Add Student</button><br/><br/></center>
+                </div>
+                </div>
+                <!-- /.modal-content --> 
+                </div>
+                <!-- /.modal-dialog -->
+         </div>
+         </div>
+        <div class="modal fade" id="hostshibira" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class = "modal-dialog" style = "background-color:white">
+            <div class = "modal-header">
+                <h2>New Shibira Details</h2>
+            </div>
+            <div class = "modal-body">
+            <div class  = "container-fluid">    
+                <form class = "form" action = "#" method = "POST">
+                    <label>Unique shibira name:</label>
+                    <input type = "text" class = "form-control" name = "s_id" id = "s_id" required></input>
+                    <label>Address:</label>
+                    <input type = "text" class = "form-control" name = "address" id = "address" required></input>
+                    <label>Teacher Name:</label>
+                    <input type = "text" class = "form-control" name = "teachername" id = "teachername"></input>
+                    <table>
+                        <col width = "2500">
+                        <col width = "2500">
+                        <tr>
+                            <td> <label>Start Date:</label></td>
+                            <td> <label>End Date:</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text"  style = "width:70%" name = "fromdate" id="datepicker3"></td>
+                            <td><input type="text"  style = "width:70%" name = "todate" id="datepicker4"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Start Time:</label></td>
+                            <td><label>End Time:</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type = "time" style = "width:70%" class = "form-control" name = "starttime" id = "starttime" required></input></td>
+                            <td><input type = "text" style = "width:70%"class = "form-control" name = "endtime" id = "endtime" required></input></td>
+                        </tr>
+                    </table> 
+                    <center><br/><br/>
+                        <input type = "submit" value = "Add" style = "background-color:green;width:60px;height:35px;font-color:white" ></input><spacer/><spacer/>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+                    </center>
+                </form>
+            </div>
+            </div>
+            </div>
+        </div>
+        <div class="modal fade" id="{{ i }}addstudent" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content"> 	
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title custom_align" id="Heading">add student to shibra</h4>
+                </div>
+                <div class="modal-body">
+                    <form class = "form" action = "/proxyreg" method = "POST">
+                        <label>shibira id</label>
+                        <input type = "text" class = "form-control" name = "s_id" id = "s_id" value = "{{s['shibirainfo']['s_id']}}" ></input>
+                        <label>Email</label>
+                        <input type = "text" class = "form-control" name = "email" id = "email"></input>
+                        <label>Name</label>
+                        <input type = "text" class = "form-control" name = "name" id = "name"></input>
+                        <br/><br/><center>
+                        <input type = "submit" value = "ADD" style = "background-color:green;width:60px;height:35px;font-color:white" ></input>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button></center>
+                        </center>
+                    </form>
+                         
+                </div> 	
+                <div class="modal-footer ">
+                </div>
+                </div>
+                <!-- /.modal-content --> 
+                </div>
+                <!-- /.modal-dialog -->
+          </div>
+
+        {% for k in list_students[i] %}
+            {% set z = z + 1%}
+        <div class="modal fade" id="c{{ z }}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+               </div>
+               <div class="modal-body">
+
+                <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to remove the student?</div>
+
+                </div>
+                <div class="modal-footer ">
+                    <a href = "/removestudent?studentname={{ k['username'] }}&s_id={{ s['s_id']}}"><span class="glyphicon glyphicon-ok-sign"></span>Yes</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ><span class="glyphicon glyphicon-remove"></span> No</button>
+                </div>
+                </div>
+                <!-- /.modal-content --> 
+                </div>
+                <!-- /.modal-dialog -->
+         </div>
+        {% endfor %}
+    
+    {% endfor %}
+     
+
+</html> 

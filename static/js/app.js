@@ -29,3 +29,9 @@ app.directive('landpage',function(){
 			templateUrl:'/landpage'		
 		}	
 	});
+app.directive('hosted',function(){
+		return{
+			restrict:'AEC',
+			templateUrl:'/samhosted'		
+		}	
+	});
