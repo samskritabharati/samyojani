@@ -166,7 +166,7 @@ def proxyreg():
            You have been registered for a shibira based on your request, by a samyojaka.
            Please click on the link below to register to the official samskrita Bharati App Samvit for more updates
             
-            www.samvit.samskritabharati.in
+            samvit.samskritabharati.in:5000
             
            with regards;
            Team Samvit
