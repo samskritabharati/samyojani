@@ -13,6 +13,10 @@ import string
 @app.route('/')
 def index():
 	return redirect('/login')
+
+@app.route('/landpage')
+def landpage():
+    return render_template('landpage.html')
 @app.route('/login',methods = ['GET', 'POST'])
 def login():
     error = None
