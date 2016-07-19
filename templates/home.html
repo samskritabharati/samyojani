@@ -20,78 +20,58 @@
 		
 <div ng-init = "showsignin = false, showsignup = false" ng-app = 'profile'>
 
-	<nav class = "navbar navbar-inverse">
+	<nav class = "navbar navbar-default">
 		<div class = 'container-fluid'>
 		             
 		    <div class = 'navbar-header'>
-		    	<button type = 'button' class = 'navbar-toggle' data-toggle = "collapse" data-target = "#mainnavbar">
-			    	<span class = 'icon-bar'></span>
-				    <span class = 'icon-bar'></span>
-				    <span class = 'icon-bar'></span>		
-			    </button>                
+		    	<button type = 'button' class = 'navbar-toggle' data-toggle = "modal" data-target = "#login">
+			        Sign in
+                </button>                
 			    <div class = "col-md-offset-8">			
-				    <a class = 'navbar-brand'>
+				    <a class = 'navbar-brand'><font size = 6>
 				           संवित्
-				    </a>
+				    </font></a>
 			    </div>
 		        </div>
 		        <div class = "collapse navbar-collapse" id = 'mainnavbar'>
 			    <div >			
 			    <div class = "col-md-offset-7 padding-right:30px">			
 				    <ul class = "nav navbar-nav">
-					    <li><a href = "#" ng-click = " showsignup = false;showsignin = false">HOME</a></li>
-					    <li><a href = "#" ng-click = "showsignin = !showsignin; showsignup = false">LOGIN</a></li>
+					    <li><a data-toggle = "modal" data-target = "#login">Sign in</a> </li>
 					</ul>
 				</div>						            
 	        </div>
     </nav>
-    <landpage ng-hide = 'showsignup || showsignin'></landpage>
+    <landpage ng-show = "true"></landpage>
 	<body ng-app = 'myApp'>	
-        <div ng-show = 'showsignin'>
-            <center>	
-	            <br/><br/><br/><br/><br/>	
-                
-                    <div class="container-fluid">
-                    <div class = "col-width-md-6">
-                        <form class = "form-group" method=POST action= "login">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">username</label>
-                                <input type="text" class="form-control" name="username" placeholder="username" style = "width:250px"  >
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">password</label>
-                                <input type="password" class="form-control" name="password" placeholder="password" style = "width:250px">
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block" style = "width:150px">login</button>
-                        </form>
-	                </div>
-                    </div>
-                        <br/>
-	            {%if error != Null %}
-		            {{ error }} 
-	            {% endif %}	
-		            {{use}}
-	<br/><br/>
-            <table>
-                <col width = "100">
-                <col width = "100">
-                <tr>
-                    <th colspan = "2"><center>Or Connect With<br/><br/></center></th>
-                </tr>
-                <tr>
-                    <td><fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button></td>
-		            <td><div class="g-signin2" data-onsuccess="onSignIn">click</div></td>
-		        </tr>
-            </table>          
-             <button class = "btn tn-primary" onclick = "signOut()">click to sign out</button>
-            <div id=message></div>
-		    <div id=status></div>
-        </center>
-    </div>    	
-   	
+        	
     
 </div>
 </body>
+    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content"> 	
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading"><center>Login</center></h4>
+            </div>
+            <div class="modal-body">
+                <form><center>
+                    <label>Email:</label><br/>
+                    <input type = "email" id = "email" name = "email"></input><br/><br/>
+                    <label>Password:</label><br/>
+                    <input type = "password" id = "password" name = "password"></input><br/><br/>
+                    <input type = "submit" value = "login" ></input><br/><hr>
+                </center></form>
+                <div class="modal-footer ">
+                    <p><center>Or Connect With:</center></p>
+                    <td><li><div class="g-signin2" data-onsuccess="onSignIn">click</div></li></td>
+                </div>
+        </div>
+            <!-- /.modal-content --> 
+        </div>
+            <!-- /.modal-dialog -->
+    </div>
 
 
 
