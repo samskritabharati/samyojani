@@ -22,31 +22,27 @@ def login():
     error = None
    
     if request.method == 'POST':
-        userinfo = { \
-                'username' : request.form.get('email'), \
-                'name' : request.form.get('name'), \
-                'auth_src' : request.form.get('auth_src'), \
-            }
+        userinfo = {'username' : request.form.get('email'),'name' : request.form.get('name'),'auth_src' : request.form.get('auth_src')}
         pprint(userinfo)
         auth_src = userinfo['auth_src']
         print "Importing auth_src " + auth_src + " into DB"
 
         email = userinfo['username']
-        if db.user.find_one({"username": email }):
+        if db.user.find_one({"email": email }):
             session.pop('user',None)	
-            for x in db.user.find({"username":email}):
+            for x in db.user.find({"email":email}):
                 if x['role'] == "samyojaka":
                     session['user'] = email
                     return make_response(json.dumps({'redirect' : url_for("samhomepage") }))
                 elif x['role'] == "admin":
                     session['user'] = email
                     return make_response(json.dumps({'redirect' : url_for("adminhomepage") }))
-                else:
+                elif x['role'] == "student":
                     session['user'] = email
                     return make_response(json.dumps({'redirect' : url_for("homepage") }))
         else:
             print "Importing new user " + email + " into DB"
-            db.user.update({'username' : email, 'role': 'student'}, userinfo, upsert=True)
+            db.user.insert({'email' : request.form.get('email'),'name' : request.form.get('name'),'auth_src' : request.form.get('auth_src'),"role":"student", "phonenumber": request.form.get('phonenumber'), "address":"none"})
             session['user'] = email
             return make_response(json.dumps({'redirect' : url_for("homepage") }))
     else:
@@ -66,10 +62,12 @@ def signup():
 @app.route('/homepage', methods = ['GET','POST'])
 def homepage():
     info =  []
+    userinfo = []
     for i in db.shibira.find():
         info.append(i)
-
-    return render_template('homepage.html', name = session['user'],info = info)
+    for i in db.user.find({"email":session['user']}):
+        userinfo = i
+    return render_template('homepage.html',userinfo = userinfo ,info = info)
 @app.route('/teacherfinder',methods = ['GET','POST'])
 def teacherfinder():
 	info =  []
@@ -82,7 +80,7 @@ def sjoined():
     sjoined = [] 
     for i in db.activity.find({"name":session['user']}):
         for x in db.shibira.find({'s_id':i['shibira_id']}):
-            sjoined.append(x['shibirainfo'])
+            sjoined.append(x)
 
     return render_template("sjoined.html", sjoined = sjoined)    
 
@@ -133,7 +131,9 @@ def samhomepage():
             for y in db.user.find({'username': x['name']}):
                 list_students[index].append(y)
         index = index + 1
-    return render_template('samhomepage.html', shibirainfo = shibirainfo, name = session['user'], list_students = list_students)
+    for i in db.user.find({"email":session['user']}):
+        userinfo = i
+    return render_template('samhomepage.html', shibirainfo = shibirainfo, userinfo = userinfo, list_students = list_students)
 
 
 @app.route('/sdelete', methods = ['GET','POST'])
@@ -196,6 +196,26 @@ def proxyreg():
         db.user.insert({"username": email, "name": name, "role": "student"})
         return redirect("samhomepage")
 
+@app.route('/editprofile', methods = ['GET', 'POST'])
+def editprofile():
+    if request.method == "POST":
+        name = request.form.get('name')
+        phonenumber  = request.form.get('phonenumber')
+        address = request.form.get('address')
+        db.user.update({"email": session['user']}, {"$set":{'name':name, "address":address,"phonenumber":phonenumber}})
+        for i in db.user.find({"email":session['user']}):
+            if i['role'] == "admin":
+                return redirect("adminhomepage")
+            elif i['role'] == "samyojaka":
+                return redirect("samyojaka")
+            else:
+                return redirect("homepage")
+
+
+
+
+
+
 #admin section
 @app.route('/adminhomepage')
 def adminhomepage():
@@ -210,7 +230,7 @@ def adminedit():
         userrole = request.form.get('role')
         useremail = request.form.get('email')
         print userrole
-        db.user.update({"username": useremail}, {"$set":{"role":userrole}})        
+        db.user.update({"email": useremail}, {"$set":{"role":userrole}})        
         return redirect('adminhomepage')
 
 @app.route("/massupload", methods = ['GET', 'POST'])

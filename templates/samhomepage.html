@@ -28,37 +28,111 @@
   } );
 
   </script>
-    	<nav class = "navbar navbar-inverse">
-		<div class = 'container-fluid'>
-		             
-		    <div class = 'navbar-header'>
-			<button type = 'button' class = 'navbar-toggle' data-toggle = "collapse" data-target = "#mainnavbar">
-				<span class="glyphicon glyphicon-user" style = "color:white"></span>
-						
-			</button>                
-			<div class = "col-md-offset-8">			
-				<a class = 'navbar-brand'>
-				     संवित्
-				</a>
-			</div>
-		    </div>
-		    <div class = "collapse navbar-collapse" id = 'mainnavbar'>
-			<div >			
-			<div class = "col-md-offset-7 padding-right:30px">			 			
-            	<ul class = "nav navbar-nav">
-					  <li><a href="#">नमस्ते {{ name }}!!! </a></li>
-					  <li><a href="/logout">Logout</a></li>
-				</ul>				
-			</div>
-    	    </div>
-        </nav>
-         <div class = "container-fluid, col-md-offset-0" >
-		    <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#home">Add ..</a></li>
-                <li><a data-toggle="tab" href="#menu1">My shibiras</a></li>
-                <li><a data-toggle="tab" href="#menu2">Other Events</a></li>
-            </ul>		 
-         </div>
+  <script>
+        $(document).ready(function() {
+          $('[data-toggle=offcanvas]').click(function() {
+            $('.row-offcanvas').toggleClass('active');
+          });
+        });
+    
+    </script>
+    <style>
+        body,html,.row-offcanvas {
+          height:100%;
+          width:100%;
+          background-color:#CCCCC;
+        }
+
+        body {
+          padding-top: 50px;
+          padding-bottom: 5px;
+        }
+
+#sidebar {
+          width: inherit;
+          min-width: 220px;
+          max-width: 220px;
+          background-color:#f5f5f5;
+          float: left;
+          height:100%;
+          position:relative;
+          overflow-y:auto;
+          overflow-x:hidden;
+        }
+#main {
+          height:115%;
+          overflow:auto;
+        }
+
+        /*
+         * off Canvas sidebar
+         * --------------------------------------------------
+         */
+        @media screen and (max-width: 778px) {
+          .row-offcanvas {
+            position: relative;
+            -webkit-transition: all 0.25s ease-out;
+            -moz-transition: all 0.25s ease-out;
+            transition: all 0.25s ease-out;
+            width:calc(100% + 225px);
+          }
+            
+          .row-offcanvas-left
+          {
+            left: -220px;
+          }
+
+          .row-offcanvas-left.active {
+            left: 0;
+          }
+
+          .sidebar-offcanvas {
+            position: absolute;
+            top: 0;
+          }
+        }
+                
+    </style>
+
+    <div class="navbar navbar-default navbar-fixed-top">
+            <div class="navbar-header; col-xs-offset-1">
+                <button type="button" class="pull-left navbar-toggle" data-toggle="offcanvas" >
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class = "col-xs-offset-4">			
+                    <a class = 'navbar-brand'>
+                        <font size = "6"> संवित्</font>
+                    </a>
+                </div>
+            </div>
+        </div><!--/.navbar -->
+
+        <div class="row-offcanvas row-offcanvas-left">
+          <div id="sidebar" class="sidebar-offcanvas">
+              <div class="col-md-12">
+              <ul class="nav nav-pills nav-stacked">
+                  <br/><p><center>Hello {{ userinfo['name']|upper }}!!! <br/><br/> Welcome to संवित् </center></p><hr style = "color: #000000;background-color: #000000;height: 1px;">
+                  <li><a href="#" data-toggle = "modal" data-target = "#profile">Profile</a></li>
+                  <li><a href="#">Settings</a></li>
+                  <li><a href="#">About Us</a></li><hr style = "color: #000000;background-color: #000000;height: 1px;">
+                  <li> <button class = "btn tn-primary">click to sign out</button></li>
+              </ul>
+              </div>
+          </div>
+     
+ 
+     <div id="main">
+        <div class="col-xs-12">       
+             <div class = "container-fluid" >
+                    <ul class="nav nav-pills">
+                        
+                      <li class="active"><a data-toggle="tab" href="#home">Add...</a></li>
+                      <li><a data-toggle="tab" href="#menu1" >Shibiras Hosted</a></li>
+                      <li><a data-toggle="tab" href="#menu2">Other Events</a></li>
+                    </ul>  
+            </div>
     <body ng-app = "myApp">       	 
         <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
@@ -310,6 +384,37 @@
             </div>
             </div>
             </div>
+        </div>
+        <div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content"> 	
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title custom_align" id="Heading">Profile Details</h4>
+                </div>
+                <div class="modal-body">
+                    <form class = "form" action = "editprofile" method = "POST">
+                        <label>Name:</label>
+                        <input type = "text" class = "form-control" name = "name" id = "name" value = {{userinfo['name']}} ></input>
+                        <label>Email:</label>
+                        <input type = "text" class = "form-control" name = "email" id = "email" value = "{{userinfo['email']}}" ></input>
+                        <label>Phone Number</label>
+                        <input type = "text" class = "form-control" name = "phonenumber" id = "phonenumber" value = "{{userinfo['phonenumber']}}"  ></input>
+                        <label>Address</label>
+                        <input type = "text" class = "form-control" name = "address" id = "address" value = "{{userinfo['address']}}" ></input>
+                        <br/><br/>
+                        <input type = "submit" value = "Update Profile" style = "background-color:green;width:60px;height:35px;font-color:white" ></input>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button></center>
+     
+                    </form>
+                         
+                </div> 	
+                <div class="modal-footer ">
+                </div>
+            </div>
+                <!-- /.modal-content --> 
+            </div>
+                <!-- /.modal-dialog -->
         </div>
  
 

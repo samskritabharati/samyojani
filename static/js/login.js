@@ -9,11 +9,11 @@
             'ID: ' : profile.getId(),
             'given_name' : profile.getGivenName(),
             'family_name' : profile.getFamilyName(),
-            'Image URL: ' : profile.getImageUrl(),
+            'ImageURL: ' : profile.getImageUrl(),
             'email' : profile.getEmail(),
-            // 'phone' : profile.getPhone()
+            //'phone' : profile.getPhone()
         }; 
-
+	
         $.post('/login', user_parms, function(data) {
             console.log("Logged in successfully.");
             var data = JSON.parse(data);
