@@ -21,7 +21,7 @@
     $( "#datepicker" ).datepicker();
   } );
   $( function() {
-    $( "#datepicker3" ).datepicker();
+    $( "#datepicker5" ).datepicker();
   } );
   $( function() {
     $( "#datepicker4" ).datepicker();
@@ -229,7 +229,15 @@
                         {% endfor %}
                     </tbody>
                 </div>
-                </table>
+                </table><div class = "container-fluid" >
+                    <ul class="nav nav-pills">
+                        
+                      <li class="active"><a data-toggle="tab" href="#home">Join a Class</a></li>
+                      <li><a data-toggle="tab" href="#menu1" >My Classes</a></li>
+                      <li><a data-toggle="tab" href="#menu2">Find a Tutor</a></li>
+                    </ul>  
+            </div>
+
             </div>
             <div id="menu2" class="tab-pane fade">
                 <h3>Menu 2</h3>
@@ -364,8 +372,8 @@
                             <td> <label>End Date:</label></td>
                         </tr>
                         <tr>
-                            <td><input type="text"  style = "width:70%" name = "fromdate" id="datepicker3"></td>
-                            <td><input type="text"  style = "width:70%" name = "todate" id="datepicker4"></td>
+                            <td><input type="text"  style = "width:70%" name = "fromdate" id="datepicker4"></td>
+                            <td><input type="text"  style = "width:70%" name = "todate" id="datepicker5"></td>
                         </tr>
                         <tr>
                             <td><label>Start Time:</label></td>
@@ -373,7 +381,7 @@
                         </tr>
                         <tr>
                             <td><input type = "time" style = "width:70%" class = "form-control" name = "starttime" id = "starttime" required></input></td>
-                            <td><input type = "text" style = "width:70%"class = "form-control" name = "endtime" id = "endtime" required></input></td>
+                            <td><input type = "time" style = "width:70%"class = "form-control" name = "endtime" id = "endtime" required></input></td>
                         </tr>
                     </table> 
                     <center><br/><br/>
