@@ -115,6 +115,7 @@
               map: resultsMap,
               position: results[0].geometry.location
             });
+            addInfoWindow(marker,"You Are Here")
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
           }
@@ -128,9 +129,9 @@
               lng: position.coords.longitude
             };
 
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('You are here');
-            map.setCenter(pos);
+            //infoWindow.setPosition(pos);
+            //infoWindow.setContent('You are here');
+            //map.setCenter(pos);
           }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
           });

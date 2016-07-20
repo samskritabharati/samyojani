@@ -44,11 +44,27 @@ def login():
             print "Importing new user " + email + " into DB"
             db.user.insert({'email' : request.form.get('email'),'name' : request.form.get('name'),'auth_src' : request.form.get('auth_src'),"role":"student", "phonenumber": "none", "address":"none"})
             session['user'] = email
-            return make_response(json.dumps({'redirect' : url_for("homepage") }))
+            return make_response(json.dumps({'redirect' : url_for("profileupdate") }))
     else:
         return render_template('home.html')
 
-
+@app.route('/profileupdate', methods = ['GET','POST'])
+def profileupdate():
+    if request.method == "POST":
+        name = request.form.get('name')
+        phonenumber  = request.form.get('phonenumber')
+        address = request.form.get('address')
+        db.user.update({"email": session['user']}, {"$set":{'name':name, "address":address,"phonenumber":phonenumber}})
+        for i in db.user.find({"email":session['user']}):
+            if i['role'] == "admin":
+                return redirect("adminhomepage")
+            elif i['role'] == "samyojaka":
+                return redirect("samyojaka")
+            else:
+                return redirect("homepage")
+    for i in db.user.find({"email":session['user']}):
+        userinfo = i
+    return render_template('profile.html', userinfo = userinfo)
 @app.route('/signup', methods = ['GET','POST'])
 def signup():
 	if request.method == 'POST':
