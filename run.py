@@ -69,7 +69,8 @@ def homepage():
      #   info.append(i)
     for i in db.user.find({"email":session['user']}):
         userinfo = i
-    return render_template('homepage.html',userinfo = userinfo ,info = info)
+        useraddress = i['address']
+    return render_template('homepage.html',userinfo = userinfo ,info = info, useraddress = useraddress)
 @app.route('/teacherfinder',methods = ['GET','POST'])
 def teacherfinder():
 	info =  []

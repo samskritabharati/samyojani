@@ -96,7 +96,7 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script>
-        var iconBase = 'http://www.google.com/mapfiles/markerS.png';
+        var iconBase = 'http://www.google.com/mapfiles/dd-start.png';
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 11,
@@ -105,8 +105,22 @@
         var geocoder = new google.maps.Geocoder();
         var infoWindow = new google.maps.InfoWindow({map: map});
 	geocodeAddress(geocoder, map);
-        
-        
+    geocodeuserAddress(geocoder,map);    
+    function geocodeuserAddress(geocoder, resultsMap) {
+        var address = " {{useraddress}} ";
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+         
 	if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
@@ -155,7 +169,7 @@
               icon: iconBase ,
 		      position: results[0].geometry.location });
 		       arr.push(marker);
-		       addInfoWindow(marker, '<center><p><strong>Shibira</strong><br/></p><p><strong>Contact:</strong><br/>{{ i["teachername"]}}<br/><strong>Venue:</strong><br/> {{ i["address"]}}<br/><strong> Date: <strong><br/>{{ i["startdate"]}} - {{ i["enddate"]}}<br/> <strong>Time:</strong> <br/> {{ i["starttime"]}} -{{ i["endtime"]}}<br/> <a href=\'join?shibira_id={{ i["s_id"] }}\'>click to register</a></p> ');
+		       addInfoWindow(marker, '<center><p><strong>Shibira</strong><br/></p><p><strong>Contact:</strong><br/>{{ i["teachername"]}}<br/><strong>Venue:</strong><br/> {{ i["address"]}}<br/><strong> Date: <strong><br/>{{ i["startdate"]}} - {{ i["enddate"]}}<br/> <strong>Time:</strong> <br/> {{ i["starttime"]}}<strong> to:</strong> {{ i["endtime"]}}<br/> <a href=\'join?shibira_id={{ i["s_id"] }}\'>click to register</a></p> ');
 		  } else {
 		    alert('Geocode was not successful for the following reason: ' + status);
 		  }
