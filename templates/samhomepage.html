@@ -208,6 +208,19 @@
                                             <input type = "text" class = "form-control" name = "address" id = "address" value = "{{s['address']}}" ></input>
                                             <label>शिक्षकः</label>
                                             <input type = "text" class = "form-control" name = "teachername" id = "teachername" value = {{s['teachername']}} ></input>
+                                            <label>Phone Number:</label>
+                                            <input type = "phonenumber" class = "form-control" name = "phonenumber" id = "phonenumber" value = {{s['phonenumber']}} ></input>
+                                            <label>Start Date:</label>
+                                            <input type = "date" class = "form-control" name = "fromdate" id = "datepicker1" value = "{{s['startdate']}}"></input>
+                                            <label>End Date:</label>
+                                            <input type = "date" class = "form-control" name = "todate" id = "datepicker" value = "{{s['enddate']}}"></input>
+                                            <label>Start time:</label>
+                                            <input type = "time" class = "form-control" name = "starttime"  value = "{{s['starttime']}}"></input>
+                                            <label>End Time:</label>
+                                            <center><input type = "time" class = "form-control" name = "endtime" value = "{{s['endtime']}}"></input>
+                                            <br/><br/>
+                                            <input type = "submit" value = "Edit" style = "background-color:green;width:60px;height:35px;font-color:white" ></input>
+                                            
                                             <label>Start Date:</label>
                                             <input type = "date" class = "form-control" name = "fromdate" id = "datepicker1" value = "{{s['startdate']}}"></input>
                                             <label>End Date:</label>
@@ -361,6 +374,8 @@
                     <input type = "text" class = "form-control" name = "address" id = "address" required></input>
                     <label>Teacher Name:</label>
                     <input type = "text" class = "form-control" name = "teachername" id = "teachername"></input>
+                    <label>Phone Number:(with pin ex: India 91)</label>
+                    <input type = "number" min = "10" max = "9999999999999"class = "form-control" name = "phonenumber" id = "phonenumber"></input>
                     <table>
                         <col width = "2500">
                         <col width = "2500">

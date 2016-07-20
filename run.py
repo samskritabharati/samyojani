@@ -120,8 +120,9 @@ def samhomepage():
         starttime = request.form.get('starttime')
         endtime = request.form.get('endtime')
         shibira_id = request.form.get('s_id')
+        phonenumber = request.form.get('phonenumber')
         if not db.shibira.find_one({"s_id":shibira_id}):
-            db.shibira.insert({"address":address,"teachername":teachername, "startdate":startdate, "enddate":enddate,"starttime":starttime, "endtime":endtime, 'category': "shibira", "s_id":shibira_id, "samyojaka":session['user'] }) #, 'samyojakaname':session['user']}) 
+            db.shibira.insert({"phonenumber":phonenumber, "address":address,"teachername":teachername, "startdate":startdate, "enddate":enddate,"starttime":starttime, "endtime":endtime, 'category': "shibira", "s_id":shibira_id, "samyojaka":session['user'] }) #, 'samyojakaname':session['user']}) 
     list_students = []
     shibirainfo = []   
     index = 00
