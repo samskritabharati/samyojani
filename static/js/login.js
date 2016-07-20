@@ -2,16 +2,15 @@
 	function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
         var id_token = googleUser.getAuthResponse().id_token;
-        document.getElementById("message").innerHTML = "hi Mr." + profile.getName() + "!<br>";
+        console.log('ID: ' + profile.getId());
+        console.log('Full Name: ' + profile.getName());
+
+
         var user_parms = { 
             'auth_src' : 'google',
-            'name' : profile.getName(),
-            'ID: ' : profile.getId(),
-            'given_name' : profile.getGivenName(),
-            'family_name' : profile.getFamilyName(),
-            'ImageURL: ' : profile.getImageUrl(),
+            'name' : profile.getName(),                                 
             'email' : profile.getEmail(),
-            //'phone' : profile.getPhone()
+            
         }; 
 	
         $.post('/login', user_parms, function(data) {
@@ -56,7 +55,7 @@
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
 	   
-	testAPI();
+	//testAPI();
 	show = false;
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.

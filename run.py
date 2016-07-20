@@ -27,7 +27,7 @@ def login():
         auth_src = userinfo['auth_src']
         print "Importing auth_src " + auth_src + " into DB"
 
-        email = userinfo['username']
+        email = request.form.get('email')
         if db.user.find_one({"email": email }):
             session.pop('user',None)	
             for x in db.user.find({"email":email}):
@@ -42,7 +42,7 @@ def login():
                     return make_response(json.dumps({'redirect' : url_for("homepage") }))
         else:
             print "Importing new user " + email + " into DB"
-            db.user.insert({'email' : request.form.get('email'),'name' : request.form.get('name'),'auth_src' : request.form.get('auth_src'),"role":"student", "phonenumber": request.form.get('phonenumber'), "address":"none"})
+            db.user.insert({'email' : request.form.get('email'),'name' : request.form.get('name'),'auth_src' : request.form.get('auth_src'),"role":"student", "phonenumber": "none", "address":"none"})
             session['user'] = email
             return make_response(json.dumps({'redirect' : url_for("homepage") }))
     else:
@@ -119,11 +119,11 @@ def samhomepage():
         endtime = request.form.get('endtime')
         shibira_id = request.form.get('s_id')
         if not db.shibira.find_one({"s_id":shibira_id}):
-            db.shibira.insert({"address":address,"teachername":teachername, "startdate":startdate, "enddate":enddate,"starttime":starttime, "endtime":endtime, 'category': "shibira", "s_id":shibira_id }) #, 'samyojakaname':session['user']}) 
+            db.shibira.insert({"address":address,"teachername":teachername, "startdate":startdate, "enddate":enddate,"starttime":starttime, "endtime":endtime, 'category': "shibira", "s_id":shibira_id, "samyojaka":session['user'] }) #, 'samyojakaname':session['user']}) 
     list_students = []
     shibirainfo = []   
     index = 00
-    for i in db.shibira.find(): # add samyajaka user field in search
+    for i in db.shibira.find({"samyojaka": session['user']}): # add samyajaka user field in search
         shibirainfo.append(i)
         s_id = i['s_id']
         list_students.append([])
@@ -153,8 +153,8 @@ def edit():
         starttime = request.form.get('starttime')
         endtime = request.form.get('endtime')
         shibira_id = request.form.get('s_id')
-        db.shibira.remove({"s_id":shibira_id })
-        db.shibira.insert({"address":address,"teachername":teachername, "startdate":startdate, "enddate":enddate,"starttime":starttime, "endtime":endtime, 'category': "shibira", "s_id":shibira_id })
+        #db.shibira.remove({"s_id":shibira_id })
+        db.shibira.update({"samyojaka":session['user']},{"$set":{"address":address,"teachername":teachername, "startdate":startdate, "enddate":enddate,"starttime":starttime, "endtime":endtime, 'category': "shibira", "s_id":shibira_id}})
     	return redirect('samhomepage')
 
 @app.route('/removestudent', methods = ['GET', 'POST'])

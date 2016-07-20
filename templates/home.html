@@ -7,7 +7,6 @@
 	<script type = 'text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js'></script>	
 	<script src="https://apis.google.com/js/platform.js" async defer></script>	
 	<!-- Latest compiled and minified CSS -->
-	<script src = "/static/js/login.js"></script>
 	<script src = "/static/js/app.js"></script>	
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -16,7 +15,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-<script src = "/static/js/login.js"></script>	
+    <script src = "/static/js/login.js"></script>	
 		
 <div ng-init = "showsignin = false, showsignup = false" ng-app = 'profile'>
 
@@ -56,16 +55,15 @@
                 <h4 class="modal-title custom_align" id="Heading"><center>Login</center></h4>
             </div>
             <div class="modal-body">
-                <form><center>
+                <form action = "#" method = "POST"><center>
                     <label>Email:</label><br/>
                     <input type = "email" id = "email" name = "email"></input><br/><br/>
-                    <label>Password:</label><br/>
-                    <input type = "password" id = "password" name = "password"></input><br/><br/>
                     <input type = "submit" value = "login" ></input><br/><hr>
                 </center></form>
                 <div class="modal-footer ">
                     <p><center>Or Connect With:</center></p>
                     <td><li><div class="g-signin2" data-onsuccess="onSignIn">click</div></li></td>
+                    <td><button class = "btn btn-primary" onclick = "signOut()">signout</button></td>
                 </div>
         </div>
             <!-- /.modal-content --> 

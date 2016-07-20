@@ -247,11 +247,13 @@
                     </script>
                     {% endif %}
                 {% endwith %}
-                <table class = "table" cellspacing = "0">
+                <table class = "no-spacing" cellspacing = "0">
+                    <col width = 500>
+                    <col width = 500>
                     <div class = "container-fluid">
                     <tr>
-                        <td><button value = "shibira" style = "width:100%" onclick = "filterMarkers(this.value);">10-day Camps</button></td>
-                        <td><button value = "class" style = "width:100%" onclick = "filterMarkers(this.value);" >Weekly classes</button></td>
+                        <td><button class = "btn btn-primary btn-lg" value = "shibira" style = "width:100%" onclick = "filterMarkers(this.value);">10-day Camps</button></td>
+                        <td><button class = "btn btn-primary btn-lg" value = "class" style = "width:100%" onclick = "filterMarkers(this.value);" >Weekly classes</button></td>
                     </tr> 
 
                     </div>
