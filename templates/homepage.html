@@ -16,6 +16,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
+
 	 <style>
       html, body {
         height: 100%;
@@ -95,7 +96,7 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script>
-
+        var iconBase = 'http://www.google.com/mapfiles/markerS.png';
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 11,
@@ -150,10 +151,11 @@
 		    resultsMap.setCenter(results[0].geometry.location);
 		     var marker = new google.maps.Marker({
 		      map: resultsMap,
-                      category: category,
+              category: category,
+              icon: iconBase ,
 		      position: results[0].geometry.location });
 		       arr.push(marker);
-		       addInfoWindow(marker, '<center><p><strong>Shibira</strong><br/></p><p id = "name"><strong>{{ i["teachername"]}}</strong> <br/><strong> venue:</strong><br/> {{ i["address"]}}<br/><strong> Date <strong><br/><strong> From:  </strong>{{ i["startdate"]}}<strong> to:</strong>  {{ i["enddate"]}}<br/> <strong>Timming</strong> <br/><strong> from:</strong> {{ i["starttime"]}}<strong> to:</strong> {{ i["endtime"]}}<br/> <a href=\'join?shibira_id={{ i["s_id"] }}\'>click to register</a></p> ');
+		       addInfoWindow(marker, '<center><p><strong>Shibira</strong><br/></p><p><strong>Teacher Name:</strong><br/>{{ i["teachername"]}}<br/><strong> venue:</strong><br/> {{ i["address"]}}<br/><strong> Date <strong><br/><strong> From:  </strong>{{ i["startdate"]}}<strong> to:</strong>  {{ i["enddate"]}}<br/> <strong>Timming</strong> <br/><strong> from:</strong> {{ i["starttime"]}}<strong> to:</strong> {{ i["endtime"]}}<br/> <a href=\'join?shibira_id={{ i["s_id"] }}\'>click to register</a></p> ');
 		  } else {
 		    alert('Geocode was not successful for the following reason: ' + status);
 		  }
