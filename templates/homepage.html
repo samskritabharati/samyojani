@@ -214,8 +214,8 @@
               <ul class="nav nav-pills nav-stacked">
                   <br/><p><center>Hello {{ userinfo['name']|upper }}!!! <br/><br/> Welcome to संवित् </center></p><hr style = "color: #000000;background-color: #000000;height: 1px;">
                   <li><a href="#" data-toggle = "modal" data-target = "#profile"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
-                  <li><a href="#"><span class="glyphicon glyphicon-phone"></span>E-learning</a></li>
-                  <li><a href="#"><span class="glyphicon glyphicon-info-sign"></span>About Us</a></li><hr style = "color: #000000;background-color: #000000;height: 1px;">
+                  <li><a href="#" data-toggle = "modal" data-target = "#elearning"><span class="glyphicon glyphicon-phone"></span>E-learning</a></li>
+                  <li><a href="#" data-toggle = "modal" data-target = "#aboutus"><span class="glyphicon glyphicon-info-sign"></span>About Us</a></li><hr style = "color: #000000;background-color: #000000;height: 1px;">
                   <li> <button class = "btn tn-primary" onclick = "/logout"><span class="glyphicon glyphicon-home"></span>click to sign out</button></li>
               </ul>
               </div>
@@ -306,7 +306,50 @@
         </div>
             <!-- /.modal-dialog -->
     </div>
-
+    <div class="modal fade" id="aboutus" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading"><center>About Us</center></h4>
+            </div>
+            <div class="modal-body">
+                   <center><br/>
+                    <h4><strong>Our Vision:</strong> पाठयेम संस्कृतं जगति सर्वमानवान् ! प्रापयेम भारतं सपदि परमवैभवम् !!<h4>
+                    <p ><strong>Our Mission:</strong> Reviving a language, rejuvenating a culture, rebuilding a nation that is Bharat!<br/>
+                    Samskrita Bharati (founded 1981) is a movement for the continuing protection, development and <br/>propagation of the Sanskritam language as well as the literature, tradition and the knowledge systems embedded in it.<br/>
+                    Samskrita Bharati is a non-profit organization comprised of a large team of very dedicated and<br/> enthusiastic volunteers who take the knowledge of Sanskrit to all sections of society irrespective of<br/> race, gender, region, religion, caste, age etc.<br/>
+                    <p>
+                    </center>
+            </div>
+            <div class="modal-footer ">
+            </div>
+            </div>
+        <!-- /.modal-content --> 
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="elearning" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading"><center>E-Learning</center></h4>
+            </div>
+            <div class="modal-body">
+                   <center><br/>
+                    <h4><strong>Comming Soon!</strong><h4>
+                    <p>Learn samskritam sitting at home!!!!</p>
+                    <p>Learn samskritam at your own pace</p>
+                    </center>
+            </div>
+            <div class="modal-footer ">
+            </div>
+            </div>
+        <!-- /.modal-content --> 
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 </html>
 
 			

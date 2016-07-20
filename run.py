@@ -65,6 +65,8 @@ def homepage():
     userinfo = []
     for i in db.shibira.find():
         info.append(i)
+    #for i in db.varga.find():
+     #   info.append(i)
     for i in db.user.find({"email":session['user']}):
         userinfo = i
     return render_template('homepage.html',userinfo = userinfo ,info = info)
@@ -135,6 +137,19 @@ def samhomepage():
         userinfo = i
     return render_template('samhomepage.html', shibirainfo = shibirainfo, userinfo = userinfo, list_students = list_students)
 
+@app.route('/newvarga', methods = ['GET','POST'])
+def newvarga():
+    if request.method == "POST":
+        teachername = request.form.get('teachername')
+        address = request.form.get('address')
+        startdate = request.form.get('fromdate')
+        enddate = request.form.get('todate')
+        starttime = request.form.get('starttime')
+        endtime = request.form.get('endtime')
+        varga_id = request.form.get('c_id')
+        if not db.shibira.find_one({"c_id":varga_id}):
+            db.varga.insert({"address":address,"teachername":teachername, "startdate":startdate, "enddate":enddate,"starttime":starttime, "endtime":endtime, 'category': "class", "s_id":shibira_id, "samyojaka":session['user'] }) 
+        return render_template('samhomepage.html', shibirainfo = shibirainfo, userinfo = userinfo, list_students = list_students)
 
 @app.route('/sdelete', methods = ['GET','POST'])
 def sdelete():

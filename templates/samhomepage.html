@@ -26,6 +26,12 @@
   $( function() {
     $( "#datepicker4" ).datepicker();
   } );
+  $( function() {
+    $( "#datepicker7" ).datepicker();
+  } );
+  $( function() {
+    $( "#datepicker8" ).datepicker();
+  } );
 
   </script>
   <script>
@@ -115,8 +121,8 @@
               <ul class="nav nav-pills nav-stacked">
                   <br/><p><center>Hello {{ userinfo['name']|upper }}!!! <br/><br/> Welcome to संवित् </center></p><hr style = "color: #000000;background-color: #000000;height: 1px;">
                   <li><a href="#" data-toggle = "modal" data-target = "#profile"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
-                  <li><a href="#"><span class="glyphicon glyphicon-phone"></span>E-learning</a></li>
-                  <li><a href="#"><span class="glyphicon glyphicon-info-sign"></span>About Us</a></li><hr style = "color: #000000;background-color: #000000;height: 1px;">
+                  <li><a href="#" data-toggle = "modal" data-target = "#elearning"><span class="glyphicon glyphicon-phone"></span>E-learning</a></li>
+                  <li><a href="#" data-toggle = "modal" data-target = "#aboutus"><span class="glyphicon glyphicon-info-sign"></span>About Us</a></li><hr style = "color: #000000;background-color: #000000;height: 1px;">
                   <li> <button class = "btn tn-primary" onclick = "/logout"><span class="glyphicon glyphicon-home"></span>click to sign out</button></li>
               </ul>
               </div>
@@ -137,9 +143,8 @@
         <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
                 <div class = "container-fluid"><center><br/></br><br/><br/></br><br/>
-                <p data-placement = "center" dat-toggle = "tooltip" title = "hostshibra"><button class = "btn btn-primary btn-lg" data-title = "hostshibira" data-toggle = "modal" data-target  = "#hostshibira">New shibiram</button><br/><br/>
-                <button class = "btn btn-primary btn-lg">New varga</button>
-                </center>
+                <p data-placement = "center" dat-toggle = "tooltip" title = "hostshibra"><button class = "btn btn-primary btn-lg" data-title = "hostshibira" data-toggle = "modal" data-target  = "#hostshibira">New Shibiram</button><br/><br/>
+                <p data-placement = "center" dat-toggle = "tooltip" title = "hostshibra"><button class = "btn btn-primary btn-lg" data-title = "hostclass" data-toggle = "modal" data-target  = "#hostclass">New Varga</button>                </center>
             </div>
             </div>
             <div id="menu1" class="tab-pane fade">
@@ -385,6 +390,50 @@
             </div>
             </div>
         </div>
+    <div class="modal fade" id="hostclass" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class = "modal-dialog" style = "background-color:white">
+            <div class = "modal-header">
+                <h2>New Varga Details</h2>
+            </div>
+            <div class = "modal-body">
+            <div class  = "container-fluid">    
+                <form class = "form" action = "newvarga" method = "POST">
+                    <label>Unique Varga name:</label>
+                    <input type = "text" class = "form-control" name = "c_id" id = "c_id" required></input>
+                    <label>Address:</label>
+                    <input type = "text" class = "form-control" name = "address" id = "address" required></input>
+                    <label>Teacher Name:</label>
+                    <input type = "text" class = "form-control" name = "teachername" id = "teachername"></input>
+                    <table>
+                        <col width = "2500">
+                        <col width = "2500">
+                        <tr>
+                            <td> <label>Start Date:</label></td>
+                            <td> <label>End Date:</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="date"  style = "width:70%" name = "fromdate" id="datepicker7"></td>
+                            <td><input type="date"  style = "width:70%" name = "todate" id="datepicker8"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Start Time:</label></td>
+                            <td><label>End Time:</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type = "time" style = "width:70%" class = "form-control" name = "starttime" id = "starttime" required></input></td>
+                            <td><input type = "time" style = "width:70%"class = "form-control" name = "endtime" id = "endtime" required></input></td>
+                        </tr>
+                    </table> 
+                    <center><br/><br/>
+                        <input type = "submit" value = "Add" style = "background-color:green;width:60px;height:35px;font-color:white" ></input><spacer/><spacer/>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+                    </center>
+                </form>
+            </div>
+            </div>
+            </div>
+        </div>
+
         <div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
             <div class="modal-dialog">
             <div class="modal-content"> 	
@@ -416,6 +465,50 @@
             </div>
                 <!-- /.modal-dialog -->
         </div>
- 
+    <div class="modal fade" id="aboutus" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading"><center>About Us</center></h4>
+            </div>
+            <div class="modal-body">
+                   <center><br/>
+                    <h4><strong>Our Vision:</strong> पाठयेम संस्कृतं जगति सर्वमानवान् ! प्रापयेम भारतं सपदि परमवैभवम् !!<h4>
+                    <p ><strong>Our Mission:</strong> Reviving a language, rejuvenating a culture, rebuilding a nation that is Bharat!<br/>
+                    Samskrita Bharati (founded 1981) is a movement for the continuing protection, development and <br/>propagation of the Sanskritam language as well as the literature, tradition and the knowledge systems embedded in it.<br/>
+                    Samskrita Bharati is a non-profit organization comprised of a large team of very dedicated and<br/> enthusiastic volunteers who take the knowledge of Sanskrit to all sections of society irrespective of<br/> race, gender, region, religion, caste, age etc.<br/>
+                    <p>
+                    </center>
+            </div>
+            <div class="modal-footer ">
+            </div>
+            </div>
+        <!-- /.modal-content --> 
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="elearning" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading"><center>E-Learning</center></h4>
+            </div>
+            <div class="modal-body">
+                   <center><br/>
+                    <h4><strong>Comming Soon!</strong><h4>
+                    <p>Learn samskritam sitting at home!!!!</p>
+                    <p>Learn samskritam at your own pace</p>
+                    </center>
+            </div>
+            <div class="modal-footer ">
+            </div>
+            </div>
+        <!-- /.modal-content --> 
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
 
 </html> 
