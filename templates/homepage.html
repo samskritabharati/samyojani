@@ -1,7 +1,11 @@
 <html>
+       	
 	<script src = "/static/js/login.js"></script>	
 	<script type = 'text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js'></script>	
-	 
+    <script src="https://apis.google.com/js/platform.js" async defer></script>	
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/jquery-2.1.1.min.js"></script>
+ 
 	<!-- Latest compiled and minified CSS -->
 	
 	<meta name="viewport" content="width=device-width, user-scalable=no">	
@@ -12,6 +16,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
+
 	 <style>
       html, body {
         height: 100%;
@@ -23,10 +28,75 @@
       }
       
     </style>
+    <script>
+        $(document).ready(function() {
+          $('[data-toggle=offcanvas]').click(function() {
+            $('.row-offcanvas').toggleClass('active');
+          });
+        });
+    
+    </script>
+    <style>
+        body,html,.row-offcanvas {
+          height:100%;
+          width:100%;
+          background-color:#CCCCC;
+        }
+
+        body {
+          padding-top: 50px;
+          padding-bottom: 5px;
+        }
+
+#sidebar {
+          width: inherit;
+          min-width: 220px;
+          max-width: 220px;
+          background-color:#f5f5f5;
+          float: left;
+          height:100%;
+          position:relative;
+          overflow-y:auto;
+          overflow-x:hidden;
+        }
+#main {
+          height:115%;
+          overflow:auto;
+        }
+
+        /*
+         * off Canvas sidebar
+         * --------------------------------------------------
+         */
+        @media screen and (max-width: 778px) {
+          .row-offcanvas {
+            position: relative;
+            -webkit-transition: all 0.25s ease-out;
+            -moz-transition: all 0.25s ease-out;
+            transition: all 0.25s ease-out;
+            width:calc(100% + 225px);
+          }
+            
+          .row-offcanvas-left
+          {
+            left: -220px;
+          }
+
+          .row-offcanvas-left.active {
+            left: 0;
+          }
+
+          .sidebar-offcanvas {
+            position: absolute;
+            top: 0;
+          }
+        }
+                
+    </style>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script>
-
+        var iconBase = 'http://www.google.com/mapfiles/dd-start.png';
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 11,
@@ -35,8 +105,23 @@
         var geocoder = new google.maps.Geocoder();
         var infoWindow = new google.maps.InfoWindow({map: map});
 	geocodeAddress(geocoder, map);
-        
-        
+    geocodeuserAddress(geocoder,map);    
+    function geocodeuserAddress(geocoder, resultsMap) {
+        var address = " {{useraddress}} ";
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });
+            addInfoWindow(marker,"You Are Here")
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+         
 	if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
@@ -44,9 +129,9 @@
               lng: position.coords.longitude
             };
 
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('You are here');
-            map.setCenter(pos);
+            //infoWindow.setPosition(pos);
+            //infoWindow.setContent('You are here');
+            //map.setCenter(pos);
           }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
           });
@@ -72,7 +157,7 @@
       function geocodeAddress(geocoder, resultsMap) {
         
 		  {% for i in info %} 
-		  var add = "{{ i['shibirainfo']['address'] }}";
+		  var add = "{{ i['address'] }}";
           var category = "{{ i['category'] }}" 
 		  address = add;
 		  geocoder.geocode({'address': address}, function(results, status) {
@@ -81,10 +166,11 @@
 		    resultsMap.setCenter(results[0].geometry.location);
 		     var marker = new google.maps.Marker({
 		      map: resultsMap,
-                      category: category,
+              category: category,
+              icon: iconBase ,
 		      position: results[0].geometry.location });
 		       arr.push(marker);
-		       addInfoWindow(marker, '<center><p><strong>Shibira</strong><br/></p><p id = "name"><strong>{{ i["shibirainfo"]["teachername"]}}</strong> <br/><strong> venue:</strong><br/> {{ i["shibirainfo"]["address"]}}<br/><strong> Date <strong><br/><strong> From:  </strong>{{ i["shibirainfo"]["fromdate"]}}<strong> to:</strong>  {{ i["shibirainfo"]["todate"]}}<br/> <strong>Timming</strong> <br/><strong> from:</strong> {{ i["shibirainfo"]["starttime"]}}<strong> to:</strong> {{ i["shibirainfo"]["endtime"]}}<br/> <a href=\'join?shibira_id={{ i["shibirainfo"]["s_id"] }}\'>click to register</a></p> ');
+		       addInfoWindow(marker, '<center><p><strong>Shibira</strong><br/></p><p><strong>Contact:</strong><br/>{{ i["teachername"]}}<br/><strong>Venue:</strong><br/> {{ i["address"]}}<br/><strong> Date: <strong><br/>{{ i["startdate"]}} - {{ i["enddate"]}}<br/> <strong>Time:</strong> <br/> {{ i["starttime"]}}<strong> to:</strong> {{ i["endtime"]}}<br/> <a href=\'join?shibira_id={{ i["s_id"] }}\'>click to register</a></p> ');
 		  } else {
 		    alert('Geocode was not successful for the following reason: ' + status);
 		  }
@@ -115,7 +201,7 @@
 		}
 		// Categories don't match 
 		else {
-		    marker.setVisible(false);
+		    marker.setVisible(false);   
 		}
 	    }
 	}
@@ -124,88 +210,163 @@
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2pJjI8-t-wcMuxw9GX1fdhiiZTwOpmVE&callback=initMap">
     </script>
-
-
-
-	<nav class = "navbar navbar-inverse">
-		<div class = 'container-fluid'>
-		             
-		    <div class = 'navbar-header'>
-			<button type = 'button' class = 'navbar-toggle' data-toggle = "collapse" data-target = "#mainnavbar">
-				<span class="glyphicon glyphicon-user" style = "color:white"></span>
-						
-			</button>                
-			<div class = "col-md-offset-8">			
-				<a class = 'navbar-brand' style = "font-size:24">
-				 संवित्
-				</a>
-			</div>
-		    </div>
-		    <div class = "collapse navbar-collapse" id = 'mainnavbar'>
-			<div >			
-			<div class = "col-md-offset-7 padding-right:30px">			
-				<ul class = "nav navbar-nav">
-					  <li><a href="#">नमस्ते  {{ name }}!!! </a></li>
-					   <li><a href="/logout">Logout</a></li>
-					
-				</ul>
-								
-				
-			</div>
-				
-						
-					
-	    		            
-	    </div>
-     </nav>
-	 <div class = "container-fluid, col-md-offset-0" >
-		    <ul class="nav nav-tabs">
-			 	
-			  <li class="active"><a data-toggle="tab" href="#home">Join a Class</a></li>
-			  <li><a data-toggle="tab" href="#menu1">My Classes</a></li>
-			  <li><a data-toggle="tab" href="#menu2">Find a Tutor</a></li>
-			</ul>  
-    </div>
-<body  ng-app = 'myApp'>
-		
-	<div class="tab-content"> 
-      <div id="home" class="tab-pane fade in active container-fluid">
-         <div id = "map"></div>
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            <script>
-                var messages = {{ messages | safe }};
-                for (var i=0; i<messages.length; i++) {
-                alert(messages[i]);
-                }
-            </script>
-            {% endif %}
-        {% endwith %}
-		<table class = "table" cellspacing = "0">
-            <div class = "container-fluid">
-            <tr>
-                <td><button value = "shibira" style = "width:100%" onclick = "filterMarkers(this.value);">10-day Camps</button></td>
-		        <td><button value = "class" style = "width:100%" onclick = "filterMarkers(this.value);" >Weekly classes</button></td>
-            </tr> 
-
+    <div class="navbar navbar-default navbar-fixed-top">
+            <div class="navbar-header; col-xs-offset-1">
+                <button type="button" class="pull-left navbar-toggle" data-toggle="offcanvas" >
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class = "col-xs-offset-4">			
+                    <a class = 'navbar-brand'>
+                        <font size = "6"> संवित्</font>
+                    </a>
+                </div>
             </div>
-        </table>        	        
-	  </div>
-	  <div id="menu1" class="tab-pane fade">
-	   <br/> 
-        <div class = "container-fluid">
-	        <sjoined></sjoined>
-        </div>    
-	  </div>
-	  <div id="menu2" class="tab-pane fade">
-	    <h3>Menu 2</h3>
-	    <p>Comming soon</p>
-	  </div>
-	</div>
+        </div><!--/.navbar -->
 
+        <div class="row-offcanvas row-offcanvas-left">
+          <div id="sidebar" class="sidebar-offcanvas">
+              <div class="col-md-12">
+              <ul class="nav nav-pills nav-stacked">
+                  <br/><p><center>Hello {{ userinfo['name']|upper }}!!! <br/><br/> Welcome to संवित् </center></p><hr style = "color: #000000;background-color: #000000;height: 1px;">
+                  <li><a href="#" data-toggle = "modal" data-target = "#profile"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
+                  <li><a href="#" data-toggle = "modal" data-target = "#elearning"><span class="glyphicon glyphicon-phone"></span>E-learning</a></li>
+                  <li><a href="#" data-toggle = "modal" data-target = "#aboutus"><span class="glyphicon glyphicon-info-sign"></span>About Us</a></li><hr style = "color: #000000;background-color: #000000;height: 1px;">
+                  <li> <button class = "btn tn-primary" onclick = "/logout"><span class="glyphicon glyphicon-home"></span>click to sign out</button></li>
+              </ul>
+              </div>
+          </div>
+     
+ 
+     <div id="main">
+        <div class="col-xs-12">       
+             <div class = "container-fluid" >
+                    <ul class="nav nav-pills">
+                        
+                      <li class="active"><a data-toggle="tab" href="#home">Join a Class</a></li>
+                      <li><a data-toggle="tab" href="#menu1" >My Classes</a></li>
+                      <li><a data-toggle="tab" href="#menu2">Find a Tutor</a></li>
+                    </ul>  
+            </div>
+          <body  ng-app = 'myApp'>
+                
+            <div class="tab-content"> 
+              <div id="home" class="tab-pane fade in active container-fluid">
+                 <div id = "map"></div>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <script>
+                        var messages = {{ messages | safe }};
+                        for (var i=0; i<messages.length; i++) {
+                        alert(messages[i]);
+                        }
+                    </script>
+                    {% endif %}
+                {% endwith %}
+                <table class = "no-spacing" cellspacing = "0">
+                    <col width = 500>
+                    <col width = 500>
+                    <div class = "container-fluid">
+                    <tr>
+                        <td><button class = "btn btn-primary btn-lg" value = "shibira" style = "width:100%" onclick = "filterMarkers(this.value);">10-day Camps</button></td>
+                        <td><button class = "btn btn-primary btn-lg" value = "class" style = "width:100%" onclick = "filterMarkers(this.value);" >Weekly classes</button></td>
+                    </tr> 
+
+                    </div>
+                </table>        	        
+              </div>
+              <div id="menu1" class="tab-pane fade">
+               <br/> 
+                <div class = "container-fluid">
+                    <sjoined></sjoined>
+                </div>    
+              </div>
+              <div id="menu2" class="tab-pane fade">
+                <h3>Menu 2</h3>
+                <p>Comming soon</p>
+              </div>
+            </div>
+
+        </div>
+        </body>	
+    </div>
 </div>
-</body>	
-	
+    <div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content"> 	
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">Profile Details</h4>
+            </div>
+            <div class="modal-body">
+                <form class = "form" action = "editprofile" method = "POST">
+                    <label>Name:</label>
+                    <input type = "text" class = "form-control" name = "name" id = "name" value = {{userinfo['name']}} ></input>
+                    <label>Email:</label>
+                    <input type = "text" class = "form-control" name = "email" id = "email" value = "{{userinfo['email']}}" ></input>
+                    <label>Phone Number</label>
+                    <input type = "text" class = "form-control" name = "phonenumber" id = "phonenumber" value = "{{userinfo['phonenumber']}}" required ></input>
+                    <label>Address</label>
+                    <input type = "text" class = "form-control" name = "address" id = "address" value = "{{userinfo['address']}}" required></input>
+                    <br/><br/><center>
+                    <input type = "submit" value = "Update Profile" style = "background-color:green;width:60px;height:35px;font-color:white" ></input>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button></center>
+                    </center>
+                </form>
+                     
+            </div> 	
+            <div class="modal-footer ">
+            </div>
+        </div>
+            <!-- /.modal-content --> 
+        </div>
+            <!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="aboutus" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading"><center>About Us</center></h4>
+            </div>
+            <div class="modal-body">
+                   <center><br/>
+                    <h4><strong>Our Vision:</strong> पाठयेम संस्कृतं जगति सर्वमानवान् ! प्रापयेम भारतं सपदि परमवैभवम् !!<h4>
+                    <p ><strong>Our Mission:</strong> Reviving a language, rejuvenating a culture, rebuilding a nation that is Bharat!<br/>
+                    Samskrita Bharati (founded 1981) is a movement for the continuing protection, development and <br/>propagation of the Sanskritam language as well as the literature, tradition and the knowledge systems embedded in it.<br/>
+                    Samskrita Bharati is a non-profit organization comprised of a large team of very dedicated and<br/> enthusiastic volunteers who take the knowledge of Sanskrit to all sections of society irrespective of<br/> race, gender, region, religion, caste, age etc.<br/>
+                    <p>
+                    </center>
+            </div>
+            <div class="modal-footer ">
+            </div>
+            </div>
+        <!-- /.modal-content --> 
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="elearning" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading"><center>E-Learning</center></h4>
+            </div>
+            <div class="modal-body">
+                   <center><br/>
+                    <h4><strong>Comming Soon!</strong><h4>
+                    <p>Learn samskritam sitting at home!!!!</p>
+                    <p>Learn samskritam at your own pace</p>
+                    </center>
+            </div>
+            <div class="modal-footer ">
+            </div>
+            </div>
+        <!-- /.modal-content --> 
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 </html>
 
 			

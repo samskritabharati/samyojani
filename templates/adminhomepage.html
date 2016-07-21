@@ -68,7 +68,7 @@
                             {% set i = i + 1%}
                             <tr>
                                 <td>{{user['name']}}</td>                    
-                                <td>{{user['username']}}</td>                    
+                                <td>{{user['email']}}</td>                    
                                 <td>{{user['role']}}</td>
                                 <td> <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#{{ i }}" ><span class="glyphicon glyphicon-pencil"></span></button></p><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#a{{ i }}" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                             </tr>                    
@@ -84,7 +84,7 @@
                                             <label>Name</label>
                                             <input type = "text" class = "form-control" name = "name" id = "name" value = "{{user['name']}}" ></input>
                                             <label>Email</label>
-                                            <input type = "text" class = "form-control" name = "email" id = "email" value = "{{user['username']}}" ></input>
+                                            <input type = "text" class = "form-control" name = "email" id = "email" value = "{{user['email']}}" ></input>
                                             <label>Role:</label><br/>
                                             <select id = "role" name = "role" required>
                                                 <option value="" id = "role" name = "role" disabled selected hidden>{{user['role']}}</option>
