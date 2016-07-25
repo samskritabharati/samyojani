@@ -18,10 +18,11 @@ class MyCollection:
             self.slurp()
 
     def slurp(self):
-        self.local = []
+        self.local = {}
         for o in self.collection.find():
             o['_id'] = str(o['_id'])
-            self.local.append(o)
+            self.local[o['_id']] = o
+
         return self.local
 
     def all(self):
@@ -68,6 +69,8 @@ class MyCollection:
         res = self.collection.delete_one({'_id' : ObjectId(item_id)})
         return res.deleted_count > 0
 
+    def reset():
+        return self.collection.drop()
     def find(query):
         return self.collection.find(query)
 
