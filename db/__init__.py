@@ -12,8 +12,6 @@ def initdb(reset=False):
 def getdb():
     return sbmgmt
 
-def main(args):
-
 if __name__ == "__main__":
     setworkdir(workdir())
     initworkdir(False)

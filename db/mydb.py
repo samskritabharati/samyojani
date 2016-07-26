@@ -51,6 +51,11 @@ class MyCollection:
         res['_id'] = str(res['_id'])
         return res
 
+    def find_one(self, query):
+        res = self.collection.find_one(query)
+        res['_id'] = str(res['_id'])
+        return res
+
     def insert(self, item):
         try:
             result = self.collection.insert_one(item)
