@@ -12,10 +12,10 @@ from flask import *
 PORTNUM = 9000
 WORKDIR = "/tmp/sbharati_mgmt"
 SB_MGMTDB = "sbharati_mgmtdb"
-SB_SAMVITDB = "sbharati__samvit"
+SB_SAMVITDB = "sbharati_samvitdb"
 DATADIR = "/opt/sbmgmt/data"
 DATADIR_SETTINGS = join(DATADIR, "settings")
-DATADIR_BOOKS = join(DATADIR, "books")
+DATADIR_SBMGMT = join(DATADIR, "sbmgmt")
 MYPATH = ""
 LOG_LEVEL = 1
 
@@ -68,7 +68,7 @@ def pubdir(dir):
     return join(pubroot(), dir)
 
 def repodir():
-    return pubdir("books")
+    return pubdir("sbmgmt")
 
 def wlocalprefix():
     return "local"
@@ -77,7 +77,7 @@ def wlocaldir():
     return join(repodir(), wlocalprefix())
 
 def setwlocaldir(dir):
-    print "Setting local book repository to " + dir
+    print "Setting local SB mgmt repository to " + dir
     addrepo(dir, wlocalprefix())
 
 def uploaddir():
@@ -217,3 +217,6 @@ def check(url):
 		return True
 	except urllib2.HTTPError:
 		return False
+            
+def table2json(t):
+    return [dict(zip(t['fields'], valrow)) for valrow in t['values']]

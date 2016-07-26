@@ -4,7 +4,7 @@ import json
 from pprint import pprint
 import smtplib
 from config import *
-from indicdocs import *
+from db import *
 
 app = Flask(__name__)
 app.secret_key = '123'
@@ -293,7 +293,7 @@ def removeuser():
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "do:l:p:rRh", ["workdir=", "wloaddir="])
+        opts, args = getopt.getopt(argv, "do:l:p:rRh", ["workdir="])
     except getopt.GetoptError:
         usage()
 
@@ -307,8 +307,8 @@ def main(argv):
         if opt == '-h':
             usage()
         elif opt in ("-o", "--workdir"):
-	    wdir=arg
-        elif opt in ("-l", "--wloaddir"):
+	        wdir=arg
+        elif opt in ("-l", "--localdir"):
             localdir = arg
         elif opt in ("-p", "--port"):
             myport = int(arg)
@@ -323,7 +323,7 @@ def main(argv):
     
     initworkdir(reset)
 
-    initdb(INDICDOC_DBNAME, dbreset)
+    initdb(dbreset)
 
     for a in args:
         components = a.split(':')
@@ -337,7 +337,7 @@ def main(argv):
     if localdir:
         setwlocaldir(localdir)
     if not path.exists(wlocaldir()):
-        setwlocaldir(DATADIR_BOOKS)
+        setwlocaldir(DATADIR_SBMGMT)
     os.chdir(workdir())
 
     print "Available on the following URLs:"
