@@ -19,14 +19,14 @@ app.directive('google',function(){
 app.directive('sjoined',function(){
 		return{
 			restrict:'AEC',
-			templateUrl:'/sjoined'		
+			templateUrl:'/ui/user/shibirasjoined'		
 		}	
 	});
 
 app.directive('landpage',function(){
 		return{
 			restrict:'AEC',
-			templateUrl:'/landpage'		
+			templateUrl:'/ui/landpage'		
 		}	
 	});
 app.directive('hosted',function(){

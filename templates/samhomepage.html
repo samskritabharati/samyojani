@@ -185,7 +185,7 @@
                    
                                     </div>
                                     <div class="modal-footer ">
-                                        <a href = "/sdelete?s_id={{ s['s_id'] }}"><span class="glyphicon glyphicon-ok-sign"></span>Yes</a>
+                                        <a href = "{{ url_for('deleteshibira', s_id=s['s_id'] ) }}"><span class="glyphicon glyphicon-ok-sign"></span>Yes</a>
                                         <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
                                     </div>
                                     </div>
@@ -201,7 +201,7 @@
                                         <h4 class="modal-title custom_align" id="Heading">Edit this entry</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <form class = "form" action = "edit" method = "POST">
+                                        <form class = "form" action = "{{url_for('edit') }}" method = "POST">
                                             <label>shibira id</label>
                                             <input type = "text" class = "form-control" name = "s_id" id = "s_id" value = "{{s['s_id']}}" ></input>
                                             <label>address</label>
@@ -221,16 +221,6 @@
                                             <br/><br/>
                                             <input type = "submit" value = "Edit" style = "background-color:green;width:60px;height:35px;font-color:white" ></input>
                                             
-                                            <label>Start Date:</label>
-                                            <input type = "date" class = "form-control" name = "fromdate" id = "datepicker1" value = "{{s['startdate']}}"></input>
-                                            <label>End Date:</label>
-                                            <input type = "date" class = "form-control" name = "todate" id = "datepicker" value = "{{s['enddate']}}"></input>
-                                            <label>Start time:</label>
-                                            <input type = "time" class = "form-control" name = "starttime"  value = "{{s['starttime']}}"></input>
-                                            <label>End Time:</label>
-                                            <center><input type = "time" class = "form-control" name = "endtime" value = "{{s['endtime']}}"></input>
-                                            <br/><br/>
-                                            <input type = "submit" value = "Edit" style = "background-color:green;width:60px;height:35px;font-color:white" ></input>
                                             
                                         </form>
                                              
@@ -286,7 +276,7 @@
                                         <div class = "container-fluid">
                                         <tr>
                                           <td>{{ k['name'] }}</td>
-                                          <td>{{ k['username'] }}</td>
+                                          <td>{{ k['email'] }}</td>
                                           <td><p data-placement="top" data-dismiss = "modal" data-toggle="tooltip" title="Deleteuser"><button class="btn btn-danger btn-xs" data-title="Deleteuser" data-toggle="modal" data-target="#c{{ z }}" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                                         </tr>
                                         </div>
@@ -312,7 +302,7 @@
                     <h4 class="modal-title custom_align" id="Heading">add student to shibra</h4>
                 </div>
                 <div class="modal-body">
-                    <form class = "form" action = "/proxyreg" method = "POST">
+                    <form class = "form" action = "{{ url_for('proxyreg') }}" method = "POST">
                         <label>shibira id</label>
                         <input type = "text" class = "form-control" name = "s_id" id = "s_id" value = "{{s['s_id']}}" ></input>
                         <label>Email</label>
@@ -349,7 +339,7 @@
 
                 </div>
                 <div class="modal-footer ">
-                    <a href = "/removestudent?studentname={{ k['username'] }}&s_id={{ s['s_id']}}"><span class="glyphicon glyphicon-ok-sign"></span>Yes</a>
+                    <a href = "{{url_for('removestudent')}}?studentname={{ k['email'] }}&s_id={{ s['s_id']}}"><span class="glyphicon glyphicon-ok-sign"></span>Yes</a>
                     <button type="button" class="btn btn-default" data-dismiss="modal" ><span class="glyphicon glyphicon-remove"></span> No</button>
                 </div>
                 </div>
@@ -367,9 +357,11 @@
             </div>
             <div class = "modal-body">
             <div class  = "container-fluid">    
-                <form class = "form" action = "#" method = "POST">
+                <form class = "form" action = "{{ url_for('hostshibira')}}" method = "POST" enctype= "multipart/form-data" capture = "camera" >
                     <label>Unique shibira name:</label>
                     <input type = "text" class = "form-control" name = "s_id" id = "s_id" required></input>
+                    <label>Upload A Poster Or Image:</label>
+                    <input type = "file" id = "image" name = "image" capture = "camera"></input>
                     <label>Address:</label>
                     <input type = "text" class = "form-control" name = "address" id = "address" required></input>
                     <label>Teacher Name:</label>
@@ -457,7 +449,7 @@
                     <h4 class="modal-title custom_align" id="Heading">Profile Details</h4>
                 </div>
                 <div class="modal-body">
-                    <form class = "form" action = "editprofile" method = "POST">
+                    <form class = "form" action = "{{url_for('editprofile') }}" method = "POST">
                         <label>Name:</label>
                         <input type = "text" class = "form-control" name = "name" id = "name" value = {{userinfo['name']}} ></input>
                         <label>Email:</label>

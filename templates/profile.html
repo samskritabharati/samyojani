@@ -18,21 +18,17 @@
 
 
      <div class="navbar navbar-default navbar-fixed-top">
-            <div class="navbar-header; col-xs-offset-1">
-                <button type="button" class="pull-left navbar-toggle" data-toggle="offcanvas" >
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class = "col-xs-offset-4">			
-                    <a class = 'navbar-brand'>
-                        <font size = "6"> संवित्</font>
-                    </a>
-                </div>
+            <div class = "col-xs-offset-4">			
+                <a class = 'navbar-brand'>
+                    <font size = "6"> संवित्</font>
+                </a>
             </div>
         </div><!--/.navbar -->
-   </div><br/><br/><br/> 
-    <form class = "form" action = "/profileupdate" method = "POST">
+   </div><br/><br/><br/>
+   <div class = "container-fluid"><center>
+   <p><strong><font size=4>Please Enter The Details:</font> </strong></p>
+   <p>These details are required for assigning you to the respective praanta and samyojaka</p><br/> 
+    <form class = "form" action = "{{ url_for('profileupdate') }}" method = "POST" style ="width:60%" >
         <label>Name:</label>
         <input type = "text" class = "form-control" name = "name" id = "name" value = "{{userinfo['name']}}" ></input>
         <label>Email:</label>
@@ -43,10 +39,9 @@
         <input type = "text" class = "form-control" name = "address" id = "address" value = "{{userinfo['address']}}" required></input>
         <br/><br/><center>
         <input type = "submit" value = "Update Profile" style = "background-color:green;width:60px;height:35px;font-color:white" ></input>
-        <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button></center>
         </center>
-    </form>
-                 
+    </center></form>
+    </div>             
     </div>
 
 </html>

@@ -80,7 +80,7 @@
                                         <h4 class="modal-title custom_align" id="Heading">Edit User Details</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <form class = "form" action = "adminedit" method = "POST">
+                                        <form class = "form" action = "{{url_for('adminedit')}}" method = "POST">
                                             <label>Name</label>
                                             <input type = "text" class = "form-control" name = "name" id = "name" value = "{{user['name']}}" ></input>
                                             <label>Email</label>
@@ -120,7 +120,7 @@
                    
                                     </div>
                                     <div class="modal-footer ">
-                                        <a href = "/removeuser?username={{ user['username'] }}"><span class="glyphicon glyphicon-ok-sign"></span>Yes</a>
+                                        <a href = "{{ url_for('removeuser',email=user['email']) }}"><span class="glyphicon glyphicon-ok-sign"></span>Yes</a>
                                         <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
                                     </div>
                                     </div>

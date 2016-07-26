@@ -155,9 +155,10 @@
       
      
       function geocodeAddress(geocoder, resultsMap) {
-        
+          {% set z = 10000000%} 
 		  {% for i in info %} 
-		  var add = "{{ i['address'] }}";
+		  {% set z = z + 1%}
+          var add = "{{ i['address'] }}";
           var category = "{{ i['category'] }}" 
 		  address = add;
 		  geocoder.geocode({'address': address}, function(results, status) {
@@ -170,7 +171,7 @@
               icon: iconBase ,
 		      position: results[0].geometry.location });
 		       arr.push(marker);
-		       addInfoWindow(marker, '<center><p><strong>Shibira</strong><br/></p><p><strong>Contact:</strong><br/>{{ i["teachername"]}}<br/><strong>Venue:</strong><br/> {{ i["address"]}}<br/><strong> Date: <strong><br/>{{ i["startdate"]}} - {{ i["enddate"]}}<br/> <strong>Time:</strong> <br/> {{ i["starttime"]}}<strong> to:</strong> {{ i["endtime"]}}<br/> <a href=\'join?shibira_id={{ i["s_id"] }}\'>click to register</a></p> ');
+		       addInfoWindow(marker, '<center><p><strong>Shibira</strong><br/></p><p><strong>Contact:</strong><br/>{{ i["teachername"]}}<br/><strong>Venue:</strong><br/> {{ i["address"]}}<br/><strong> Date: <strong><br/>{{ i["startdate"]}} - {{ i["enddate"]}}<br/> <strong>Time:</strong> <br/> {{ i["starttime"]}}<strong> to:</strong> {{ i["endtime"]}}<br/> <a href="{{url_for("join",s_id=i["s_id"])}}">click to register</a><br/><a href="{{url_for("shibiradetails",s_id=i["s_id"])}}" ><span class="glyphicon glyphicon-info-sign"></span>info</a></p> ');
 		  } else {
 		    alert('Geocode was not successful for the following reason: ' + status);
 		  }
@@ -332,7 +333,7 @@
             </div>
             <div class="modal-body">
                    <center><br/>
-                    <h4><strong>Our Vision:</strong> पाठयेम संस्कृतं जगति सर्वमानवान् ! प्रापयेम भारतं सपदि परमवैभवम् !!<h4>
+                    <h4><strong>Our Vision:</strong> पाठयेम संस्कृतं जगति सर्वमानवान् ! प्रापयेम भारतं सपदि परमवैभवम् !!</h4>
                     <p ><strong>Our Mission:</strong> Reviving a language, rejuvenating a culture, rebuilding a nation that is Bharat!<br/>
                     Samskrita Bharati (founded 1981) is a movement for the continuing protection, development and <br/>propagation of the Sanskritam language as well as the literature, tradition and the knowledge systems embedded in it.<br/>
                     Samskrita Bharati is a non-profit organization comprised of a large team of very dedicated and<br/> enthusiastic volunteers who take the knowledge of Sanskrit to all sections of society irrespective of<br/> race, gender, region, religion, caste, age etc.<br/>
@@ -355,7 +356,7 @@
             </div>
             <div class="modal-body">
                    <center><br/>
-                    <h4><strong>Comming Soon!</strong><h4>
+                    <h4><strong>Comming Soon!</strong></h4>
                     <p>Learn samskritam sitting at home!!!!</p>
                     <p>Learn samskritam at your own pace</p>
                     </center>
@@ -367,6 +368,29 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+    {% set i = 10000000%}
+    {% for s in info%}
+    {% set i = i + 1 %}
+    <div class="modal fade" id="{{i}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading"><center>Pictures And Posters</center></h4>
+            </div>
+            <div class="modal-body">
+                <div class = "container- fluid"> 
+                   <center><img style = "width:80%;height:40%" src="{{ url_for('send_file', filename=s['image'])}}"></center>
+                </div>
+            </div>
+            <div class="modal-footer ">
+            </div>
+            </div>
+        <!-- /.modal-content --> 
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    {% endfor %}
 </html>
 
 			
