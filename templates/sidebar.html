@@ -1,0 +1,18 @@
+
+<div id="sidebar" class="sidebar-offcanvas">
+    <div class="col-md-12">
+        <ul class="nav nav-pills nav-stacked">
+            {% if userinfo %}
+                <p><center>नमस्ते {{ userinfo['name']|title }}! </center> </p>
+                <li><a href="#" data-toggle = "modal" data-target = "#profile"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
+            {% else %}
+                <li><a data-toggle = "modal" data-target = "#login">Sign in</a> </li>
+            {% endif %}
+
+            <hr style = "color: #000000;background-color: #000000;height: 1px;">
+            <li><a href="#" data-toggle = "modal" data-target = "#elearning"><span class="glyphicon glyphicon-phone"></span>E-learning</a></li>
+            <li><a href="#" data-toggle = "modal" data-target = "#aboutus"><span class="glyphicon glyphicon-info-sign"></span>About Us</a></li><hr style = "color: #000000;background-color: #000000;height: 1px;">
+            <li> <button class = "btn tn-primary" onclick = "/logout"><span class="glyphicon glyphicon-home"></span>click to sign out</button></li>
+        </ul>
+    </div>
+</div>

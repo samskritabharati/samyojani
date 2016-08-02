@@ -38,10 +38,12 @@ def index():
 @app.route('/ui/landpage')
 def landpage():
     return render_template('landpage.html')
+
 @app.route('/login',methods = ['GET', 'POST'])
 def login():
     error = None
    
+    userinfo = None
     if request.method == 'POST':
         userinfo = {'username' : request.form.get('email'),'name' : request.form.get('name'),'auth_src' : request.form.get('auth_src')}
         pprint(userinfo)
@@ -67,7 +69,7 @@ def login():
             session['user'] = email
             return make_response(json.dumps({'redirect' : url_for("profileupdate") }))
     else:
-        return render_template('home.html')
+        return render_template('home.html', userinfo = userinfo)
 
 @app.route('/patch/profileupdate', methods = ['GET','POST'])
 def profileupdate():
@@ -100,16 +102,14 @@ def signup():
 
 @app.route('/ui/homepage', methods = ['GET','POST'])
 def homepage():
-    info =  []
+    info =  [i for i in mgmtdb.activities.find()]
     userinfo = []
-    for i in mgmtdb.activities.find():
-        info.append(i)
     #for i in db.varga.find():
-     #   info.append(i)
+    #   info.append(i)
     for i in mgmtdb.users.find({"email":session['user']}):
         userinfo = i
         useraddress = i['address']
-    return render_template('homepage.html',userinfo = userinfo ,info = info, useraddress = useraddress)
+    return render_template('userhome.html',userinfo = userinfo ,info = info, useraddress = useraddress)
 #api to send image to modal
 
 @app.route('/get/user/uploads/<filename>')

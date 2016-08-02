@@ -1,9 +1,8 @@
 {% extends "baselocal.html" %}
 
-{% block content %}
+{% block body %}
 		
 <!--<div ng-init = "showsignin = false, showsignup = false" ng-app = 'profile'>
--->
 	<nav class = "navbar navbar-default">
 		<div class = 'container-fluid'>
 		    <div class = 'navbar-header'>
@@ -12,7 +11,7 @@
                 </button>                
 			    <div class = "col-md-offset-8">			
 				    <a class = 'navbar-brand'><font size = 6>
-				           संवित्
+                        <img src="/static/images/sb_logo.png">
 				    </font></a>
 			    </div>
             </div>
@@ -24,35 +23,10 @@
 				</div>						            
 	        </div>
     </nav>
-<!--
     <landpage ng-show = "true"></landpage>
 	<body ng-app = 'myApp'></body>
 </div>
 -->
 
-<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content"> 	
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                <h4 class="modal-title custom_align" id="Heading"><center>Login</center></h4>
-            </div>
-            <div class="modal-body">
-                <form action = "#" method = "POST">
-                    <center>
-                        <label>Email:</label><br/>
-                        <input type = "email" id = "email" name = "email"></input><br/><br/>
-                        <input type = "submit" value = "login" ></input><br/><hr>
-                    </center>
-                </form>
-                <div class="modal-footer ">
-                    <p><center>Or Connect With:</center></p>
-                    <td><div class="g-signin2" data-onsuccess="onSignIn">click</div></td>
-                    <td><button class = "btn btn-primary" onClick="signOut()">signout</button></td>
-                </div>
-            </div>
-        </div> <!-- /.modal-content --> 
-    </div> <!-- /.modal-dialog -->
-</div>
 
 {% endblock %}

@@ -1,0 +1,30 @@
+
+<div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content"> 	
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">Profile Details</h4>
+            </div>
+            <div class="modal-body">
+                <form class = "form" action = "editprofile" method = "POST">
+                    <label>Name:</label>
+                    <input type = "text" class = "form-control" name = "name" id = "name" value = {{userinfo['name']}} ></input>
+                    <label>Email:</label>
+                    <input type = "text" class = "form-control" name = "email" id = "email" value = "{{userinfo['email']}}" ></input>
+                    <label>Phone Number</label>
+                    <input type = "text" class = "form-control" name = "phonenumber" id = "phonenumber" value = "{{userinfo['phonenumber']}}" required ></input>
+                    <label>Address</label>
+                    <input type = "text" class = "form-control" name = "address" id = "address" value = "{{userinfo['address']}}" required></input>
+                    <br/><br/><center>
+                    <input type = "submit" value = "Update Profile" style = "background-color:green;width:60px;height:35px;font-color:white" ></input>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button></center>
+                    </center>
+                </form>
+            </div> 	
+            <div class="modal-footer ">
+            </div>
+        </div> <!-- /.modal-content --> 
+    </div> <!-- /.modal-dialog -->
+</div>
+
