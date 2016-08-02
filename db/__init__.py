@@ -10,6 +10,7 @@ def initdb(reset=False):
         sbmgmt.reset()
 
 def getdb():
+    global sbmgmt
     return sbmgmt
 
 if __name__ == "__main__":

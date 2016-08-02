@@ -2,12 +2,14 @@ import os
 from flask import *
 from pymongo import MongoClient
 from werkzeug.utils import secure_filename
+import sys, getopt
 import json
 from pprint import pprint
 import smtplib
 from config import *
 from db import *
 import string
+from sys import argv
 
 app = Flask(__name__)
 app.secret_key = '123'
@@ -23,7 +25,7 @@ def allowed_file(filename):
 setmypath(os.path.abspath(cmddir))
 print "My path is " + mypath()
 
-global mgmtdb = None
+mgmtdb = None
 
 def usage():
     print cmdname + " [-r] [-R] [-d] [-o <workdir>] [-l <local_wloads_dir>] <repodir1>[:<reponame>] ..."
@@ -47,9 +49,9 @@ def login():
         print "Importing auth_src " + auth_src + " into DB"
 
         email = request.form.get('email')
-        if mgmtdb.users().find_one({"email": email }):
+        if mgmtdb.users.find_one({"email": email }):
             session.pop('user',None)	
-            for x in mgmtdb.users().find({"email":email}):
+            for x in mgmtdb.users.find({"email":email}):
                 if x['role'] == "samyojaka":
                     session['user'] = email
                     return make_response(json.dumps({'redirect' : url_for("samhomepage") }))
@@ -61,7 +63,7 @@ def login():
                     return make_response(json.dumps({'redirect' : url_for("homepage") }))
         else:
             print "Importing new user " + email + " into DB"
-            mgmtdb.users().insert({'email' : request.form.get('email'),'name' : request.form.get('name'),'auth_src' : request.form.get('auth_src'),"role":"student", "phonenumber":"" , "address": ""})
+            mgmtdb.users.insert({'email' : request.form.get('email'),'name' : request.form.get('name'),'auth_src' : request.form.get('auth_src'),"role":"student", "phonenumber":"" , "address": ""})
             session['user'] = email
             return make_response(json.dumps({'redirect' : url_for("profileupdate") }))
     else:
@@ -73,15 +75,16 @@ def profileupdate():
         name = request.form.get('name')
         phonenumber  = request.form.get('phonenumber')
         address = request.form.get('address')
-        mgmtdb.users().update({"email": session['user']}, {"$set":{'name':name, "address":address,"phonenumber":phonenumber}})
-        for i in mgmtdb.users().find({"email":session['user']}):
-            if i['role'] == "admin":
+        mgmtdb.users.update({"email": session['user']}, {'name':name, \
+        "address":address,"phonenumber":phonenumber}, upsert=True)
+        with mgmtdb.users.find_one({"email":session['user']}) as u:
+            if u['role'] == "admin":
                 return redirect(url_for("adminhomepage"))
-            elif i['role'] == "samyojaka":
+            elif u['role'] == "samyojaka":
                 return redirect(url_for("samyojaka"))
             else:
                 return redirect(url_for("homepage"))
-    for i in mgmtdb.users().find({"email":session['user']}):
+    for i in mgmtdb.users.find_one({"email":session['user']}):
         userinfo = i
     return render_template('profile.html', userinfo = userinfo)
 #useless
@@ -91,7 +94,7 @@ def signup():
 		username = request.form.get('username')
 		name = requestk.form.get('name')
 		password = request.form.get('password')
-		mgmtdb.users().insert({"name": name, "username": username, "password":password})
+		mgmtdb.users.insert({"name": name, "username": username, "password":password})
 		return redirect('/')	
     
 
@@ -99,11 +102,11 @@ def signup():
 def homepage():
     info =  []
     userinfo = []
-    for i in mgmtdb.shibiras().find():
+    for i in mgmtdb.activities.find():
         info.append(i)
     #for i in db.varga.find():
      #   info.append(i)
-    for i in mgmtdb.users().find({"email":session['user']}):
+    for i in mgmtdb.users.find({"email":session['user']}):
         userinfo = i
         useraddress = i['address']
     return render_template('homepage.html',userinfo = userinfo ,info = info, useraddress = useraddress)
@@ -121,22 +124,22 @@ def shibiradetails(s_id):
     index = 0
     for x in mgmtdb.actlog().find({"shibira_id":s_id}):
             index = index + 1
-    for x in mgmtdb.shibiras().find({"s_id":s_id}):
+    for x in mgmtdb.activities.find({"s_id":s_id}):
         shibirainfo = x
     return render_template('shibirainfo.html', no_of_students = index, shibirainfo = shibirainfo)
 #useless
 @app.route('/teacherfinder',methods = ['GET','POST'])
 def teacherfinder():
 	info =  []
-	for i in mgmtdb.shibiras().find():
+	for i in mgmtdb.activities.find():
             info.append(i) 	
 	return render_template("google.html", info = info)
 
-@app.route('/ui/user/shibirasjoined', methods = ['GET','POST'])
+@app.route('/ui/user/activitiesjoined', methods = ['GET','POST'])
 def sjoined():
     sjoined = [] 
     for i in mgmtdb.actlog().find({"name":session['user']}):
-        for x in mgmtdb.shibiras().find({'s_id':i['shibira_id']}):
+        for x in mgmtdb.activities.find({'s_id':i['shibira_id']}):
             sjoined.append(x)
 
     return render_template("sjoined.html", sjoined = sjoined)    
@@ -166,15 +169,15 @@ def samhomepage():
     list_students = []
     shibirainfo = []   
     index = 0
-    for i in mgmtdb.shibiras().find({"samyojaka": session['user']}): # add samyajaka user field in search
+    for i in mgmtdb.activities.find({"samyojaka": session['user']}): # add samyajaka user field in search
         shibirainfo.append(i)
         s_id = i['s_id']
         list_students.append([])
         for x in mgmtdb.actlog().find({"shibira_id":s_id}):
-            for y in mgmtdb.users().find({'email': x['name']}):
+            for y in mgmtdb.users.find({'email': x['name']}):
                 list_students[index].append(y)
             index = index + 1
-    for i in mgmtdb.users().find({"email":session['user']}):
+    for i in mgmtdb.users.find({"email":session['user']}):
         userinfo = i
     return render_template('samhomepage.html', shibirainfo = shibirainfo, userinfo = userinfo, list_students = list_students)
 
@@ -200,8 +203,8 @@ def hostshibira():
         filename = secure_filename(file.filename)
         srcurl = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(srcurl)
-        if not mgmtdb.shibiras().find_one({"s_id":shibira_id}):
-            mgmtdb.shibiras().insert({"image":filename, "phonenumber":phonenumber, "address":address,"teachername":teachername, "startdate":startdate, "enddate":enddate,"starttime":starttime, "endtime":endtime, 'category': "shibira", "s_id":shibira_id, "samyojaka":session['user'] }) #, 'samyojakaname':session['user']}) 
+        if not mgmtdb.activities.find_one({"s_id":shibira_id}):
+            mgmtdb.activities.insert({"image":filename, "phonenumber":phonenumber, "address":address,"teachername":teachername, "startdate":startdate, "enddate":enddate,"starttime":starttime, "endtime":endtime, 'category': "shibira", "s_id":shibira_id, "samyojaka":session['user'] }) #, 'samyojakaname':session['user']}) 
     return redirect(url_for('samhomepage'))
 #useless
 @app.route('/post/samyojaka/newvarga', methods = ['GET','POST'])
@@ -214,13 +217,13 @@ def newvarga():
         starttime = request.form.get('starttime')
         endtime = request.form.get('endtime')
         varga_id = request.form.get('c_id')
-        if not mgmtdb.shibiras().find_one({"c_id":varga_id}):
+        if not mgmtdb.activities.find_one({"c_id":varga_id}):
             db.varga.insert({"address":address,"teachername":teachername, "startdate":startdate, "enddate":enddate,"starttime":starttime, "endtime":endtime, 'category': "class", "s_id":shibira_id, "samyojaka":session['user'] }) 
         return render_template('samhomepage.html', shibirainfo = shibirainfo, userinfo = userinfo, list_students = list_students)
 
 @app.route('/delete/samyojaka/deleteshibira/<s_id>', methods = ['GET','POST'])
 def deleteshibira(s_id):
-    mgmtdb.shibiras().remove({'s_id': s_id })
+    mgmtdb.activities.remove({'s_id': s_id })
     return redirect(url_for('samhomepage'))
 
 @app.route('/patch/samyojaka/shibira/edit', methods = ['GET','POST'])
@@ -234,8 +237,8 @@ def edit():
         endtime = request.form.get('endtime')
         shibira_id = request.form.get('s_id')
         phonenumber = request.form.get('phonenumber')
-        #mgmtdb.shibiras().remove({"s_id":shibira_id })
-        mgmtdb.shibiras().update({"samyojaka":session['user']},{"$set":{"phonenumber":phonenumber, "address":address,"teachername":teachername, "startdate":startdate, "enddate":enddate,"starttime":starttime, "endtime":endtime, 'category': "shibira", "s_id":shibira_id}})
+        #mgmtdb.activities.remove({"s_id":shibira_id })
+        mgmtdb.activities.update({"samyojaka":session['user']},{"$set":{"phonenumber":phonenumber, "address":address,"teachername":teachername, "startdate":startdate, "enddate":enddate,"starttime":starttime, "endtime":endtime, 'category': "shibira", "s_id":shibira_id}})
     	return redirect(url_for('samhomepage'))
 
 @app.route('/delete/samyojaka/shibira/removestudent', methods = ['GET', 'POST'])
@@ -274,7 +277,7 @@ def proxyreg():
         mail.login('avadesh444@gmail.com', 'samskritabharati')
         mail.sendmail('avadesh444@gmail.com',email, Body)
         mail.close()
-        mgmtdb.users().insert({"username": email, "name": name, "role": "student", "address": "none", "phonenumber": "none"})
+        mgmtdb.users.insert({"username": email, "name": name, "role": "student", "address": "none", "phonenumber": "none"})
         mgmtdb.actlog().insert({"name": email, "shibira_id": s_id})
         return redirect(url_for("samhomepage"))
 
@@ -284,8 +287,8 @@ def editprofile():
         name = request.form.get('name')
         phonenumber  = request.form.get('phonenumber')
         address = request.form.get('address')
-        mgmtdb.users().update({"email": session['user']}, {"$set":{'name':name, "address":address,"phonenumber":phonenumber}})
-        for i in mgmtdb.users().find({"email":session['user']}):
+        mgmtdb.users.update({"email": session['user']}, {"$set":{'name':name, "address":address,"phonenumber":phonenumber}})
+        for i in mgmtdb.users.find({"email":session['user']}):
             if i['role'] == "admin":
                 return redirect(url_for("adminhomepage"))
             elif i['role'] == "samyojaka":
@@ -297,7 +300,7 @@ def editprofile():
 @app.route('/ui/admin/homepage')
 def adminhomepage():
     userinfo = []
-    for user in mgmtdb.users().find():
+    for user in mgmtdb.users.find():
         userinfo.append(user)
     return render_template('adminhomepage.html', name = session['user'], userinfo = userinfo)#add session['user']
 
@@ -307,7 +310,7 @@ def adminedit():
         userrole = request.form.get('role')
         useremail = request.form.get('email')
         print userrole
-        mgmtdb.users().update({"email": useremail}, {"$set":{"role":userrole}})        
+        mgmtdb.users.update({"email": useremail}, {"$set":{"role":userrole}})        
         return redirect(url_for('adminhomepage'))
 #notworking yet
 @app.route("/post/admin/massupload", methods = ['GET', 'POST'])
@@ -319,14 +322,14 @@ def massuplaod():
 
 @app.route('/delete/admin/removeuser/<email>')
 def removeuser(email):
-    mgmtdb.users().remove({"email":email})
+    mgmtdb.users.remove({"email":email})
     return redirect(url_for('adminhomepage'))
 
 @app.route('/removeuser', methods = ['GET','POST'])
-def removeuser():
+def removeuserbyname():
     if request.method == "GET":
         username = request.args.get('username')
-        mgmtdb.users().remove({"username": username})
+        mgmtdb.users.remove({"username": username})
         return redirect('adminhomepage')
 
 def main(argv):
@@ -364,6 +367,7 @@ def main(argv):
     initdb(dbreset)
     global mgmtdb
     mgmtdb = getdb()
+    print("Imported %d users,  %d events" % (mgmtdb.users.count(), mgmtdb.activities.count()));
 
     for a in args:
         components = a.split(':')

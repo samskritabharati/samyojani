@@ -117,13 +117,13 @@ def initworkdir(reset):
         os.system("rm -f " + cfgfile)
     if not os.path.exists(cfgfile):
         if os.path.exists(cmdpath("server_config.json")):
-            print "Importing derived metric definitions from", cmdpath("server_config.json")
+            print "(Re-)initializing server configuration from", cmdpath("server_config.json")
             os.system("cp -a " + cmdpath("server_config.json") + " " + cfgfile)
     print "Loading server configuration from ", cfgfile
     with open(cfgfile, "r") as f:
         global SERVER_CONFIG
         SERVER_CONFIG = json.load(f)
-    print "Configuration Settings: "
+    print "Server Configuration settings in effect: "
     print json.dumps(SERVER_CONFIG, indent=4)
     print "done."
 

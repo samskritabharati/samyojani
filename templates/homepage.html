@@ -1,5 +1,4 @@
 <html>
-       	
 	<script src = "/static/js/login.js"></script>	
 	<script type = 'text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js'></script>	
     <script src="https://apis.google.com/js/platform.js" async defer></script>	
@@ -117,7 +116,7 @@
             });
             addInfoWindow(marker,"You Are Here")
           } else {
-            alert('Geocode was not successful for the following reason: ' + status);
+            console.log('Geocode was not successful for the following reason: ' + status);
           }
         });
       }
@@ -173,7 +172,7 @@
 		       arr.push(marker);
 		       addInfoWindow(marker, '<center><p><strong>Shibira</strong><br/></p><p><strong>Contact:</strong><br/>{{ i["teachername"]}}<br/><strong>Venue:</strong><br/> {{ i["address"]}}<br/><strong> Date: <strong><br/>{{ i["startdate"]}} - {{ i["enddate"]}}<br/> <strong>Time:</strong> <br/> {{ i["starttime"]}}<strong> to:</strong> {{ i["endtime"]}}<br/> <a href="{{url_for("join",s_id=i["s_id"])}}">click to register</a><br/><a href="{{url_for("shibiradetails",s_id=i["s_id"])}}" ><span class="glyphicon glyphicon-info-sign"></span>info</a></p> ');
 		  } else {
-		    alert('Geocode was not successful for the following reason: ' + status);
+		    console.log('Geocode was not successful for the following reason: ' + status);
 		  }
 		});{% endfor %}
 	      }

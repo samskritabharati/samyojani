@@ -48,12 +48,14 @@ class MyCollection:
 
     def get(self, item_id):
         res = self.collection.find_one({'_id' : ObjectId(item_id)})
-        res['_id'] = str(res['_id'])
+        if res:
+            res['_id'] = str(res['_id'])
         return res
 
     def find_one(self, query):
         res = self.collection.find_one(query)
-        res['_id'] = str(res['_id'])
+        if res:
+            res['_id'] = str(res['_id'])
         return res
 
     def insert(self, item):
@@ -64,19 +66,22 @@ class MyCollection:
             return None
         return str(result.inserted_id)
 
-    def update(self, item_id, item):
+    def update(self, query, fields):
         #pprint(item)
-        result = self.collection.update({'_id' : ObjectId(item_id)}, { "$set": item })
+        result = self.collection.update_one(query, fields)
         isSuccess = (result['n'] > 0)
         return isSuccess
 
     def delete(self, item_id):
         res = self.collection.delete_one({'_id' : ObjectId(item_id)})
-        return res.deleted_count > 0
+        if res:
+            return res.deleted_count > 0
+        else:
+            return False
 
-    def reset():
+    def reset(self):
         return self.collection.drop()
-    def find(query):
+    def find(self, query = {}):
         return self.collection.find(query)
 
     def __exit__(self, type, value, traceback):
@@ -92,11 +97,12 @@ class MyDB:
 #            raise ConfigurationError('database must use '
 #                                     'acknowledged write_concern')
 
+    def __getattr__(self, name):
+        return self.c[name]
+
     def add(self, cname, cache=False):
         collection = MyCollection(cname, self, cache)
         self.c[collection.name] = collection
-    def get(self, cname):
-        return self.c[cname]
 
     def initialize(self):
         try:
