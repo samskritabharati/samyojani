@@ -6,7 +6,7 @@ class SBRegions:
 
     def __init__(self, mydb):
         self.mydb = mydb
-        self.mycollection = mydb.get(self.cname)
+        self.mycollection = mydb[self.cname]
         self.root = self.load()
             
     def region_path(self, r):

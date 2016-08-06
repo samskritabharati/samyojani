@@ -26,6 +26,8 @@ class MyCollection:
         return self.local
 
     def all(self):
+        if not self.local:
+            self.slurp()
         return self.local
 
     def count(self):
@@ -66,9 +68,9 @@ class MyCollection:
             return None
         return str(result.inserted_id)
 
-    def update(self, query, fields):
-        #pprint(item)
-        result = self.collection.update_one(query, fields)
+    def update(self, item_id, fields):
+        query = {"_id" : item_id}
+        result = self.collection.update(query, {"$set" : fields})
         isSuccess = (result['n'] > 0)
         return isSuccess
 
@@ -98,6 +100,9 @@ class MyDB:
 #                                     'acknowledged write_concern')
 
     def __getattr__(self, name):
+        return self.c[name]
+
+    def __getitem__(self, name):
         return self.c[name]
 
     def add(self, cname, cache=False):

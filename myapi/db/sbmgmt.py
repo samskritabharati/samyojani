@@ -12,9 +12,11 @@ class SBMgmtDB(MyDB):
     def initialize(self):
         MyDB.initialize(self)
         try:
+            for cname in ['project_types', 'role_types', 'activity_types', \
+               'region_types']:
+                self.add(cname, True)
             for cname in ['users', 'activities', 'regions', 'projects', \
-               'project_types', 'role_types', 'activity_types', \
-               'region_types', 'xactions' ]:
+               'xactions' ]:
                 self.add(cname)
         except Exception as e:
             print("Error initializing " + self.dbname + " database; aborting.", e)

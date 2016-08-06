@@ -1,5 +1,6 @@
 import os
 from flask import *
+from flask_restful import Resource, Api, reqparse
 from pymongo import MongoClient
 from werkzeug.utils import secure_filename
 import sys, getopt
@@ -13,6 +14,7 @@ from sys import argv
 
 app = Flask(__name__)
 app.secret_key = '123'
+api = Api(app)
 
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)),'images/')
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -30,6 +32,10 @@ mgmtdb = None
 def usage():
     print cmdname + " [-r] [-R] [-d] [-o <workdir>] [-l <local_wloads_dir>] <repodir1>[:<reponame>] ..."
     exit(1)
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 @app.route('/')
 def index():
@@ -50,24 +56,17 @@ def login():
         auth_src = userinfo['auth_src']
         print "Importing auth_src " + auth_src + " into DB"
 
+        isNew = False
         email = request.form.get('email')
-        if mgmtdb.users.find_one({"email": email }):
+        u = mgmtdb.users.find_one({"email": email })
+        if u:
             session.pop('user',None)	
-            for x in mgmtdb.users.find({"email":email}):
-                if x['role'] == "samyojaka":
-                    session['user'] = email
-                    return make_response(json.dumps({'redirect' : url_for("samhomepage") }))
-                elif x['role'] == "admin":
-                    session['user'] = email
-                    return make_response(json.dumps({'redirect' : url_for("adminhomepage") }))
-                elif x['role'] == "student":
-                    session['user'] = email
-                    return make_response(json.dumps({'redirect' : url_for("homepage") }))
         else:
+            isNew = True
             print "Importing new user " + email + " into DB"
             mgmtdb.users.insert({'email' : request.form.get('email'),'name' : request.form.get('name'),'auth_src' : request.form.get('auth_src'),"role":"student", "phonenumber":"" , "address": ""})
-            session['user'] = email
-            return make_response(json.dumps({'redirect' : url_for("profileupdate") }))
+        session['user'] = email
+        return myresult({'userinfo': u, 'newuser' : isNew})
     else:
         return render_template('home.html', userinfo = userinfo)
 

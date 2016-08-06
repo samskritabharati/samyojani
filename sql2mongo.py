@@ -5,9 +5,9 @@ import io
 import re
 import json
 import fileinput
-from db.sbmgmt import *
-from db.locations import *
-from db.sbregions import *
+from myapi.db.sbmgmt import *
+from myapi.db.locations import *
+from myapi.db.sbregions import *
 from pprint import pprint
 
 #text_file = open("sb_metadata-sql.txt", "r")
@@ -80,8 +80,7 @@ class TableDict:
 
     def dbupload(self, mydb, cname, cache=False):
         mydb.add(cname, cache)
-        dbcollection = mydb.get(cname)
-        #mydb.get(cname).fromJSON(dbcontents)
+        dbcollection = mydb.c[cname]
         for r in self.tcontents:
             #print json.dumps(r)
             if t.idname:
@@ -182,7 +181,8 @@ for cname, t in localtables.items():
                     #print "Missing " + cname + "[" + k + "]: " + str(r[k]) + \
                     #   " -> " + str(mods[k])
         if mods:
-            sbmgmt.get(cname).update(r['_id'], mods)
+            if not sbmgmt[cname].update(r['_id'], mods):
+                print "Failed patching fields: " + json.dumps(mods) + ", cname = " + cname
 
 praantas = SBRegions(sbmgmt)
-pprint(praantas.root)
+#pprint(praantas.root)
