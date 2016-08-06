@@ -8,6 +8,9 @@ class SBRegions:
         self.mydb = mydb
         self.mycollection = mydb[self.cname]
         self.root = self.load()
+
+    def __getitem__(self, praanta_id):
+        return self.mycollection.get(praanta_id)
             
     def region_path(self, r):
         path = [r['Name']]
@@ -20,6 +23,7 @@ class SBRegions:
         return "/".join(path)
 
     def load(self):
+        print "Loading SB regions data ..."
         self.root = None
         self.mycollection.slurp()
         

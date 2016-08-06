@@ -7,7 +7,7 @@ class _Types(Resource):
     def get(self):
         if not self.dbname:
             return {}
-        coll = getdb()[self.dbname]
+        coll = sbget()[self.dbname]
         return { self.dbname : sorted(coll.all().keys()) }
 
 class region_types(_Types):

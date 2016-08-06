@@ -3,13 +3,13 @@ from mydb import *
 from sbmgmt import *
 
 sbmgmt = None
-def initdb(reset=False):
+def sbinit(reset=False):
     global sbmgmt
     sbmgmt = SBMgmtDB()
     if reset:
         sbmgmt.reset()
 
-def getdb():
+def sbget():
     global sbmgmt
     return sbmgmt
 
@@ -17,6 +17,6 @@ if __name__ == "__main__":
     setworkdir(workdir())
     initworkdir(False)
     setwlocaldir(DATADIR_SBMGMT)
-    initdb()
+    sbinit()
 
     sys.exit(0)

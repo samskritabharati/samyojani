@@ -184,5 +184,5 @@ for cname, t in localtables.items():
             if not sbmgmt[cname].update(r['_id'], mods):
                 print "Failed patching fields: " + json.dumps(mods) + ", cname = " + cname
 
-praantas = SBRegions(sbmgmt)
+praantas = sbmgmt.sbregions()
 #pprint(praantas.root)

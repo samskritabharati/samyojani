@@ -68,8 +68,8 @@ def main(argv):
     
     initworkdir(reset)
 
-    initdb(dbreset)
-    mgmtdb = getdb()
+    sbinit(dbreset)
+    mgmtdb = sbget()
     print("Imported %d users,  %d events" % (mgmtdb.users.count(), mgmtdb.activities.count()));
 
     for a in args:

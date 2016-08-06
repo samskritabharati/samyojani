@@ -96,13 +96,13 @@ Role_field = fields.FormattedString('{Role_id}')
 
 class Praanta_name(fields.Raw):
     def format(self, praanta_id):
-        print "Praanta = " + str(praanta_id)
-        p = getdb().regions.get(praanta_id)
-        print p
-        return p['path'] if p and path in p else 'Unknown'
+        #print "Praanta = " + str(praanta_id)
+        p = sbget().sbregions()[praanta_id]
+        #print p
+        return p['path'] if p and 'path' in p else 'Unknown'
 
 user_fields = {
-    'id': fields.String(attribute='_id'),
+#    'id': fields.String(attribute='_id'),
     'Uri' : fields.Url('users'),
     'Name': fields.String,
     'Email': fields.String,
@@ -121,7 +121,7 @@ class Users(Resource):
     @marshal_with(user_fields)
     def post(self):
         args = post_parser.parse_args()
-        user = getdb().users.update({'Email' : args.email}, args)
+        user = sbget().users.update({'Email' : args.email}, args)
         return user
 
     @marshal_with(user_fields)
@@ -129,13 +129,14 @@ class Users(Resource):
         if id:
             print "Retrieving user by " + id
             args = get_parser.parse_args()
-            user = getdb().users.get(id)
+            user = sbget().users.get(id)
             return user
         else:
             print "Listing users"
-            u = getdb().users.all()
-            o = u[u.keys()[0]]
+            u = sbget().users.all().values()
+            #pprint(u)
+            #o = u[u.keys()[0]]
             #pprint(json.dumps(o))
-            out = marshal(o, user_fields)
+            #out = marshal(o, user_fields)
             #pprint(json.dumps(out))
-            return o
+            return u

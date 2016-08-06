@@ -49,9 +49,12 @@ class MyCollection:
         return json.dumps(self.toJSON())
 
     def get(self, item_id):
-        res = self.collection.find_one({'_id' : ObjectId(item_id)})
-        if res:
-            res['_id'] = str(res['_id'])
+        if self.cache:
+            res = self.local[item_id]
+        if not res:
+            res = self.collection.find_one({'_id' : ObjectId(item_id)})
+            if res:
+                res['_id'] = str(res['_id'])
         return res
 
     def find_one(self, query):
