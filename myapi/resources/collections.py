@@ -25,31 +25,23 @@ class _Praanta_name(fields.Raw):
         #print p
         return p['path'] if p and 'path' in p else 'Unknown'
 
-#_exposed_fields = {
-##    'id': fields.String(attribute='_id'),
-#    'Uri' : fields.Url('users', absolute=True),
-#    "Coordinator_id" : fields.FormattedString('/users/{Coordinator_id}'),
-#    "Person_id" : fields.FormattedString('/users/{Person_id}'),
-#    "Activity_id" : fields.FormattedString('/activities/{Activity_id}'),
-#    "Project_id" : fields.FormattedString('/projects/{Project_id}'),
-#    'Name': fields.String,
-#    'Email': fields.String,
-#    'Phone': fields.String,
-#    'Profession' : fields.String,
-#    'SB_Region' : _Praanta_name(attribute='Praanta_id'),
-#    "SB_Parent_Region" : _Praanta_name(attribute='Parent_praanta_id'),
-#    'Role' : Role_field,
-##    'custom_greeting': fields.FormattedString('Namaste {username}!'),
-##    'date_created': fields.DateTime,
-##    'date_updated': fields.DateTime,
-#    'Address' : _address_fields
-#}
+class _Rsrc_url(fields.Raw):
+    cname = None
+    def format(self, id):
+        return '/{}/{}'.format(self.cname, id) if id else ''
+
+class _User_url(_Rsrc_url):
+    cname = 'users'
+class _Activity_url(_Rsrc_url):
+    cname = 'activities'
+class _Project_url(_Rsrc_url):
+    cname = 'projects'
 
 attr2external = {
-    'Coordinator_id' : { 'Coordinator_url' : fields.FormattedString('/users/{Coordinator_id}') },
-    'Person_id' : { 'Person_url' : fields.FormattedString('/users/{Person_id}') },
-    'Activity_id' : { 'Activity_url' : fields.FormattedString('/activities/{Activity_id}') },
-    'Project_id' : { 'Project_url' : fields.FormattedString('/projects/{Project_id}') },
+    'Coordinator_id' : { 'Coordinator_url' : _User_url(attribute='Coordinator_id') },
+    'Person_id' : { 'Person_url' : _User_url(attribute='Person_id') },
+    'Activity_id' : { 'Activity_url' : _Activity_url(attribute='Activity_id') },
+    'Project_id' : { 'Project_url' : _Project_url(attribute='Project_id') },
     'Praanta_id' : { 'SB_Region' : _Praanta_name(attribute='Praanta_id') },
     'Parent_praanta_id' : { 'SB_Parent_Region' : _Praanta_name(attribute='Parent_praanta_id') },
     'Role_id' : { 'Role' : fields.FormattedString('{Role_id}') },
@@ -97,10 +89,10 @@ class _SBCollection(Resource):
             if a in attr2external:
                 for k, v in attr2external[a].items():
                     self.exported_fields[k] = v 
-            elif a == '_id':
-                self.exported_fields['Url'] = fields.FormattedString('/{}/{_id}'.format(cname))
             else:
                 self.exported_fields[a] = fields.String
+        self.exported_fields['_url'] = \
+            fields.FormattedString('/' + self.cname + '/{_id}')
 
     def helpstr(self):
         return self.cname + " object\'s " if self.cname else " "
