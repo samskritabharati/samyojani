@@ -49,8 +49,7 @@ class MyCollection:
         return json.dumps(self.toJSON())
 
     def get(self, item_id):
-        if self.cache:
-            res = self.local[item_id]
+        res = self.local[item_id] if self.cache else None
         if not res:
             res = self.collection.find_one({'_id' : ObjectId(item_id)})
             if res:
@@ -86,6 +85,7 @@ class MyCollection:
 
     def reset(self):
         return self.collection.drop()
+
     def find(self, query = {}):
         return self.collection.find(query)
 

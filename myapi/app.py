@@ -3,7 +3,7 @@ import sys, getopt
 from flask import Flask, Blueprint
 from flask_restful import Api
 from resources.types import *
-from resources.users import Users
+from resources.collections import *
 #from resources.activities import Shibiras, Vargas
 #from resources.projects import projects
 #from resources.regions import regions
@@ -17,10 +17,11 @@ api.add_resource(project_types, '/types/project')
 api.add_resource(role_types, '/types/role')
 api.add_resource(activity_types, '/types/activity')
 
-api.add_resource(Users, '/users', '/users/<id>')
-#api.add_resource(Activities, '/activities', '/activities/<str:id>')
-#api.add_resource(Regions, '/regions', '/projects/<str:id>')
-#api.add_resource(Projects, '/projects', '/projects/<str:id>')
+api.add_resource(Users, '/users', '/users/<_id>')
+api.add_resource(Activities, '/activities', '/activities/<_id>')
+api.add_resource(Regions, '/regions', '/regions/<_id>')
+api.add_resource(Projects, '/projects', '/projects/<_id>')
+api.add_resource(Roles, '/roles', '/roles/<_id>')
 
 app.register_blueprint(ui_bp, url_prefix='/ui')
 
