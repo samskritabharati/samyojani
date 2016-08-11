@@ -16,6 +16,7 @@ api.add_resource(region_types, '/types/region')
 api.add_resource(project_types, '/types/project')
 api.add_resource(role_types, '/types/role')
 api.add_resource(activity_types, '/types/activity')
+api.add_resource(Presets, '/presets', '/presets/<field>')
 
 api.add_resource(Users, '/users', '/users/<_id>')
 api.add_resource(Activities, '/activities', '/activities/<_id>')

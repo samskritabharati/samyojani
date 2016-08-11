@@ -5,16 +5,8 @@ import io
 import re
 import json
 import fileinput
-from myapi.db.sbmgmt import *
-from myapi.db.locations import *
-from myapi.db.sbregions import *
+from myapi.db import *
 from pprint import pprint
-
-#text_file = open("sb_metadata-sql.txt", "r")
-#lines = text_file.readlines()
-#print lines
-#print len(lines)
-#text_file.close()
 
 class TableDict:
     def __init__(self, table, idname=None, primarykey=None):
@@ -25,6 +17,13 @@ class TableDict:
                 r['URL'] = ''
             if table['name'] == 'praanta':
                 r.pop('Geo_id')
+            elif table['name'] == 'visitor':
+                r.pop('Interest')  # discard Interest and Message columns
+                r.pop('Message')
+                r['Role_id'] = 0   # Set visitor's role to 'Student'
+
+            #if 'Email' in r and table['name'] not in ['visitor', 'person']:
+            #    r.pop('Email')
 
             self.adjustaddress(r)
             if primarykey:
@@ -65,7 +64,8 @@ class TableDict:
                 r['Postal_code'] = res.val
             else:
                 #print r
-                print res['match_fields']
+                #print res['match_fields']
+                pass
 
     def index(self):
         if self.idname is None:
@@ -81,13 +81,24 @@ class TableDict:
     def dbupload(self, mydb, cname, cache=False):
         mydb.add(cname, cache)
         dbcollection = mydb.c[cname]
+        ndiscards = 0
         for r in self.tcontents:
             #print json.dumps(r)
-            if t.idname:
-                r.pop(t.idname)
+            # Discard users with no email
+            if cname == 'users' and 'Email' in r and r['Email'] == '':
+                ndiscards = ndiscards + 1
+            #    continue
+            if self.idname:
+                if self.idname not in r:
+                    print t.idname
+                    pprint(r)
+                r.pop(self.idname)
             r_id = dbcollection.insert(r)
-            if t.idname:
-                r[t.idname] = r_id
+            if self.idname:
+                r[self.idname] = r_id
+
+        if ndiscards > 0:
+            print "Found {} users with no email addresses".format(ndiscards)
                 
 curtable = None
 mytables = { }
@@ -118,8 +129,9 @@ tblnames = [tname for tname in mytables]
 print json.dumps(tblnames)
 #print(json.dumps(mytables, indent=2, sort_keys=True))
 
-sbmgmt = SBMgmtDB()
-sbmgmt.reset()
+
+sbinit(True)
+sbmgmt = sbget()
 
 # First import address/pincode database
 locations = Locations(sbmgmt)
@@ -140,7 +152,6 @@ localtables = {
             TableDict(mytables['personrole'], "Role_id", 'Name'),
         "activity_types" : 
             TableDict(mytables['activity_types'], "Activity_type_id", 'Name'),
-        "visitors" : TableDict(mytables['visitor'], 'Visitor_id')
     };
 
 # Upload all tables into MongoDB
@@ -148,7 +159,12 @@ for cname, t in localtables.items():
     print "Populating " + cname 
     if t.idname:
         print "    primary key: " + t.idname
-    localtables[cname].dbupload(sbmgmt, cname)
+    t.dbupload(sbmgmt, cname)
+
+visitortable = TableDict(mytables['visitor'], 'Visitor_id')
+print "Populating visitors into users table ..."
+print "    primary key: " + visitortable.idname
+visitortable.dbupload(sbmgmt, 'users')
 
 id_mappings = {
     "Coordinator_id" : "users",
@@ -164,22 +180,25 @@ id_mappings = {
 }
 
 # Modify embedded id fields to database-generated ids
-for cname, t in localtables.items():
+for cname, t in localtables.items() + [('users', visitortable)]:
     # For each record in collection 'cname'
+    print 'Fixing foreign keys in {}'.format(cname)
     for r in t.tcontents:
         # Fix the id values according to id_mappings
         mods = {}
         for k in id_mappings:
             if k != t.idname and k in r:
+                #print "Foreign table is " + id_mappings[k]
                 ref_t = localtables[id_mappings[k]]
                 if r[k] in ref_t.idx:
-                    mods[k] = ref_t.get(r[k])[ref_t.idname]
+                    ref_r = ref_t.get(r[k])
+                    mods[k] = ref_r[ref_t.idname]
                     #print cname + "[" + k + "]: " + str(r[k]) + \
-                    #    " -> " + str(mods[k])
+                    #    " -> " + mods[k]
                 else:
                     mods[k] = None
-                    #print "Missing " + cname + "[" + k + "]: " + str(r[k]) + \
-                    #   " -> " + str(mods[k])
+                    print "Missing " + cname + "[" + k + "]: " + str(r[k]) + \
+                       " -> " + str(mods[k])
         if mods:
             if not sbmgmt[cname].update(r['_id'], mods):
                 print "Failed patching fields: " + json.dumps(mods) + ", cname = " + cname

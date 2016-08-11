@@ -14,7 +14,7 @@ class Locations:
     def __init__(self, mydb):
         self.mydb = mydb
         mydb.add('locations')
-        self.mycollection = mydb.locations
+        self.mycollection = mydb['locations']
 
     def importIndia(self, fname):
         print "Creating India address database ..."

@@ -26,8 +26,6 @@ class SBMgmtDB(MyDB):
             sys.exit(1)
         _sbregions = None
         _geodb = None
-        self.sbregions()
-        self.locations()
 
     def sbregions(self):
         if not self._sbregions:

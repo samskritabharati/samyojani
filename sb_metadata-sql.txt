@@ -529,16 +529,18 @@ CREATE TABLE IF NOT EXISTS `personrole` (
 --
 
 INSERT INTO `personrole` (`Role_id`, `Name`, `Level`) VALUES
-(4, 'ShikshaNa Pramukha', 2),
-(5, 'Karyakrama Samyojaka', 1),
-(7, 'Secretary', 7),
-(15, 'Upadhyaksha', 8),
-(11, 'Joint Secretary', 4),
-(12, 'Samyojaka', 6),
-(18, 'Karyalaya Pramukha', 1),
-(14, 'Adhyaksha', 9),
-(16, 'Sanghatana Mantri', 5),
-(17, 'Treasurer', 3);
+(0, 'Student', 0),
+(1, 'Karyakarta', 1),
+(5, 'Karyakrama Samyojaka', 2),
+(18, 'Karyalaya Pramukha', 2),
+(4, 'ShikshaNa Pramukha', 3),
+(12, 'Samyojaka', 4),
+(17, 'Treasurer', 5);
+(11, 'Joint Secretary', 6),
+(16, 'Sanghatana Mantri', 7),
+(7, 'Secretary', 8),
+(15, 'Upadhyaksha', 9),
+(14, 'Adhyaksha', 10),
 
 -- --------------------------------------------------------
 

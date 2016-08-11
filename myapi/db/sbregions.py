@@ -1,3 +1,4 @@
+import json
 
 class SBRegions:
     cname = 'regions'
@@ -7,7 +8,7 @@ class SBRegions:
     def __init__(self, mydb):
         self.mydb = mydb
         self.mycollection = mydb[self.cname]
-        self.root = self.load()
+        self.load()
 
     def __getitem__(self, praanta_id):
         return self.mycollection.get(praanta_id)
