@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from db import *
+from ..db import *
 
 class _Types(Resource):
     cname = None

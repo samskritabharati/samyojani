@@ -141,7 +141,7 @@ locations.save()
 localtables = {
         "regions" : TableDict(mytables['praanta'], 'Praanta_id'),
         "users" : TableDict(mytables['person'], 'Person_id'),
-        "assignments" : TableDict(mytables['activity_assignee']),
+        "roles" : TableDict(mytables['activity_assignee']),
         "projects" : TableDict(mytables['project'], 'Project_id'),
         "activities" : TableDict(mytables['activity'], 'Activity_id'),
         "project_types" : 

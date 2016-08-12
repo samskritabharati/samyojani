@@ -1,6 +1,8 @@
-from config import *
-from mydb import *
-from sbmgmt import *
+import os, sys
+
+from ..config import *
+from .mydb import *
+from .sbmgmt import *
 
 sbmgmt = None
 def sbinit(reset=False):

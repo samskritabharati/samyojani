@@ -1,5 +1,5 @@
 from flask_restful import fields, marshal, marshal_with, reqparse, Resource
-from db import *
+from ..db import *
 
 def _email(email_str):
     """Return email_str if valid, raise an exception in other case."""
@@ -148,7 +148,7 @@ class Projects(_SBCollection):
 
 class Roles(_SBCollection):
     def __init__(self):
-        self.cname = 'assignments'
+        self.cname = 'roles'
         self.helpprefix = 'The Karyakarta assignment\'s '
         _SBCollection.__init__(self)
 

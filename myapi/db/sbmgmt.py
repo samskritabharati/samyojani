@@ -1,4 +1,4 @@
-from config import *
+from ..config import *
 from pprint import pprint
 from mydb import *
 from sbregions import *
@@ -19,7 +19,7 @@ class SBMgmtDB(MyDB):
             for cname in ['project_types', 'role_types', 'activity_types', \
                'region_types', 'regions']:
                 self.add(cname, True)
-            for cname in ['users', 'activities', 'projects', 'assignments' ]:
+            for cname in ['users', 'activities', 'projects', 'roles' ]:
                 self.add(cname)
         except Exception as e:
             print("Error initializing " + self.dbname + " database; aborting.", e)

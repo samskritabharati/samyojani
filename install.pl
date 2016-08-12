@@ -215,6 +215,10 @@ sub install_deps
         die "Error: Linux package management software 'yum' not found; aborting.\n" 
             unless $dryrun;
     }
+    docmd("pip install flask-restful") ||
+        die "Error: Couldn't install Flask-restful needed for web UI.\n";
+    docmd("pip install --upgrade pymongo") ||
+        print STDERR "WARNING: Couldn't upgrade PyMongo to the latest version; ignoring.\n";
     return 1;
 }
 

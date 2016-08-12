@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 from pymongo.database import Database
-from config import *
+#from config import *
 from pprint import pprint
 
 from bson.objectid import ObjectId
