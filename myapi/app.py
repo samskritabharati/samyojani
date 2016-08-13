@@ -30,7 +30,7 @@ app.register_blueprint(ui_bp, url_prefix='/ui')
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
-(cmddir, cmdname) = os.path.split(argv[0])
+(cmddir, cmdname) = os.path.split(__file__)
 setmypath(os.path.abspath(cmddir))
 print "My path is " + mypath()
 

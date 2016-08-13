@@ -3,9 +3,11 @@ import logging
 from werkzeug.debug import DebuggedApplication
 
 logging.basicConfig(stream=sys.stderr)
-mypath = '/home/sai/indictools/sb-mgmt'
-sys.path.insert (0, mypath)
+
+(mypath, fname) = os.path.split(__file__)
 os.chdir(mypath)
+print "My path is " + mypath
+sys.path.insert (0, mypath)
 sys.stdout = sys.stderr
 from myapi.app import app
 application = DebuggedApplication(app, True)
