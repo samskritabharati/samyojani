@@ -147,7 +147,7 @@ if ($modules =~ /samvit/) {
 docmd("chmod -R a+rwX $datadir");
 
 if ($modules =~ /mongodb/) {
-    print STDERR "\nCreating mongodb WExplorer Data directory in $datadir_mongodb\n";
+    print STDERR "\nCreating mongodb Data directory in $datadir_mongodb\n";
     docmd("mkdir -p $datadir_mongodb") ||
         print STDERR "Error: Could not create $datadir_mongodb\n";
 }
@@ -201,6 +201,8 @@ sub install_deps
             docmd("apt-get -y install python-pymongo python-dev python-pip python-flask") ||
                 print STDERR "WARNING: Couldn't install python Flask needed for web UI.  Ignoring.\n";
         }
+        docmd("apt-get -y install apache2 libapache2-mod-wsgi") ||
+            print STDERR "WARNING: Couldn't install apache2 and wsgi modules.  Ignoring.\n";
     }
     elsif (is_installed("yum")) {
         if ($modules =~ /indictools/) {
