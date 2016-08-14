@@ -30,6 +30,13 @@ app.register_blueprint(ui_bp, url_prefix='/ui')
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
+@app.route('/')
+def index():
+    mgmtdb = sbget()
+    coll = mgmtdb.list()
+    print coll
+    return make_response(jsonify({'collections' : coll}))
+
 (cmddir, cmdname) = os.path.split(__file__)
 setmypath(os.path.abspath(cmddir))
 print "My path is " + mypath()

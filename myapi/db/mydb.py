@@ -112,6 +112,9 @@ class MyDB:
         collection = MyCollection(cname, self, cache)
         self.c[collection.name] = collection
 
+    def list(self):
+        return self.c.keys()
+
     def initialize(self):
         try:
             self.client = MongoClient()
