@@ -8,6 +8,8 @@ angular
     var vm = this;
     vm.detailAboutActivity = detailAboutActivity;
     vm.updateActivity = updateActivity;
+    vm.saveUpdatedActivityDetail = saveUpdatedActivityDetail;
+    vm.deleteActivity = deleteActivity;
     console.log($rootScope.userDetail);
     vm.userName = $rootScope.userDetail.data[0].Name;
     console.log($rootScope.userDetail);
@@ -120,6 +122,20 @@ angular
             $scope.modal.hide();
         };
  
+    }
+
+    function saveUpdatedActivityDetail(updatedActivity){
+        console.log('updatedActivity',updatedActivity);
+         userInfoService.updateActivity(updatedActivity);
+    }
+
+    function deleteActivity(activityToDelete){
+        userInfoService.deleteActivity(activityToDelete).then(function(data){
+            console.log('deleted Succ',data);
+           /* $state.go($state.current, {}, {reload: true});*/
+        },function(error){
+            console.log(error);
+        });
     }
 
   }

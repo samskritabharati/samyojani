@@ -9,7 +9,9 @@ function userInfoService($http, $q, constantsService) {
         getUserActivities: getUserActivities,
         getActivityCoordinatorDetail: getActivityCoordinatorDetail,
         getActivityProjectDetail: getActivityProjectDetail,
-        updateActivity:updateActivity
+        updateActivity: updateActivity,
+        addNewUser: addNewUser,
+        deleteActivity: deleteActivity
     };
 
     return service;
@@ -59,12 +61,12 @@ function userInfoService($http, $q, constantsService) {
     }
 
     function updateActivity(dataToUpdate){
-        console.log('i am hear');
+        console.log('i am hear',dataToUpdate);
         var deferred = $q.defer();
         $http({
             method : 'PUT',
-            url :  constantsService.url+'/activities/57adeea682e6471aebcb5431',
-            data : {"Activity_type_id": "shibiram", "Coordinator_url": "/users/57adeea682e6471aebcb54da", "Name": "Bhaashaa", "End_date": "2011-04-25", "URL": "", "Start_time": "full day", "Project_url": "/projects/57adeea682e6471aebcb5598", "Email": "", "Recurrence": "daily", "Phone": "", "End_time": "", "_url": "/activities/57adeea682e6471aebcb5431", "Address": {"City": "Indore", "District": "Indore", "Locality": null, "Country": "India", "Pincode": "0", "State": "Madhya Pradesh", "Line 1": "", "Line 2": ""}, "SB_Region": "World/India", "Start_date": "2011-04-19"}
+            url :  constantsService.url+dataToUpdate._url,
+            data : dataToUpdate
         }).then(function(data){
             console.log('update data',data);
             deferred.resolve(data);
@@ -74,4 +76,38 @@ function userInfoService($http, $q, constantsService) {
         });
         return deferred.promise;
     }
+
+    function addNewUser(newUserDetail){
+        var deferred = $q.defer();
+        $http({
+            method : 'POST',
+            url :  constantsService.url+'/users',
+            data : newUserDetail
+        }).then(function(data){
+            console.log('update data',data);
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+    function deleteActivity(dataToDelete){
+        console.log('i am deleting',dataToDelete);
+        var deferred = $q.defer();
+        $http({
+            method : 'DELETE',
+            url :  constantsService.url+dataToDelete._url,
+            data : dataToUpdate
+        }).then(function(data){
+            console.log('delete data',data);
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
 }

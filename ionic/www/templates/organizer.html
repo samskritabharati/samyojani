@@ -34,7 +34,7 @@
 					   	<p>Contact:{{activity.Name}},{{activity.Email}},{{activity.Phone}}</p>
 				   	</div>
 				   	<div class="col">{{activity.Activity_type_id}}</div>
-				   	<div class="col"><span ng-click="vm.updateActivity(activity)">Update</span><span ng-click="DeleteActivity(activity)">Delete</span> </div>
+				   	<div class="col"><span ng-click="vm.updateActivity(activity)">Update</span><span ng-click="vm.deleteActivity(activity)">Delete</span> </div>
 			   	</div>
 			  </div>
 			 
@@ -117,6 +117,9 @@
 			      <input type="text" ng-model="vm.editActivity.Recurrence">
 			      </label>
 			   </div>
+			     <label class="item">
+               <button class="button button-block button-positive" ng-click="vm.saveUpdatedActivityDetail(vm.editActivity)" type="submit">Update </button>
+          </label>
 			</div>
 				
 	    </ion-content>

@@ -5,6 +5,38 @@
                <button class="button button-block button-positive" ng-click="vm.signInWithFacebook()" type="submit">Facebook login</button>
           </label>
 
+<div id="locationField">
+  <input id="autocomplete" placeholder="Enter your address"
+         ng-focus="vm.geolocate()" ></input>
+</div>
+
+<table id="address">
+  <tr>
+    <td class="label">Street address</td>
+    <td class="slimField"><input class="field" id="street_number"
+          disabled="true"></input></td>
+    <td class="wideField" colspan="2"><input class="field" id="route"
+          disabled="true"></input></td>
+  </tr>
+  <tr>
+    <td class="label">City</td>
+    <td class="wideField" colspan="3"><input class="field" id="locality"
+          disabled="true"></input></td>
+  </tr>
+  <tr>
+    <td class="label">State</td>
+    <td class="slimField"><input class="field"
+          id="administrative_area_level_1" disabled="true"></input></td>
+    <td class="label">Zip code</td>
+    <td class="wideField"><input class="field" id="postal_code"
+          disabled="true"></input></td>
+  </tr>
+  <tr>
+    <td class="label">Country</td>
+    <td class="wideField" colspan="3"><input class="field"
+          id="country" disabled="true"></input></td>
+  </tr>
+
 
           <form ng-submit="doLogin()" style="text-align: center;">
                <h1 class="title">Login with email</h1>
@@ -18,5 +50,77 @@
                     </label>
                </div>
           </form>
+
+          <script id="EmailNewSignin.html" type="text/ng-template">
+               <ion-modal-view>
+                   <ion-header-bar>
+                     <h1 class="title">Sign Up With Email</h1>
+                   </ion-header-bar>
+                   <ion-content>
+                         <form name="userForm" >
+                              <div class="field list">
+                                   <div class="row">
+                                        <div class="col">
+                                             <label class="item item-input">Enter your name:
+                                                  <input type="text" name="userName" ng-model="newUser.Name" required/>
+                                                  <div ng-messages="userForm.userName.$error" ng-if="userForm.userName.$dirty">
+                                                       <div ng-message="required">Name is required</div>
+                                                  </div>
+                                             </label>
+                                        </div>
+                                   </div>
+
+                                   <div class="row">
+                                        <div class="col">
+                                             <label class="item item-input" >Enter your email address:
+                                                  <input type="email" name="emailAddress" ng-model="newUser.Email" required />
+                                                 <div ng-messages="userForm.emailAddress.$error" ng-show="userForm.emailAddress.$touched">
+                                                      <div ng-message="required">
+                                                            You forgot to enter your email address...
+                                                       </div>
+                                                       <div ng-message="email">
+                                                            You did not enter your email address correctly...
+                                                       </div>
+                                                  </div>
+                                             </label>
+                                        </div>
+                                   </div>
+
+                                   <div class="row">
+                                        <div class="col">
+                                             <label class="item item-input" >Phone Number:
+                                                  <input type="text" name="userPhoneNumber" ng-model="newUser.Phone" 
+                                                       ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" required />
+                                                 <div ng-messages="userForm.userPhoneNumber.$error" ng-if="userForm.userPhoneNumber.$dirty">
+                                                       <div ng-message="required">This field is required</div>
+                                                       <div ng-message="pattern">Must be a valid 10 digit phone number</div>
+                                                  </div>
+                                             </label>
+                                        </div>
+                                   </div>
+
+                                 <div class="row">
+                                        <div class="col">
+                                             <label class="item item-input">Select your profession:
+                                                 
+                                               <select name="userProfession" ng-model="newUser.Profession" ng-options="v for v in vm.userProfessionList.data">
+                                               </select required>
+                                                  <div ng-messages="userForm.userProfession.$error" ng-if="userForm.userProfession.$dirty">
+                                                       <div ng-message="required">Profession is required</div>
+                                                  </div>
+                                             </label>
+                                        </div>
+                                   </div>
+
+                               
+                              </div>
+
+                              <input type="submit" ng-click="vm.addUser(newUser)" />
+                         </form>
+          
+                   </ion-content>
+               </ion-modal-view>
+          </script>
+
      </ion-content>
 </ion-modal-view>
