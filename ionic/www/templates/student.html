@@ -1,0 +1,34 @@
+<ion-view>
+
+	<ion-nav-buttons side="right">
+		<div>
+			<p> HI {{vm.userName }}</p>
+		</div>
+	</ion-nav-buttons>
+
+	<ion-content>
+		<ul class = "row">
+			<li  class = "col" ng-repeat="tab in tabs" 
+			ng-class="{active:isActiveTab(tab.url)}" 
+			ng-click="onClickTab(tab)" >{{tab.title}}</li>
+		</ul>
+
+		<div id="mainView">
+			<div ng-include="currentTab"></div>
+		</div>
+
+		<script type="text/ng-template" id="joinshibira.html">
+			<div id="viewOne">
+				<h1>About joinshibira</h1>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="myshibira.html">
+			<div id="viewTwo">
+				<h1>About my shibira</h1>
+				<p></p>
+			</div>
+		</script>
+		
+	</ion-content>
+</ion-view>

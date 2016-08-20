@@ -1,0 +1,22 @@
+<ion-modal-view>
+
+     <ion-content>
+          <label class="item">
+               <button class="button button-block button-positive" ng-click="vm.signInWithFacebook()" type="submit">Facebook login</button>
+          </label>
+
+
+          <form ng-submit="doLogin()" style="text-align: center;">
+               <h1 class="title">Login with email</h1>
+               <div class="list">
+                    <label class="item item-input">
+                         <span class="input-label">Email</span>
+                         <input type="text" ng-model="vm.email" >
+                    </label>
+                    <label class="item">
+                         <button class="button button-block button-positive" ng-click="vm.signInWithEmail()" type="submit">Log in</button>
+                    </label>
+               </div>
+          </form>
+     </ion-content>
+</ion-modal-view>
