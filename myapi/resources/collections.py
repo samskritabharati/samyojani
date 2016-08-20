@@ -1,5 +1,6 @@
 from flask_restful import fields, marshal, marshal_with, reqparse, Resource
 from ..db import *
+from pprint import pprint
 
 def _email(email_str):
     """Return email_str if valid, raise an exception in other case."""
@@ -72,19 +73,18 @@ class _SBCollection(Resource):
         self.exported_fields = {}
         for a in self.attrs.keys():
             if a == 'Email':
-                self.get_parser.add_argument(a, dest=a, type=_email, 
+                self.get_parser.add_argument(a, dest=a,
                     help=self.helpstr() + a)
-                self.put_parser.add_argument(a, dest=a, type=_email, 
-                    location = 'json', help=self.helpstr() + a)
-                self.post_parser.add_argument(a, dest=a, type=_email,
-                    required=True, default='', location = 'json', 
+                self.put_parser.add_argument(a, dest=a,
                     help=self.helpstr() + a)
+                self.post_parser.add_argument(a, dest=a,
+                    default='', help=self.helpstr() + a)
             else:
                 self.get_parser.add_argument(a, dest=a, help=self.helpstr() + a)
                 self.put_parser.add_argument(a, dest=a, 
-                    location='json', help=self.helpstr() + a)
-                self.post_parser.add_argument(a, dest=a, required=True, 
-                    location='json', default='', help=self.helpstr() + a)
+                    help=self.helpstr() + a)
+                self.post_parser.add_argument(a, dest=a, 
+                    default='', help=self.helpstr() + a)
 
             if a in attr2external:
                 for k, v in attr2external[a].items():
@@ -93,37 +93,71 @@ class _SBCollection(Resource):
                 self.exported_fields[a] = fields.String
         self.exported_fields['_url'] = \
             fields.FormattedString('/' + self.cname + '/{_id}')
+        self.get_parser.add_argument('exact', type=int, default=0, 
+            help=self.helpstr() + a)
 
     def helpstr(self):
-        return self.cname + " object\'s " if self.cname else " "
+        return "{}: Missing required field ".format(self.cname if self.cname else " ")
 
     def put(self, _id):
+        print "Updating {} by {} ".format(self.cname,  _id)
         args = self.put_parser.parse_args()
-        return sbget()[self.cname].update(_id, args)
+        for k, v in args.items():
+            if not v:
+                args.pop(k)
+        pprint(args)
+        if sbget()[self.cname].update(_id, args):
+            entry = sbget()[self.cname].get(_id)
+            return marshal(entry, self.exported_fields)
+        else:
+            abort(404)
     
     def delete(self, _id):
-        return sbget()[self.cname].delete(_id)
+        if sbget()[self.cname].delete(_id):
+            return {}
+        else:
+            abort(404)
+
+    def sanitize(self, entry):
+        if 'Praanta_id' in entry and entry['Praanta_id'] == '':
+            entry['Praanta_id'] = sbget().sbregions().root['_id']
+        if 'Parent_praanta_id' in entry and entry['Parent_praanta_id'] == '':
+            entry['Parent_praanta_id'] = sbget().sbregions().root['Parent_praanta_id']
+        if 'Role_id' in entry and entry['Role_id'] == '':
+            entry['Role_id'] = 'Student'
 
     def post(self):
+        print "Inserting into {} ".format(self.cname)
         args = self.post_parser.parse_args()
+        self.sanitize(args)
         _id = sbget()[self.cname].insert(args)
         entry = sbget()[self.cname].get(_id)
-        return marshal(entry, self.exported_fields)
+        return marshal(entry, self.exported_fields), 201
 
     def get(self, _id=None):
         if _id:
             print "Retrieving {} by {} ".format(self.cname,  _id)
             entry = sbget()[self.cname].get(_id)
-            return marshal(entry, self.exported_fields)
+            if entry:
+                return marshal(entry, self.exported_fields)
+            else:
+                abort(404)
         else:
             print "Listing " + self.cname
             args = self.get_parser.parse_args()
+            exact = False
+            if 'exact' in args:
+                exact = True if args['exact'] == 1 else False
+            args.pop('exact')
             query = {}
             for k, v in args.items():
                 if not v:
                     args.pop(k)
                     continue
-                query[k] = { '$regex' : v, '$options' : 'i' }
+                if exact:
+                    query[k] = { '$regex' : '^{}$'.format(v), '$options' : 'i' }
+                else:
+                    query[k] = { '$regex' : v, '$options' : 'i' }
             elist = [e for e in sbget()[self.cname].find(query)]
 
             return marshal(elist, self.exported_fields)

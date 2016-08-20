@@ -48,10 +48,20 @@ class MyCollection:
     def __repr__(self):
         return json.dumps(self.toJSON())
 
+    def oid(self, item_id):
+        try:
+            return {'_id' : ObjectId(item_id)}
+        except Exception as e:
+            print "Error: invalid object id ", e
+            return None
+
     def get(self, item_id):
         res = self.local[item_id] if self.cache else None
         if not res:
-            res = self.collection.find_one({'_id' : ObjectId(item_id)})
+            query = self.oid(item_id)
+            if not query:
+                return None
+            res = self.collection.find_one(query)
             if res:
                 res['_id'] = str(res['_id'])
         return res
@@ -71,13 +81,18 @@ class MyCollection:
         return str(result.inserted_id)
 
     def update(self, item_id, fields):
-        query = {"_id" : item_id}
+        query = self.oid(item_id)
+        if not query:
+            return False
         result = self.collection.update(query, {"$set" : fields})
         isSuccess = (result['n'] > 0)
         return isSuccess
 
     def delete(self, item_id):
-        res = self.collection.delete_one({'_id' : ObjectId(item_id)})
+        query = self.oid(item_id)
+        if not query:
+            return False
+        res = self.collection.delete_one(query)
         if res:
             return res.deleted_count > 0
         else:
