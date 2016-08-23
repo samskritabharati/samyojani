@@ -41,11 +41,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-  .state('login', {
-    url: '/',
-    templateUrl: 'templates/login.html',
-    controller: 'loginController as vm'
-                              
+  .state('app.login', {
+    url: '/login',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/login.html',
+        controller: 'loginController as vm'
+      }
+    }                       
   })
 
   .state('app', {
@@ -66,7 +69,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
   })
 
   .state('app.organizer', {
-    url: '/organizer/:userInfo',
+    url: '/organizer',
     views: {
       'menuContent': {
         templateUrl: 'templates/organizer.html',
@@ -74,7 +77,25 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
       }
     }
   })
+  .state('app.main', {
+    url: '/main',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/main.html',
+        controller: 'loginController as vm'
+      }
+    }
+  })
+  .state('app.signUp', {
+    url: '/signUp',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/signUp.html',
+        controller: 'loginController as vm'
+      }
+    }
+  })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('app/main');
 });

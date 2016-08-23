@@ -10,29 +10,18 @@ angular
     vm.updateActivity = updateActivity;
     vm.saveUpdatedActivityDetail = saveUpdatedActivityDetail;
     vm.deleteActivity = deleteActivity;
-    console.log($rootScope.userDetail);
     vm.userName = $rootScope.userDetail.data[0].Name;
-    console.log($rootScope.userDetail);
-    console.log('region',$rootScope.userDetail.data[0].SB_Region);
-    userInfoService.updateActivity('ss');
-    userInfoService.getUserActivities($rootScope.userDetail.data[0].SB_Region).then(function(activityData){
-        
-        vm.activityData = activityData.data;
-        console.log('region data', vm.activityData);
-    },function(error){
-        console.log(error);
-    });
-
+    showActivity();
+  
+    $scope.sortReverse  = false;
+    $scope.sortReverse = false;
     $scope.tabs = [{
-            title: 'Add A Class',
+            title: 'Upcoming Classes',
             url: 'addClass.html'
         }, {
-            title: 'Show class',
+            title: 'People',
             url: 'showClass.html'
-        }, {
-            title: 'Bulk register for a Class',
-            url: 'bulkClass.html'
-    }];
+        }];
 
     $scope.currentTab = 'addClass.html';
 
@@ -46,7 +35,7 @@ angular
 
     function detailAboutActivity(activity){
         console.log('activity',activity);
-        if(activity.Phone == "" ||activity.Phone == null ){
+       /* if(activity.Phone == "" ||activity.Phone == null ){*/
             userInfoService.getActivityProjectDetail(activity.Project_url).then(function(projectDetails){
                 console.log('projectDetails',projectDetails);
                 userInfoService.getActivityCoordinatorDetail(activity.Coordinator_url).then(function(coordinatorDetails){
@@ -59,7 +48,7 @@ angular
                 console.log('error',error);
             })
            
-        }
+        /*}*/
         $ionicModal.fromTemplateUrl('activityDetail.html', {
             scope: $scope,
             animation: 'slide-in-up'
@@ -76,8 +65,6 @@ angular
     }
 
     function ActivityDetailStructure(activity,coordinatorDetails){
-        console.log("activityactivity",activity);
-        console.log("CoordinatorDetails",coordinatorDetails);
         var _activityDetail = {
             activity_type_id: activity.Activity_type_id,
             activity_address: activity.Address,
@@ -105,6 +92,7 @@ angular
             coordinator__url: coordinatorDetails.data._url
         }
          vm.activityDetail = _activityDetail;
+       
     }
 
     function updateActivity(activity){
@@ -126,13 +114,27 @@ angular
 
     function saveUpdatedActivityDetail(updatedActivity){
         console.log('updatedActivity',updatedActivity);
-         userInfoService.updateActivity(updatedActivity);
+         userInfoService.updateActivity(updatedActivity).then(function(data){
+            $scope.modal.hide();
+         },function(error){
+            console.log(error);
+         });
     }
 
     function deleteActivity(activityToDelete){
         userInfoService.deleteActivity(activityToDelete).then(function(data){
             console.log('deleted Succ',data);
-           /* $state.go($state.current, {}, {reload: true});*/
+            showActivity();
+        },function(error){
+            console.log(error);
+        });
+    }
+
+    function showActivity(){
+        console.log('$rootScope.userDetail.data[0].SB_Region',$rootScope.userDetail.data[0].SB_Region);
+        userInfoService.getUserActivities($rootScope.userDetail.data[0].SB_Region).then(function(activityData){
+            vm.activityData = activityData.data;
+            console.log('region data', vm.activityData);
         },function(error){
             console.log(error);
         });

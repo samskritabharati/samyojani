@@ -98,8 +98,7 @@ function userInfoService($http, $q, constantsService) {
         var deferred = $q.defer();
         $http({
             method : 'DELETE',
-            url :  constantsService.url+dataToDelete._url,
-            data : dataToUpdate
+            url :  constantsService.url+dataToDelete._url
         }).then(function(data){
             console.log('delete data',data);
             deferred.resolve(data);

@@ -1,69 +1,103 @@
 <ion-modal-view>
 
      <ion-content>
-          <label class="item">
-               <button class="button button-block button-positive" ng-click="vm.signInWithFacebook()" type="submit">Facebook login</button>
-          </label>
-
-<div id="locationField">
-  <input id="autocomplete" placeholder="Enter your address"
-         ng-focus="vm.geolocate()" ></input>
-</div>
-
-<table id="address">
-  <tr>
-    <td class="label">Street address</td>
-    <td class="slimField"><input class="field" id="street_number"
-          disabled="true"></input></td>
-    <td class="wideField" colspan="2"><input class="field" id="route"
-          disabled="true"></input></td>
-  </tr>
-  <tr>
-    <td class="label">City</td>
-    <td class="wideField" colspan="3"><input class="field" id="locality"
-          disabled="true"></input></td>
-  </tr>
-  <tr>
-    <td class="label">State</td>
-    <td class="slimField"><input class="field"
-          id="administrative_area_level_1" disabled="true"></input></td>
-    <td class="label">Zip code</td>
-    <td class="wideField"><input class="field" id="postal_code"
-          disabled="true"></input></td>
-  </tr>
-  <tr>
-    <td class="label">Country</td>
-    <td class="wideField" colspan="3"><input class="field"
-          id="country" disabled="true"></input></td>
-  </tr>
-
-
-          <form ng-submit="doLogin()" style="text-align: center;">
-               <h1 class="title">Login with email</h1>
-               <div class="list">
-                    <label class="item item-input">
-                         <span class="input-label">Email</span>
-                         <input type="text" ng-model="vm.email" >
-                    </label>
-                    <label class="item">
-                         <button class="button button-block button-positive" ng-click="vm.signInWithEmail()" type="submit">Log in</button>
-                    </label>
+          <div class="text_align_center">
+               <div class="row row-no-padding">
+                    <div class="col"> 
+                         <button class=" button button-block icon-right ion-social-facebook fbColor padding_right30px text_white"></button>
+                    </div>
+                    <div class="col-90">
+                         <button class="button button-block  fbColor text_white" ng-click="vm.signInWithFacebook()">Sign in with Facebook</button>
+                    </div>
                </div>
-          </form>
+               <div class="row row-no-padding">
+                    <div class="col"> 
+                         <button class=" button button-block icon-right text_white ion-social-googleplus googleColor padding_right30px"></button>
+                    </div>
+                    <div class="col-90">
+                         <button class="button button-block googleColor text_white " ng-click="vm.signInWithGoogle()">Sign in with Google</button>
+                    </div>
+               </div>
+               <div class="font_size_20px">---------- OR ----------</div>             
+               <button class="button button-block themBackgroundColor float_right text_white" ng-click="vm.popupForEmailLogin()"
+               >Sign in with Email</button>             
+          </div>
+        
+          <script id="emailSigninPopUp.html" type="text/ng-template">
+                    <ion-modal-view>
+                         <ion-header-bar class="bar bar-header button-clear">
+                              <h1 class="title orangeText">Sign In</h1>
+                              <button class="button  button-light" ng-click="vm.closeModel()">
+                                   <span class="ion-android-cancel orangeText font_size_20px"></span>
+                              </button>
+                         </ion-header-bar>
+                         <ion-content>
+
+                        <form class="margin0auto width90p" name="loginForm">
+                              <div class="list list-inset">
+                                <label class="item item-input border_color_orange">
+                                  <i class="icon ion-android-mail placeholder-icon"></i>
+                                  <input type="email" ng-model="vm.email" placeholder="Enter Your Email ID " name="emailAddress" required/>
+                                  <div ng-messages="loginForm.emailAddress.$error" ng-show="loginForm.emailAddress.$touched">
+                                       <div ng-message="required">
+                                             You forgot to enter your email address...
+                                        </div>
+                                        <div ng-message="email">
+                                             Your email address is not correctly...
+                                        </div>
+                                   </div>
+                                </label>
+                              </div>
+
+                              <div class="list list-inset">
+                                <label class="item item-input border_color_orange">
+                                  <i class="icon ion-android-lock placeholder-icon"></i>
+                                  <input type="text" ng-model="vm.password" placeholder="Enter Your Password">
+                                </label>
+                              </div>
+                              <div class="list list-inset">
+                                   <button class="button button-block themBackgroundColor text_white" ng-click="vm.signInWithEmail()" >
+                                        Log in
+                                   </button>
+                              </div>
+                              <div class="list list-inset">
+                                   <span class="font_size_15px orangeText">Forgot Password?</span>
+                                   <span class="float_right font_size_15px orangeText" ng-click="vm.newSignInWithEmail()">Sign up</span>
+                              </div>
+                         </form>
+                         <!-- <form ng-submit="doLogin()" style="text-align: center;">
+                              <h1 class="title">Login with email</h1>
+                              <div class="list">
+                                   <label class="item item-input">
+                                        <span class="input-label">Email</span>
+                                        <input type="text" ng-model="vm.email" >
+                                   </label>
+                                   <label class="item">
+                                        <button class="button button-block button-positive" ng-click="vm.signInWithEmail()" type="submit">Log in</button>
+                                   </label>
+                              </div>
+                         </form>  -->
+                    </ion-content>
+               </ion-modal-view>
+          </script>
 
           <script id="EmailNewSignin.html" type="text/ng-template">
                <ion-modal-view>
-                   <ion-header-bar>
-                     <h1 class="title">Sign Up With Email</h1>
-                   </ion-header-bar>
-                   <ion-content>
-                         <form name="userForm" >
+                    <ion-header-bar class="bar bar-header button-clear">
+                         <h1 class="title orangeText">Sign Up</h1>
+                         <button class="button  button-light" ng-click="vm.closeModel()">
+                              <span class="ion-android-cancel orangeText font_size_20px"></span>
+                         </button>
+                    </ion-header-bar>
+                    <ion-content>
+                         <form name="userForm" class="margin0auto width90p "  >
                               <div class="field list">
                                    <div class="row">
                                         <div class="col">
-                                             <label class="item item-input">Enter your name:
+                                             <label class="item item-input border_color_orange">
+                                                  Enter Your Name:&nbsp&nbsp&nbsp
                                                   <input type="text" name="userName" ng-model="newUser.Name" required/>
-                                                  <div ng-messages="userForm.userName.$error" ng-if="userForm.userName.$dirty">
+                                                  <div ng-messages="userForm.userName.$error" ng-if="userForm.userName.$dirty" >
                                                        <div ng-message="required">Name is required</div>
                                                   </div>
                                              </label>
@@ -72,7 +106,7 @@
 
                                    <div class="row">
                                         <div class="col">
-                                             <label class="item item-input" >Enter your email address:
+                                             <label class="item item-input border_color_orange">Enter Your Email Address:&nbsp&nbsp&nbsp
                                                   <input type="email" name="emailAddress" ng-model="newUser.Email" required />
                                                  <div ng-messages="userForm.emailAddress.$error" ng-show="userForm.emailAddress.$touched">
                                                       <div ng-message="required">
@@ -88,9 +122,9 @@
 
                                    <div class="row">
                                         <div class="col">
-                                             <label class="item item-input" >Phone Number:
+                                             <label class="item item-input border_color_orange">Phone Number:&nbsp&nbsp&nbsp                                          
                                                   <input type="text" name="userPhoneNumber" ng-model="newUser.Phone" 
-                                                       ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" required />
+                                                       ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/"  required  />
                                                  <div ng-messages="userForm.userPhoneNumber.$error" ng-if="userForm.userPhoneNumber.$dirty">
                                                        <div ng-message="required">This field is required</div>
                                                        <div ng-message="pattern">Must be a valid 10 digit phone number</div>
@@ -101,9 +135,8 @@
 
                                  <div class="row">
                                         <div class="col">
-                                             <label class="item item-input">Select your profession:
-                                                 
-                                               <select name="userProfession" ng-model="newUser.Profession" ng-options="v for v in vm.userProfessionList.data">
+                                             <label class="item item-input border_color_orange">Select your profession:&nbsp&nbsp&nbsp
+                                               <select name="userProfession" ng-model="newUser.Profession" ng-options="v for v in vm.userProfessionList.data" class="border_color_orange">
                                                </select required>
                                                   <div ng-messages="userForm.userProfession.$error" ng-if="userForm.userProfession.$dirty">
                                                        <div ng-message="required">Profession is required</div>
@@ -111,11 +144,52 @@
                                              </label>
                                         </div>
                                    </div>
+                                   <div class="row">
+                                        <div class="col">
+                                        
+                                             <label class="item item-input border_color_orange">Enter your address:&nbsp
+                                             &nbsp&nbsp
+                                                  <div id="locationField">
+                                                       <input  id="autocomplete" ng-focus="vm.geolocate()" ng-model="newUser.Address" ata-tap-disabled="true" ng-change='disableTap()'/>
+                                                  </div>
+                                             </label>
+                                              <div class="item item-input">
+                                                  <table id="address">
+                                                       <tr>
+                                                            <td class="">Street address</td>
+                                                            <td class=""><input class="" id="street_number"
+                                                            ></input></td>
+                                                            <td class="wideField" colspan="2"><input class="" id="route"
+                                                            ></input></td>
+                                                       </tr>
+                                                       <tr>
+                                                            <td class="">City</td>
+                                                            <td colspan="3"><input id="locality" ng-model="newUser.Address.City"
+                                                            ></></td>
+                                                       </tr>input
+                                                       <tr>
+                                                            <td class="">State</td>
+                                                            <td class=""><input class=""
+                                                            id="administrative_area_level_1"></input></td>
+                                                            <td class="">Zip code</td>
+                                                            <td><input  id="postal_code"
+                                                            ng-model="newUser.Address.Pincode" ></input></td>
+                                                       </tr>
+                                                       <tr>
+                                                            <td class="">Country</td>
+                                                            <td class="" colspan="3"><input class=""
+                                                            id="country" ></input></td>
+                                                       </tr>
+                                                  </table>
+                                             </div>
+                                        </div>
+                                   </div>
 
-                               
                               </div>
-
-                              <input type="submit" ng-click="vm.addUser(newUser)" />
+                             <!--  <div class="list list-inset">
+                                   <button class="button button-block themBackgroundColor text_white" ng-click="vm.addUser(newUser)" >Log in</button>
+                              </div> -->
+                            <!--   <input type="submit" ng-click="vm.addUser(newUser)" /> -->
                          </form>
           
                    </ion-content>
