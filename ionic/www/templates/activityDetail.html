@@ -1,0 +1,36 @@
+<ion-view>
+	<ion-nav-buttons side="right">
+		<div>
+			<p> HI {{vm.userName }}</p>
+		</div>
+	</ion-nav-buttons>
+
+	<ion-content>
+		<div style="border-bottom: 1px solid black;">
+							<div class ="row">
+								<div class="col">
+									<p>Name: &nbsp{{vm.activityDetail.activity_name}}</p>
+									<p>Type: &nbsp{{vm.activityDetail.activity_type_id}}</p>
+									<p>Start Date: &nbsp{{vm.activityDetail.activity_start_date}}</p>
+									<p>End Date: &nbsp {{vm.activityDetail.activity_end_date}}</p>
+									<p>Start Time: &nbsp{{vm.activityDetail.activity_start_time}} </p>
+									<p>End Time: &nbsp {{vm.activityDetail.activity_end_time}}</p>
+									<p ng-if ='vm.activityDetail.activity_phone != ""'>
+										Phone : &nbsp{{vm.activityDetail.activity_phone}}</p>
+										<p ng-if ="vm.activityDetail.activity_phone == ''">
+											Phone : &nbsp{{vm.activityDetail.coordinator_Phone}}</p>
+											<p ng-if ="vm.activityDetail.activity_email != ''">
+												Email : &nbsp{{vm.activityDetail.activity_email}}</p>
+												<p ng-if ="vm.activityDetail.activity_email == ''">
+													Email : &nbsp{{vm.activityDetail.coordinator_Email}}</p>
+													<p>Recurrence: &nbsp {{vm.activityDetail.activity_recurrence}}</p>
+													<p>Address: &nbsp{{vm.activityDetail.activity_address.Line1}}, {{vm.activityDetail.activity_address.Line2}},{{vm.activityDetail.activity_address.City}},{{vm.activityDetail.activity_address.District}}, {{vm.activityDetail.activity_address.State}}, {{vm.activityDetail.activity_address.Country}}
+														,{{vm.activityDetail.activity_address.State}}, {{vm.activityDetail.activity_address.Pincode}}</p>
+														<p>Coordinator Name:  {{vm.activityDetail.coordinator_Name}}</p>
+
+													</div>
+												</div>
+											</div>
+									
+	</ion-content>
+</ion-view>

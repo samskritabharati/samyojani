@@ -10,8 +10,16 @@ function userInfoService($http, $q, constantsService) {
         getActivityCoordinatorDetail: getActivityCoordinatorDetail,
         getActivityProjectDetail: getActivityProjectDetail,
         updateActivity: updateActivity,
+        updateUserDetail:updateUserDetail,
         addNewUser: addNewUser,
-        deleteActivity: deleteActivity
+        deleteActivity: deleteActivity,
+        getAllActivity: getAllActivity,
+        getAllProject: getAllProject,
+        getUser: getUser,
+        getUserRole: getUserRole,
+        deleteUser: deleteUser,
+
+
     };
 
     return service;
@@ -33,7 +41,7 @@ function userInfoService($http, $q, constantsService) {
     function getActivityCoordinatorDetail(Coordinator_url){
         console.log(Coordinator_url);
          var deferred = $q.defer();
-        $http({
+          $http({
             method : 'GET',
             url :  constantsService.url+Coordinator_url
         }).then(function(data){
@@ -43,10 +51,11 @@ function userInfoService($http, $q, constantsService) {
             deferred.reject(error);
         });
         return deferred.promise;
+        
+       
     }
 
     function getActivityProjectDetail(projecturl){
-        console.log(projecturl);
          var deferred = $q.defer();
         $http({
             method : 'GET',
@@ -67,6 +76,23 @@ function userInfoService($http, $q, constantsService) {
             method : 'PUT',
             url :  constantsService.url+dataToUpdate._url,
             data : dataToUpdate
+        }).then(function(data){
+            console.log('update data',data);
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+    function updateUserDetail(userdataToUpdate){
+        console.log('i am hear',userdataToUpdate);
+        var deferred = $q.defer();
+        $http({
+            method : 'PUT',
+            url :  constantsService.url+userdataToUpdate._url,
+            data : userdataToUpdate
         }).then(function(data){
             console.log('update data',data);
             deferred.resolve(data);
@@ -108,5 +134,80 @@ function userInfoService($http, $q, constantsService) {
         });
         return deferred.promise;
     }
+
+    function getAllActivity(){
+         var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url :  constantsService.url+'/types/activity'
+        }).then(function(data){
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+    function getAllProject(){
+         var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url :  constantsService.url+'/types/project'
+        }).then(function(data){
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+    function getUser(){
+        var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url : constantsService.url+'/users'
+        }).then(function(data){
+            console.log(data);
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+     function deleteUser(userToDelete){
+        console.log('i am deleting',userToDelete);
+        var deferred = $q.defer();
+        $http({
+            method : 'DELETE',
+            url :  constantsService.url+userToDelete._url
+        }).then(function(data){
+            console.log('delete data',data);
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+    function getUserRole(){
+        var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url : constantsService.url+'/types/role'
+        }).then(function(data){
+            console.log(data);
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
 
 }

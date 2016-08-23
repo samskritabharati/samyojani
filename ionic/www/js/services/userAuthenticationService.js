@@ -2,12 +2,14 @@ angular
 .module('starter')
 .factory('userAuthenticationService', userAuthenticationService);
 
-userAuthenticationService.$inject = ['$http', '$q', 'constantsService'];
+userAuthenticationService.$inject = ['$http', '$q', 'constantsService', '$ionicPopup'];
 
-function userAuthenticationService($http, $q, constantsService) {
+function userAuthenticationService($http, $q, constantsService, $ionicPopup) {
     var service = {
         emailauthentication: emailauthentication,
-        getProfession: getProfession
+        getProfession: getProfession,
+        confirm: confirm
+
     };
 
     return service;
@@ -43,4 +45,21 @@ function userAuthenticationService($http, $q, constantsService) {
         });
         return deferred.promise;
     }
+
+    function confirm(title, alertMsg, cancelText, confirmText, cancelAction, confirmAction){
+    var confirmPopup = $ionicPopup.confirm({
+      title: title,
+      template: alertMsg,
+      buttons: [{
+        text: cancelText,
+        type: 'button-positive',
+        onTap: cancelAction
+
+      }, {
+          text: confirmText,
+          type: 'button-positive',
+          onTap: confirmAction
+        }]
+    });
+  } 
 }
