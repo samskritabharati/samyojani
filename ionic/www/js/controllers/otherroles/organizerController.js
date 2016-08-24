@@ -2,9 +2,9 @@ angular
     .module('starter')
     .controller('organizerController', organizerController);
 
-  organizerController.$inject = ['$scope', '$stateParams', '$state', '$rootScope','userInfoService','$ionicModal','userAuthenticationService'];
+  organizerController.$inject = ['$scope', '$stateParams', '$state', '$rootScope','userInfoService','$ionicModal','userAuthenticationService', 'projectService'];
 
-  function organizerController($scope, $stateParams, $state, $rootScope,userInfoService, $ionicModal, userAuthenticationService) {
+  function organizerController($scope, $stateParams, $state, $rootScope,userInfoService, $ionicModal, userAuthenticationService, projectService) {
     var vm = this;
     vm.detailAboutActivity = detailAboutActivity;
     vm.updateActivity = updateActivity;
@@ -13,6 +13,7 @@ angular
     vm.updateUser = updateUser;
     vm.userName = $rootScope.userDetail.data[0].Name;
     vm.saveUpdatedUserDetail = saveUpdatedUserDetail;
+    vm.showNewActivityForm = showNewActivityForm;
     vm.closeModel = closeModel;
     vm.deleteUser = deleteUser;
     vm.activityDetail = [];
@@ -47,13 +48,16 @@ angular
         userInfoService.getAllActivity().then(function(activity){
             vm.activityList= activity.data ;
         })
-        userInfoService.getAllProject().then(function(project){
+        projectService.getAllProject().then(function(project){
             vm.projectList = project.data;
+            console.log('vm.projectList',vm.projectList);
         })
         
         vm.editActivity = activity;
 
         console.log('showUp',vm.editActivity);
+
+        console.log("editng ths",vm.editActivity);
         $ionicModal.fromTemplateUrl('editActivity.html', {
             scope: $scope,
             animation: 'slide-in-up'
@@ -65,7 +69,8 @@ angular
     }
 
     function saveUpdatedActivityDetail(updatedActivity){
-        updatedActivity.Coordinator_url = $rootScope.userDetail.data[0]._url;
+        console.log("updated",updatedActivity);
+        updatedActivity.Coordinator_url = $rootScope.userDetail.data[0]._url;    
         console.log( updatedActivity.Coordinator_url);
         console.log('updatedActivity',updateActivity);
          userInfoService.updateActivity(updatedActivity).then(function(data){
@@ -153,6 +158,10 @@ angular
          },function(error){
             console.log(error);
          });
+    }
+
+    function showNewActivityForm(){
+         $state.go('app.addActivity',{},{location: false, inherit: false});
     }
   }
 

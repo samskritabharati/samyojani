@@ -64,3 +64,83 @@ angular
    		 }
 
 	}
+
+	angular
+    .module('starter')
+    .controller('addActivityController', addActivityController);
+
+  	addActivityController.$inject = ['$scope', '$stateParams', '$state', '$rootScope','userInfoService','$ionicModal','userAuthenticationService'];
+
+  	function addActivityController($scope, $stateParams, $state, $rootScope,userInfoService, $ionicModal, userAuthenticationService) {
+    	var vm = this;
+
+    	vm.closeModel = closeModel;
+    	vm.geolocate = geolocate;
+    
+
+    	function geolocate(){
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				var geolocation = {
+					lat: position.coords.latitude,
+					lng: position.coords.longitude
+				};
+				console.log(geolocation);
+				var circle = new google.maps.Circle({
+					center: geolocation,
+					radius: position.coords.accuracy
+				});
+				autocomplete.setBounds(circle.getBounds());
+			});
+		}
+	}
+	initAutocomplete();
+
+	var componentForm = {
+		street_number: 'short_name',
+		route: 'long_name',
+		locality: 'long_name',
+		administrative_area_level_1: 'short_name',
+		country: 'long_name',
+		postal_code: 'short_name'
+	};
+
+	google.maps.event.addDomListener(document.getElementById('autocomplete'), 'focus', geolocate); 
+
+	function initAutocomplete() {
+		autocomplete = new google.maps.places.Autocomplete(
+			(document.getElementById('autocomplete')),
+			{types: ['geocode']});
+
+		autocomplete.addListener('place_changed', fillInAddress);
+	}
+
+	function fillInAddress() {
+		var place = autocomplete.getPlace();
+
+		for (var component in componentForm) {
+			document.getElementById(component).value = '';
+			document.getElementById(component).disabled = false;
+		}
+
+		for (var i = 0; i < place.address_components.length; i++) {
+			var addressType = place.address_components[i].types[0];
+			if (componentForm[addressType]) {
+				var val = place.address_components[i][componentForm[addressType]];
+				document.getElementById(addressType).value = val;
+			}
+		}
+	}
+
+
+	function closeModel(){
+		$state.go('app.main');
+	} 
+
+	$scope.$watch(function() { return vm.newActivity.Start_time },
+      function() {
+      	vm.newActivity.End_time = vm.newActivity.Start_time;
+      }
+ 	);
+
+    }

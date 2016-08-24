@@ -8,8 +8,6 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
      var vm = this;
      vm.signInWithEmail = signInWithEmail;
      vm.signInWithFacebook = signInWithFacebook;
-     vm.addUser = addUser;
-     vm.geolocate = geolocate;
      vm.popupForEmailLogin =  popupForEmailLogin;
      vm.closeModel =  closeModel;
      vm.newSignInWithEmail = newSignInWithEmail;
@@ -30,7 +28,6 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
           });
      }
 
-  var placeSearch, autocomplete;
      function signInWithEmail(){
       $scope.modal.hide();
           console.log('vm.email',vm.email);
@@ -48,44 +45,14 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
                          $state.go('app.organizer');
                     }
                }else{
-                    console.log('invalid user');
+                  console.log('invalid user');
                    newSignInWithEmail();
+                  
                }
 
           },function(error){
                console.log(error);
           });
-     }
-
-     function addUser(newUserDetail){
-          console.log("detail",newUserDetail);
-          userInfoService.addNewUser(newUserDetail).then(function(data){
-               console.log(data);
-          },function(error){
-               console.log('error');
-          })
-
-     }
-
-    
-
-     function geolocate(){
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var geolocation = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          console.log(geolocation);
-          var circle = new google.maps.Circle({
-            center: geolocation,
-            radius: position.coords.accuracy
-          });
-          autocomplete.setBounds(circle.getBounds());
-        });
-      }
-
-      
      }
 
                     
@@ -109,78 +76,13 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
         }        
 
 
-/*google.maps.event.addDomListener(document.getElementById('autocomplete'), 'focus', geolocate); 
-*/
+
 
 function newSignInWithEmail (){
-   userAuthenticationService.getProfession().then(function(userProfession){
-                         console.log('getProfession',userProfession)
-                         vm.userProfessionList = userProfession;
-                    },function(error){
-                         console.log(error);
-                    })
-
-                    var componentForm = {
-                         street_number: 'short_name',
-                         route: 'long_name',
-                         locality: 'long_name',
-                         administrative_area_level_1: 'short_name',
-                         country: 'long_name',
-                         postal_code: 'short_name'
-                    };
-
-                    $ionicModal.fromTemplateUrl('EmailNewSignin.html', {
-                         scope: $scope,
-                         animation: 'slide-in-up'
-                    }).then(function(modal) {
-                         $scope.modal = modal;
-                         $scope.modal.show();
-                         initAutocomplete();
-                    });
-                        
-                    $scope.closeModal = function() {
-                      $scope.modal.hide();
-                    };
-               
-                    function initAutocomplete() {   
-                        /* autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),
-                         {types: ['geocode']})*/;
-                         autocomplete = new google.maps.places.Autocomplete(
-      (document.getElementById('autocomplete')), {
-        types: ['geocode']
-      });
-                         google.maps.event.addDomListener(document.getElementById('autocomplete'), 'focus', geolocate); 
-
-                      autocomplete.addListener('place_changed',  function() {
-                        alert("succcc")
-                      });
-                    }
-
-                    function fillInAddress() {
-                         console.log('fillInAddress');
-                      // Get the place details from the autocomplete object.
-                      var place = autocomplete.getPlace();
-                      console.log('place')
-
-                      for (var component in componentForm) {
-                        document.getElementById(component).value = '';
-                        document.getElementById(component).disabled = false;
-                      }
-
-                      // Get each component of the address from the place details
-                      // and fill the corresponding field on the form.
-                      for (var i = 0; i < place.address_components.length; i++) {
-                        var addressType = place.address_components[i].types[0];
-                        if (componentForm[addressType]) {
-                          var val = place.address_components[i][componentForm[addressType]];
-                          document.getElementById(addressType).value = val;
-                        }
-                      }
-
-                    }
-                 
-}
-
+  $scope.modal.hide();
+   $state.go('app.signUp');
+ }
+  
 
 
 }

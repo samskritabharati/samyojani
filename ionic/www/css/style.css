@@ -35,11 +35,17 @@
 .padding_right30px{
     padding-right: 30px;
 }
+.padding0{
+    padding: 0;
+}
 .mrg_top10px{
     margin-top: 10px;
 }
 .mrg_top5px{
     margin-top: 5px !important;
+}
+.mrg0{
+    margin: 0;
 }
 .font_size_20px{
     font-size: 20px;
@@ -71,6 +77,9 @@
 }
 .display_inlineTable{
     display: inline-table;
+}
+.display_inlineflex{
+    display: inline-flex;
 }
 ul {
     list-style: none;

@@ -91,7 +91,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
     views: {
       'menuContent': {
         templateUrl: 'templates/signUp.html',
-        controller: 'loginController as vm'
+        controller: 'newSignUpController as vm'
+      }
+    }
+  })
+   .state('app.addActivity', {
+    url: '/addactivity',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/newActivity.html',
+        controller: 'addActivityController as vm'
       }
     }
   })

@@ -14,7 +14,7 @@ function userInfoService($http, $q, constantsService) {
         addNewUser: addNewUser,
         deleteActivity: deleteActivity,
         getAllActivity: getAllActivity,
-        getAllProject: getAllProject,
+       /* getAllProject: getAllProject,*/
         getUser: getUser,
         getUserRole: getUserRole,
         deleteUser: deleteUser,
@@ -104,6 +104,7 @@ function userInfoService($http, $q, constantsService) {
     }
 
     function addNewUser(newUserDetail){
+        console.log('data from controller',newUserDetail);
         var deferred = $q.defer();
         $http({
             method : 'POST',
@@ -149,7 +150,7 @@ function userInfoService($http, $q, constantsService) {
         return deferred.promise;
     }
 
-    function getAllProject(){
+    /*function getAllProject(){
          var deferred = $q.defer();
         $http({
             method : 'GET',
@@ -161,7 +162,7 @@ function userInfoService($http, $q, constantsService) {
             deferred.reject(error);
         });
         return deferred.promise;
-    }
+    }*/
 
     function getUser(){
         var deferred = $q.defer();
