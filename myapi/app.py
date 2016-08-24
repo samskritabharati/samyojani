@@ -32,10 +32,11 @@ def not_found(error):
 
 @app.route('/')
 def index():
-    mgmtdb = sbget()
-    coll = mgmtdb.list()
-    print coll
-    return make_response(jsonify({'collections' : coll}))
+	return redirect('/www')
+#    mgmtdb = sbget()
+#    coll = mgmtdb.list()
+#    print coll
+#    return make_response(jsonify({'collections' : coll}))
 
 (cmddir, cmdname) = os.path.split(__file__)
 setmypath(os.path.abspath(cmddir))

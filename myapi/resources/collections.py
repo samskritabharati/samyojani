@@ -10,13 +10,16 @@ def _email(email_str):
         raise ValueError('{} is not a valid email'.format(email_str))
 
 _address_fields = {}
-_address_fields['Line 1'] = fields.String(attribute='Address_line1')
-_address_fields['Line 2'] = fields.String(attribute='Address_line2')
+#_address_fields['Line1'] = fields.String(attribute='Address_line1')
+#_address_fields['Line2'] = fields.String(attribute='Address_line2')
+_address_fields['Address_line1'] = fields.String
+_address_fields['Address_line2'] = fields.String
 _address_fields['City'] = fields.String
 _address_fields['Locality'] = fields.String
 _address_fields['District'] = fields.String
 _address_fields['State'] = fields.String
-_address_fields['Pincode'] = fields.String(attribute='Postal_code')
+#_address_fields['Pincode'] = fields.String(attribute='Postal_code')
+_address_fields['Postal_code'] = fields.String
 _address_fields['Country'] = fields.String
 
 class _Praanta_name(fields.Raw):
@@ -30,6 +33,9 @@ class _Rsrc_url(fields.Raw):
     cname = None
     def format(self, id):
         return '/{}/{}'.format(self.cname, id) if id else ''
+    def id(self, url):
+        match = re.search('/([^/]*)$'.format(self.cname), url)
+        return match.group(1) if match else None
 
 class _User_url(_Rsrc_url):
     cname = 'users'
@@ -59,12 +65,15 @@ attr2external = {
 class _SBCollection(Resource):
     attrs = []
     cname = None
+    key = None
     helpprefix = ''
+    mycollection = None
 
     def __init__(self):
-        for u in sbget()[self.cname].find():
+        self.mycollection = sbget()[self.cname]
+        for u in self.mycollection.find():
             self.attrs = u
-            self.attrs.pop('_id')
+            #self.attrs.pop('_id')
             break
 
         self.get_parser = reqparse.RequestParser()
@@ -94,26 +103,37 @@ class _SBCollection(Resource):
         self.exported_fields['_url'] = \
             fields.FormattedString('/' + self.cname + '/{_id}')
         self.get_parser.add_argument('exact', type=int, default=0, 
-            help=self.helpstr() + a)
+            help=self.helpstr() + 'exact')
+        self.get_parser.add_argument('offset', type=int, default=0, 
+            help=self.helpstr() + 'offset')
+        self.get_parser.add_argument('limit', type=int, default=25, 
+            help=self.helpstr() + 'limit')
+        self.get_parser.add_argument('fields', default='', 
+            help=self.helpstr() + 'fields')
 
     def helpstr(self):
         return "{}: Missing required field ".format(self.cname if self.cname else " ")
 
     def put(self, _id):
         print "Updating {} by {} ".format(self.cname,  _id)
-        args = self.put_parser.parse_args()
+        args = request.json
         for k, v in args.items():
-            if not v:
+            if (k == '_id') or not v:
                 args.pop(k)
+
+        print "Update args ..."
         pprint(args)
-        if sbget()[self.cname].update(_id, args):
-            entry = sbget()[self.cname].get(_id)
+        self.sanitize(args)
+        print "Sanitized args ..."
+        pprint(args)
+        if self.mycollection.update(_id, args):
+            entry = self.mycollection.get(_id)
             return marshal(entry, self.exported_fields)
         else:
             abort(404)
     
     def delete(self, _id):
-        if sbget()[self.cname].delete(_id):
+        if self.mycollection.delete(_id):
             return {}
         else:
             abort(404)
@@ -121,25 +141,83 @@ class _SBCollection(Resource):
     def sanitize(self, entry):
         if 'Praanta_id' in entry and entry['Praanta_id'] == '':
             entry['Praanta_id'] = sbget().sbregions().root['_id']
+
         if 'Parent_praanta_id' in entry and entry['Parent_praanta_id'] == '':
             entry['Parent_praanta_id'] = sbget().sbregions().root['Parent_praanta_id']
-        if 'Role_id' in entry and entry['Role_id'] == '':
+
+        if 'Role_id' not in entry or entry['Role_id'] == '':
             entry['Role_id'] = 'Student'
+
+        for f in ['Coordinator', 'Project', 'Activity', 'Person']:
+            if f + '_url' in entry:
+                entry[f + '_id'] = _Rsrc_url().id(entry[f + '_url'])
+                entry.pop(f + '_url')
+
+        if 'Role' in entry:
+            entry['Role_id'] = entry['Role']
+            entry.pop('Role')
+
+        if 'Address' in entry:
+            addr = entry['Address']
+            for f in _address_fields:
+                entry[f] = addr[f] if f in addr else ''
+            entry.pop('Address')
+
+        if 'SB_Region' in entry:
+            entry['Praanta_id'] = sbget().sbregions().from_path(entry['SB_Region'])['_id']
+            entry.pop('SB_Region')
+
+        if 'SB_Parent_Region' in entry:
+            entry['Parent_Praanta_id'] = sbget().sbregions().from_path(entry['SB_Parent_Region'])['_id']
+            entry.pop('SB_Parent_Region')
 
     def post(self):
         print "Inserting into {} ".format(self.cname)
-        args = self.post_parser.parse_args()
+
+        args = request.json
+        print "Post args ..."
+        pprint(args)
         self.sanitize(args)
-        _id = sbget()[self.cname].insert(args)
-        entry = sbget()[self.cname].get(_id)
+
+        print "Sanitized args ..."
+        pprint(args)
+
+        for k, v in args.items():
+            if (k == '_id') or not v:
+                args.pop(k)
+
+        _id = None
+        if self.key:
+            q = dict((k, args[k]) for k in self.key if k in args)
+            e = self.mycollection.find_one(q)
+            if e:
+                _id = e['_id']
+                self.mycollection.update(e['_id'], args)
+        if not _id:
+            _id = self.mycollection.insert(args)
+
+        entry = self.mycollection.get(_id)
         return marshal(entry, self.exported_fields), 201
+
+    def mymarshal(self, output, fields = None):
+        r = marshal(output, self.exported_fields)
+        if isinstance(r, list):
+            for row in r:
+                for k, v in row.items():
+                    if fields and (k not in fields or not v):
+                        row.pop(k)
+        else:
+                for k, v in r.items():
+                    if fields and (k not in fields or not v):
+                        r.pop(k)
+        return r
 
     def get(self, _id=None):
         if _id:
             print "Retrieving {} by {} ".format(self.cname,  _id)
-            entry = sbget()[self.cname].get(_id)
+            entry = self.mycollection.get(_id)
             if entry:
-                return marshal(entry, self.exported_fields)
+                return self.mymarshal(entry)
             else:
                 abort(404)
         else:
@@ -148,7 +226,19 @@ class _SBCollection(Resource):
             exact = False
             if 'exact' in args:
                 exact = True if args['exact'] == 1 else False
-            args.pop('exact')
+                args.pop('exact')
+            offset = args['offset'] if 'offset' in args else 0
+            if 'offset' in args:
+                args.pop('offset')
+            limit = args['limit'] if 'limit' in args else 0
+            if 'limit' in args:
+                args.pop('limit')
+            fields = None
+            if 'fields' in args and args['fields'] != '':
+                fields = args['fields'].split(',')
+                pprint(fields)
+                args.pop('fields')
+
             query = {}
             for k, v in args.items():
                 if not v:
@@ -158,13 +248,13 @@ class _SBCollection(Resource):
                     query[k] = { '$regex' : '^{}$'.format(v), '$options' : 'i' }
                 else:
                     query[k] = { '$regex' : v, '$options' : 'i' }
-            elist = [e for e in sbget()[self.cname].find(query)]
-
-            return marshal(elist, self.exported_fields)
+            elist = [e for e in self.mycollection.find(query).skip(offset).limit(limit)]
+            return self.mymarshal(elist, fields)
 
 class Users(_SBCollection):
     def __init__(self):
         self.cname = 'users'
+        self.key = ['Email']
         self.helpprefix = 'The user\'s '
         _SBCollection.__init__(self)
 
@@ -177,6 +267,7 @@ class Activities(_SBCollection):
 class Projects(_SBCollection):
     def __init__(self):
         self.cname = 'projects'
+        self.key = ['Name']
         self.helpprefix = 'The project\'s '
         _SBCollection.__init__(self)
 

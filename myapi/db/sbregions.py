@@ -1,9 +1,12 @@
 import json
+import re
+from pprint import pprint
 
 class SBRegions:
     cname = 'regions'
     mycollection = None
     root = None
+    idx = {}
 
     def __init__(self, mydb):
         self.mydb = mydb
@@ -22,6 +25,34 @@ class SBRegions:
             p_id = p['Parent_praanta_id']
         path.reverse()
         return "/".join(path)
+
+    def find(self, address):
+        for id, r in self.mycollection.all().items():
+            path = r['path']
+            for f in ['Locality', 'City', 'District', 'State', 'Country']:
+                if f in address and address[f] != '':
+                    match = re.search('^{}$'.format(address[f]), r['Name'], flags=re.IGNORECASE)
+                    if match:
+                        print 'Found matching region: ' + path
+                        return id
+        return None 
+
+    def from_path(self, path):
+        print "Decoding " + path
+        return self.idx[path]
+#        rnames = path.split('/')
+#        p = self.root
+#        print json.dumps(p)
+#        for n in rnames[1:]:
+#            print "Looking for {} in {}".format(n, p['Name'])
+#            pprint(p['subregions'].keys())
+#            if 'subregions' in p and n in p['subregions']:
+#                p = p['subregions'][n]
+#            else:
+#                print path + " -> None"
+#                return None
+#        print path + " -> " + json.dumps(p)
+#        return p
 
     def load(self):
         print "Loading SB regions data ..."
@@ -49,6 +80,7 @@ class SBRegions:
         for id, r in self.mycollection.all().items():
             r['path'] = self.region_path(r)
             self.mycollection.update(id, {'path' : r['path']})
+            self.idx[r['path']] = r
 
         return self.root
 

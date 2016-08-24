@@ -6,7 +6,7 @@ class _Types(Resource):
 
     def get(self):
         if not self.cname:
-            return {}
+            abort(404)
         coll = sbget()[self.cname]
         return sorted(coll.all().keys())
 

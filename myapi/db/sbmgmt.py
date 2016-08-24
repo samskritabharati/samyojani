@@ -35,4 +35,5 @@ class SBMgmtDB(MyDB):
     def locations(self):
         if not self._geodb:
             self._geodb = Locations(self)
+            self._geodb.load()
         return self._geodb

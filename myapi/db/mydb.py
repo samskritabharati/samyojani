@@ -101,8 +101,13 @@ class MyCollection:
     def reset(self):
         return self.collection.drop()
 
-    def find(self, query = {}):
-        return self.collection.find(query)
+    def find(self, query = {}, fields = []):
+        if len(fields) > 0:
+            f = dict((k, 1) for k in fields)
+            pprint(f)
+            return self.collection.find(query, f)
+        else:
+            return self.collection.find(query)
 
     def __exit__(self, type, value, traceback):
         return True
