@@ -6,6 +6,8 @@ angular
 
   function organizerController($scope, $stateParams, $state, $rootScope,userInfoService, $ionicModal, userAuthenticationService, projectService) {
     var vm = this;
+
+    vm.addNewUser = addNewUser;
     vm.detailAboutActivity = detailAboutActivity;
     vm.updateActivity = updateActivity;
     vm.saveUpdatedActivityDetail = saveUpdatedActivityDetail;
@@ -14,9 +16,12 @@ angular
     vm.userName = $rootScope.userDetail.data[0].Name;
     vm.saveUpdatedUserDetail = saveUpdatedUserDetail;
     vm.showNewActivityForm = showNewActivityForm;
+    vm.showFormForNewUser = showFormForNewUser;
     vm.closeModel = closeModel;
     vm.deleteUser = deleteUser;
+
     vm.activityDetail = [];
+    vm.userList = [];
     showActivity();
     showUser();
     $scope.sortReverse  = false;
@@ -135,11 +140,7 @@ angular
              console.log(error);
         })
 
-        userInfoService.getUserRole().then(function(userRole){
-            vm.userRole = userRole.data;
-        },function(error){
-             console.log(error);
-        })
+        userRole();
         console.log('showUp',vm.showUserDetail);
         $ionicModal.fromTemplateUrl('editUser.html', {
             scope: $scope,
@@ -162,6 +163,39 @@ angular
 
     function showNewActivityForm(){
          $state.go('app.addActivity',{},{location: false, inherit: false});
+    }
+
+    function addNewUser(userDetail){
+console.log('sss',userDetail);
+        vm.userList.push(userDetail);
+        console.log('vm.userList');
+        var newUserDetail = [];
+        newUserDetail = userDetail;
+        console.log('newUserDetail',newUserDetail);
+         userInfoService.addNewUser(newUserDetail).then(function(data){
+               console.log('returndata',data);
+          },function(error){
+               console.log('error');
+          })
+    }
+
+    function showFormForNewUser(){
+        userRole();
+        $ionicModal.fromTemplateUrl('newUsersForm.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.modal = modal;
+            $scope.modal.show();
+        });
+ 
+    }
+    function userRole(){
+        userInfoService.getUserRole().then(function(userRole){
+            vm.userRole = userRole.data;
+        },function(error){
+             console.log(error);
+        })
     }
   }
 

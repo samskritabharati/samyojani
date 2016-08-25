@@ -58,7 +58,7 @@
     border-color: #e9682e!important;
 }
 .border1px{
-    border: 1px solid #e9682e;
+    border: 1px solid #e9682e !important;
 }
 .bordernone{
     border: none;

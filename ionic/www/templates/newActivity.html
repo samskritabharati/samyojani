@@ -7,208 +7,154 @@
   </ion-header-bar>
   <ion-content>
 
-	<form class="margin0auto width90p" name="newActivityForm">
+    <form class="margin0auto width90p" name="newActivityForm">
 
-		<div class="list list-inset">
-            <label class="item item-input border_color_orange">
-              <i class="icon ion-person placeholder-icon"></i>
-              <input type="Name" ng-model="vm.newActivity.Name" placeholder="Enter activity name" name="activityName" required class="bordernone" />
-              <div ng-messages="newActivityForm.activityName.$error" ng-show="newActivityForm.activityName.$touched">
-                   <div ng-message="required">
-                        Please enter activity name
-                    </div>
-               </div>
-            </label>
-	   </div>
-	   <div class="list list-inset row"><span class="line_height3">Phone</span>
-            <label class="item item-input border_color_orange col-40">
-             <input type="text" name="phoneNumber" ng-model="vm.newActivity.Phone" 
-                ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/"  placeholder="Enter Phone number"required  />
-              <div ng-messages="newActivityForm.phoneNumber.$error" ng-show="newActivityForm.phoneNumber.$touched">
-                   <div ng-message="required">
-                        Please enter contact number
-                    </div>
-               </div>
-            </label>
-            <span class="line_height3">Email</span><label class="item item-input border_color_orange col-40">
-              	<i class="icon ion-android-mail placeholder-icon"></i>
-              	<input type="email" ng-model="vm.newActivity.Email" placeholder="Enter Your Email ID " name="emailAddress" required/>
-              	<div ng-messages="newActivityForm.emailAddress.$error" ng-show="newActivityForm.emailAddress.$touched">
-                   	<div ng-message="required">
-                         You forgot to enter your email address...
-                    </div>
-                    <div ng-message="email">
-                         Your email address is not correctly...
-                    </div>
-               	</div>
-            </label>
-	   </div>
-	   <div class="list list-inset row"><span class="line_height3">Start Date</span>
-            <label class="item item-input border_color_orange col-30 mrg_top5px">
-             <input type="date" name="phoneNumber" ng-model="vm.newActivity.Start_date" 
-              required  />
-              <div ng-messages="newActivityForm.phoneNumber.$error" ng-show="newActivityForm.phoneNumber.$touched">
-                   <div ng-message="required">
-                        select date
-                    </div>
-               </div>
-            </label>
-            <span class="line_height3">End Date</span>
-            <label class="item item-input border_color_orange col-30 mrg_top5px">
-              	<input type="date" ng-model="vm.newActivity.End_date" name="date" required/>
-              	<!-- <div ng-messages="newActivityForm.emailAddress.$error" ng-show="newActivityForm.emailAddress.$touched">
-                   	<div ng-message="required">
-                         You forgot to enter your email address...
-                    </div>
-                    <div ng-message="email">
-                         Your email address is not correctly...
-                    </div>
-               	</div> -->
-            </label>
-            <input type="checkbox" ng-model="vm.disabletime">All day
-	   </div>
-	  
-	    <div class="list list-inset row">
-	    	<span class="line_height3">Start Time</span>
-	    	<label class="item item-input border_color_orange col-40 mrg_top5px padding0 mrg0" ng-disabled="vm.disabletime" ng-class="{border_color_orange: !vm.disabletime}">	
-	    		 <time-picker ng-model="vm.newActivity.Start_time" ng-disabled="vm.disabletime"></time-picker>  
-    		</label>
-    		<span class="line_height3">End Time</span>
-    		<label class="item item-input border_color_orange col-40 mrg_top5px padding0 mrg0" ng-disabled="vm.disabletime" ng-class="{border_color_orange: !vm.disabletime}">	
-	    		 <time-picker ng-model="vm.newActivity.End_time" ng-disabled="vm.disabletime"></time-picker>  
-    		</label>           
-	   </div>
-	  
-
-
-
-
-	  
-
-                              <div class="row">
-            <div class="col">
-
-              <label class="item item-input border_color_orange">Enter your address:&nbsp
-                &nbsp&nbsp
-                <div id="locationField" class="with100p">
-                  <input  id="autocomplete" ng-focus="vm.geolocate()" ng-model="newUser.Address" ata-tap-disabled="true" ng-change='disableTap()'/>
-                </div>
-              </label>
-
-              <div class="item item-input">
-                <table id="address">
-                  <tr>
-                    <td class="label">Street address</td>
-                    <td><input class="field" id="street_number"/></td>
-                    <td class="wideField" colspan="2"><input class="field" id="route" /></td>
-                  </tr>
-                  <tr>
-                    <td class="label">City</td>
-                    <td colspan="3"><input id="locality" ng-model="locality"/></td>
-                  </tr>
-                  <tr>
-                    <td class="label">State</td>
-                    <td><input id="administrative_area_level_1"/></td>
-                    <td class="label">Zip code</td>
-                    <td><input  id="postal_code" /></td>
-                  </tr>
-                  <tr>
-                    <td class="label">Country</td>
-                    <td class="wideField" colspan="3"><input class="field" id="country" /></td>
-                  </tr>
-                </table>
-              </div>
+      <div class="list list-inset">
+        <label class="item item-input border_color_orange">
+          <i class="icon ion-person placeholder-icon"></i>
+          <input type="Name" ng-model="vm.newActivity.Name" placeholder="Enter activity name" name="activityName" required class="bordernone" />
+          <div ng-messages="newActivityForm.activityName.$error" ng-show="newActivityForm.activityName.$touched">
+            <div ng-message="required">
+              Please enter activity name
             </div>
           </div>
-                         </form>
+        </label>
+      </div>
+
+       <div class="row mrg_top5px">
+           <div class="col-10 text_align_center line_height3">Activity</div>
+            <div class="col border1px"> 
+              <select  ng-model="vm.newActivity.Activity_type_id" ng-options="v for v in vm.activityList" class="bordernone with100p">
+              </select required>
+            </div> 
+            <div class="col-10 text_align_center line_height3">Recurrence</div>
+            <div class="col border1px"> 
+              <select  ng-model="vm.newActivity.Recurrence" ng-options="v for v in vm.recurrenceList.data" class="bordernone with100p">
+                </select required> 
+            </div>
+    </div>
 
 
-  	<!--  <form class="margin0auto width90p" name="activityForm">
-  		<div class="row mrg_top5px">
-			<div class="col-10 text_align_center line_height3">Name</div>
-			<div class="col border1px">	
-				<input type="text" ng-model="vm.newActivity.Name" class="with100p">
-			</div>
-		</div>
-		<div class="row mrg_top5px">
-			<div class="col-10 text_align_center line_height3">Phone</div>
-			<div class="col border1px">	
-				<input type="text" ng-model="vm.newActivity.Phone" class="with100p">
-			</div>
-			<div class="col-10 text_align_center line_height3">Email</div>
-			<div class="col border1px">	
-				<input type="text" ng-model="vm.newActivity.Email" class="with100p">
-			</div>
-		</div>
 
-		<div class="row mrg_top5px">
-			<div class="col-10 text_align_center line_height3">Start Date</div>
-			<div class="col border1px">	
-				<input type="date" ng-model="vm.newActivity.Start_date" class="with100p">
-			</div>
-			<div class="col-10 text_align_center line_height3">End Date</div>
-			<div class="col border1px">	
-				<input type="date" ng-model="vm.newActivity.End_date" class="with100p">
-			</div>
-		</div>
+<div class="list list-inset row"><span class="line_height3">Start Date</span>
+      <label class="item item-input border_color_orange col-30 mrg_top5px">
+        <input type="date" name="startDate" ng-model="vm.newActivity.Start_date" 
+        required  />
+        <div ng-messages="newActivityForm.startDate.$error" ng-show="newActivityForm.startDate.$touched">
+          <div ng-message="required">
+            select date
+          </div>
+        </div>
+      </label>
+      <span class="line_height3">End Date</span>
+      <label class="item item-input border_color_orange col-30 mrg_top5px">
+        <input type="date" ng-model="vm.newActivity.End_date" name="date" required/>
 
-		<div class="row mrg_top5px">
-			<div class="col-10 text_align_center line_height3">Start Time</div>
-				<div class="col border1px">	
-					<input type="text" ng-model="vm.newActivity.Start_time" class="with100p">
-				</div>
-				<div class="col-10 text_align_center line_height3">End Time</div>
-				<div class="col border1px">	
-					<input type="text" ng-model="vm.newActivity.End_time" class="with100p">
-				</div>
-		</div>
+      </label>
+      <input type="checkbox" ng-model="vm.disabletime">All day
+    </div>
 
-		<div class="row mrg_top5px">
-			<div class="col-10 text_align_center line_height3">Recurrence</div>
-			<div class="col border1px">	
-				<input type="text" ng-model="vm.newActivity.Recurrence" class="with100p">
-			</div>
-			<div class="col-10 text_align_center line_height3">URL</div>
-			<div class="col border1px">	
-				<input type="text" ng-model="vm.newActivity.URL" class="with100p">
-			</div>
-		</div>
+    <div class="list list-inset row">
+      <span class="line_height3">Start Time</span>
+      <label class="item item-input border_color_orange col-40 mrg_top5px padding0 mrg0" ng-disabled="vm.disabletime" ng-class="{border_color_orange: !vm.disabletime}">  
+        <time-picker ng-model="vm.newActivity.Start_time" ng-disabled="vm.disabletime"></time-picker>  
+      </label>
+      <span class="line_height3">End Time</span>
+      <label class="item item-input border_color_orange col-40 mrg_top5px padding0 mrg0" ng-disabled="vm.disabletime" ng-class="{border_color_orange: !vm.disabletime}">  
+        <time-picker ng-model="vm.newActivity.End_time" ng-disabled="vm.disabletime"></time-picker>  
+      </label>           
+    </div>
 
-		 <div class="row">
-            <div class="col">
 
-              <label class="item item-input border_color_orange">Enter your address:&nbsp
-                &nbsp&nbsp
-                <div id="locationField" class="with100p">
-                  <input  id="autocomplete" ng-focus="vm.geolocate()" ng-model="newUser.Address" ata-tap-disabled="true" ng-change='disableTap()'/>
-                </div>
-              </label>
+      <div class="list list-inset row">
+     <span class="line_height3">Phone</span>
+      <label class="item item-input border_color_orange col-30 mrg_top5px">
+        <input type="text" name="phoneNumber" ng-model="vm.newActivity.Phone" 
+        required  />
+        <div ng-messages="newActivityForm.phoneNumber.$error" ng-show="newActivityForm.phoneNumber.$touched">
+          <div ng-message="required">
+           Enter phone number
+          </div>
+        </div>
+      </label>
 
-              <div class="item item-input">
-                <table id="address">
-                  <tr>
-                    <td class="label">Street address</td>
-                    <td><input class="field" id="street_number"/></td>
-                    <td class="wideField" colspan="2"><input class="field" id="route" /></td>
-                  </tr>
-                  <tr>
-                    <td class="label">City</td>
-                    <td colspan="3"><input id="locality" ng-model="locality"/></td>
-                  </tr>
-                  <tr>
-                    <td class="label">State</td>
-                    <td><input id="administrative_area_level_1"/></td>
-                    <td class="label">Zip code</td>
-                    <td><input  id="postal_code" /></td>
-                  </tr>
-                  <tr>
-                    <td class="label">Country</td>
-                    <td class="wideField" colspan="3"><input class="field" id="country" /></td>
-                  </tr>
-                </table>
-              </div>
+       <!-- <span class="line_height3">Phone</span>
+        <label class="item item-input border_color_orange col-40">
+          <input type="text" ng-model="vm.newActivity.Phone"  name="phoneNumber" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/"  placeholder="Enter Phone number" required  />
+          <div ng-messages="newActivityForm.phoneNumber.$error" ng-show="newActivityForm.phoneNumber.$touched">
+            <div ng-message="required">
+              Please enter contact number
             </div>
           </div>
-          </form> -->
-  </ion-content>
-  </ion-modal-view>
+        </label> -->
+        <span class="line_height3">Email</span><label class="item item-input border_color_orange col-40">
+        <i class="icon ion-android-mail placeholder-icon"></i>
+        <input type="email" ng-model="vm.newActivity.Email" placeholder="Enter Your Email ID " name="emailAddress" required/>
+        <div ng-messages="newActivityForm.emailAddress.$error" ng-show="newActivityForm.emailAddress.$touched">
+          <div ng-message="required">
+            You forgot to enter your email address...
+          </div>
+          <div ng-message="email">
+            Your email address is not correctly...
+          </div>
+        </div>
+      </label>
+    </div>
+    
+
+    <!-- <div class="row mrg_top5px">
+           <div class="col-10 text_align_center line_height3">Activity</div>
+            <div class="col border1px"> 
+              <select  ng-model="vm.newActivity.Activity_type_id" ng-options="v for v in vm.activityList" class="bordernone with100p">
+              </select required>
+            </div> 
+            <div class="col-10 text_align_center line_height3">Recurrence</div>
+            <div class="col border1px"> 
+              <select  ng-model="vm.newActivity.Recurrence" ng-options="v for v in vm.recurrenceList.data" class="bordernone with100p">
+                </select required> 
+            </div>
+    </div>
+ -->
+
+    <div class="row">
+      <div class="col">
+
+        <label class="item item-input border_color_orange">Enter your address:&nbsp
+          &nbsp&nbsp
+          <div id="locationField" class="with100p">
+            <input  id="autocomplete" ng-focus="vm.geolocate()" ng-model="newUser.Address" ata-tap-disabled="true" ng-change='disableTap()'/>
+          </div>
+        </label>
+
+        <div class="item item-input">
+          <table id="address">
+            <tr>
+              <td class="label">Street address</td>
+              <td><input class="field" id="street_number"/></td>
+              <td class="wideField" colspan="2"><input class="field" id="route" /></td>
+            </tr>
+            <tr>
+              <td class="label">City</td>
+              <td colspan="3"><input id="locality" ng-model="locality"/></td>
+            </tr>
+            <tr>
+              <td class="label">State</td>
+              <td><input id="administrative_area_level_1"/></td>
+              <td class="label">Zip code</td>
+              <td><input  id="postal_code" /></td>
+            </tr>
+            <tr>
+              <td class="label">Country</td>
+              <td class="wideField" colspan="3"><input class="field" id="country" /></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="text_align_center">
+            <button class="button themBackgroundColor" ng-click="vm.addNewActivityDetail(vm.newActivity)" type="submit">Submit </button>
+      </div>
+  </form>
+
+</ion-content>
+</ion-modal-view>

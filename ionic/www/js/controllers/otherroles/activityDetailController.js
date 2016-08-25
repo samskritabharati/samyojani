@@ -9,7 +9,7 @@ angular
     	var activity = $state.params.activityDetail;
 
     	vm.userName = $rootScope.userDetail.data[0].Name;
-    	
+
     	showDetailActivity(activity);
 
     	function showDetailActivity(activity){
@@ -69,14 +69,18 @@ angular
     .module('starter')
     .controller('addActivityController', addActivityController);
 
-  	addActivityController.$inject = ['$scope', '$stateParams', '$state', '$rootScope','userInfoService','$ionicModal','userAuthenticationService'];
+  	addActivityController.$inject = ['$scope', '$stateParams', '$state', '$rootScope','userInfoService','$ionicModal','userAuthenticationService','activityService'];
 
-  	function addActivityController($scope, $stateParams, $state, $rootScope,userInfoService, $ionicModal, userAuthenticationService) {
+  	function addActivityController($scope, $stateParams, $state, $rootScope,userInfoService, $ionicModal, userAuthenticationService, activityService) {
     	var vm = this;
 
     	vm.closeModel = closeModel;
     	vm.geolocate = geolocate;
-    
+    	vm.addNewActivityDetail = addNewActivityDetail;
+    /*	vm.newActivity.Start_time = 00;*/
+
+    	activityList();
+    	recurrenceList();
 
     	function geolocate(){
 		if (navigator.geolocation) {
@@ -137,10 +141,40 @@ angular
 		$state.go('app.main');
 	} 
 
-	$scope.$watch(function() { return vm.newActivity.Start_time },
+	/*$scope.$watch(function() { return vm.newActivity.Start_time },
       function() {
       	vm.newActivity.End_time = vm.newActivity.Start_time;
       }
- 	);
+ 	);*/
 
-    }
+	function addNewActivityDetail(newActivity){
+		console.log('activitynew',newActivity);
+		newActivity.Coordinator_url = $rootScope.userDetail.data[0]._url;
+		newActivity.Address = {'Country': document.getElementById('country').value,
+          							'Postal_code': document.getElementById('postal_code').value,
+          							'City': document.getElementById('locality').value,
+          							'State': document.getElementById('administrative_area_level_1').value,
+          							'Country': document.getElementById('country').value,
+          							'Address_line1': document.getElementById('street_number').value,
+          							'Address_line2': document.getElementById('route').value,
+      							}
+		activityService.addNewActivity(newActivity).then(function(data){
+			console.log('activity added',data);
+		},function(error){
+			console.log('Error in adding activity',error);
+		})
+	}
+
+	function recurrenceList(){
+		activityService.getRecurrence().then(function(recurrence){
+			console.log('recrr',recurrence);
+			vm.recurrenceList = recurrence
+		})
+	}
+
+	function activityList(){
+		userInfoService.getAllActivity().then(function(activity){
+            vm.activityList= activity.data;
+        })
+	}
+}
