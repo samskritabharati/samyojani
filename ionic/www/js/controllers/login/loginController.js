@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('loginController', loginController);
 
-loginController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$rootScope', '$ionicModal', 'userInfoService'];
+loginController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$rootScope', '$ionicModal', 'userInfoService', '$ionicHistory','$localStorage'];
 
-function loginController($scope, $stateParams, $state, userAuthenticationService, $rootScope, $ionicModal, userInfoService) {
+function loginController($scope, $stateParams, $state, userAuthenticationService, $rootScope, $ionicModal, userInfoService, $ionicHistory,$localStorage) {
      var vm = this;
      vm.signInWithEmail = signInWithEmail;
      vm.signInWithFacebook = signInWithFacebook;
@@ -12,7 +12,8 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
      vm.closeModel =  closeModel;
      vm.newSignInWithEmail = newSignInWithEmail;
 
-
+     $rootScope.userDetail = [];
+     
      function signInWithFacebook(){
           FB.login(function(response) {
                if (response.authResponse) {
@@ -20,7 +21,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
                     FB.api('/me',{fields: 'last_name,name,email,gender'}, function(response) {
                          console.log('Good to see you, ' + response.name + '.');
                          console.log('response',response);
-                         $state.go('app.student', { 'userdata': response.name});
+                         $state.go('app.student');
                     });
                } else {
                     console.log('User cancelled login or did not fully authorize.');
@@ -37,13 +38,25 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
                $rootScope.userDetail = userData;
                console.log(userData.data.length != 0);
                if(userData.data.length != 0){
-                    console.log(userData.data[0].Role)
-
-                    if(userData.data[0].Role == 'Student'){
-                         $state.go('app.student', { 'userdata': userData.data[0].Name});
+                    console.log(userData.data[0].Role);
+                    console.log('name',(userData.data[0].Name == null || userData.data[0].Name == "" ));
+                    console.log((userData.data[0].Email == null || userData.data[0].Email == "" ) || (userData.data[0].Phone == null || userData.data[0].Phone == "" ) || (userData.data[0].Name == null || userData.data[0].Name == "" ));
+                     
+                    if((userData.data[0].Email == null || "") || (userData.data[0].Name == null || "") || (userData.data[0].Phone == null || "") || (userData.data[0].Role
+                        == null || "") || (userData.data[0].Address.Postal_code == null || "")){
+                        $state.go('app.signUp',{'email':vm.email},{location: false, inherit: false});
                     }else{
+                      $ionicHistory.nextViewOptions({
+                        disableBack: true
+                      });
+
+                      if(userData.data[0].Role == 'Student'){
+                         $state.go('app.student', { 'userdata': userData.data[0].Name});
+                      }else{
                          $state.go('app.organizer');
+                      }
                     }
+                    
                }else{
                   console.log('invalid user');
                    newSignInWithEmail();

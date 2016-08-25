@@ -20,6 +20,51 @@
 		<script type="text/ng-template" id="joinshibira.html">
 			<div id="viewOne">
 				<h1>About joinshibira</h1>
+				<span  class="ion-plus-circled float_right font_size_20px" style="color: green" ng-click="vm.showNewActivityForm()">Add New Activity</span>
+			<div class="with100p display_inlineflex" >
+			<span class="ion-android-search"></span><input type="text" ng-model="vm.searchKeyword" class="border1px" placeholder="Enter  here to search" style="width: 50%">
+			</div>
+				<div class = "row" style="border-bottom: 1px solid black;">
+					<div class = "col" ng-click="sortType = 'Start_date';sortReverse = !sortReverse">Shibira
+						<span ng-show="sortType == 'Start_date' && !sortReverse" class="ion-arrow-up-b"></span>
+						<span ng-show="sortType == 'Start_date' && sortReverse" class="ion-arrow-down-b"></span>
+					</div>
+					<div class = "col" ng-click="sortType = 'Activity_type_id';sortReverse = !sortReverse">Type
+						<span ng-show="sortType == 'Activity_type_id' && !sortReverse" class="ion-arrow-up-b"></span>
+						<span ng-show="sortType == 'Activity_type_id' && sortReverse" class="ion-arrow-down-b"></span>
+					</div>
+					<div class = "col">Action
+
+					</div>
+				</div>
+
+
+				<div  ng-repeat="activity in vm.activityData  | orderBy:sortType:sortReverse | filter: vm.searchKeyword" style="border-bottom: 1px solid black;">
+					<div class ="row" >
+						<div class="col">
+							<p>Date: &nbsp&nbsp {{activity.Start_date | date }} 
+								<span ng-if="activity.End_date !='' || activity.End_date != null">
+									to {{activity.End_date | date }}</span>
+								</p>
+								<p ng-if=' activity.Start_time != ""|| activity.Start_time != null '>Time: &nbsp&nbsp{{activity.Start_time}} <span ng-if='activity.End_time != "" || activity.End_time != null ''>to {{activity.End_time}}</span></p>
+								<address parameter="activity.Address"></address>
+							</div>
+
+							<div class="col">{{activity.Activity_type_id}}</div>
+							<div class="col">
+								<span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_20px"></span>
+								&nbsp &nbsp	&nbsp &nbsp
+								<a  href="tel:activity.Phone" class="ion-ios-telephone font_size_20px"></a>
+								&nbsp &nbsp	&nbsp &nbsp
+								<a href="mailto:{{activity.Email}}" class="ion-email font_size_20px" title="mail"></a> 
+								&nbsp &nbsp	&nbsp &nbsp
+								<span ng-click="vm.joinActivity(activity,'Confirmed')" class="ion-plus-circled font_size_20px" >Join</span> 
+								&nbsp&nbsp	&nbsp&nbsp
+								<span ng-click="vm.joinActivity(activity,'Tentative')" class="ion-help-circled font_size_20px" >Tentative</span> 
+								
+							</div>
+						</div>
+					</div>
 			</div>
 		</script>
 

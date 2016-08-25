@@ -2,19 +2,32 @@ angular
 .module('starter')
 .controller('newSignUpController', newSignUpController);
 
-newSignUpController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$ionicModal', 'userInfoService'];
+newSignUpController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$ionicModal', 'userInfoService', '$rootScope' ,'userAuthenticationService'];
 
-function newSignUpController($scope, $stateParams, $state, userAuthenticationService, $ionicModal, userInfoService) {
+function newSignUpController($scope, $stateParams, $state, userAuthenticationService, $ionicModal, userInfoService, $rootScope, userAuthenticationService) {
 	var vm = this;
 
 	vm.addUser = addUser;
 	vm.closeModel =  closeModel;
 	vm.geolocate = geolocate;
+	vm.updateUser = updateUser;
 
+	vm.showUpdateButtn = false;
 	var placeSearch, autocomplete;
 	vm.userAddress = [];
+console.log('paraaa',$state.params.email);
+	if($state.params.email){
+		console.log('if');
+		vm.showUpdateButtn = true;
+		userAuthenticationService.emailauthentication($state.params.email).then(function(userData){
+               console.log('userData',userData);
+				vm.newUser = userData.data[0];
+		},function(error){
+			console.log(error)
+		})
+	}else{
 
-
+	}
  $scope.$on('$ionicView.beforeEnter', function () {
  	userProfession();
  })
@@ -65,8 +78,11 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 
 		for (var i = 0; i < place.address_components.length; i++) {
 			var addressType = place.address_components[i].types[0];
+			console.log('component',place.address_components[i]);
+			console.log('addressType',addressType);
 			if (componentForm[addressType]) {				
 				var val = place.address_components[i].long_name;
+				console.log('val',val);
 				document.getElementById(addressType).value = val;
 			}
 		}
@@ -74,7 +90,6 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 
 
 	function closeModel(){
-		console.log("hr");
 		$state.go('app.main');
 	} 
 
@@ -103,9 +118,26 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
           console.log(newUserDetail);
           userInfoService.addNewUser(newUserDetail).then(function(data){
                console.log(data);
+               $rootScope.userDetail = [];
+               $rootScope.userDetail = data;
+               $state.go('app.student');
           },function(error){
                console.log('error');
           })
 
      } 
+
+     function updateUser(newUserDetail){
+     	console.log(newUserDetail);
+     	 userInfoService.updateUserDetail(newUserDetail).then(function(userUpdateddata){
+            console.log('updatedataresult',userUpdateddata);
+            if(userUpdateddata.data.Role == 'Student'){
+             	$state.go('app.student');
+            }else{
+                $state.go('app.organizer');
+            }
+         },function(error){
+            console.log(error);
+         });
+     }
 }

@@ -18,6 +18,7 @@ function userInfoService($http, $q, constantsService) {
         getUser: getUser,
         getUserRole: getUserRole,
         deleteUser: deleteUser,
+        getUserClassList:getUserClassList
 
 
     };
@@ -88,6 +89,7 @@ function userInfoService($http, $q, constantsService) {
 
     function updateUserDetail(userdataToUpdate){
         console.log('i am hear',userdataToUpdate);
+        console.log("userurls",userdataToUpdate._url);
         var deferred = $q.defer();
         $http({
             method : 'PUT',
@@ -202,7 +204,6 @@ function userInfoService($http, $q, constantsService) {
             url : constantsService.url+'/types/role'
         }).then(function(data){
             console.log(data);
-            deferred.resolve(data);
         }, function(error){
             console.log('error',error);
             deferred.reject(error);
@@ -210,5 +211,19 @@ function userInfoService($http, $q, constantsService) {
         return deferred.promise;
     }
 
+    function getUserClassList(userUrl){
+        console.log("userUrl",userUrl);
+        var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url : constantsService.url+'/roles?Person_url='+userUrl
+        }).then(function(data){
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
 
 }

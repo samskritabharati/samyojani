@@ -99,9 +99,11 @@ angular
     }
 
     function showActivity(){
+        console.log("sssssssssssssssss",$rootScope.userDetail.data);
         console.log('$rootScope.userDetail.data[0].SB_Region',$rootScope.userDetail.data[0].SB_Region);
         userInfoService.getUserActivities($rootScope.userDetail.data[0].SB_Region).then(function(activityData){
             vm.activityData = activityData.data;
+            console.log("activitycount", vm.activityData);
         },function(error){
             console.log(error);
         });

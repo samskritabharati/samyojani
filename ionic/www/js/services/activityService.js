@@ -6,12 +6,9 @@ activityService.$inject = ['$http', '$q', 'constantsService'];
 
 function activityService($http, $q, constantsService) {
     var service = {
-        
         getRecurrence: getRecurrence,
-        addNewActivity: addNewActivity
-      
-
-
+        addNewActivity: addNewActivity,
+        joinActivity: joinActivity
     };
 
     return service;
@@ -47,4 +44,19 @@ function activityService($http, $q, constantsService) {
         return deferred.promise;
     }
     
+    function joinActivity(newJoindActivity){
+        var deferred = $q.defer();
+        $http({
+            method : 'POST',
+            url :  constantsService.url+'/roles?Person_url='+newJoindActivity.Person_url,
+            data: newJoindActivity
+        }).then(function(data){
+            console.log('newactivity return',data);
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
 }

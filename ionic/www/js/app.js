@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStorage'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -55,11 +55,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
+    controller: 'menuController as vm'
   })
 
   .state('app.student', {
-    url: '/student/:userdata',
+    url: '/student',
     views: {
       'menuContent': {
         templateUrl: 'templates/student.html',
@@ -88,6 +88,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
   })
   .state('app.signUp', {
     url: '/signUp',
+    params: {
+     email: null
+    },
     views: {
       'menuContent': {
         templateUrl: 'templates/signUp.html',
@@ -113,6 +116,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
       'menuContent': {
         templateUrl: 'templates/activityDetail.html',
         controller: 'activityDetailController as vm'
+      }
+    }
+  })
+  .state('app.studentClass', {
+    url: '/studentClass',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/studentClass.html',
+        controller: 'studentClassController as vm'
       }
     }
   })
