@@ -22,7 +22,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
 
     window.fbAsyncInit = function() {
     FB.init({
-      appId      : '168029083629718',
+      appId      : '1611634565814061',
       xfbml      : true,
       version    : 'v2.7'
     });

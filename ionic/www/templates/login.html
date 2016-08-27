@@ -11,20 +11,29 @@
                     </div>
                </div>
                <div class="row row-no-padding">
-                    <!-- <div class="col"> 
-                         <button class=" button button-block icon-right text_white ion-social-googleplus googleColor padding_right30px"></button>
-                    </div> -->
+                   
                     <div class="col-90">
-                         <!-- <button class="button button-block googleColor text_white " ng-click="vm.signInWithGoogle()">Sign in with Google</button> -->
-                         <div id="gSignIn">mmm</div>
-                         <div class="userContent"></div>
+                        
+                         <!--  <button class="g-signin2" data-onsuccess="onSignIn" ng-click="vm.googleSignIn">click</button> -->
+                         <!-- <google-sign-in-button on-sign-in="onSignIn(response)" g-client-id="241914619184-ecdv0arfl89j4utfhijf1jshdrdmdsrh.apps.googleusercontent.com"></google-sign-in-button> -->
+
+                         <span id="googleSignIn">
+            <span id="signInButton">
+            </span>
+        </span>
                     </div>
                </div>
                <div class="font_size_20px">---------- OR ----------</div>             
                <button class="button button-block themBackgroundColor float_right text_white" ng-click="vm.popupForEmailLogin()"
                >Sign in with Email</button>             
           </div>
-        
+        <script type="text/javascript">
+          (function() {
+                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                po.src = 'https://apis.google.com/js/client:plusone.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
+        </script>
           <script id="emailSigninPopUp.html" type="text/ng-template">
                     <ion-modal-view>
                          <ion-header-bar class="bar bar-header button-clear">

@@ -192,6 +192,7 @@ function userInfoService($http, $q, constantsService) {
             url : constantsService.url+'/types/role'
         }).then(function(data){
             console.log(data);
+             deferred.resolve(data);
         }, function(error){
             console.log('error',error);
             deferred.reject(error);

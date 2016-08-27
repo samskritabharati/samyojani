@@ -80,6 +80,7 @@ angular
 
    		function getParticipants(){
    			console.log("userUrl",activity._url);
+
    			activityService.getActivityParticipants(activity._url).then(function(perticipants){
    				vm.perticepantsList = perticipants;
    				  angular.forEach(vm.perticepantsList.data, function (piece, index) {
@@ -127,7 +128,9 @@ angular
 
    		function showFormToUpdatePerticipantInActivity(perticipantInfo){
    			userRole();
+        console.log("show form");
    			vm.userActivityDetailToEdit = perticipantInfo
+        console.log("vm.userActivityDetailToEdit",vm.userActivityDetailToEdit);
    			$ionicModal.fromTemplateUrl('editUserInActivity.html', {
            scope: $scope,
            animation: 'slide-in-right'
@@ -149,13 +152,13 @@ angular
         function userRole(){
 	        userInfoService.getUserRole().then(function(userRole){
 	            vm.userRole = userRole.data;
-	            console.log("role", vm.userRole);
 	        },function(error){
 	             console.log(error);
 	        })
     	}
 
     	function showAddPerticipantForm(){
+        userRole();
     		$ionicModal.fromTemplateUrl('addPerticipantToActivity.html', {
            scope: $scope,
            animation: 'slide-in-right'
@@ -168,24 +171,26 @@ angular
 
     	function addParticipentToActivity(newParticipantDetail){
     		vm.participitant = [];
+        var newJoindActivity = [];
 //wt s the condition if email not available
 		  /*	vm.newParticipantList.push(newParticipantDetail);*/
 		  	userAuthenticationService.emailauthentication(newParticipantDetail.Email).then(function(userData){
+          console.log('userData',userData);
 			  	if(newParticipantDetail.Status == "Confirmed"){
-		            var newJoindActivity = {
+		             newJoindActivity = {
 		                Activity_url: activity._url, 
 		                Person_url: userData.data[0]._url, 
-		              /*  Role:  newParticipantDetail.Role,*/
-		              Role:  "Student",
+		                Role:  newParticipantDetail.Role,
+		             
 		                Status:'Confirmed',
 		                Last_active_date:new Date()
 		            }
 		        }else{
-		            var newJoindActivity = {
+		             newJoindActivity = {
 		                Activity_url: activity._url, 
 		                Person_url: userData.data[0]._url, 
-		                /*Role:  newParticipantDetail.Role,*/
-		                Role:  "Student",
+		                Role:  newParticipantDetail.Role,
+		                Role:  newParticipantDetail.Role,
 		                Status:'Tentative',
 		                Last_active_date:new Date()
 		            }
@@ -204,6 +209,7 @@ angular
 
 	    function closeModelAndRefeshParticipant(){
 	    	 $scope.modal.hide();
+         vm.participentDetailList = [];
 	    	 getParticipants();
 	    }
 	}

@@ -2,25 +2,31 @@ angular
 .module('starter')
 .controller('loginController', loginController);
 
-loginController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$ionicModal', 'userInfoService', '$ionicHistory','$localStorage'];
+loginController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$ionicModal', 'userInfoService', '$ionicHistory','$localStorage' ,'$rootScope'];
 
-function loginController($scope, $stateParams, $state, userAuthenticationService, $ionicModal, userInfoService, $ionicHistory,$localStorage) {
+function loginController($scope, $stateParams, $state, userAuthenticationService, $ionicModal, userInfoService, $ionicHistory,$localStorage,$rootScope) {
      var vm = this;
+
      vm.signInWithEmail = signInWithEmail;
      vm.signInWithFacebook = signInWithFacebook;
      vm.popupForEmailLogin =  popupForEmailLogin;
      vm.closeModel =  closeModel;
      vm.newSignInWithEmail = newSignInWithEmail;
+/*   vm.onSignIn = onSignIn;*/
+ /* vm.googleSignIn = googleSignIn;*/
+    /* vm.onSignIn  = onSignIn;*/
     vm.onSignIn = onSignIn;
-     
-     function signInWithFacebook(){
+vm.onSignInButtonClick = onSignInButtonClick;
+    function signInWithFacebook(){
           FB.login(function(response) {
                if (response.authResponse) {
                     console.log('Welcome!  Fetching your information.... ');
                     FB.api('/me',{fields: 'last_name,name,email,gender'}, function(response) {
                          console.log('Good to see you, ' + response.name + '.');
                          console.log('response',response);
-                         $state.go('app.student');
+
+                        $rootScope.fbResponse = response;
+                         $state.go('app.signUp');
                     });
                } else {
                     console.log('User cancelled login or did not fully authorize.');
@@ -88,7 +94,39 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
           $scope.modal.hide();
         }        
 
+function onSignIn(googleUser) {
+    console.log("entered onsignin");
+    var profile = googleUser.getBasicProfile();
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log('ID: ' + profile.getId());
+    console.log('Full Name: ' + profile.getName());
 
+    var user_parms = { 
+        'auth_src' : 'google',
+        'name' : profile.getName(),                                 
+        'email' : profile.getEmail(),
+        
+    }; 
+
+    $.post('/login', user_parms, function(data) {
+        console.log("Logged in successfully.");
+        var data = JSON.parse(data);
+        if (mychkstatus(data)) {
+            res = data['result'];
+        }
+        else {
+        }
+        
+        /*
+        if (data.redirect) {
+            window.location.href = data.redirect;
+        }
+        else {
+            console.log("no redirect from server");
+        }
+        */
+    });
+}
 
 
 function newSignInWithEmail (){
@@ -96,50 +134,69 @@ function newSignInWithEmail (){
    $state.go('app.signUp');
  }
   
-function onSignIn(googleUser) {
+/*function onSignIn(res){
+  console.log("cal");
+  console.log("res",res);
+}*/
+function onSignIn(response){
   console.log("function cal");
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail());
-}
+                    console.log(response);
+  }
 
-function onSuccess(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    gapi.client.load('plus', 'v1', function () {
-        var request = gapi.client.plus.people.get({
-            'userId': 'me'
+  function onSignInButtonClick(){//add a function to the controller so ng-click can bind to it
+        GoogleAuth.signIn().then(function(response){//request to sign in
+            $scope.callback({response:response});
+            console.log("directive",response);
         });
-        //Display the user details
-        request.execute(function (resp) {
-            var profileHTML = '<div class="profile"><div class="head">Welcome '+resp.name.givenName+'! <a href="javascript:void(0);" onclick="signOut();">Sign out</a></div>';
-            profileHTML += '<img src="'+resp.image.url+'"/><div class="proDetails"><p>'+resp.displayName+'</p><p>'+resp.emails[0].value+'</p><p>'+resp.gender+'</p><p>'+resp.id+'</p><p><a href="'+resp.url+'">View Google+ Profile</a></p></div></div>';
-            $('.userContent').html(profileHTML);
-            $('#gSignIn').slideUp('slow');
+    };
+ $scope.signedIn = false;
+ 
+    // Here we do the authentication processing and error handling.
+    // Note that authResult is a JSON object.
+    $scope.processAuth = function(authResult) {
+        // Do a check if authentication has been successful.
+        if(authResult['access_token']) {
+            // Successful sign in.
+            $scope.signedIn = true;
+ 
+            //     ...
+            // Do some work [1].
+            //     ...
+        } else if(authResult['error']) {
+            // Error while signing in.
+            $scope.signedIn = false;
+ 
+            // Report error.
+        }
+    };
+ 
+    // When callback is received, we need to process authentication.
+    $scope.signInCallback = function(authResult) {
+        $scope.$apply(function() {
+            $scope.processAuth(authResult);
         });
-    });
-}
-function onFailure(error) {
-    alert(error);
-}
-function renderButton() {
-    gapi.signin2.render('gSignIn', {
-        'scope': 'profile email',
-        'width': 240,
-        'height': 50,
-        'longtitle': true,
-        'theme': 'dark',
-        'onsuccess': onSuccess,
-        'onfailure': onFailure
-    });
-}
-function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-        $('.userContent').html('');
-        $('#gSignIn').slideDown('slow');
-    });
-}
+    };
+ 
+    // Render the sign in button.
+    $scope.renderSignInButton = function() {
+        gapi.signin.render('signInButton',
+            {
+                'callback': $scope.signInCallback, // Function handling the callback.
+                'clientid': '241914619184-ecdv0arfl89j4utfhijf1jshdrdmdsrh', // CLIENT_ID from developer console which has been explained earlier.
+                'requestvisibleactions': 'http://schemas.google.com/AddActivity', // Visible actions, scope and cookie policy wont be described now,
+                                                                                  // as their explanation is available in Google+ API Documentation.
+                'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+                'cookiepolicy': 'single_host_origin'
+            }
+        );
+    }
+ 
+    // Start function in this example only renders the sign in button.
+    $scope.start = function() {
+        $scope.renderSignInButton();
+    };
+ 
+    // Call start function on load.
+    $scope.start();
 }
 

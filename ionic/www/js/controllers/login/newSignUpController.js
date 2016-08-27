@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('newSignUpController', newSignUpController);
 
-newSignUpController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$ionicModal', 'userInfoService', 'userAuthenticationService', ' $localStorage'];
+newSignUpController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$ionicModal', 'userInfoService', 'userAuthenticationService', '$localStorage','$rootScope'];
 
-function newSignUpController($scope, $stateParams, $state, userAuthenticationService, $ionicModal, userInfoService, userAuthenticationService, $localStorage) {
+function newSignUpController($scope, $stateParams, $state, userAuthenticationService, $ionicModal, userInfoService, userAuthenticationService, $localStorage,$rootScope) {
 	var vm = this;
 
 	vm.addUser = addUser;
@@ -16,6 +16,15 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 	var placeSearch, autocomplete;
 	vm.userAddress = [];
 console.log('paraaa',$state.params.email);
+
+console.log('$rootScope.fbResponse',  $rootScope.fbResponse);
+
+if($rootScope.fbResponse){
+	$rootScope.fbResponse
+	vm.newUser = {
+		Name: $rootScope.fbResponse.name
+	}
+}
 	if($state.params.email){
 		console.log('if');
 		vm.showUpdateButtn = true;
@@ -113,11 +122,11 @@ console.log('paraaa',$state.params.email);
           							'Address_line1': document.getElementById('street_number').value,
           							'Address_line2': document.getElementById('route').value,
       							}
-
-      	
-          console.log(newUserDetail);
+				if($rootScope.fbResponse){
+					newUserDetail.Facebook_id = $rootScope.fbResponse.id;
+				}
+      			newUserDetail.Role = ""
           userInfoService.addNewUser(newUserDetail).then(function(data){
-               console.log(data);
                $localStorage.userInfo = [];
                $localStorage.userInfo = data;
                $state.go('app.student');
