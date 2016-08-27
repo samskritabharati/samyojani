@@ -2,19 +2,35 @@ angular
     .module('starter')
     .controller('activityDetailController', activityDetailController);
 
-  	activityDetailController.$inject = ['$scope', '$stateParams', '$state', '$rootScope','userInfoService','$ionicModal','userAuthenticationService'];
+  	activityDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService', '$localStorage', 'activityService'];
 
-  	function activityDetailController($scope, $stateParams, $state, $rootScope,userInfoService, $ionicModal, userAuthenticationService) {
+  	function activityDetailController($scope, $stateParams, $state ,userInfoService, $ionicModal, userAuthenticationService, $localStorage, activityService ) {
     	var vm = this;
+    	vm.deleteUserFromActivity = deleteUserFromActivity;
+    	vm.updateUserDetailFromActivity = updateUserDetailFromActivity;
+    	vm.showFormToUpdatePerticipantInActivity = showFormToUpdatePerticipantInActivity;
+    	vm.closeModel = closeModel;
+    	vm.showAddPerticipantForm = showAddPerticipantForm;
+    	vm.addParticipentToActivity = addParticipentToActivity;
+    	vm.closeModelAndRefeshParticipant = closeModelAndRefeshParticipant;
+         
     	var activity = $state.params.activityDetail;
-
-    	vm.userName = $rootScope.userDetail.data[0].Name;
-
+    	vm.userName = $localStorage.userInfo.data[0].Name;
+    	vm.role = $localStorage.userInfo.data[0].Role;
+    	console.log("vm.role",vm.role);
+    	vm.participentDetailList = [];
+    	vm.newParticipantList = [];
+    	vm.activityEnrollTypes = ["Confirmed", "Tentative"];
     	showDetailActivity(activity);
+
+    	getParticipants();
+    	if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
+         	$localStorage.userlogin = true;
+
+    	}
 
     	function showDetailActivity(activity){
     		userInfoService.getActivityProjectDetail(activity.Project_url).then(function(projectDetails){
-                console.log('projectDetails',projectDetails);
                 if(activity.Coordinator_url != null || activity.Coordinator_url == ""){
                     userInfoService.getActivityCoordinatorDetail(activity.Coordinator_url).then(function(coordinatorDetails){
                         console.log(coordinatorDetails);
@@ -60,18 +76,145 @@ angular
 	            coordinator__url: coordinatorDetails.data._url
 	        }
 	         vm.activityDetail = _activityDetail;
-	         console.log('detail activity',vm.activityDetail);
-   		 }
+   		}
 
+   		function getParticipants(){
+   			console.log("userUrl",activity._url);
+   			activityService.getActivityParticipants(activity._url).then(function(perticipants){
+   				vm.perticepantsList = perticipants;
+   				  angular.forEach(vm.perticepantsList.data, function (piece, index) {
+   				  	userInfoService.getUserByUrl(piece.Person_url).then(function(perticepantInfo){
+   				  		perticipantsStructure(perticepantInfo.data,piece);
+   				  	})
+
+   				  })
+   			},function(error){
+   				console.log('error in getting perticipantsList',error)
+   			})
+   		}
+
+   		function perticipantsStructure(_perticepantInfo,_perticipantStatus){
+   			console.log('_perticepantInfo',_perticepantInfo);
+   			console.log('_perticipantStatus',_perticipantStatus);
+   			var perticipantsStructureObject = {
+   				perticipantStaus: _perticipantStatus,
+   				perticepantInfo: _perticepantInfo
+   			}
+   			console.log('perticipantsStructureObject',perticipantsStructureObject);
+   			vm.participentDetailList.push(perticipantsStructureObject);
+   			console.log('vm.participentDetailList',vm.participentDetailList);
+   		}
+
+   		function deleteUserFromActivity(activityDetail){
+   			activityService.deletActivityFromUserList(activityDetail.perticipantStaus._url).then(function(data){
+   				vm.participentDetailList = [];
+   				getParticipants();
+   			},function(error){
+   				console.log("error in deleting userFrom activity",error);
+   			})
+   		}
+
+   		function updateUserDetailFromActivity(perticipant){
+   			activityService.updateActivity(perticipant.perticipantStaus,perticipant.perticipantStaus._url).then(function(data){
+                console.log('activity joined scc',data);
+               vm.participentDetailList = [];
+   				getParticipants();
+   				$scope.modal.hide();
+            },function(error){
+                console.log(error);
+            })
+   		}
+
+   		function showFormToUpdatePerticipantInActivity(perticipantInfo){
+   			userRole();
+   			vm.userActivityDetailToEdit = perticipantInfo
+   			$ionicModal.fromTemplateUrl('editUserInActivity.html', {
+           scope: $scope,
+           animation: 'slide-in-right'
+          }).then(function(modal) {
+            $scope.modal = modal;
+            $scope.modal.show();
+           
+          });
+              
+          $scope.closeModal = function() {
+            $scope.modal.hide();
+          };
+   		}
+
+   		function closeModel(){
+          $scope.modal.hide();
+        }  
+
+        function userRole(){
+	        userInfoService.getUserRole().then(function(userRole){
+	            vm.userRole = userRole.data;
+	            console.log("role", vm.userRole);
+	        },function(error){
+	             console.log(error);
+	        })
+    	}
+
+    	function showAddPerticipantForm(){
+    		$ionicModal.fromTemplateUrl('addPerticipantToActivity.html', {
+           scope: $scope,
+           animation: 'slide-in-right'
+          }).then(function(modal) {
+            $scope.modal = modal;
+            $scope.modal.show();
+           
+          });
+    	}
+
+    	function addParticipentToActivity(newParticipantDetail){
+    		vm.participitant = [];
+//wt s the condition if email not available
+		  /*	vm.newParticipantList.push(newParticipantDetail);*/
+		  	userAuthenticationService.emailauthentication(newParticipantDetail.Email).then(function(userData){
+			  	if(newParticipantDetail.Status == "Confirmed"){
+		            var newJoindActivity = {
+		                Activity_url: activity._url, 
+		                Person_url: userData.data[0]._url, 
+		              /*  Role:  newParticipantDetail.Role,*/
+		              Role:  "Student",
+		                Status:'Confirmed',
+		                Last_active_date:new Date()
+		            }
+		        }else{
+		            var newJoindActivity = {
+		                Activity_url: activity._url, 
+		                Person_url: userData.data[0]._url, 
+		                /*Role:  newParticipantDetail.Role,*/
+		                Role:  "Student",
+		                Status:'Tentative',
+		                Last_active_date:new Date()
+		            }
+		        }
+		        
+		        activityService.joinActivity(newJoindActivity).then(function(data){
+		           console.log("participant added")
+		           newParticipantDetail = []
+		        },function(error){
+		            console.log(error);
+		        })
+		  },function(error){
+		  		console.log(error)
+		  })
+    	}
+
+	    function closeModelAndRefeshParticipant(){
+	    	 $scope.modal.hide();
+	    	 getParticipants();
+	    }
 	}
 
 	angular
     .module('starter')
     .controller('addActivityController', addActivityController);
 
-  	addActivityController.$inject = ['$scope', '$stateParams', '$state', '$rootScope','userInfoService','$ionicModal','userAuthenticationService','activityService'];
+  	addActivityController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService','activityService', '$localStorage'];
 
-  	function addActivityController($scope, $stateParams, $state, $rootScope,userInfoService, $ionicModal, userAuthenticationService, activityService) {
+  	function addActivityController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, activityService, $localStorage) {
     	var vm = this;
 
     	vm.closeModel = closeModel;
@@ -149,7 +292,7 @@ angular
 
 	function addNewActivityDetail(newActivity){
 		console.log('activitynew',newActivity);
-		newActivity.Coordinator_url = $rootScope.userDetail.data[0]._url;
+		newActivity.Coordinator_url = $localStorage.userInfo.data[0]._url;
 		newActivity.Address = {'Country': document.getElementById('country').value,
           							'Postal_code': document.getElementById('postal_code').value,
           							'City': document.getElementById('locality').value,

@@ -2,18 +2,22 @@ angular
 .module('starter')
 .controller('studentController', studentController);
 
-studentController.$inject = ['$scope', '$stateParams', '$state', '$location', '$rootScope', 'userInfoService' ,'activityService'];
+studentController.$inject = ['$scope', '$stateParams', '$state', '$location', '$localStorage', 'userInfoService' ,'activityService','$ionicHistory'];
 
-function studentController($scope, $stateParams, $state, $location, $rootScope, userInfoService, activityService) {
+function studentController($scope, $stateParams, $state, $location, $localStorage, userInfoService, activityService, $ionicHistory) {
      var vm = this;
      
      vm.detailAboutActivity = detailAboutActivity;
      vm.joinActivity = joinActivity;
 
+    vm.activityNewList = [];
     vm.userName = $stateParams.userdata;
-     $rootScope.userlogin = true;
-     showActivity();
+    if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
+         $localStorage.userlogin = true;
 
+    }
+     showActivity();
+console.log('stundent cnt')
      $scope.tabs = [{
           title: 'Upcoming Classes',
           url: 'joinshibira.html'
@@ -34,10 +38,45 @@ function studentController($scope, $stateParams, $state, $location, $rootScope, 
      }
 
      function showActivity(){
-        console.log($rootScope.userDetail.data);
-        console.log('student sb reg',$rootScope.userDetail.data.SB_Region);
-        userInfoService.getUserActivities($rootScope.userDetail.data.SB_Region).then(function(activityData){
+
+        userInfoService.getUserActivities($localStorage.userInfo.data.SB_Region).then(function(activityData){
             vm.activityData = activityData.data;
+            console.log('len',vm.activityData.length)
+            userInfoService.getUserClassList($localStorage.userInfo.data[0]._url).then( function (studentClass){
+            angular.forEach(activityData.data, function (key, index) {
+
+               angular.forEach(studentClass.data, function (classEnrolled, index) {
+                if(key._url == classEnrolled.Activity_url){
+                  console.log("if");
+                  activityWithEnrollStructure(key,classEnrolled);
+                }else{
+                  activityWithOutEnrollStructure(key);
+                }
+               })
+           /*   var result = $.grep(activityData.data, function (packState) {
+             
+              
+                return  packState._url == key.Activity_url;
+              });
+
+              console.log("result",result);
+              console.log(!(result && result.length > 0));
+              if(result && result.length > 0){
+                  activityWithEnrollStructure(result[0],key);
+              }
+              else{
+                  console.log("else")
+                  activityWithOutEnrollStructure(result[0]);
+              }*/
+            })
+              
+
+
+
+
+        },function(error){
+            console.log('error in getting student class',error);
+        })
             console.log('activityData',vm.activityData);
         },function(error){
             console.log(error);
@@ -45,27 +84,27 @@ function studentController($scope, $stateParams, $state, $location, $rootScope, 
     }
 
     function detailAboutActivity(activity){ 
+      $ionicHistory.nextViewOptions({
+            disableBack: true
+          });
         $state.go('app.activityDetail',{'activityDetail':activity},{location: false, inherit: false});
     }
 
     function joinActivity(activityTOjoin,state){
-        console.log(activityTOjoin);
         
-        var date = new Date();
-        console.log(date);
         if(state == "Confirmed"){
             var newJoindActivity = {
                 Activity_url: activityTOjoin._url, 
-                Person_url: $rootScope.userDetail.data[0]._url, 
-                Role: $rootScope.userDetail.data[0].Role,
+                Person_url: $localStorage.userInfo.data[0]._url, 
+                Role:  $localStorage.userInfo.data[0].Role,
                 Status:'Confirmed',
                 Last_active_date:new Date()
             }
         }else{
             var newJoindActivity = {
                 Activity_url: activityTOjoin._url, 
-                Person_url: $rootScope.userDetail.data[0]._url, 
-                Role: $rootScope.userDetail.data[0].Role,
+                Person_url: $localStorage.userInfo.data[0]._url, 
+                Role:  $localStorage.userInfo.data[0].Role,
                 Status:'Tentative',
                 Last_active_date:new Date()
             }
@@ -79,9 +118,9 @@ function studentController($scope, $stateParams, $state, $location, $rootScope, 
         })
     }
 
-    function activityStructure(){
+    function activityWithEnrollStructure(activity,myactivity){
         var _activityDetail = {
-                activity_type_id: activity.Activity_type_id,
+               activity_type_id: activity.Activity_type_id,
                 activity_address: activity.Address,
                 activity_coordinator_url: activity.Coordinator_url,
                 activity_email: activity.Email,
@@ -96,8 +135,45 @@ function studentController($scope, $stateParams, $state, $location, $rootScope, 
                 activity_start_time: activity.Start_time,
                 activity_URL: activity.URL,
                 activity__url: activity._url,
-/*                myStateInActivity :
-*/            }
+                myactivity_url: myactivity._url,
+                myactivity_Person_url:myactivity.Person_url,
+                myactivity_Role:myactivity.Role,
+                myactivity_Status:myactivity.Status,
+
+
+           }
+           vm.activityNewList.push(_activityDetail);
+           console.log('final list',vm.activityNewList);
+           console.log("final",vm.activityNewList.length)
+    }
+
+    function activityWithOutEnrollStructure(activity){
+        var _activityDetail = {
+               activity_type_id: activity.Activity_type_id,
+                activity_address: activity.Address,
+                activity_coordinator_url: activity.Coordinator_url,
+                activity_email: activity.Email,
+                activity_end_date: activity.End_date,
+                activity_end_time: activity.End_time,
+                activity_name: activity.Name,
+                activity_phone: activity.Phone,
+                activity_project_url: activity.Project_url,
+                activity_recurrence: activity.Recurrence,
+                activity_sb_Region: activity.SB_Region,
+                activity_start_date: activity.Start_date,
+                activity_start_time: activity.Start_time,
+                activity_URL: activity.URL,
+                activity__url: activity._url,
+                myactivity_url: "",
+                myactivity_Person_url:"",
+                myactivity_Role:"",
+                myactivity_Status:""
+
+
+           }
+           vm.activityNewList.push(_activityDetail);
+           console.log('final list',vm.activityNewList);
+           console.log("final",vm.activityNewList.length)
     }
 
     

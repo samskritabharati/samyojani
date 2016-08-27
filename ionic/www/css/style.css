@@ -44,8 +44,14 @@
 .mrg_top5px{
     margin-top: 5px !important;
 }
+.mrg_btm10px{
+    margin-bottom: 10px;
+}
 .mrg0{
     margin: 0;
+}
+.mrg10px{
+    margin: 10px
 }
 .font_size_20px{
     font-size: 20px;
@@ -136,4 +142,25 @@ li {
 }
 .popup-container.popup-showing{
     background: #999999 !important;
+}
+
+
+.col3 {
+        width: 33.33333333%;
+    }
+
+
+@media (min-width : 768px) and (max-width : 1200px){
+    .col3 {
+    width: 33.33333333%;
+    }
+}
+@media (min-width : 320px) and (max-width : 640px){
+    .col3 {
+    width: 100%;
+    float: left;
+    }
+    .row{
+        display: table !important;
+    }
 }

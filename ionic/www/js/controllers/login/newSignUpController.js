@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('newSignUpController', newSignUpController);
 
-newSignUpController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$ionicModal', 'userInfoService', '$rootScope' ,'userAuthenticationService'];
+newSignUpController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$ionicModal', 'userInfoService', 'userAuthenticationService', ' $localStorage'];
 
-function newSignUpController($scope, $stateParams, $state, userAuthenticationService, $ionicModal, userInfoService, $rootScope, userAuthenticationService) {
+function newSignUpController($scope, $stateParams, $state, userAuthenticationService, $ionicModal, userInfoService, userAuthenticationService, $localStorage) {
 	var vm = this;
 
 	vm.addUser = addUser;
@@ -118,8 +118,8 @@ console.log('paraaa',$state.params.email);
           console.log(newUserDetail);
           userInfoService.addNewUser(newUserDetail).then(function(data){
                console.log(data);
-               $rootScope.userDetail = [];
-               $rootScope.userDetail = data;
+               $localStorage.userInfo = [];
+               $localStorage.userInfo = data;
                $state.go('app.student');
           },function(error){
                console.log('error');

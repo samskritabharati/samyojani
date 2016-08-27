@@ -17,40 +17,91 @@
       <h1 class="title">Left</h1>
     </ion-header-bar>
     <ion-content>
-      <ion-list ng-if="!vm.show">
+      <ion-list ng-if="vm.notlogin">
       <div>
         <ion-item menu-close  href="#/app/login">
-          Login
+          Sign in/Register
         </ion-item>
         <ion-item menu-close href="#/app/search">
-          Search
+          About us
         </ion-item>
-        <ion-item menu-close href="#/app/browse">
-          Browse
-        </ion-item>
-        <ion-item menu-close href="#/app/playlists">
-          Playlists
-        </ion-item>
+        
       </div>
       </ion-list>
 
-      <ion-list ng-if="vm.show">
-      <div>
-        <ion-item menu-close  ng-click="vm.showStudentClass()">
-          My class
-        </ion-item>
-        <ion-item menu-close href="#/app/search">
-          Search
-        </ion-item>
-        <ion-item menu-close href="#/app/browse">
-          Browse
-        </ion-item>
-        <ion-item menu-close href="#/app/playlists">
-          LogOut
-        </ion-item>
-      </div>
+      <ion-list ng-if="vm.student">
+        <div>
+          <ion-item menu-close ng-click="vm.studentLogOut()">
+            LogOut
+          </ion-item>
+          <ion-item menu-close href="#/app/search">
+            My Profile
+          </ion-item>
+         
+          <ion-item menu-close  ng-click="vm.showStudentClass()">
+            My Classes
+          </ion-item>  
+          <ion-item menu-close href="#/app/browse">
+            My Wish List
+          </ion-item>
+          <ion-item menu-close href="#/app/browse">
+           Set Location
+          </ion-item>
+          <ion-item menu-close> Browse
+            <ion-item menu-close ng-click="vm.upcomingEvent()">
+             Upcoming Events
+            </ion-item>
+            <ion-item menu-close href="#/app/browse">
+             Projects
+            </ion-item>
+            <ion-item menu-close href="#/app/browse">
+             People
+            </ion-item>
+            <ion-item menu-close href="#/app/browse">
+             Courses
+            </ion-item>
+          </ion-item>
+        </div>
   
       </ion-list>
+
+      <ion-list ng-if="vm.other">
+        <div>
+          <ion-item menu-close ng-click="vm.studentLogOut()">
+            LogOut
+          </ion-item>
+          <ion-item menu-close href="#/app/search">
+            My Profile
+          </ion-item>
+         
+          <ion-item menu-close  ng-click="vm.showStudentClass()">
+            My Classes
+          </ion-item>  
+          <ion-item menu-close href="#/app/browse">
+            My Wish List
+          </ion-item>
+          <ion-item menu-close href="#/app/browse">
+           Set Location
+          </ion-item>
+          <ion-item menu-close> Manage
+            <ion-item menu-close ng-click="vm.upcomingEvent()" >
+             Upcoming Events
+            </ion-item>
+            <ion-item menu-close href="#/app/browse">
+             Projects
+            </ion-item>
+            <ion-item menu-close href="#/app/browse">
+             People
+            </ion-item>
+            <ion-item menu-close href="#/app/browse">
+             Courses
+            </ion-item>
+          </ion-item>
+        </div>
+  
+      </ion-list>
+
+
 
     </ion-content>
   </ion-side-menu>

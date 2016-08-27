@@ -18,7 +18,8 @@ function userInfoService($http, $q, constantsService) {
         getUser: getUser,
         getUserRole: getUserRole,
         deleteUser: deleteUser,
-        getUserClassList:getUserClassList
+        getUserClassList:getUserClassList,
+        getUserByUrl: getUserByUrl
 
 
     };
@@ -152,19 +153,6 @@ function userInfoService($http, $q, constantsService) {
         return deferred.promise;
     }
 
-    /*function getAllProject(){
-         var deferred = $q.defer();
-        $http({
-            method : 'GET',
-            url :  constantsService.url+'/types/project'
-        }).then(function(data){
-            deferred.resolve(data);
-        }, function(error){
-            console.log('error',error);
-            deferred.reject(error);
-        });
-        return deferred.promise;
-    }*/
 
     function getUser(){
         var deferred = $q.defer();
@@ -217,6 +205,21 @@ function userInfoService($http, $q, constantsService) {
         $http({
             method : 'GET',
             url : constantsService.url+'/roles?Person_url='+userUrl
+        }).then(function(data){
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+    function getUserByUrl(userUrl){
+         console.log("userUrl",userUrl);
+        var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url : constantsService.url+userUrl
         }).then(function(data){
             deferred.resolve(data);
         }, function(error){

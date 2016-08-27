@@ -2,9 +2,9 @@ angular
     .module('starter')
     .controller('organizerController', organizerController);
 
-  organizerController.$inject = ['$scope', '$stateParams', '$state', '$rootScope','userInfoService','$ionicModal','userAuthenticationService', 'projectService'];
+  organizerController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory'];
 
-  function organizerController($scope, $stateParams, $state, $rootScope,userInfoService, $ionicModal, userAuthenticationService, projectService) {
+  function organizerController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory) {
     var vm = this;
 
     vm.addNewUser = addNewUser;
@@ -13,15 +13,19 @@ angular
     vm.saveUpdatedActivityDetail = saveUpdatedActivityDetail;
     vm.deleteActivity = deleteActivity;
     vm.updateUser = updateUser;
-    vm.userName = $rootScope.userDetail.data[0].Name;
+    vm.userName = $localStorage.userInfo.data[0].Name;
     vm.saveUpdatedUserDetail = saveUpdatedUserDetail;
     vm.showNewActivityForm = showNewActivityForm;
     vm.showFormForNewUser = showFormForNewUser;
     vm.closeModel = closeModel;
     vm.deleteUser = deleteUser;
-
     vm.activityDetail = [];
     vm.userList = [];
+
+    if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
+         $localStorage.userlogin = true;
+
+    }
     showActivity();
     showUser();
     $scope.sortReverse  = false;
@@ -45,6 +49,9 @@ angular
     }
 
     function detailAboutActivity(activity){ 
+         $ionicHistory.nextViewOptions({
+            disableBack: true
+          });
         $state.go('app.activityDetail',{'activityDetail':activity},{location: false, inherit: false});
     }
 
@@ -75,7 +82,7 @@ angular
 
     function saveUpdatedActivityDetail(updatedActivity){
         console.log("updated",updatedActivity);
-        updatedActivity.Coordinator_url = $rootScope.userDetail.data[0]._url;    
+        updatedActivity.Coordinator_url = $localStorage.userInfo.data[0]._url;    
         console.log( updatedActivity.Coordinator_url);
         console.log('updatedActivity',updateActivity);
          userInfoService.updateActivity(updatedActivity).then(function(data){
@@ -99,9 +106,7 @@ angular
     }
 
     function showActivity(){
-        console.log("sssssssssssssssss",$rootScope.userDetail.data);
-        console.log('$rootScope.userDetail.data[0].SB_Region',$rootScope.userDetail.data[0].SB_Region);
-        userInfoService.getUserActivities($rootScope.userDetail.data[0].SB_Region).then(function(activityData){
+        userInfoService.getUserActivities($localStorage.userInfo.data[0].SB_Region).then(function(activityData){
             vm.activityData = activityData.data;
             console.log("activitycount", vm.activityData);
         },function(error){

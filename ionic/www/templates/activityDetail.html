@@ -1,14 +1,65 @@
 <ion-view>
 	<ion-nav-buttons side="right">
+	
 		<div>
 			<p> HI {{vm.userName }}</p>
 		</div>
+	
 	</ion-nav-buttons>
-
-	<ion-content>
+	
+	
+	
+	
+	<ion-content class="has-header">
+		<div class="text_align_center font_size_20px mrg_btm10px">
+			{{vm.activityDetail.activity_type_id}}:&nbsp{{vm.activityDetail.activity_name}}
+		</div>
 		<div style="border-bottom: 1px solid black;">
-							<div class ="row">
-								<div class="col">
+
+				<div class ="row">
+					<div class="col3">
+					Recurrence: &nbsp {{vm.activityDetail.activity_recurrence}}
+					</div>
+					<div class="col3">
+					Start Date: &nbsp{{vm.activityDetail.activity_start_date}}
+					</div>
+					<div class="col3">
+					End Date: &nbsp {{vm.activityDetail.activity_end_date}}
+					</div>
+				</div>
+				<div class ="row">
+					<div class="col3">
+						Time: &nbsp {{vm.activityDetail.activity_start_time}}<span if="vm.activityDetail.activity_end_time">to &nbsp {{vm.activityDetail.activity_end_time}}</span>
+					</div>
+					<div class="col3">
+						<p ng-if ='vm.activityDetail.activity_phone != ""'>
+							<a  href="tel:activity.Phone">Phone : &nbsp{{vm.activityDetail.activity_phone}}</a
+						</p>
+						<p ng-if ="vm.activityDetail.activity_phone == ''">
+							<a  href="tel:activity.Phone">Phone : &nbsp{{vm.activityDetail.coordinator_Phone}}</a>
+						</p>
+
+					</div>
+					<div class="col3">
+						<p ng-if ="vm.activityDetail.activity_email != ''">
+							<a href="mailto:{{vm.activityDetail.activity_email}}">Email : &nbsp{{vm.activityDetail.activity_email}}</a>
+						</p>
+						<p ng-if ="vm.activityDetail.activity_email == ''">
+							<a href="mailto:{{vm.activityDetail.coordinator_Email}}">Email : &nbsp{{vm.activityDetail.coordinator_Email}}</a>
+						</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col3">
+						Coordinator Name: &nbsp {{vm.activityDetail.coordinator_Name}}
+					</div>
+					<div class="col3">
+						Address: &nbsp{{vm.activityDetail.activity_address.Line1}}, {{vm.activityDetail.activity_address.Line2}},{{vm.activityDetail.activity_address.City}},{{vm.activityDetail.activity_address.District}}, {{vm.activityDetail.activity_address.State}}, {{vm.activityDetail.activity_address.Country}}
+															,{{vm.activityDetail.activity_address.State}}, {{vm.activityDetail.activity_address.Pincode}}
+						
+					</div>
+				</div>
+						<!-- <div class="col-sm-4 col-md-4">
 									<p>Name: &nbsp{{vm.activityDetail.activity_name}}</p>
 									<p>Type: &nbsp{{vm.activityDetail.activity_type_id}}</p>
 									<p>Start Date: &nbsp{{vm.activityDetail.activity_start_date}}</p>
@@ -28,9 +79,144 @@
 														,{{vm.activityDetail.activity_address.State}}, {{vm.activityDetail.activity_address.Pincode}}</p>
 														<p>Coordinator Name:  {{vm.activityDetail.coordinator_Name}}</p>
 
-													</div>
-												</div>
-											</div>
-									
+						</div> -->
+				
+		</div>
+		<div style="border-bottom: 1px solid black;">
+			<span><h5>Participants </h5></span>
+			<span  ng-if="!(vm.role == 'Student')" class="ion-plus-circled float_right font_size_20px" style="color: green" ng-click="vm.showAddPerticipantForm()">Add Perticipant</span>
+			<div  ng-repeat="perticipant in vm.participentDetailList" style="border-bottom: 1px solid black;">
+				<div class="row">
+					<div class="col3">
+						<div>Name:&nbsp&nbsp{{perticipant.perticepantInfo.Name}}</div>
+						<div>Role:&nbsp&nbsp{{perticipant.perticipantStaus.Role}}</div>
+					</div>
+					<div class="col3">
+						<div>Current Status:&nbsp&nbsp{{perticipant.perticipantStaus.Status}}</div>
+						<div>Registration Date:&nbsp&nbsp{{perticipant.perticipantStaus.Last_active_date | date}}</div>
+					</div>
+					<div class="col3" ng-if="!(vm.role == 'Student')">
+						<div>Action:&nbsp&nbsp
+						
+								<span ng-click="vm.showFormToUpdatePerticipantInActivity(perticipant)" class="ion-edit font_size_20px"></span> 
+								&nbsp&nbsp	
+								<span ng-click="vm.deleteUserFromActivity(perticipant)" class="ion-trash-a font_size_20px"></span></div>
+					</div>
+				</div>
+			</div>
+		</div>
+			
+			<script id="editUserInActivity.html" type="text/ng-template">
+			<ion-modal-view>										
+				<ion-header-bar class="bar bar-header button-clear">
+                      <h1 class="title orangeText">Edit Detail</h1>
+                      <button class="button  button-light" ng-click="vm.closeModel()">
+                           <span class="ion-android-cancel orangeText font_size_20px"></span>
+                      </button>
+ 				</ion-header-bar>
+				<ion-content>
+					<div class="row mrg_top5px">
+						<div class="col-10 text_align_center line_height3">Name</div>
+						<div class="col border1px">	
+							<input type="text" ng-model="vm.userActivityDetailToEdit.perticepantInfo.Name" class="with100p">
+						</div>
+					</div>
+					
+					<div class="row mrg_top5px">
+						<div class="col-10 text_align_center line_height3">Role</div>
+						<div class="col border1px">	
+							<!-- <input type="text" ng-model="vm.userActivityDetailToEdit.perticipantStaus.Role" class="with100p"> -->
+							<select  ng-model="vm.userActivityDetailToEdit.perticipantStaus.Role" ng-options="v for v in vm.userRole" class="border_color_orange"></select>
+						</div>
+						<div class="col-10 text_align_center line_height3">Status</div>
+						<div class="col border1px">	
+							<!-- <input type="text" ng-model="vm.userActivityDetailToEdit.perticipantStaus.Status" class="with100p"> -->
+							<select  ng-model="vm.userActivityDetailToEdit.perticipantStaus.Status" ng-options="v for v in vm.activityEnrollTypes" class="bordernone with100p"></select>
+						</div>
+					</div>
+
+					<div class="text_align_center">
+						<button class="button themBackgroundColor" ng-click="vm.updateUserDetailFromActivity(vm.userActivityDetailToEdit)" type="submit">Update </button>
+					</div>
+					</ion-content>
+					</ion-modal-view>
+
+				</ion-content>
+			</ion-modal-view>
+		</script>
+
+
+
+		<script id="addPerticipantToActivity.html" type="text/ng-template">
+			<ion-modal-view>
+					<ion-header-bar>
+						<h1 class="title">Add New Perticipant</h1>
+						<button class="button  button-light" ng-click="vm.closeModelAndRefeshParticipant()">
+                           <span class="ion-android-cancel orangeText font_size_20px"></span>
+                      </button>
+					</ion-header-bar>
+					<ion-content>
+						
+      <div class="row mrg_top5px">
+						<div class="col-10 text_align_center line_height3">Name</div>
+						<div class="col border1px">	
+							<input type="text" ng-model="vm.participitant.Name" placeholder="Name" class="with100p">
+						</div>
+						<div class="col-10 text_align_center line_height3">Email</div>
+						<div class="col border1px">	
+							 <input type="email" ng-model="vm.participitant.Email" placeholder="Email" class="with100p">
+						</div>
+		</div>
+   		
+		<div class="row mrg_top5px">
+			<div class="col-10 text_align_center line_height3">Role</div>
+			<div class="col border1px">	
+				<select  ng-model="vm.participitant.Role" ng-options="v for v in vm.userRole" class="border_color_orange"></select>
+			</div>
+		
+			<div class="col-10 text_align_center line_height3">Status</div>
+			<div class="col border1px">	
+				<select  ng-model="vm.participitant.Status" ng-options="v for v in vm.activityEnrollTypes" class="bordernone with100p"></select>
+			</div>
+		</div>
+		<div class="text_align_center">
+				<button class="button themBackgroundColor" ng-click="vm.addParticipentToActivity(vm.participitant)" type="submit">Add </button>
+		</div>
+  
+    <!-- <table border="1" cellpadding="10">
+      <thead>
+        <tr>
+          <th>
+            Name
+          </th>
+          <th>
+            Email
+          </th>
+          <th>
+            Role
+          </th>
+          <th>
+           Status
+          </th>
+        </tr>
+      </thead>
+    
+        <tr ng-repeat="person in  vm.newParticipantList">
+          <td>
+            {{ person.Name }}
+          </td>
+          <td>
+            {{ person.Email }}
+          </td>
+          <td>
+            {{ person.Role }}
+          </td>
+         	<td>
+            {{ person.Status }}
+          </td>
+        </tr>
+     
+    </table> -->
+
 	</ion-content>
 </ion-view>

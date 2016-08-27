@@ -42,6 +42,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
   $stateProvider
 
   .state('app.login', {
+    cache: false,
     url: '/login',
     views: {
       'menuContent': {
@@ -59,6 +60,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
   })
 
   .state('app.student', {
+    cache: false,
     url: '/student',
     views: {
       'menuContent': {
@@ -69,6 +71,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
   })
 
   .state('app.organizer', {
+    cache: false,
     url: '/organizer',
     views: {
       'menuContent': {
@@ -78,6 +81,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
     }
   })
   .state('app.main', {
+    cache: false,
     url: '/main',
     views: {
       'menuContent': {
@@ -87,6 +91,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
     }
   })
   .state('app.signUp', {
+    cache: false,
     url: '/signUp',
     params: {
      email: null
@@ -99,6 +104,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
     }
   })
    .state('app.addActivity', {
+    cache: false,
     url: '/addactivity',
     views: {
       'menuContent': {
@@ -108,6 +114,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
     }
   })
   .state('app.activityDetail', {
+    cache: false,
     url: '/activityDetail',
     params: {
      activityDetail: null
@@ -120,6 +127,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
     }
   })
   .state('app.studentClass', {
+    cache: false,
     url: '/studentClass',
     views: {
       'menuContent': {
