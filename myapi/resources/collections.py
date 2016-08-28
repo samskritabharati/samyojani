@@ -1,4 +1,5 @@
 from flask_restful import fields, marshal, marshal_with, reqparse, Resource
+import pymongo
 from ..db import *
 from pprint import pprint
 
@@ -25,6 +26,8 @@ _address_fields['Country'] = fields.String
 class _Praanta_name(fields.Raw):
     def format(self, praanta_id):
         #print "Praanta = " + str(praanta_id)
+        if praanta_id == '':
+            return 'Unknown'
         p = sbget().sbregions()[praanta_id]
         #print p
         return p['path'] if p and 'path' in p else 'Unknown'
@@ -63,7 +66,7 @@ attr2external = {
 }
 
 class _SBCollection(Resource):
-    attrs = []
+    schema = {}
     cname = None
     key = None
     helpprefix = ''
@@ -72,28 +75,19 @@ class _SBCollection(Resource):
     def __init__(self):
         self.mycollection = sbget()[self.cname]
         for u in self.mycollection.find():
-            self.attrs = u
-            #self.attrs.pop('_id')
+            if not self.schema:
+                self.schema = u
+                #self.attrs.pop('_id')
             break
 
         self.get_parser = reqparse.RequestParser()
-        self.put_parser = reqparse.RequestParser()
-        self.post_parser = reqparse.RequestParser()
         self.exported_fields = {}
-        for a in self.attrs.keys():
+        for a in self.schema.keys():
             if a == 'Email':
                 self.get_parser.add_argument(a, dest=a,
                     help=self.helpstr() + a)
-                self.put_parser.add_argument(a, dest=a,
-                    help=self.helpstr() + a)
-                self.post_parser.add_argument(a, dest=a,
-                    default='', help=self.helpstr() + a)
             else:
                 self.get_parser.add_argument(a, dest=a, help=self.helpstr() + a)
-                self.put_parser.add_argument(a, dest=a, 
-                    help=self.helpstr() + a)
-                self.post_parser.add_argument(a, dest=a, 
-                    default='', help=self.helpstr() + a)
 
             if a in attr2external:
                 for k, v in attr2external[a].items():
@@ -139,13 +133,23 @@ class _SBCollection(Resource):
             abort(404)
 
     def sanitize(self, entry):
+        if 'SB_Region' in entry:
+            entry['Praanta_id'] = '' if entry['SB_Region'] in ['', 'null'] \
+                else sbget().sbregions().from_path(entry['SB_Region'])['_id']
+            entry.pop('SB_Region')
+
+        if 'SB_Parent_Region' in entry:
+            entry['Parent_Praanta_id'] = '' if entry['SB_Parent_Region'] in ['', 'null'] \
+                else sbget().sbregions().from_path(entry['SB_Parent_Region'])['_id']
+            entry.pop('SB_Parent_Region')
+
         if 'Praanta_id' in entry and entry['Praanta_id'] == '':
             entry['Praanta_id'] = sbget().sbregions().root['_id']
 
         if 'Parent_praanta_id' in entry and entry['Parent_praanta_id'] == '':
             entry['Parent_praanta_id'] = sbget().sbregions().root['Parent_praanta_id']
 
-        if 'Role_id' not in entry or entry['Role_id'] == '':
+        if 'Role_id' in entry and entry['Role_id'] == '':
             entry['Role_id'] = 'Student'
 
         for f in ['Coordinator', 'Project', 'Activity', 'Person']:
@@ -162,14 +166,6 @@ class _SBCollection(Resource):
             for f in _address_fields:
                 entry[f] = addr[f] if f in addr else ''
             entry.pop('Address')
-
-        if 'SB_Region' in entry:
-            entry['Praanta_id'] = sbget().sbregions().from_path(entry['SB_Region'])['_id']
-            entry.pop('SB_Region')
-
-        if 'SB_Parent_Region' in entry:
-            entry['Parent_Praanta_id'] = sbget().sbregions().from_path(entry['SB_Parent_Region'])['_id']
-            entry.pop('SB_Parent_Region')
 
     def post(self):
         print "Inserting into {} ".format(self.cname)
@@ -199,20 +195,46 @@ class _SBCollection(Resource):
         entry = self.mycollection.get(_id)
         return marshal(entry, self.exported_fields), 201
 
+    def default(self, k):
+        if k not in self.schema:
+            return None
+        val = self.schema[k]['default'] if isinstance(self.schema[k], dict) \
+                else self.schema[k]
+        #if val != '':
+        #   print "Default for {} is {}".format(k, val)
+
     def mymarshal(self, output, fields = None):
-        r = marshal(output, self.exported_fields)
-        if isinstance(r, list):
-            for row in r:
-                for k, v in row.items():
-                    if fields and (k not in fields or not v):
-                        row.pop(k)
-        else:
-                for k, v in r.items():
-                    if fields and (k not in fields or not v):
-                        r.pop(k)
-        return r
+        # Remove fields not present in out_entry
+        #pprint(output)
+
+        inlist = output if isinstance(output, list) else [output]
+
+        for e in inlist:
+            missing_keys = []
+            for k, v in self.schema.items():
+                if k not in e:
+                    missing_keys.append(k)
+                    e[k] = self.default(k)
+        try:
+            r = marshal(output, self.exported_fields)
+            if isinstance(r, list):
+                for row in r:
+                    for k, v in row.items():
+                        if fields and (k not in fields or not v):
+                            row.pop(k)
+            else:
+                    for k, v in r.items():
+                        if fields and (k not in fields or not v):
+                            r.pop(k)
+            return r
+        except Exception as e:
+            print "Error in mymarshal: ", e
+            return {}
 
     def get(self, _id=None):
+        if 'schema' in request.url_rule.rule:
+            return self.schema
+
         if _id:
             print "Retrieving {} by {} ".format(self.cname,  _id)
             entry = self.mycollection.get(_id)
@@ -222,7 +244,8 @@ class _SBCollection(Resource):
                 abort(404)
         else:
             print "Listing " + self.cname
-            args = self.get_parser.parse_args()
+            args = request.args.copy()
+            self.sanitize(args)
             exact = False
             if 'exact' in args:
                 exact = True if args['exact'] == 1 else False
@@ -230,7 +253,7 @@ class _SBCollection(Resource):
             offset = args['offset'] if 'offset' in args else 0
             if 'offset' in args:
                 args.pop('offset')
-            limit = args['limit'] if 'limit' in args else 0
+            limit = args['limit'] if 'limit' in args else 25
             if 'limit' in args:
                 args.pop('limit')
             fields = None
@@ -241,14 +264,16 @@ class _SBCollection(Resource):
 
             query = {}
             for k, v in args.items():
-                if not v:
+                if k == 'Praanta_id' or not v:
                     args.pop(k)
                     continue
                 if exact:
                     query[k] = { '$regex' : '^{}$'.format(v), '$options' : 'i' }
                 else:
                     query[k] = { '$regex' : v, '$options' : 'i' }
-            elist = [e for e in self.mycollection.find(query).skip(offset).limit(limit)]
+            pprint(query)
+            elist = [e for e in self.mycollection.find(query) \
+                .sort('_id', pymongo.ASCENDING).skip(offset).limit(limit)]
             return self.mymarshal(elist, fields)
 
 class Users(_SBCollection):
@@ -256,6 +281,18 @@ class Users(_SBCollection):
         self.cname = 'users'
         self.key = ['Email']
         self.helpprefix = 'The user\'s '
+        self.schema = {
+            'Email': '',
+            'Name': '',
+            'Phone': '',
+            'Praanta_id': { 'ref' : 'regions', 'default' : '' },
+            'Profession': '',
+            'Facebook_id': '',
+            'Role_id': { 'ref' : 'roles', 'default' : 'Student' },
+            'URL': '',
+            '_id': '' }
+        for f in _address_fields.keys():
+            self.schema[f] = ''
         _SBCollection.__init__(self)
 
 class Activities(_SBCollection):

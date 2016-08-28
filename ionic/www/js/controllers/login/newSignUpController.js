@@ -125,7 +125,7 @@ if($rootScope.fbResponse){
 				if($rootScope.fbResponse){
 					newUserDetail.Facebook_id = $rootScope.fbResponse.id;
 				}
-      			newUserDetail.Role = ""
+      			newUserDetail.Role = "Student";
           userInfoService.addNewUser(newUserDetail).then(function(data){
                $localStorage.userInfo = [];
                $localStorage.userInfo = data;

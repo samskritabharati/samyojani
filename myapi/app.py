@@ -18,11 +18,11 @@ api.add_resource(role_types, '/types/role')
 api.add_resource(activity_types, '/types/activity')
 api.add_resource(Presets, '/presets', '/presets/<field>')
 
-api.add_resource(Users, '/users', '/users/<_id>')
-api.add_resource(Activities, '/activities', '/activities/<_id>')
-api.add_resource(Regions, '/regions', '/regions/<_id>')
-api.add_resource(Projects, '/projects', '/projects/<_id>')
-api.add_resource(Roles, '/roles', '/roles/<_id>')
+api.add_resource(Users, '/users/schema', '/users', '/users/<_id>')
+api.add_resource(Activities, '/activities/schema', '/activities', '/activities/<_id>')
+api.add_resource(Regions, '/regions/schema', '/regions', '/regions/<_id>')
+api.add_resource(Projects, '/projects/schema', '/projects', '/projects/<_id>')
+api.add_resource(Roles, '/users/schema', '/roles', '/roles/<_id>')
 
 app.register_blueprint(ui_bp, url_prefix='/ui')
 

@@ -78,7 +78,7 @@ vm.onSignInButtonClick = onSignInButtonClick;
       function popupForEmailLogin(){
         $ionicModal.fromTemplateUrl('emailSigninPopUp.html', {
            scope: $scope,
-           animation: 'slide-in-right'
+           // animation: 'slide-in-right'
           }).then(function(modal) {
             $scope.modal = modal;
             $scope.modal.show();
@@ -182,7 +182,7 @@ function onSignIn(response){
         gapi.signin.render('signInButton',
             {
                 'callback': $scope.signInCallback, // Function handling the callback.
-                'clientid': '241914619184-ecdv0arfl89j4utfhijf1jshdrdmdsrh', // CLIENT_ID from developer console which has been explained earlier.
+                'clientid': '263423522351-9je87ajk003c55riacpphn7hk3dlh5hn', // CLIENT_ID from developer console which has been explained earlier.
                 'requestvisibleactions': 'http://schemas.google.com/AddActivity', // Visible actions, scope and cookie policy wont be described now,
                                                                                   // as their explanation is available in Google+ API Documentation.
                 'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
