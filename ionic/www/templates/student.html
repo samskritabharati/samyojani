@@ -6,7 +6,7 @@
 		</div>
 	</ion-nav-buttons>
 
-	<ion-content>
+	<ion-content class="silverbg">
 		<ul class = "row">
 			<li  class = "col" ng-repeat="tab in tabs" 
 			ng-class="{active:isActiveTab(tab.url)}" 
@@ -19,61 +19,45 @@
 
 		<script type="text/ng-template" id="joinshibira.html">
 			<div id="viewOne">
-				<h1>About joinshibira</h1>
-				
-			<div class="with100p display_inlineflex" >
-			<span class="ion-android-search"></span><input type="text" ng-model="vm.searchKeyword" class="border1px" placeholder="Enter  here to search" style="width: 50%">
-			</div>
-				<div class = "row" style="border-bottom: 1px solid black;">
-					<div class = "col" ng-click="sortType = 'Start_date';sortReverse = !sortReverse">Shibira
-						<span ng-show="sortType == 'Start_date' && !sortReverse" class="ion-arrow-up-b"></span>
-						<span ng-show="sortType == 'Start_date' && sortReverse" class="ion-arrow-down-b"></span>
-					</div>
-					<div class = "col" ng-click="sortType = 'Activity_type_id';sortReverse = !sortReverse">Type
-						<span ng-show="sortType == 'Activity_type_id' && !sortReverse" class="ion-arrow-up-b"></span>
-						<span ng-show="sortType == 'Activity_type_id' && sortReverse" class="ion-arrow-down-b"></span>
-					</div>
-					<div class = "col">Action
-
-					</div>
+				<div class="with100p display_inlineflex mrgtopbtm10px">
+					<span class="ion-android-search font_size_30px"></span><input type="text" ng-model="vm.searchKeyword" class="border1px width90p" placeholder="Enter  here to search">
 				</div>
-
-
 				<div  ng-repeat="activity in vm.activityData  | orderBy:sortType:sortReverse | filter: vm.searchKeyword" style="border-bottom: 1px solid black;">
-					<div class ="row" >
-						<div class="col">
+					<div class ="row restextalign ">
+						<div class="col3">
 							<p>Date: &nbsp&nbsp {{activity.Start_date | date }} 
-								<span ng-if="activity.End_date !='' || activity.End_date != null">
+								<span  ng-if="activity.End_date !='' || activity.End_date != null">
 									to {{activity.End_date | date }}</span>
 								</p>
 								<p ng-if=' activity.Start_time != ""|| activity.Start_time != null '>Time: &nbsp&nbsp{{activity.Start_time}} <span ng-if='activity.End_time != "" || activity.End_time != null ''>to {{activity.End_time}}</span></p>
 								<address parameter="activity.Address"></address>
+							</div>	
+							<div class="col3">
+								<p>Activity:&nbsp&nbsp{{activity.Activity_type_id}}</p>
 							</div>
+							<div class="col3">
+								<p>
+									<span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_20px mrgrgt20"></span>
 
-							<div class="col">{{activity.Activity_type_id}}</div>
-							<div class="col">
-								<span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_20px"></span>
-								&nbsp &nbsp	&nbsp &nbsp
-								<a  href="tel:activity.Phone" class="ion-ios-telephone font_size_20px"></a>
-								&nbsp &nbsp	&nbsp &nbsp
-								<a href="mailto:{{activity.Email}}" class="ion-email font_size_20px" title="mail"></a> 
-								&nbsp &nbsp	&nbsp &nbsp
-								<span ng-click="vm.joinActivity(activity,'Confirmed')" class="ion-plus-circled font_size_20px" >Join</span> 
-								&nbsp&nbsp	&nbsp&nbsp
-								<span ng-click="vm.joinActivity(activity,'Tentative')" class="ion-help-circled font_size_20px" >Tentative</span> 
-								
+									<span><a  href="tel:activity.Phone" class="ion-ios-telephone font_size_20px mrgrgt20" title="call"></a></span>
+
+									<span><a href="mailto:{{activity.Email}}" class="ion-email font_size_20px mrgrgt20" title="mail"></a> </span>
+
+									<span ng-click="vm.joinActivity(activity,'Confirmed')" class="ion-plus-circled font_size_20px mrgrgt20" >Join</span> 
+
+									<span ng-click="vm.joinActivity(activity,'Tentative')" class="ion-help-circled font_size_20px mrgrgt20" >Tentative</span> 
+								</p>
 							</div>
 						</div>
 					</div>
-			</div>
-		</script>
+				</script>
 
-		<script type="text/ng-template" id="myshibira.html">
-			<div id="viewTwo">
-				<h1>About my shibira</h1>
-				<p></p>
-			</div>
-		</script>
-		
-	</ion-content>
-</ion-view>
+				<script type="text/ng-template" id="myshibira.html">
+					<div id="viewTwo">
+						<h1>About my shibira</h1>
+						<p></p>
+					</div>
+				</script>
+
+			</ion-content>
+		</ion-view>

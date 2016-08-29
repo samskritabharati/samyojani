@@ -85,15 +85,15 @@
 		<div style="border-bottom: 1px solid black;">
 			<span><h5>Participants </h5></span>
 			<span  ng-if="!(vm.role == 'Student')" class="ion-plus-circled float_right font_size_20px" style="color: green" ng-click="vm.showAddPerticipantForm()">Add Participants</span>
-			<div  ng-repeat="perticipant in vm.participentDetailList" style="border-bottom: 1px solid black;">
+			<div  ng-repeat="participant in vm.participentDetailList" style="border-bottom: 1px solid black;">
 				<div class="row">
 					<div class="col3">
-						<div>Name:&nbsp&nbsp{{perticipant.perticepantInfo.Name}}</div>
-						<div>Role:&nbsp&nbsp{{perticipant.perticipantStaus.Role}}</div>
+						<div>Name:&nbsp&nbsp{{participant.participantInfo.Name}}</div>
+						<div>Role:&nbsp&nbsp{{participant.participantStatus.EventRole}}</div>
 					</div>
 					<div class="col3">
-						<div>Current Status:&nbsp&nbsp{{perticipant.perticipantStaus.Status}}</div>
-						<div>Registration Date:&nbsp&nbsp{{perticipant.perticipantStaus.Last_active_date | date}}</div>
+						<div>Current Status:&nbsp&nbsp{{participant.participantStatus.Status}}</div>
+						<div>Registration Date:&nbsp&nbsp{{participant.participantStatus.Last_active_date | date}}</div>
 					</div>
 					<div class="col3" ng-if="!(vm.role == 'Student')">
 						<div>Action:&nbsp&nbsp

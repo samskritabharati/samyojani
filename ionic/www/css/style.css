@@ -14,7 +14,9 @@
 .text_white{
     color: white;
 }
-
+.silverbg{
+    background: #f9f9f9;
+}
 .with100p{
     width: 100%;
 }
@@ -53,13 +55,21 @@
 .mrg10px{
     margin: 10px
 }
+.mrgrgt20{
+            margin-right: 20px;
+    }
+.mrgtopbtm10px{
+        margin: 10px 0;
+    }
 .font_size_20px{
     font-size: 20px;
 }
 .font_size_15px{
     font-size: 15px;
 }
-
+.font_size_30px{
+    font-size: 30px;
+}
 .border_color_orange{
     border-color: #e9682e!important;
 }
@@ -148,6 +158,7 @@ li {
     height: 70% !important;
 }
 
+
 .col3 {
         width: 33.33333333%;
     }
@@ -158,7 +169,7 @@ li {
     width: 33.33333333%;
     }
 }
-@media (min-width : 320px) and (max-width : 640px){
+@media (min-width : 320px) and (max-width : 767px){
     .col3 {
     width: 100%;
     float: left;
@@ -166,4 +177,13 @@ li {
     .row{
         display: table !important;
     }
+    .restextalign{
+        text-align: center;
+    }
+    .login_parentdiv{
+     margin: 20px;
+    margin-top: 40%;
+    }
+
+    
 }

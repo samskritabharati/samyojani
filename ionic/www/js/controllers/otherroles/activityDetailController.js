@@ -98,8 +98,8 @@ angular
    			console.log('_perticepantInfo',_perticepantInfo);
    			console.log('_perticipantStatus',_perticipantStatus);
    			var perticipantsStructureObject = {
-   				perticipantStaus: _perticipantStatus,
-   				perticepantInfo: _perticepantInfo
+   				participantStatus: _perticipantStatus,
+   				participantInfo: _perticepantInfo
    			}
    			console.log('perticipantsStructureObject',perticipantsStructureObject);
    			vm.participentDetailList.push(perticipantsStructureObject);
@@ -107,7 +107,7 @@ angular
    		}
 
    		function deleteUserFromActivity(activityDetail){
-   			activityService.deletActivityFromUserList(activityDetail.perticipantStaus._url).then(function(data){
+   			activityService.deletActivityFromUserList(activityDetail.participantStatus._url).then(function(data){
    				vm.participentDetailList = [];
    				getParticipants();
    			},function(error){
@@ -116,7 +116,7 @@ angular
    		}
 
    		function updateUserDetailFromActivity(perticipant){
-   			activityService.updateActivity(perticipant.perticipantStaus,perticipant.perticipantStaus._url).then(function(data){
+   			activityService.updateActivity(perticipant.participantStatus,perticipant.participantStatus._url).then(function(data){
                 console.log('activity joined scc',data);
                vm.participentDetailList = [];
    				getParticipants();
@@ -149,8 +149,8 @@ angular
           $scope.modal.hide();
         }  
 
-        function userRole(){
-	        userInfoService.getUserRole().then(function(userRole){
+        function getEventRole(){
+	        activityService.getEventRole().then(function(userRole){
 	            vm.userRole = userRole.data;
 	        },function(error){
 	             console.log(error);
@@ -158,7 +158,7 @@ angular
     	}
 
     	function showAddPerticipantForm(){
-        userRole();
+        getEventRole();
     		$ionicModal.fromTemplateUrl('addPerticipantToActivity.html', {
            scope: $scope,
            animation: 'slide-in-right'
@@ -170,7 +170,7 @@ angular
     	}
 
     	function addParticipentToActivity(newParticipantDetail){
-    		vm.participitant = [];
+    		vm.perticipant = [];
         var newJoindActivity = [];
 //wt s the condition if email not available
 		  /*	vm.newParticipantList.push(newParticipantDetail);*/
@@ -180,8 +180,7 @@ angular
 		             newJoindActivity = {
 		                Activity_url: activity._url, 
 		                Person_url: userData.data[0]._url, 
-		                Role:  newParticipantDetail.Role,
-		             
+		                EventRole:  newParticipantDetail.Role,
 		                Status:'Confirmed',
 		                Last_active_date:new Date()
 		            }
@@ -189,8 +188,7 @@ angular
 		             newJoindActivity = {
 		                Activity_url: activity._url, 
 		                Person_url: userData.data[0]._url, 
-		                Role:  newParticipantDetail.Role,
-		                Role:  newParticipantDetail.Role,
+		                EventRole:  newParticipantDetail.Role,
 		                Status:'Tentative',
 		                Last_active_date:new Date()
 		            }

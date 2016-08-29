@@ -245,4 +245,5 @@ function userInfoService($http, $q, constantsService) {
         });
         return deferred.promise;
     }
+    
 }

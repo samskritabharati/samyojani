@@ -12,7 +12,8 @@ function activityService($http, $q, constantsService) {
         getActivityByUrl: getActivityByUrl,
         deletActivityFromUserList: deletActivityFromUserList,
         updateActivity: updateActivity,
-        getActivityParticipants: getActivityParticipants
+        getActivityParticipants: getActivityParticipants,
+        getEventRole: getEventRole
     };
 
     return service;
@@ -120,6 +121,21 @@ function activityService($http, $q, constantsService) {
             url :  constantsService.url+'/roles?Activity_url='+activityUrl+'&exact=1'
         }).then(function(data){
             deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+    function getEventRole(){
+        var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url : constantsService.url+'/presets/EventRole'
+        }).then(function(data){
+            console.log(data);
+             deferred.resolve(data);
         }, function(error){
             console.log('error',error);
             deferred.reject(error);

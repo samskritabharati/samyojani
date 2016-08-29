@@ -56,6 +56,14 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
     console.log("logout",$localStorage.userlogin);
     console.log($localStorage.userInfo);
     gapi.auth.signOut();
+   
+
+     FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                FB.logout(function(response) {
+                });
+            }
+        });
     $ionicHistory.nextViewOptions({
             disableBack: true
         });
