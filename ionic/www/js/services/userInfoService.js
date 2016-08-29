@@ -19,7 +19,8 @@ function userInfoService($http, $q, constantsService) {
         getUserRole: getUserRole,
         deleteUser: deleteUser,
         getUserClassList:getUserClassList,
-        getUserByUrl: getUserByUrl
+        getUserByUrl: getUserByUrl,
+        findUserByFacebookID:findUserByFacebookID
 
 
     };
@@ -27,6 +28,7 @@ function userInfoService($http, $q, constantsService) {
     return service;
 
     function getUserActivities(region){
+        console.log("info",region);
         var deferred = $q.defer();
         $http({
             method : 'GET',
@@ -216,7 +218,6 @@ function userInfoService($http, $q, constantsService) {
     }
 
     function getUserByUrl(userUrl){
-         console.log("userUrl",userUrl);
         var deferred = $q.defer();
         $http({
             method : 'GET',
@@ -230,4 +231,18 @@ function userInfoService($http, $q, constantsService) {
         return deferred.promise;
     }
 
+    function findUserByFacebookID(facbookID){
+         console.log("userUrl",facbookID);
+        var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url : constantsService.url+'/users?Facebook_id='+facbookID
+        }).then(function(data){
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
 }

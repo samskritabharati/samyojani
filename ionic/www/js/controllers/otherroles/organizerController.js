@@ -169,6 +169,9 @@ angular
     }
 
     function showNewActivityForm(){
+        $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
          $state.go('app.addActivity',{},{location: false, inherit: false});
     }
 

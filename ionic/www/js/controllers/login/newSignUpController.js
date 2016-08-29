@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('newSignUpController', newSignUpController);
 
-newSignUpController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$ionicModal', 'userInfoService', 'userAuthenticationService', '$localStorage','$rootScope'];
+newSignUpController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$ionicModal', 'userInfoService', 'userAuthenticationService', '$localStorage','$rootScope','$ionicHistory'];
 
-function newSignUpController($scope, $stateParams, $state, userAuthenticationService, $ionicModal, userInfoService, userAuthenticationService, $localStorage,$rootScope) {
+function newSignUpController($scope, $stateParams, $state, userAuthenticationService, $ionicModal, userInfoService, userAuthenticationService, $localStorage,$rootScope,$ionicHistory) {
 	var vm = this;
 
 	vm.addUser = addUser;
@@ -15,20 +15,37 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 	vm.showUpdateButtn = false;
 	var placeSearch, autocomplete;
 	vm.userAddress = [];
-console.log('paraaa',$state.params.email);
 
-console.log('$rootScope.fbResponse',  $rootScope.fbResponse);
+	console.log('$rootScope.fbResponse',  $rootScope.fbResponse);
+	console.log(' $rootScope.email',   $rootScope.email);
+	console.log('$rootScope.googleInfo',  $rootScope.googleInfo);
+	console.log('$localStorage.update',$localStorage.update);
 
-if($rootScope.fbResponse){
-	$rootScope.fbResponse
-	vm.newUser = {
-		Name: $rootScope.fbResponse.name
-	}
-}
-	if($state.params.email){
+		if($rootScope.fbResponse){
+			$rootScope.fbResponse
+			vm.newUser = {
+				Name: $rootScope.fbResponse.name
+			}
+		}
+		if($rootScope.email){
+			vm.newUser = {
+				Name: $rootScope.email
+			}
+		}
+		if($rootScope.googleInfo){
+			console.log("email signup")
+			vm.newUser = {
+				Name: $rootScope.googleInfo.name,
+				Email:  $rootScope.googleInfo.email
+			}
+			console.log("vm.newUser",vm.newUser);
+		}
+
+
+	if($localStorage.update){
 		console.log('if');
 		vm.showUpdateButtn = true;
-		userAuthenticationService.emailauthentication($state.params.email).then(function(userData){
+		userAuthenticationService.emailauthentication($localStorage.update.email).then(function(userData){
                console.log('userData',userData);
 				vm.newUser = userData.data[0];
 		},function(error){
@@ -99,6 +116,9 @@ if($rootScope.fbResponse){
 
 
 	function closeModel(){
+		 $ionicHistory.nextViewOptions({
+            disableBack: true
+          });
 		$state.go('app.main');
 	} 
 
@@ -126,10 +146,26 @@ if($rootScope.fbResponse){
 					newUserDetail.Facebook_id = $rootScope.fbResponse.id;
 				}
       			newUserDetail.Role = "Student";
-          userInfoService.addNewUser(newUserDetail).then(function(data){
-               $localStorage.userInfo = [];
-               $localStorage.userInfo = data;
-               $state.go('app.student');
+          userInfoService.addNewUser(newUserDetail).then(function(responsedata){
+               
+
+                userAuthenticationService.emailauthentication(responsedata.data.Email).then(function(userData){
+            		$localStorage.userInfo = [];
+            		$rootScope.fbResponse = [];
+					$rootScope.email = [];
+					$rootScope.googleInfo = [];
+					$localStorage.update = [];
+           			$localStorage.userInfo = userData;
+               
+           			  $ionicHistory.nextViewOptions({
+                        disableBack: true
+                      });
+               			$state.go('app.student');
+	          },function(error){
+	               console.log(error);
+	          });
+
+
           },function(error){
                console.log('error');
           })
@@ -140,11 +176,32 @@ if($rootScope.fbResponse){
      	console.log(newUserDetail);
      	 userInfoService.updateUserDetail(newUserDetail).then(function(userUpdateddata){
             console.log('updatedataresult',userUpdateddata);
-            if(userUpdateddata.data.Role == 'Student'){
-             	$state.go('app.student');
-            }else{
-                $state.go('app.organizer');
-            }
+
+            	userAuthenticationService.emailauthentication(userUpdateddata.data.Email).then(function(userData){
+            		$localStorage.userInfo = [];
+            		$rootScope.fbResponse = [];
+					$rootScope.email = [];
+					$rootScope.googleInfo = [];
+					$localStorage.update = [];
+           			$localStorage.userInfo = data;
+               
+           			$ionicHistory.nextViewOptions({
+                    	disableBack: true
+                    });
+           			if(userData.data[0].Role == 'Student'){
+		             	$state.go('app.student');
+		            }else{
+		                $state.go('app.organizer');
+		            }
+	          },function(error){
+	               console.log(error);
+	          });
+
+
+
+
+           
+            
          },function(error){
             console.log(error);
          });

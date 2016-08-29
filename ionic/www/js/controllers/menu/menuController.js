@@ -55,6 +55,7 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
     $localStorage.userInfo = '';
     console.log("logout",$localStorage.userlogin);
     console.log($localStorage.userInfo);
+    gapi.auth.signOut();
     $ionicHistory.nextViewOptions({
             disableBack: true
         });

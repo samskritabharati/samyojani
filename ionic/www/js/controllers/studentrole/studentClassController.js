@@ -85,6 +85,7 @@ function studentClassController($scope, $stateParams, $state, $location, $localS
             activityService.updateActivity(newJoindActivity,activityTOjoin.roleurl).then(function(data){
                 console.log('activity joined scc',data);
                 vm.activityList = [];
+                
                 $state.go('app.studentClass', {}, {reload: true});
             },function(error){
                 console.log(error);

@@ -287,7 +287,10 @@ angular
 
 
 	function closeModel(){
-		$state.go('app.main');
+     $ionicHistory.nextViewOptions({
+                        disableBack: true
+                      });
+		 $scope.modal.hide();
 	} 
 
 	/*$scope.$watch(function() { return vm.newActivity.Start_time },

@@ -11,7 +11,7 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
      vm.joinActivity = joinActivity;
 
     vm.activityNewList = [];
-    vm.userName = $stateParams.userdata;
+    vm.userName = $localStorage.userInfo.data[0].Name
     if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
          $localStorage.userlogin = true;
 
@@ -38,7 +38,7 @@ console.log('stundent cnt')
      }
 
      function showActivity(){
-
+        console.log("studentController",$localStorage.userInfo.data.SB_Region)
         userInfoService.getUserActivities($localStorage.userInfo.data.SB_Region).then(function(activityData){
             vm.activityData = activityData.data;
             console.log('len',vm.activityData.length)

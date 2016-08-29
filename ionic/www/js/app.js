@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStorage'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform,constantsService) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -22,7 +22,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
 
     window.fbAsyncInit = function() {
     FB.init({
-      appId      : '168029083629718',
+      appId      : constantsService.facebookAppId,
       xfbml      : true,
       version    : 'v2.7'
     });
@@ -93,9 +93,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
   .state('app.signUp', {
     cache: false,
     url: '/signUp',
-    params: {
+   /* params: {
      email: null
-    },
+    },*/
     views: {
       'menuContent': {
         templateUrl: 'templates/signUp.html',
