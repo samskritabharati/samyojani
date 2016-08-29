@@ -110,7 +110,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     $ionicHistory.nextViewOptions({
       disableBack: true
     });
-
+console.log('userData.data[0].Role',userData.data[0].Role);
     if(userData.data[0].Role == 'Student'){
       $state.go('app.student');
     }else{
