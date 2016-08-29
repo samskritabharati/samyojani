@@ -35,6 +35,8 @@ class Presets(Resource):
             'Other'],
         'Recurrence' :
             ['daily', 'weekly', 'monthly', 'yearly'],
+        'EventRole' :
+            ['Student', 'Shikshaka', 'Samyojaka', 'Prabandhaka', 'Adhyaksha'],
     }
     def get(self, field=None):
         

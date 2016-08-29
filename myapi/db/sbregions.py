@@ -6,6 +6,7 @@ class SBRegions:
     cname = 'regions'
     mycollection = None
     root = None
+    addr_fields = ['Country', 'State', 'District', 'City', 'Locality']
     idx = {}
 
     def __init__(self, mydb):
@@ -26,11 +27,35 @@ class SBRegions:
         path.reverse()
         return "/".join(path)
 
-    def find(self, address):
+    def from_address(self, address, af_ind=0, root = None):
+        return self.from_path('World/India')['_id']
+        f = addr_fields[af_ind] if af_ind < len(addr_fields) else None
+        if not f:
+            return None
+        val = address[f].title() if f in address else None
+        
+        r = root
+        if not r:
+            r = self.root
+        if f not in r:
+            return r
+        options = r[f]
+        if len(options) == 0:
+            return r
+        if val not in options:
+            return None
+            
+        for subr in r['subregions']:
+            r = self.from_address(address, af_ind+1, subr)
+            if r:
+                pass
+            
+
         for id, r in self.mycollection.all().items():
             path = r['path']
             for f in ['Locality', 'City', 'District', 'State', 'Country']:
                 if f in address and address[f] != '':
+                    fval = address[f].title()
                     match = re.search('^{}$'.format(address[f]), r['Name'], flags=re.IGNORECASE)
                     if match:
                         print 'Found matching region: ' + path

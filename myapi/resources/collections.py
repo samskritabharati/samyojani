@@ -1,6 +1,7 @@
 from flask_restful import fields, marshal, marshal_with, reqparse, Resource
 import pymongo
 from ..db import *
+from types import Presets
 from pprint import pprint
 
 def _email(email_str):
@@ -120,6 +121,8 @@ class _SBCollection(Resource):
         self.sanitize(args)
         print "Sanitized args ..."
         pprint(args)
+
+        self.set_defaults(args)
         if self.mycollection.update(_id, args):
             entry = self.mycollection.get(_id)
             return marshal(entry, self.exported_fields)
@@ -134,7 +137,7 @@ class _SBCollection(Resource):
 
     def sanitize(self, entry):
         if 'SB_Region' in entry:
-            entry['Praanta_id'] = '' if entry['SB_Region'] in ['', 'null'] \
+            entry['Praanta_id'] = '' if entry['SB_Region'] in ['', 'null', 'undefined'] \
                 else sbget().sbregions().from_path(entry['SB_Region'])['_id']
             entry.pop('SB_Region')
 
@@ -181,6 +184,7 @@ class _SBCollection(Resource):
         for k, v in args.items():
             if (k == '_id') or not v:
                 args.pop(k)
+        self.set_defaults(args)
 
         _id = None
         if self.key:
@@ -188,7 +192,7 @@ class _SBCollection(Resource):
             e = self.mycollection.find_one(q)
             if e:
                 _id = e['_id']
-                self.mycollection.update(e['_id'], args)
+                self.mycollection.update(_id, args)
         if not _id:
             _id = self.mycollection.insert(args)
 
@@ -203,6 +207,16 @@ class _SBCollection(Resource):
         #if val != '':
         #   print "Default for {} is {}".format(k, val)
 
+    def set_defaults(self, entry):
+        if 'Postal_code' in entry and 'Praanta_id' not in entry and \
+            'Praanta_id' in self.schema:
+            entry['Praanta_id'] = sbget().sbregions().from_address(entry)
+        missing_keys = []
+        for k, v in self.schema.items():
+            if k not in entry:
+                missing_keys.append(k)
+                entry[k] = self.default(k)
+
     def mymarshal(self, output, fields = None):
         # Remove fields not present in out_entry
         #pprint(output)
@@ -210,11 +224,8 @@ class _SBCollection(Resource):
         inlist = output if isinstance(output, list) else [output]
 
         for e in inlist:
-            missing_keys = []
-            for k, v in self.schema.items():
-                if k not in e:
-                    missing_keys.append(k)
-                    e[k] = self.default(k)
+            self.set_defaults(e)
+
         try:
             r = marshal(output, self.exported_fields)
             if isinstance(r, list):
@@ -248,7 +259,7 @@ class _SBCollection(Resource):
             self.sanitize(args)
             exact = False
             if 'exact' in args:
-                exact = True if args['exact'] == 1 else False
+                exact = True if int(args['exact']) > 0 else False
                 args.pop('exact')
             offset = args['offset'] if 'offset' in args else 0
             if 'offset' in args:
@@ -286,7 +297,7 @@ class Users(_SBCollection):
             'Name': '',
             'Phone': '',
             'Praanta_id': { 'ref' : 'regions', 'default' : '' },
-            'Profession': '',
+            'Profession': { 'options' : Presets().get('Profession'), 'default' : 'Student' },
             'Facebook_id': '',
             'Role_id': { 'ref' : 'roles', 'default' : 'Student' },
             'URL': '',
@@ -299,6 +310,19 @@ class Activities(_SBCollection):
     def __init__(self):
         self.cname = 'activities'
         self.helpprefix = 'The activity\'s '
+        self.schema = {
+            'Activity_type_id': { 'ref' : 'activity_types', 'default' : 'varga' },
+            'Coordinator_id': { 'ref' : 'users', 'default' : '' },
+            'Email': '',
+            'Phone': '',
+            'Start_date': '',
+            'End_date': '',
+            'Start_time': '',
+            'End_time': '',
+            'Recurrence': { 'options' : Presets().get('Recurrence'), 'default' : 'daily' },
+            'URL': '' }
+        for f in _address_fields.keys():
+            self.schema[f] = ''
         _SBCollection.__init__(self)
 
 class Projects(_SBCollection):
@@ -312,6 +336,13 @@ class Roles(_SBCollection):
     def __init__(self):
         self.cname = 'roles'
         self.helpprefix = 'The Karyakarta assignment\'s '
+        self.schema = {
+            'Last_active_date': '',
+            'Activity_id': { 'ref' : 'activities', 'default' : '' },
+            'Person_id': { 'ref' : 'users', 'default' : '' },
+            'EventRole': { 'options' : Presets().get('EventRole'), 'default' : 'Student' },
+            'Status': { 'options' : ['Tentative', 'Confirmed'], 'default' : 'Tentative' },
+            }
         _SBCollection.__init__(self)
 
 class Regions(_SBCollection):
