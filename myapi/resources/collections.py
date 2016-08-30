@@ -300,8 +300,7 @@ class Users(_SBCollection):
             'Profession': { 'options' : Presets().get('Profession'), 'default' : 'Student' },
             'Facebook_id': '',
             'Role_id': { 'ref' : 'roles', 'default' : 'Student' },
-            'URL': '',
-            '_id': '' }
+            'URL': '' }
         for f in _address_fields.keys():
             self.schema[f] = ''
         _SBCollection.__init__(self)
@@ -332,6 +331,17 @@ class Projects(_SBCollection):
         self.cname = 'projects'
         self.key = ['Name']
         self.helpprefix = 'The project\'s '
+        self.schema = {
+            'Project_type_id': { 'ref' : 'project_types', 'default' : 'varga' },
+            'Coordinator_id': { 'ref' : 'users', 'default' : '' },
+            'Name': '',
+            'Email': '',
+            'Phone': '',
+            'Start_date': '',
+            'End_date': '',
+            'URL': '' }
+        for f in _address_fields.keys():
+            self.schema[f] = ''
         _SBCollection.__init__(self)
 
 class Roles(_SBCollection):
