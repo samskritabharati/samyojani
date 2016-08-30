@@ -1,6 +1,6 @@
 <ion-modal-view class="signupmodel">
   <ion-header-bar class="bar bar-header button-clear">
-    <h1 class="title orangeText">Sign Up</h1>
+    <h1 class="title orangeText">User Profile</h1>
     <button class="button  button-light" ng-click="vm.closeModel()">
       <span class="ion-android-cancel orangeText font_size_20px"></span>
     </button>
@@ -70,7 +70,7 @@
               <label class="item item-input border_color_orange">
                 <div id="locationField" class="with100p">
                       <input type="text" name="useraddress" id="autocomplete" ng-focus="vm.geolocate()" 
-                      ng-model="vm.newUser.Address" required/>
+                      required/>
                     <div ng-messages="userForm.useraddress.$error" ng-if="userForm.useraddress.$dirty" >
                       <div ng-message="required">Address is required</div>
                     </div>
@@ -84,7 +84,7 @@
             
             <div class="col">
               <label class="item item-input border_color_orange">
-                <input type="text" id="street_number" name="street1"  placeholder="street address line1" required/>
+                <input type="text" id="street_number" name="street1"  ng-model="vm.newUser.Address.Address_line1" placeholder="street address line1" required/>
                 <div ng-messages="userForm.street1.$error" ng-if="userForm.street1.$dirty" >
                   <div ng-message="required"> Street address is required</div>
                 </div>
@@ -93,41 +93,51 @@
 
             <div class="col">
               <label class="item item-input border_color_orange">
-                <input type="text" id="route" placeholder="street address line2"/>
+                <input type="text" id="route" ng-model="vm.newUser.Address.Address_line2" placeholder="street address line2"/>
               </label>
             </div>
           </div>        
           <div class="row">
             <div class="col">
               <label class="item item-input border_color_orange">
-                <input type="text" id="locality"  placeholder="Enter your city" />
+                <input type="text" id="locality" ng-model="vm.newUser.Address.City"  placeholder="Enter your city" />
               </label>
             </div>
 
             <div class="col">
               <label class="item item-input border_color_orange">
-                <input type="text" id="administrative_area_level_1"  placeholder="Enter your state" />
+                <input type="text" id="district" ng-model="vm.newUser.Address.District"  placeholder="Enter your city" />
               </label>
             </div>
+
+           
           </div>
       <div class="row">
+
+          <div class="col">
+              <label class="item item-input border_color_orange">
+                <input type="text" id="administrative_area_level_1"   ng-model="vm.newUser.Address.State" placeholder="Enter your state" />
+              </label>
+            </div>
             <div class="col">
               <label class="item item-input border_color_orange">
-                <input type="text" id="country" placeholder="Enter your country" />
+                <input type="text" id="country"  ng-model="vm.newUser.Address.Country" placeholder="Enter your country" />
               </label>
             </div>
 
+            </div>
 
+            <div class="row">
             
             <div class="col">
               <label class="item item-input border_color_orange">
-                <input type="text" id="postal_code" name="postalcode" ng-model="vm.newUser.Postal_code"  placeholder="postal code is required" required/>
+                <input type="text" id="postal_code" name="postalcode" ng-model="vm.newUser.Address.Postal_code"  placeholder="postal code is required" required/>
                 <!-- <div ng-messages="userForm.postalcode.$error" ng-show="userForm.postalcode.$touched">
                   <div ng-message="required">Field is required</div>
                 </div> -->
               </label>
-            </div>
-
+              </div>
+            
           </div>
           <div class="list list-inset" ng-show="!vm.showUpdateButtn" >
              <button type="submit" class="button button-block themBackgroundColor text_white" ng-click="vm.addUser(vm.newUser)" ng-disabled="userForm.$invalid">Sign up<button>

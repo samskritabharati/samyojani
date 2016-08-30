@@ -28,7 +28,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
           userInfoService.findUserByFacebookID(response.id).then(function (res){
             console.log('res',res);
-            
+
             console.log('res.data.length',res.data.length);
             if(res.data.length>0){
               if(res.data[0].Email != ""){
@@ -68,7 +68,9 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
     $scope.modal.hide();
     userAuthenticationService.emailauthentication(vm.email).then(function(userData){
-
+console.log('gg',userData.data.length);
+console.log("ssssss",userData.data != undefined)
+console.log("dataavilable",userData.data.length);
       if(userData.data.length != 0){
         routingTONextPage(userData,vm.email);
       }else{
@@ -114,12 +116,25 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
 
   function routingTONextPage(userData,email){
+    console.log("userData",userData);
     if((userData.data[0].Email == null || "") || (userData.data[0].Name == null || "") || (userData.data[0].Phone == null || "") || (userData.data[0].Role
-      == null || "") || (userData.data[0].Address.Postal_code == null || "")){
+      == null || "") || (userData.data[0].Address.Postal_code == null || "") ){
+
       console.log('update ths',userData);
       $state.go('app.signUp');
     $localStorage.update = email;
   }else{
+    if($rootScope.fbResponse) {
+        if(!(userData.data[0].Facebook_id)){
+          userData.data[0].Facebook_id = $rootScope.fbResponse.id;
+           userInfoService.updateUserDetail(userData.data[0]).then(function(userUpdateddata){
+            console.log("facebook id updated");
+           },function(error){
+            console.log("Error in updating FacebookID")
+           })
+        }
+       }
+
     $localStorage.userInfo = userData;
     $ionicHistory.nextViewOptions({
       disableBack: true
@@ -178,7 +193,6 @@ $scope.userInfoCallback = function(userInfo) {
 
 
   userAuthenticationService.emailauthentication(userInfo.emails[0].value).then(function(userData){
-
     if(userData.data.length != 0){
       routingTONextPage(userData,userInfo.emails[0].value);
     }else{

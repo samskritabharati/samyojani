@@ -10,6 +10,7 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
     vm.showStudentClass = showStudentClass;
     vm.studentLogOut = studentLogOut;
     vm.upcomingEvent = upcomingEvent;
+    vm.updateProfile = updateProfile;
 
 
     $localStorage.userlogin = false;
@@ -84,5 +85,13 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
       $state.go('app.organizer', {}, {reload: true});
      }
          
+  }
+
+  function updateProfile(){
+    $localStorage.update = $localStorage.userInfo.data[0].Email;
+    $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+    $state.go('app.signUp');
   }
  }

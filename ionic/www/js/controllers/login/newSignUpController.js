@@ -51,8 +51,12 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 		console.log('$localStorage.update.length');
 	if($localStorage.update.length){
 		vm.showUpdateButtn = true;
-		userAuthenticationService.emailauthentication($localStorage.update.email).then(function(userData){
+		console.log("$localStorage.update.email",$localStorage.update);
+		userAuthenticationService.emailauthentication($localStorage.update).then(function(userData){
+			console.log("console.log",userData);
 				vm.newUser = userData.data[0];
+				console.log(vm.newUser.Address.Country);
+				vm.newUser.Profession = "ss"
 		},function(error){
 			console.log(error)
 		})
@@ -140,6 +144,7 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
           							'Country': document.getElementById('country').value,
           							'Address_line1': document.getElementById('street_number').value,
           							'Address_line2': document.getElementById('route').value,
+          							'District' : document.getElementById('district').value,
       							}
 				if($rootScope.fbResponse){
 					newUserDetail.Facebook_id = $rootScope.fbResponse.id;
@@ -173,6 +178,9 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
      } 
 
      function updateUser(newUserDetail){
+     	if($rootScope.fbResponse){
+			newUserDetail.Facebook_id = $rootScope.fbResponse.id;
+		}
      	 userInfoService.updateUserDetail(newUserDetail).then(function(userUpdateddata){
             	userAuthenticationService.emailauthentication(userUpdateddata.data.Email).then(function(userData){
             		$localStorage.userInfo = [];
