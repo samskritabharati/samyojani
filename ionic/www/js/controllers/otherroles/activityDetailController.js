@@ -30,10 +30,13 @@ angular
     	}
 
     	function showDetailActivity(activity){
+        console.log("kkkkkkkkkkkkkkkkkkkkkk",activity);
+        console.log("projrct urlllllllllllllll",activity.Project_url);
     		userInfoService.getActivityProjectDetail(activity.Project_url).then(function(projectDetails){
+          console.log("project",projectDetails);
                 if(activity.Coordinator_url != null || activity.Coordinator_url == ""){
                     userInfoService.getActivityCoordinatorDetail(activity.Coordinator_url).then(function(coordinatorDetails){
-                        console.log(coordinatorDetails);
+                        console.log("coordinator_Role",coordinatorDetails);
                         ActivityDetailStructure(activity,coordinatorDetails,projectDetails);
                     },function(error){
                         console.log('error',error);
@@ -49,6 +52,7 @@ angular
     	}
     	 
     	function ActivityDetailStructure(activity,coordinatorDetails){
+        console.log("detail str",activity,coordinatorDetails)
 	        var _activityDetail = {
 	            activity_type_id: activity.Activity_type_id,
 	            activity_address: activity.Address,
@@ -76,6 +80,7 @@ angular
 	            coordinator__url: coordinatorDetails.data._url
 	        }
 	         vm.activityDetail = _activityDetail;
+           console.log("vm.activityDetail ",vm.activityDetail );
    		}
 
    		function getParticipants(){
@@ -107,6 +112,7 @@ angular
    		}
 
    		function deleteUserFromActivity(activityDetail){
+        console.log("deleting this",activityDetail);
    			activityService.deletActivityFromUserList(activityDetail.participantStatus._url).then(function(data){
    				vm.participentDetailList = [];
    				getParticipants();
@@ -116,6 +122,7 @@ angular
    		}
 
    		function updateUserDetailFromActivity(perticipant){
+        console.log("ths for update",perticipant)
    			activityService.updateActivity(perticipant.participantStatus,perticipant.participantStatus._url).then(function(data){
                 console.log('activity joined scc',data);
                vm.participentDetailList = [];
@@ -127,7 +134,7 @@ angular
    		}
 
    		function showFormToUpdatePerticipantInActivity(perticipantInfo){
-   			userRole();
+   			getEventRole();
         console.log("show form");
    			vm.userActivityDetailToEdit = perticipantInfo
         console.log("vm.userActivityDetailToEdit",vm.userActivityDetailToEdit);
@@ -193,7 +200,7 @@ angular
 		                Last_active_date:new Date()
 		            }
 		        }
-		        
+		        console.log("ths data to add activity",newJoindActivity);
 		        activityService.joinActivity(newJoindActivity).then(function(data){
 		           console.log("participant added")
 		           newParticipantDetail = []

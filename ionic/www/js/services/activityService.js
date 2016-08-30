@@ -50,6 +50,7 @@ function activityService($http, $q, constantsService) {
     }
     
     function joinActivity(newJoindActivity){
+        console.log("new join activit service",newJoindActivity);
         var deferred = $q.defer();
         $http({
             method : 'POST',

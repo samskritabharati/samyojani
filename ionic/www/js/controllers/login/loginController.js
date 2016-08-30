@@ -22,16 +22,11 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
   function signInWithFacebook(){
     FB.login(function(response) {
       if (response.authResponse) {
-        console.log('Welcome!  Fetching your information.... ');
         FB.api('/me',{fields: 'last_name,name,email,gender'}, function(response) {
-          console.log('Good to see you, ' + response.name + '.');
-          console.log('response',response);
           $rootScope.email = [];
           $rootScope.fbResponse = response;
 
           userInfoService.findUserByFacebookID(response.id).then(function (res){
-            console.log("facebook res",res);
-            console.log('res.data[0].email ',res.data[0].email != "");
             if(res.data[0].email != ""){
               routingTONextPage(res,res.data[0].email);
             }else{
@@ -52,13 +47,11 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
   function signInWithEmail(){
     $scope.modal.hide();
-    console.log('vm.email',vm.email);
     userAuthenticationService.emailauthentication(vm.email).then(function(userData){
 
       if(userData.data.length != 0){
         routingTONextPage(userData,vm.email);
       }else{
-        console.log('invalid user');
         $rootScope.email = vm.email;
         newSignInWithEmail();
 
@@ -90,7 +83,8 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
 
 
-  function newSignInWithEmail (userData){
+  function newSignInWithEmail (){
+     $scope.modal.hide();
     $ionicHistory.nextViewOptions({
       disableBack: true
     });
@@ -99,18 +93,15 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
 
   function routingTONextPage(userData,email){
-    console.log("routing fun")
     if((userData.data[0].Email == null || "") || (userData.data[0].Name == null || "") || (userData.data[0].Phone == null || "") || (userData.data[0].Role
       == null || "") || (userData.data[0].Address.Postal_code == null || "")){
       $state.go('app.signUp');
     $localStorage.update = email;
   }else{
     $localStorage.userInfo = userData;
-    console.log("this s local storage", $localStorage.userInfo);
     $ionicHistory.nextViewOptions({
       disableBack: true
     });
-console.log('userData.data[0].Role',userData.data[0].Role);
     if(userData.data[0].Role == 'Student'){
       $state.go('app.student');
     }else{
@@ -161,18 +152,14 @@ $scope.signInCallback = function(authResult) {
 
 
 $scope.userInfoCallback = function(userInfo) {
-  console.log("userInfouserInfo",userInfo);
   $rootScope.googleInfo = [];
 
 
-  console.log("  $rootScope.googleInfo",  $rootScope.googleInfo);
   userAuthenticationService.emailauthentication(userInfo.emails[0].value).then(function(userData){
 
     if(userData.data.length != 0){
-      console.log("ssss",userData);
       routingTONextPage(userData,userInfo.emails[0].value);
     }else{
-      console.log('invalid user');
       $rootScope.googleInfo = {
         email: userInfo.emails[0].value,
         name : userInfo.name.givenName + userInfo.name.familyName

@@ -10,7 +10,7 @@
 	
 	
 	
-	<ion-content class="has-header">
+	<ion-content class="has-header silverbg resmrg20px" overflow-scroll = "true">
 		<div class="text_align_center font_size_20px mrg_btm10px">
 			{{vm.activityDetail.activity_type_id}}:&nbsp{{vm.activityDetail.activity_name}}
 		</div>
@@ -29,7 +29,7 @@
 				</div>
 				<div class ="row">
 					<div class="col3">
-						Time: &nbsp {{vm.activityDetail.activity_start_time}}<span if="vm.activityDetail.activity_end_time">to &nbsp {{vm.activityDetail.activity_end_time}}</span>
+						Time: &nbsp {{vm.activityDetail.activity_start_time}}<span if="vm.activityDetail.activity_end_time"> &nbsp to &nbsp {{vm.activityDetail.activity_end_time}}</span>
 					</div>
 					<div class="col3">
 						<p ng-if ='vm.activityDetail.activity_phone != ""'>
@@ -83,7 +83,7 @@
 				
 		</div>
 		<div style="border-bottom: 1px solid black;">
-			<span><h5>Participants </h5></span>
+			<span><h5 class="text_align_center">Participants </h5></span>
 			<span  ng-if="!(vm.role == 'Student')" class="ion-plus-circled float_right font_size_20px" style="color: green" ng-click="vm.showAddPerticipantForm()">Add Participants</span>
 			<div  ng-repeat="participant in vm.participentDetailList" style="border-bottom: 1px solid black;">
 				<div class="row">
@@ -100,7 +100,7 @@
 						
 								<span ng-click="vm.showFormToUpdatePerticipantInActivity(perticipant)" class="ion-edit font_size_20px"></span> 
 								&nbsp&nbsp	
-								<span ng-click="vm.deleteUserFromActivity(perticipant)" class="ion-trash-a font_size_20px"></span></div>
+								<span ng-click="vm.deleteUserFromActivity(participant)" class="ion-trash-a font_size_20px"></span></div>
 					</div>
 				</div>
 			</div>
