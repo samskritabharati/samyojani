@@ -11,6 +11,8 @@
 	
 	
 	<ion-content class="has-header silverbg resmrg20px" overflow-scroll = "true">
+
+		
 		<div class="text_align_center font_size_20px mrg_btm10px">
 			{{vm.activityDetail.activity_type_id}}:&nbsp{{vm.activityDetail.activity_name}}
 		</div>
@@ -33,25 +35,25 @@
 					</div>
 					<div class="col3">
 						<p ng-if ='vm.activityDetail.activity_phone != ""'>
-							<a  href="tel:activity.Phone">Phone : &nbsp{{vm.activityDetail.activity_phone}}</a
+							Phone: &nbsp<a  href="tel:activity.Phone">{{vm.activityDetail.activity_phone}}</a
 						</p>
 						<p ng-if ="vm.activityDetail.activity_phone == ''">
-							<a  href="tel:activity.Phone">Phone : &nbsp{{vm.activityDetail.coordinator_Phone}}</a>
+							Phone: &nbsp<a  href="tel:activity.Phone">{{vm.activityDetail.coordinator_Phone}}</a>
 						</p>
 
 					</div>
 					<div class="col3">
 						<p ng-if ="vm.activityDetail.activity_email != ''">
-							<a href="mailto:{{vm.activityDetail.activity_email}}">Email : &nbsp{{vm.activityDetail.activity_email}}</a>
+							Email : &nbsp<a href="mailto:{{vm.activityDetail.activity_email}}">{{vm.activityDetail.activity_email}}</a>
 						</p>
 						<p ng-if ="vm.activityDetail.activity_email == ''">
-							<a href="mailto:{{vm.activityDetail.coordinator_Email}}">Email : &nbsp{{vm.activityDetail.coordinator_Email}}</a>
+							Email : &nbsp<a href="mailto:{{vm.activityDetail.coordinator_Email}}">{{vm.activityDetail.coordinator_Email}}</a>
 						</p>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col3">
-						Coordinator Name: &nbsp {{vm.activityDetail.coordinator_Name}}
+						Coordinator Name: &nbsp <a>{{vm.activityDetail.coordinator_Name}}</a>
 					</div>
 					<div class="col3">
 						Address: &nbsp{{vm.activityDetail.activity_address.Line1}}, {{vm.activityDetail.activity_address.Line2}},{{vm.activityDetail.activity_address.City}},{{vm.activityDetail.activity_address.District}}, {{vm.activityDetail.activity_address.State}}, {{vm.activityDetail.activity_address.Country}}
@@ -83,8 +85,11 @@
 				
 		</div>
 		<div style="border-bottom: 1px solid black;">
-			<span><h5 class="text_align_center">Participants </h5></span>
+
 			<span  ng-if="!(vm.role == 'Student')" class="ion-plus-circled float_right font_size_20px" style="color: green" ng-click="vm.showAddPerticipantForm()">Add Participants</span>
+
+			<span><div class="text_align_center font_size_20px mrg_btm10px border1px">Participants </div></span>
+			
 			<div  ng-repeat="participant in vm.participentDetailList" style="border-bottom: 1px solid black;">
 				<div class="row">
 					<div class="col3">
@@ -96,7 +101,7 @@
 						<div>Registration Date:&nbsp&nbsp{{participant.participantStatus.Last_active_date | date}}</div>
 					</div>
 					<div class="col3" ng-if="!(vm.role == 'Student')">
-						<div>Action:&nbsp&nbsp
+						<div>
 						
 								<span ng-click="vm.showFormToUpdatePerticipantInActivity(perticipant)" class="ion-edit font_size_20px"></span> 
 								&nbsp&nbsp	
@@ -149,74 +154,55 @@
 
 		<script id="addPerticipantToActivity.html" type="text/ng-template">
 			<ion-modal-view>
-					<ion-header-bar>
-						<h1 class="title">Add New Perticipant</h1>
-						<button class="button  button-light" ng-click="vm.closeModelAndRefeshParticipant()">
-                           <span class="ion-android-cancel orangeText font_size_20px"></span>
-                      </button>
-					</ion-header-bar>
-					<ion-content>
-						
-      <div class="row mrg_top5px">
-						<div class="col-10 text_align_center line_height3">Name</div>
-						<div class="col border1px">	
-							<input type="text" ng-model="vm.participitant.Name" placeholder="Name" class="with100p">
-						</div>
-						<div class="col-10 text_align_center line_height3">Email</div>
-						<div class="col border1px">	
-							 <input type="email" ng-model="vm.participitant.Email" placeholder="Email" class="with100p">
-						</div>
-		</div>
-   		
-		<div class="row mrg_top5px">
-			<div class="col-10 text_align_center line_height3">Role</div>
-			<div class="col border1px">	
-				<select  ng-model="vm.participitant.Role" ng-options="v for v in vm.userRole" class="border_color_orange"></select>
-			</div>
-		
-			<div class="col-10 text_align_center line_height3">Status</div>
-			<div class="col border1px">	
-				<select  ng-model="vm.participitant.Status" ng-options="v for v in vm.activityEnrollTypes" class="bordernone with100p"></select>
-			</div>
-		</div>
-		<div class="text_align_center">
-				<button class="button themBackgroundColor" ng-click="vm.addParticipentToActivity(vm.participitant)" type="submit">Add </button>
-		</div>
-  
-    <!-- <table border="1" cellpadding="10">
-      <thead>
-        <tr>
-          <th>
-            Name
-          </th>
-          <th>
-            Email
-          </th>
-          <th>
-            Role
-          </th>
-          <th>
-           Status
-          </th>
-        </tr>
-      </thead>
-    
-        <tr ng-repeat="person in  vm.newParticipantList">
-          <td>
-            {{ person.Name }}
-          </td>
-          <td>
-            {{ person.Email }}
-          </td>
-          <td>
-            {{ person.Role }}
-          </td>
-         	<td>
-            {{ person.Status }}
-          </td>
-        </tr>
-     
-    </table> -->
+				<ion-header-bar>
+					<h1 class="title">Add New Perticipant</h1>
+					<button class="button  button-light" ng-click="vm.closeModelAndRefeshParticipant()">
+                       <span class="ion-android-cancel orangeText font_size_20px"></span>
+                  </button>
+				</ion-header-bar>
+				<ion-content>
+								<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
 
+      				<div class="row mrg_top5px">
+						<!-- <div class="col-10 text_align_center line_height3">Name</div> -->
+						<div class="col border1px">	
+							<input type="text" ng-model="vm.participant.Name" placeholder="Enter name of participant" class="with100p">
+						</div>
+					</div>
+					<div class="row mrg_top5px">
+						<!-- <div class="col-10 text_align_center line_height3">Email</div> -->
+						<div class="col border1px">	
+							 <input type="email" ng-model="vm.participant.Email" placeholder="Enter email of participant" class="with100p" placeholder="Enter email id of participant">
+						</div>
+					</div>
+		
+   		
+					<div class="row mrg_top5px">
+						<!-- <div class="col-10 text_align_center line_height3">Role</div> -->
+						<div class="col border1px">	
+							<select  ng-model="vm.participant.Role" ng-options="v for v in vm.userRole" class="bordernone with100p"></select>
+						</div>
+					</div>
+
+					<!-- <div class="row mrg_top5px">
+						<div class="col border1px">	
+							<select  ng-model="vm.participant.Status" ng-options="v for v in vm.activityEnrollTypes" 
+							class="bordernone with100p"></select>
+						</div>
+					</div -->
+					<div class="row mrg_top5px">
+						<div class="col border1px">
+							<select  ng-model="vm.participant.Status" ng-options="v for v in vm.activityEnrollTypes" class="bordernone with100p"></select>
+						</div>
+					</div>
+
+					<div class="text_align_center">
+							<button class="button themBackgroundColor text_align_center text_white" ng-click="vm.addParticipentToActivity(vm.participant)" type="submit">Add </button>
+					</div>
+					<div ng-show="vm.participantAdded"class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">Participant added</div>
+				</ion-content>
+			</ion-modal-view>
+  		</script>
+    
 	</ion-content>
 </ion-view>

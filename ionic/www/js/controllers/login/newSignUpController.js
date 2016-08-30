@@ -21,15 +21,22 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 	console.log('$rootScope.googleInfo',  $rootScope.googleInfo);
 	console.log('$localStorage.update',$localStorage.update);
 
-		if($rootScope.fbResponse){
+		if($rootScope.fbResponse && (!$rootScope.email)){
 			$rootScope.fbResponse
 			vm.newUser = {
 				Name: $rootScope.fbResponse.name
 			}
 		}
-		if($rootScope.email){
+		if($rootScope.fbResponse && $rootScope.email){
+			$rootScope.fbResponse
 			vm.newUser = {
-				Name: $rootScope.email
+				Name: $rootScope.fbResponse.name,
+				Email: $rootScope.email
+			}
+		}
+		if(($rootScope.email) && (!$rootScope.fbResponse)){
+			vm.newUser = {
+				Email: $rootScope.email
 			}
 		}
 		if($rootScope.googleInfo){
@@ -41,7 +48,7 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 			console.log("vm.newUser",vm.newUser);
 		}
 
-
+		console.log('$localStorage.update.length');
 	if($localStorage.update.length){
 		vm.showUpdateButtn = true;
 		userAuthenticationService.emailauthentication($localStorage.update.email).then(function(userData){
@@ -103,6 +110,7 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 			if (componentForm[addressType]) {				
 				var val = place.address_components[i].long_name;
 				document.getElementById(addressType).value = val;
+				/*document.getElementById(addressType).$setDirty();*/
 			}
 		}
 	}

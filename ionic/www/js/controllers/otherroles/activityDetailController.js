@@ -2,9 +2,9 @@ angular
     .module('starter')
     .controller('activityDetailController', activityDetailController);
 
-  	activityDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService', '$localStorage', 'activityService'];
+  	activityDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService', '$localStorage', 'activityService','$timeout'];
 
-  	function activityDetailController($scope, $stateParams, $state ,userInfoService, $ionicModal, userAuthenticationService, $localStorage, activityService ) {
+  	function activityDetailController($scope, $stateParams, $state ,userInfoService, $ionicModal, userAuthenticationService, $localStorage, activityService,$timeout) {
     	var vm = this;
     	vm.deleteUserFromActivity = deleteUserFromActivity;
     	vm.updateUserDetailFromActivity = updateUserDetailFromActivity;
@@ -17,10 +17,15 @@ angular
     	var activity = $state.params.activityDetail;
     	vm.userName = $localStorage.userInfo.data[0].Name;
     	vm.role = $localStorage.userInfo.data[0].Role;
-    	console.log("vm.role",vm.role);
     	vm.participentDetailList = [];
     	vm.newParticipantList = [];
     	vm.activityEnrollTypes = ["Confirmed", "Tentative"];
+      vm.participant = {
+        Status: 'Tentative',
+        Role: 'Student'
+      }
+      vm.showSpinner = false;
+      vm.participantAdded = false
     	showDetailActivity(activity);
 
     	getParticipants();
@@ -31,23 +36,25 @@ angular
 
     	function showDetailActivity(activity){
         console.log("kkkkkkkkkkkkkkkkkkkkkk",activity);
-        console.log("projrct urlllllllllllllll",activity.Project_url);
-    		userInfoService.getActivityProjectDetail(activity.Project_url).then(function(projectDetails){
-          console.log("project",projectDetails);
+    /*    console.log("projrct urlllllllllllllll",activity.Project_url);*/
+    	/*	userInfoService.getActivityProjectDetail(activity.Project_url).then(function(projectDetails){*/
+          /*console.log("project",projectDetails);*/
                 if(activity.Coordinator_url != null || activity.Coordinator_url == ""){
                     userInfoService.getActivityCoordinatorDetail(activity.Coordinator_url).then(function(coordinatorDetails){
                         console.log("coordinator_Role",coordinatorDetails);
-                        ActivityDetailStructure(activity,coordinatorDetails,projectDetails);
+                       /* ActivityDetailStructure(activity,coordinatorDetails,projectDetails);*/
+                          ActivityDetailStructure(activity,coordinatorDetails);
                     },function(error){
                         console.log('error',error);
                     });
                 }else{
-                     ActivityDetailStructure(activity,'',projectDetails);
+                   /*  ActivityDetailStructure(activity,'',projectDetails);*/
+                   ActivityDetailStructure(activity,'');
                 }
                
-            },function(error){
+           /* },function(error){
                 console.log('error',error);
-            })
+            })*/
 
     	}
     	 
@@ -80,7 +87,7 @@ angular
 	            coordinator__url: coordinatorDetails.data._url
 	        }
 	         vm.activityDetail = _activityDetail;
-           console.log("vm.activityDetail ",vm.activityDetail );
+           console.log("vm.activityDetail ",vm.activityDetail);
    		}
 
    		function getParticipants(){
@@ -177,40 +184,71 @@ angular
     	}
 
     	function addParticipentToActivity(newParticipantDetail){
-    		vm.perticipant = [];
-        var newJoindActivity = [];
-//wt s the condition if email not available
-		  /*	vm.newParticipantList.push(newParticipantDetail);*/
+        vm.showSpinner = true;
+    		vm.participant = [];
+        vm.participant = {
+          Status: 'Tentative',
+          Role: 'Student'
+        }       
+
 		  	userAuthenticationService.emailauthentication(newParticipantDetail.Email).then(function(userData){
-          console.log('userData',userData);
-			  	if(newParticipantDetail.Status == "Confirmed"){
-		             newJoindActivity = {
-		                Activity_url: activity._url, 
-		                Person_url: userData.data[0]._url, 
-		                EventRole:  newParticipantDetail.Role,
-		                Status:'Confirmed',
-		                Last_active_date:new Date()
-		            }
-		        }else{
-		             newJoindActivity = {
-		                Activity_url: activity._url, 
-		                Person_url: userData.data[0]._url, 
-		                EventRole:  newParticipantDetail.Role,
-		                Status:'Tentative',
-		                Last_active_date:new Date()
-		            }
-		        }
-		        console.log("ths data to add activity",newJoindActivity);
-		        activityService.joinActivity(newJoindActivity).then(function(data){
-		           console.log("participant added")
-		           newParticipantDetail = []
-		        },function(error){
-		            console.log(error);
-		        })
+          if(userData.data.length > 0){
+            addUserTOActivityList(newParticipantDetail,userData)
+          }else{
+            var newUserDetail = {
+              Name: newParticipantDetail.Name,
+              Email: newParticipantDetail.Email
+            }
+            userInfoService.addNewUser(newUserDetail).then(function(responsedata){
+                userAuthenticationService.emailauthentication(responsedata.data.Email).then(function(userData){
+                addUserTOActivityList(newParticipantDetail,userData)
+            },function(error){
+                 console.log('Error in authentication',error);
+            });
+
+
+          },function(error){
+               console.log('error in adding new user',error);
+          })
+          }
+			  	
 		  },function(error){
-		  		console.log(error)
+		  		console.log("Wrong user",error)
 		  })
     	}
+
+      function addUserTOActivityList(newParticipantDetail,userData){
+         var newJoindActivity = [];
+        if(newParticipantDetail.Status == "Confirmed"){
+                 newJoindActivity = {
+                    Activity_url: activity._url, 
+                    Person_url: userData.data[0]._url, 
+                    EventRole:  newParticipantDetail.Role,
+                    Status:'Confirmed',
+                    Last_active_date:new Date()
+                }
+            }else{
+                 newJoindActivity = {
+                    Activity_url: activity._url, 
+                    Person_url: userData.data[0]._url, 
+                    EventRole:  newParticipantDetail.Role,
+                    Status:'Tentative',
+                    Last_active_date:new Date()
+                }
+            }
+            activityService.joinActivity(newJoindActivity).then(function(data){
+               console.log("participant added");
+                 vm.showSpinner = false;
+                 vm.participantAdded = true;
+                 $timeout(function () { vm.participantAdded = false; }, 1000); 
+              /* userAuthenticationService.alertUser('','','Participant added',null)*/
+               newParticipantDetail = []
+            },function(error){
+                console.log(error);
+            })
+      }
+
+
 
 	    function closeModelAndRefeshParticipant(){
 	    	 $scope.modal.hide();
@@ -223,9 +261,9 @@ angular
     .module('starter')
     .controller('addActivityController', addActivityController);
 
-  	addActivityController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService','activityService', '$localStorage'];
+  	addActivityController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService','activityService', '$localStorage','$ionicHistory'];
 
-  	function addActivityController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, activityService, $localStorage) {
+  	function addActivityController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, activityService, $localStorage, $ionicHistory) {
     	var vm = this;
 
     	vm.closeModel = closeModel;
@@ -233,8 +271,13 @@ angular
     	vm.addNewActivityDetail = addNewActivityDetail;
     /*	vm.newActivity.Start_time = 00;*/
 
+      vm.newActivity = {
+        Activity_type_id : 'varga',
+        Recurrence : 'daily'
+      }
     	activityList();
     	recurrenceList();
+      daysList();
 
     	function geolocate(){
 		if (navigator.geolocation) {
@@ -334,4 +377,10 @@ angular
             vm.activityList= activity.data;
         })
 	}
+
+  function daysList(){
+    activityService.getAllDays().then(function(daysList){
+            vm.daysList= daysList.data;
+        })
+  }
 }

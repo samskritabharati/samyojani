@@ -168,6 +168,27 @@ li {
     padding-bottom: 20px;
 }
 
+.spinnerDiv{
+    position: absolute;
+    z-index: 999999;
+    text-align: center;
+    display: inline-grid;
+    /* background: rebeccapurple; */
+    /* left: 46%; */
+    /* top: 32%; */
+    opacity: .4;
+    background: #999;
+    padding: 27%;
+    width: 100%;
+}
+.spinner svg {
+    width: 116px !important;
+    height: 67px !important;
+}
+.padding5px{
+    padding: 5px
+}
+
 @media (min-width : 768px) and (max-width : 1200px){
     .col3 {
     width: 33.33333333%;

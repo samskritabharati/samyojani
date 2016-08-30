@@ -27,12 +27,30 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
           $rootScope.fbResponse = response;
 
           userInfoService.findUserByFacebookID(response.id).then(function (res){
-            if(res.data[0].email != ""){
-              routingTONextPage(res,res.data[0].email);
+            console.log('res',res);
+            console.log('res.data.length',res.data.length);
+            if(res.data.length>0){
+              if(res.data[0].Email != ""){
+              routingTONextPage(res,res.data[0].Email);
             }else{
+
               newSignInWithEmail();
             }
 
+            }else{
+              $ionicModal.fromTemplateUrl('Enteremailpopup.html', {
+                  scope: $scope,
+                }).then(function(modal) {
+                  $scope.modal = modal;
+                  $scope.modal.show();
+
+                });
+
+                $scope.closeModal = function() {
+                  $scope.modal.hide();
+                };
+            }
+            
           },function(error){
             console.log("Error in getting user info by facebook id",error)
           })
@@ -46,6 +64,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
   }
 
   function signInWithEmail(){
+
     $scope.modal.hide();
     userAuthenticationService.emailauthentication(vm.email).then(function(userData){
 
@@ -84,7 +103,8 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
 
   function newSignInWithEmail (){
-     $scope.modal.hide();
+   
+    /* $scope.modal.hide();*/
     $ionicHistory.nextViewOptions({
       disableBack: true
     });
@@ -95,6 +115,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
   function routingTONextPage(userData,email){
     if((userData.data[0].Email == null || "") || (userData.data[0].Name == null || "") || (userData.data[0].Phone == null || "") || (userData.data[0].Role
       == null || "") || (userData.data[0].Address.Postal_code == null || "")){
+      console.log('update ths',userData);
       $state.go('app.signUp');
     $localStorage.update = email;
   }else{

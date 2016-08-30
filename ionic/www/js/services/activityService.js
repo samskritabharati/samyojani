@@ -13,7 +13,8 @@ function activityService($http, $q, constantsService) {
         deletActivityFromUserList: deletActivityFromUserList,
         updateActivity: updateActivity,
         getActivityParticipants: getActivityParticipants,
-        getEventRole: getEventRole
+        getEventRole: getEventRole,
+        getAllDays: getAllDays
     };
 
     return service;
@@ -137,6 +138,20 @@ function activityService($http, $q, constantsService) {
         }).then(function(data){
             console.log(data);
              deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+    function getAllDays(){
+        var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url :  constantsService.url+'/presets/Days'
+        }).then(function(data){
+            deferred.resolve(data);
         }, function(error){
             console.log('error',error);
             deferred.reject(error);

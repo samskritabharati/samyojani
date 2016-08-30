@@ -39,13 +39,15 @@
 
 
 				<div  ng-repeat="activity in vm.activityData  | orderBy:sortType:sortReverse | filter: vm.searchKeyword" style="border-bottom: 1px solid black;">
-					<div class ="row restextalign">
+					<div class ="row">
 						<div class="col3">
 							<p>Date: &nbsp&nbsp {{activity.Start_date | date }} 
 								<span ng-if="activity.End_date !='' || activity.End_date != null">
 									to {{activity.End_date | date }}</span>
 								</p>
 								<p ng-if=' activity.Start_time != ""|| activity.Start_time != null '>Time: &nbsp&nbsp{{activity.Start_time}} <span ng-if='activity.End_time != "" || activity.End_time != null ''>to {{activity.End_time}}</span></p>
+								<p ng-if='(activity.Phone != "")'>Phone: &nbsp&nbsp {{activity.Phone}}</p>
+								<p ng-if='(activity.Email != "")'>Email: &nbsp&nbsp {{activity.Email}}</p>
 								<address parameter="activity.Address"></address>
 							</div>
 
@@ -53,10 +55,10 @@
 							<div class="col3">
 								<span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_20px mrgrgt20"></span>
 								
-								<span>
+								<span ng-if='(activity.Phone != "")'>
 									<a  href="tel:activity.Phone" class="ion-ios-telephone font_size_20px mrgrgt20"></a>
 								</span>
-								<span>
+								<span ng-if='(activity.Email != "")'>
 									<a href="mailto:{{activity.Email}}" class="ion-email font_size_20px mrgrgt20"></a> 
 								</span>
 								

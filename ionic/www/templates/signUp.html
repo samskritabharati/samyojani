@@ -9,18 +9,8 @@
     <div class="text_align_center">
       <form name="userForm" class="margin0auto width90p "  >
         <div class="field list">
-          <div class="row">
-            <div class="col">
-              <label class="item item-input border_color_orange">
-                <input type="text" name="userName" ng-model="vm.newUser.Name" required placeholder="Enter Your Name" />
-                <div ng-messages="userForm.userName.$error" ng-if="userForm.userName.$dirty" >
-                  <div ng-message="required">Name is required</div>
-                </div>
-              </label>
-            </div>
-          </div>
 
-          <div class="row">
+         <div class="row">
             <div class="col">
               <label class="item item-input border_color_orange">
                 <input type="email" name="emailAddress" ng-model="vm.newUser.Email" required placeholder="Enter Your Email Address" />
@@ -35,6 +25,19 @@
               </label>
             </div>
           </div>
+
+          <div class="row">
+            <div class="col">
+              <label class="item item-input border_color_orange">
+                <input type="text" name="userName" ng-model="vm.newUser.Name" required placeholder="Enter Your Name" />
+                <div ng-messages="userForm.userName.$error" ng-if="userForm.userName.$dirty" >
+                  <div ng-message="required">Name is required</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+         
 
           <div class="row">
             <div class="col">
@@ -81,7 +84,7 @@
             
             <div class="col">
               <label class="item item-input border_color_orange">
-                <input type="text" id="street_number" name="street1"  placeholder="Enter your street address" required/>
+                <input type="text" id="street_number" name="street1"  placeholder="street address line1" required/>
                 <div ng-messages="userForm.street1.$error" ng-if="userForm.street1.$dirty" >
                   <div ng-message="required"> Street address is required</div>
                 </div>
@@ -90,20 +93,20 @@
 
             <div class="col">
               <label class="item item-input border_color_orange">
-                <input type="text" id="route" placeholder="Enter your street address"/>
+                <input type="text" id="route" placeholder="street address line2"/>
               </label>
             </div>
           </div>        
           <div class="row">
             <div class="col">
               <label class="item item-input border_color_orange">
-                <input type="text" id="locality" name="city" placeholder="Enter your city" />
+                <input type="text" id="locality"  placeholder="Enter your city" />
               </label>
             </div>
 
             <div class="col">
-              <label class="item item-input border_color_orange"
-                <input type="text" id="administrative_area_level_1" name="country" placeholder="Enter your state" />
+              <label class="item item-input border_color_orange">
+                <input type="text" id="administrative_area_level_1"  placeholder="Enter your state" />
               </label>
             </div>
           </div>
@@ -113,21 +116,24 @@
                 <input type="text" id="country" placeholder="Enter your country" />
               </label>
             </div>
+
+
+            
             <div class="col">
               <label class="item item-input border_color_orange">
                 <input type="text" id="postal_code" name="postalcode" ng-model="vm.newUser.Postal_code"  placeholder="postal code is required" required/>
-                <div ng-messages="userForm.postalcode.$error" ng-if="userForm.postalcode.$dirty" >
+                <!-- <div ng-messages="userForm.postalcode.$error" ng-show="userForm.postalcode.$touched">
                   <div ng-message="required">Field is required</div>
-                </div>
+                </div> -->
               </label>
             </div>
 
           </div>
           <div class="list list-inset" ng-show="!vm.showUpdateButtn" >
-             <button type="submit" class="button button-block themBackgroundColor text_white" ng-click="vm.addUser(vm.newUser)" ng-disabled="userForm.$invalid">Log in<button>
+             <button type="submit" class="button button-block themBackgroundColor text_white" ng-click="vm.addUser(vm.newUser)" ng-disabled="userForm.$invalid">Sign up<button>
           </div> 
           <div class="list list-inset" ng-show="vm.showUpdateButtn">
-             <button class="button button-block themBackgroundColor text_white" ng-click="vm.updateUser(vm.newUser)" ng-show="vm.showUpdateButtn">Log in<button>
+             <button class="button button-block themBackgroundColor text_white" ng-click="vm.updateUser(vm.newUser)" ng-show="vm.showUpdateButtn">Update<button>
           </div>
         </div>
       </form>

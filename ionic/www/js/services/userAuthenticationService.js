@@ -8,7 +8,8 @@ function userAuthenticationService($http, $q, constantsService, $ionicPopup) {
     var service = {
         emailauthentication: emailauthentication,
         getProfession: getProfession,
-        confirm: confirm
+        confirm: confirm,
+        alertUser: alertUser
 
     };
 
@@ -62,4 +63,12 @@ function userAuthenticationService($http, $q, constantsService, $ionicPopup) {
         }]
     });
   } 
+
+   function alertUser(title,className,alertMsg,okAction){
+    $ionicPopup.alert({
+     title: title,
+     cssClass: className,
+     template: alertMsg
+   }).then(okAction);
+  }
 }

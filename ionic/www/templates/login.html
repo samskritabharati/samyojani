@@ -83,6 +83,42 @@
             </ion-modal-view>
         </script>
 
+<script id="Enteremailpopup.html" type="text/ng-template">
+            <ion-modal-view>
+                <ion-header-bar class="bar bar-header button-clear">
+                    <h1 class="title orangeText">Enter Email Address</h1>
+                    <button class="button  button-light" ng-click="vm.closeModel()">
+                        <span class="ion-android-cancel orangeText font_size_20px"></span>
+                    </button>
+                </ion-header-bar>
+                <ion-content class="has-header" overflow-scroll = "false">
+
+                    <form class="margin0auto width90p" name="loginForm">
+                        <div class="list list-inset">
+                            <label class="item item-input border_color_orange">
+                                <i class="icon ion-android-mail placeholder-icon"></i>
+                                <input type="email" ng-model="vm.email" placeholder="Enter Your Email ID " name="emailAddress" required/>
+                                <div ng-messages="loginForm.emailAddress.$error" ng-show="loginForm.emailAddress.$touched">
+                                    <div ng-message="required">
+                                        You forgot to enter your email address...
+                                    </div>
+                                    <div ng-message="email">
+                                        Your email address is not correctly...
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </form>
+                     <div class="row ">
+                        <div class="col text_align_center">            
+                            <button class="button  themBackgroundColor text_white" ng-click="vm.signInWithEmail()"
+                            >Enter</button>  
+                        </div>
+                    </div> 
+                </ion-content>
+            </ion-modal-view>
+        </script>
+
 
         </ion-content>
     </ion-modal-view>
