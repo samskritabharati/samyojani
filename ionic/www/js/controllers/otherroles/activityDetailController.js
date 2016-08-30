@@ -49,7 +49,7 @@ angular
                     });
                 }else{
                    /*  ActivityDetailStructure(activity,'',projectDetails);*/
-                   ActivityDetailStructure(activity,'');
+                   ActivityDetailStructureWithoutCoordinator(activity);
                 }
                
            /* },function(error){
@@ -59,7 +59,7 @@ angular
     	}
     	 
     	function ActivityDetailStructure(activity,coordinatorDetails){
-        console.log("detail str",activity,coordinatorDetails)
+        console.log("detail str",coordinatorDetails)
 	        var _activityDetail = {
 	            activity_type_id: activity.Activity_type_id,
 	            activity_address: activity.Address,
@@ -89,6 +89,37 @@ angular
 	         vm.activityDetail = _activityDetail;
            console.log("vm.activityDetail ",vm.activityDetail);
    		}
+          function ActivityDetailStructureWithoutCoordinator(activity){
+        console.log("detail str")
+          var _activityDetail = {
+              activity_type_id: activity.Activity_type_id,
+              activity_address: activity.Address,
+              activity_coordinator_url: activity.Coordinator_url,
+              activity_email: activity.Email,
+              activity_end_date: activity.End_date,
+              activity_end_time: activity.End_time,
+              activity_name: activity.Name,
+              activity_phone: activity.Phone,
+              activity_project_url: activity.Project_url,
+              activity_recurrence: activity.Recurrence,
+              activity_sb_Region: activity.SB_Region,
+              activity_start_date: activity.Start_date,
+              activity_start_time: activity.Start_time,
+              activity_URL: activity.URL,
+              activity__url: activity._url,
+              coordinator_Address: '',
+              coordinator_Email: '',
+              coordinator_Name: 'Not Set',
+              coordinator_Phone: '',
+              coordinator_Profession: '',
+              coordinator_Role: '',
+              coordinator_SB_Region: '',
+              coordinator_URL: '',
+              coordinator__url: ''
+          }
+           vm.activityDetail = _activityDetail;
+           console.log("vm.activityDetail ",vm.activityDetail);
+      }
 
    		function getParticipants(){
    			console.log("userUrl",activity._url);

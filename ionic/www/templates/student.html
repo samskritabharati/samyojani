@@ -6,7 +6,7 @@
 		</div>
 	</ion-nav-buttons>
 
-	<ion-content class="silverbg has-header">
+	<ion-content class="silverbg has-header"   overflow-scroll = "true">
 		<ul class = "row">
 			<li  class = "col" ng-repeat="tab in tabs" 
 			ng-class="{active:isActiveTab(tab.url)}" 
@@ -39,15 +39,15 @@
 							</div>
 							<div class="col3">
 								<p>
-									<span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_20px mrgrgt20"></span>
+									<span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_30px mrgrgt20"></span>
 
-									<span ng-if='(activity.Phone != "")'><a  href="tel:activity.Phone" class="ion-ios-telephone font_size_20px mrgrgt20" title="call"></a></span>
+									<span ng-if='(activity.Phone != "")'><a  href="tel:activity.Phone" class="ion-ios-telephone font_size_30px mrgrgt20" title="call"></a></span>
 
-									<span ng-if='(activity.Email != "")'><a href="mailto:{{activity.Email}}" class="ion-email font_size_20px mrgrgt20" title="mail"></a> </span>
+									<span ng-if='(activity.Email != "")'><a href="mailto:{{activity.Email}}" class="ion-email font_size_30px mrgrgt20" title="mail"></a> </span>
 
-									<span ng-click="vm.joinActivity(activity,'Confirmed')" class="ion-plus-circled font_size_20px mrgrgt20" >Join</span> 
+									<span ng-click="vm.joinActivity(activity,'Confirmed')" class="ion-plus-circled font_size_30px mrgrgt20" >Join</span> 
 
-									<span ng-click="vm.joinActivity(activity,'Tentative')" class="ion-help-circled font_size_20px mrgrgt20" >Tentative</span> 
+									<span ng-click="vm.joinActivity(activity,'Tentative')" class="ion-help-circled font_size_30px mrgrgt20" >Tentative</span> 
 								</p>
 							</div>
 						</div>

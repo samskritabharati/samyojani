@@ -55,8 +55,8 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 		userAuthenticationService.emailauthentication($localStorage.update).then(function(userData){
 			console.log("console.log",userData);
 				vm.newUser = userData.data[0];
-				console.log(vm.newUser.Address.Country);
-				vm.newUser.Profession = "ss"
+				console.log(vm.newUser.Profession);
+				vm.newUser.Profession = vm.newUser.Profession
 		},function(error){
 			console.log(error)
 		})

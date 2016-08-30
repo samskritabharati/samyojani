@@ -5,7 +5,7 @@
 		</div>
 	</ion-nav-buttons>
 
-	<ion-content class="silverbg has-header">
+	<ion-content class="silverbg has-header"  overflow-scroll = "true">
 		<ul class = "row">
 			<li  class = "col" ng-repeat="tab in tabs" 
 			ng-class="{active:isActiveTab(tab.url)}" 
@@ -53,19 +53,19 @@
 
 							<div class="col3"><p>Activity:&nbsp&nbsp{{activity.Activity_type_id}}</p></div>
 							<div class="col3">
-								<span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_20px mrgrgt20"></span>
+								<span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_30px mrgrgt20"></span>
 								
 								<span ng-if='(activity.Phone != "")'>
-									<a  href="tel:activity.Phone" class="ion-ios-telephone font_size_20px mrgrgt20"></a>
+									<a  href="tel:activity.Phone" class="ion-ios-telephone font_size_30px mrgrgt20"></a>
 								</span>
 								<span ng-if='(activity.Email != "")'>
-									<a href="mailto:{{activity.Email}}" class="ion-email font_size_20px mrgrgt20"></a> 
+									<a href="mailto:{{activity.Email}}" class="ion-email font_size_30px mrgrgt20"></a> 
 								</span>
 								
 								
-								<span ng-click="vm.updateActivity(activity)" class="ion-edit font_size_20px mrgrgt20"></span> 
+								<span ng-click="vm.updateActivity(activity)" class="ion-edit font_size_30px mrgrgt20"></span> 
 								
-								<span ng-click="vm.deleteActivity(activity)" class="ion-trash-a font_size_20px mrgrgt20"></span>
+								<span ng-click="vm.deleteActivity(activity)" class="ion-trash-a font_size_30px mrgrgt20"></span>
 							</div>
 						</div>
 					</div>

@@ -6,12 +6,12 @@
     </button>
   </ion-header-bar>
   <ion-content overflow-scroll = "true" class="has-header">
-    <div class="text_align_center">
+    <div class="">
       <form name="userForm" class="margin0auto width90p "  >
         <div class="field list">
 
          <div class="row">
-            <div class="col">
+            <div class="col">Email
               <label class="item item-input border_color_orange">
                 <input type="email" name="emailAddress" ng-model="vm.newUser.Email" required placeholder="Enter Your Email Address" />
                 <div ng-messages="userForm.emailAddress.$error" ng-show="userForm.emailAddress.$touched">
@@ -27,7 +27,7 @@
           </div>
 
           <div class="row">
-            <div class="col">
+            <div class="col">Name
               <label class="item item-input border_color_orange">
                 <input type="text" name="userName" ng-model="vm.newUser.Name" required placeholder="Enter Your Name" />
                 <div ng-messages="userForm.userName.$error" ng-if="userForm.userName.$dirty" >
@@ -40,7 +40,7 @@
          
 
           <div class="row">
-            <div class="col">
+            <div class="col">Phone
               <label class="item item-input border_color_orange">
                 <input type="text" name="userPhoneNumber" ng-model="vm.newUser.Phone" 
                 ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/"  required placeholder="Enter your phone number" />
@@ -53,9 +53,9 @@
           </div>
 
           <div class="row">
-            <div class="col">
+            <div class="col">Profession
               <label class="item item-input border_color_orange">
-                <select name="userProfession" ng-model="vm.newUser.Profession" ng-options="v for v in vm.userProfessionList.data" class="border_color_orange" required>
+                <select name="userProfession" ng-model="vm.newUser.Profession" ng-options="v for v in vm.userProfessionList.data" class="bordernone with100p" required>
                 </select>
                 <div ng-messages="userForm.userProfession.$error" ng-if="userForm.userProfession.$dirty">
                   <div ng-message="required">Profession is required</div>
@@ -64,9 +64,10 @@
             </div>
           </div>
 
+          
           <div class="row">
             <div class="col">
-
+              <h4>Address</h4>
               <label class="item item-input border_color_orange">
                 <div id="locationField" class="with100p">
                       <input type="text" name="useraddress" id="autocomplete" ng-focus="vm.geolocate()" 
@@ -106,7 +107,7 @@
 
             <div class="col">
               <label class="item item-input border_color_orange">
-                <input type="text" id="district" ng-model="vm.newUser.Address.District"  placeholder="Enter your city" />
+                <input type="text" id="district" ng-model="vm.newUser.Address.District"  placeholder="Enter your district" />
               </label>
             </div>
 
