@@ -28,6 +28,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
           userInfoService.findUserByFacebookID(response.id).then(function (res){
             console.log('res',res);
+            
             console.log('res.data.length',res.data.length);
             if(res.data.length>0){
               if(res.data[0].Email != ""){
@@ -103,7 +104,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
 
   function newSignInWithEmail (){
-   
+
     /* $scope.modal.hide();*/
     $ionicHistory.nextViewOptions({
       disableBack: true
