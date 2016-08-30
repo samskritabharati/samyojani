@@ -313,6 +313,8 @@ class Activities(_SBCollection):
         self.schema = {
             'Activity_type_id': { 'ref' : 'activity_types', 'default' : 'varga' },
             'Coordinator_id': { 'ref' : 'users', 'default' : '' },
+            'Project_id': { 'ref' : 'projects', 'default' : '' },
+            'Name': '',
             'Email': '',
             'Phone': '',
             'Start_date': '',
