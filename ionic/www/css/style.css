@@ -1,6 +1,6 @@
 /* Empty. Add your own CSS if you like */
 .themBackgroundColor{
-    background: #e9682e;
+    background: #e26228;
 }
 .fbColor{
     background: #33569E!important
@@ -9,8 +9,12 @@
     background: #D62D20;
 }
 .orangeText{
-    color: #e9682e;
+    color: #e26228 !important;
 }
+.lighterOrange{
+    background: #faded1!important;
+}
+
 .text_white{
     color: white;
 }
@@ -43,6 +47,9 @@
 .mrg_top10px{
     margin-top: 10px;
 }
+.mrg_top55px{
+    margin-top: 55px;
+}
 .mrg_top5px{
     margin-top: 5px !important;
 }
@@ -61,8 +68,11 @@
 .mrgtopbtm10px{
         margin: 10px 0;
     }
+    .boldtext{
+        font-weight: bold;
+    }
 .font_size_20px{
-    font-size: 20px;
+    font-size: 20px !important;
 }
 .font_size_15px{
     font-size: 15px;
@@ -79,7 +89,13 @@
 .bordernone{
     border: none;
 }
-
+.menuheaderlogo{
+        width: 12%;
+    margin-left: 31%;
+}
+.menuimg{
+    margin-top: 15%;
+}
 
 .float_right{
     float: right;
@@ -91,11 +107,20 @@
 .position_relative{
     position: relative;
 }
+.position_absolute{
+    position: absolute;
+}
 .display_inlineTable{
     display: inline-table;
 }
 .display_inlineflex{
     display: inline-flex;
+}
+.top10px{
+    top:10px;
+}
+.italictext{
+        font-style: italic;
 }
 ul {
     list-style: none;
@@ -121,6 +146,9 @@ li {
     color: #000;
 }
 
+.button:hover{
+    color: yellow
+}
 .slide-in-right {
   -webkit-transform: translateX(100%);
     transform: translateX(100%); }
@@ -214,5 +242,8 @@ li {
         margin: 20px;
     }
 
+    .menuimg{
+    margin-top: 40%;
+    }
     
 }
