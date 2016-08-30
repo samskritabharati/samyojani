@@ -6,7 +6,7 @@
 		</div>
 	</ion-nav-buttons>
 
-	<ion-content class="silverbg">
+	<ion-content class="silverbg has-header">
 		<ul class = "row">
 			<li  class = "col" ng-repeat="tab in tabs" 
 			ng-class="{active:isActiveTab(tab.url)}" 
@@ -19,7 +19,7 @@
 
 		<script type="text/ng-template" id="joinshibira.html">
 			<div id="viewOne">
-				<div class="with100p display_inlineflex mrgtopbtm10px">
+				<div class="with100p display_inlineflex mrgtopbtm10px searchbtn">
 					<span class="ion-android-search font_size_30px"></span><input type="text" ng-model="vm.searchKeyword" class="border1px width90p" placeholder="Enter  here to search">
 				</div>
 				<div  ng-repeat="activity in vm.activityData  | orderBy:sortType:sortReverse | filter: vm.searchKeyword" style="border-bottom: 1px solid black;">

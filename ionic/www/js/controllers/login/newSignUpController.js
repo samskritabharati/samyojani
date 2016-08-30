@@ -42,11 +42,9 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 		}
 
 
-	if($localStorage.update){
-		console.log('if');
+	if($localStorage.update.length){
 		vm.showUpdateButtn = true;
 		userAuthenticationService.emailauthentication($localStorage.update.email).then(function(userData){
-               console.log('userData',userData);
 				vm.newUser = userData.data[0];
 		},function(error){
 			console.log(error)
@@ -64,7 +62,6 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 					lat: position.coords.latitude,
 					lng: position.coords.longitude
 				};
-				console.log(geolocation);
 				var circle = new google.maps.Circle({
 					center: geolocation,
 					radius: position.coords.accuracy
@@ -96,7 +93,6 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 
 	function fillInAddress() {
 		var place = autocomplete.getPlace();
-		console.log('place',place);
 		for (var component in componentForm) {
 			document.getElementById(component).value = '';
 			document.getElementById(component).disabled = false;
@@ -104,11 +100,8 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 
 		for (var i = 0; i < place.address_components.length; i++) {
 			var addressType = place.address_components[i].types[0];
-			console.log('component',place.address_components[i]);
-			console.log('addressType',addressType);
 			if (componentForm[addressType]) {				
 				var val = place.address_components[i].long_name;
-				console.log('val',val);
 				document.getElementById(addressType).value = val;
 			}
 		}
@@ -124,7 +117,6 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 
 	function userProfession(){
 		userAuthenticationService.getProfession().then(function(userProfession){
-            console.log('getProfession',userProfession)
             vm.userProfessionList = userProfession;
         },function(error){
              console.log(error);
@@ -133,7 +125,6 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 
 	function addUser(newUserDetail){
 		
-          console.log(document.getElementById('country').value);
           newUserDetail.Address = {'Country': document.getElementById('country').value,
           							'Postal_code': document.getElementById('postal_code').value,
           							'City': document.getElementById('locality').value,
@@ -155,6 +146,7 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 					$rootScope.email = [];
 					$rootScope.googleInfo = [];
 					$localStorage.update = [];
+					$localStorage.update = [];
            			$localStorage.userInfo = userData;
                
            			  $ionicHistory.nextViewOptions({
@@ -173,10 +165,7 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
      } 
 
      function updateUser(newUserDetail){
-     	console.log(newUserDetail);
      	 userInfoService.updateUserDetail(newUserDetail).then(function(userUpdateddata){
-            console.log('updatedataresult',userUpdateddata);
-
             	userAuthenticationService.emailauthentication(userUpdateddata.data.Email).then(function(userData){
             		$localStorage.userInfo = [];
             		$rootScope.fbResponse = [];

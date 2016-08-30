@@ -53,6 +53,8 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
   function studentLogOut(){
     $localStorage.userlogin = false;
     $localStorage.userInfo = '';
+    $localStorage.update = [];
+
     console.log("logout",$localStorage.userlogin);
     console.log($localStorage.userInfo);
     gapi.auth.signOut();

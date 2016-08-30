@@ -17,7 +17,6 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
 
     }
      showActivity();
-console.log('stundent cnt')
      $scope.tabs = [{
           title: 'Upcoming Classes',
           url: 'joinshibira.html'
@@ -38,16 +37,13 @@ console.log('stundent cnt')
      }
 
      function showActivity(){
-        console.log("studentController",$localStorage.userInfo.data.SB_Region)
         userInfoService.getUserActivities($localStorage.userInfo.data.SB_Region).then(function(activityData){
             vm.activityData = activityData.data;
-            console.log('len',vm.activityData.length)
             userInfoService.getUserClassList($localStorage.userInfo.data[0]._url).then( function (studentClass){
             angular.forEach(activityData.data, function (key, index) {
 
                angular.forEach(studentClass.data, function (classEnrolled, index) {
                 if(key._url == classEnrolled.Activity_url){
-                  console.log("if");
                   activityWithEnrollStructure(key,classEnrolled);
                 }else{
                   activityWithOutEnrollStructure(key);
@@ -77,7 +73,6 @@ console.log('stundent cnt')
         },function(error){
             console.log('error in getting student class',error);
         })
-            console.log('activityData',vm.activityData);
         },function(error){
             console.log(error);
         });
@@ -110,7 +105,6 @@ console.log('stundent cnt')
             }
         }
         
-        console.log('newJoindActivity',newJoindActivity);
         activityService.joinActivity(newJoindActivity).then(function(data){
             console.log('activity joined scc',data);
         },function(error){
@@ -143,8 +137,6 @@ console.log('stundent cnt')
 
            }
            vm.activityNewList.push(_activityDetail);
-           console.log('final list',vm.activityNewList);
-           console.log("final",vm.activityNewList.length)
     }
 
     function activityWithOutEnrollStructure(activity){
@@ -172,8 +164,7 @@ console.log('stundent cnt')
 
            }
            vm.activityNewList.push(_activityDetail);
-           console.log('final list',vm.activityNewList);
-           console.log("final",vm.activityNewList.length)
+           
     }
 
     
