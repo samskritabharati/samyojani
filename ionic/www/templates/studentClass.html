@@ -2,27 +2,95 @@
 
 	<ion-nav-buttons side="right">
 		<div>
-			<p> HI {{vm.userName }}</p>
+			<p class="orangeText"> HI {{vm.userName }}</p>
 		</div>
 	</ion-nav-buttons>
 
 	<ion-content class="has-header">
 
-		<div class = "row" style="border-bottom: 1px solid black;">
-			<div class = "col">Shibira
-				
-			</div>
-			<div class = "col" >Type
-				
-			</div>
-			<div class = "col">Action
+		<div  ng-repeat="activity in vm.activityList  | orderBy:sortType:sortReverse | filter: vm.searchKeyword" class="btmborder">
+			<div class ="row" >
 
-			</div>
-		</div>
+				<div class="col3">
+					<table>
+						<tr>
+							<td class="keytd">Name</td>
+							<td class="valuetabletd with100p">
+								<span>{{activity.activity_name }}</span>
+								
+							</td>
+						</tr>
+						<tr>
+							<td class="keytd">Date</td>
+								<td class="valuetabletd with100p">
+									<span ng-if="(activity.activity_start_date)">{{activity.activity_start_date | date }}</span>
+									<span ng-if="(activity.End_date)">
+									to {{activity.End_date | date }}</span>
+								</td>
+						</tr>
+						<tr>
+							<td class="keytd">Time</td>
+							<td class="valuetabletd with100p">
+								<span ng-if="(activity.activity_end_date)">{{activity.activity_end_date}}</span>
+								<span ng-if="(activity.activity_end_date)">
+								to {{activity.activity_end_date}}</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="keytd">Status</td>
+							<td class="valuetabletd with100p">
+								{{activity.activityState}}
+								
+							</td>
+						</tr>
+						<!-- <tr ng-if="(activity.Email)">
+							<td class="keytd">Email</td>
+							<td class="valuetabletd with100p">
+								{{activity.Email}}
+							</td>
+						</tr>
+						<tr>
+							<td class="keytd">Address</td>
+							<td class="valuetabletd with100p">
+								<address parameter="activity.Address"></address>
+							</td>
+						</tr> -->
+					</table>
 
-		<div  ng-repeat="activity in vm.activityList  | orderBy:sortType:sortReverse | filter: vm.searchKeyword" style="border-bottom: 1px solid black;">
-					<div class ="row" >
-						<div class="col">
+				</div>
+				<div class="col3 resmrgtopbtm5px">
+					<table >
+						<tr>
+							<td class="keytd">Activity</td>
+							<td class="valuetabletd with100p">
+								<span>{{activity.activity_type_id}}</span>	
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="col3 resmrg10px">
+						<table>
+							<tr class="keytd">
+								<td ng-if="activity.activityState == 'Tentative'" ng-click="vm.joinActivity(activity,'Confirmed')">
+									<span  class="ion-plus-circled font_size_20px mrgrgt20 orangeText resfontsize" >Confirm</span> 
+								</td>
+								
+								<td ng-click="vm.DeletActivityFromList(activity)">
+									<span  class="ion-help-circled font_size_20px mrgrgt20 orangeText resfontsize" >Leave</span>
+								</td>
+								<td ng-if='(activity.activity_phone != "")'>
+									<span ><a  href="tel:activity.activity_phone" class="ion-ios-telephone font_size_20px mrgrgt20 orangeText resfontsize"></a></span>
+								</td>
+								<td ng-if='(activity.activity_email != "")'>
+									<span>
+										<a href="mailto:{{activity.activity_email}}" class="ion-email font_size_20px mrgrgt20 orangeText resfontsize" 
+										title="mail"></a>
+									</span>
+								</td>
+							</tr>
+						</table>
+					</div>
+						<!-- <div class="col">
 							<p>Name:&nbsp&nbsp {{activity.activity_name }} </p>
 							<p>Date: &nbsp&nbsp {{activity.activity_start_date | date }} 
 								<span ng-if="activity.End_date !='' || activity.End_date != null">
@@ -35,20 +103,19 @@
 
 							<div class="col">{{activity.activity_type_id}}</div>
 							<div class="col">
-								<!-- <span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_20px"></span>
-								&nbsp &nbsp	&nbsp &nbsp -->
+								
 								<a  href="tel:activity.activity_phone" class="ion-ios-telephone font_size_20px"></a>
 								&nbsp &nbsp	&nbsp &nbsp
 								<a href="mailto:{{activity.activity_email}}" class="ion-email font_size_20px" title="mail"></a> 
 								&nbsp &nbsp	&nbsp &nbsp
 								<span  ng-if="activity.activityState == 'Tentative'" ng-click="vm.joinActivity(activity,'Confirmed')" class="ion-plus-circled font_size_20px" >Confirm</span> 
 								&nbsp&nbsp	&nbsp&nbsp
-								<!-- <span ng-if="activity.activityState == 'Confirmed'" ng-click="vm.DeletActivityFromList(activity)" class="ion-help-circled font_size_20px" >Delet</span>  -->
+								
 								<span  ng-click="vm.DeletActivityFromList(activity)" class="ion-help-circled font_size_20px" >Leave</span>
 							</div>
-						</div>
-					</div>
+						</div> -->
 			</div>
+		</div>
 
 
 

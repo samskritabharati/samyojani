@@ -106,7 +106,6 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
         }
         
         activityService.joinActivity(newJoindActivity).then(function(data){
-            console.log('activity joined scc',data);
         },function(error){
             console.log(error);
         })

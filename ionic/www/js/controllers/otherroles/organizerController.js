@@ -62,14 +62,11 @@ angular
         })
         projectService.getAllProject().then(function(project){
             vm.projectList = project.data;
-            console.log('vm.projectList',vm.projectList);
         })
         
         vm.editActivity = activity;
 
-        console.log('showUp',vm.editActivity);
 
-        console.log("editng ths",vm.editActivity);
         $ionicModal.fromTemplateUrl('editActivity.html', {
             scope: $scope,
             animation: 'slide-in-up'
@@ -81,12 +78,8 @@ angular
     }
 
     function saveUpdatedActivityDetail(updatedActivity){
-        console.log("updated",updatedActivity);
         updatedActivity.Coordinator_url = $localStorage.userInfo.data[0]._url;    
-        console.log( updatedActivity.Coordinator_url);
-        console.log('updatedActivity',updateActivity);
          userInfoService.updateActivity(updatedActivity).then(function(data){
-            console.log('updatedataresult',data)
             $scope.modal.hide();
          },function(error){
             console.log(error);
@@ -96,7 +89,6 @@ angular
     function deleteActivity(activityToDelete){
         userAuthenticationService.confirm('','Do You Want To Delet Activity?','Yes','No',function(){
             userInfoService.deleteActivity(activityToDelete).then(function(data){
-                console.log('deleted Succ',data);
                 showActivity();
             },function(error){
                 console.log(error);
@@ -108,7 +100,6 @@ angular
     function showActivity(){
         userInfoService.getUserActivities($localStorage.userInfo.data[0].SB_Region).then(function(activityData){
             vm.activityData = activityData.data;
-            console.log("activitycount", vm.activityData);
         },function(error){
             console.log(error);
         });
@@ -121,7 +112,6 @@ angular
     function showUser(){
         userInfoService.getUser().then(function(userlist){
             vm.userlist = userlist;
-            console.log(' vm.userlist', vm.userlist);
         },function(error){
             console.log('Error in getting all userList',error);
         })
@@ -130,7 +120,6 @@ angular
     function deleteUser(user){
         userAuthenticationService.confirm('','Do You Want To Delet This User?','Yes','No',function(){
             userInfoService.deleteActivity(user).then(function(data){
-                console.log('deleted Succ',data);
                 showUser();
             },function(error){
                 console.log(error);
@@ -148,7 +137,6 @@ angular
         })
 
         userRole();
-        console.log('showUp',vm.showUserDetail);
         $ionicModal.fromTemplateUrl('editUser.html', {
             scope: $scope,
             animation: 'slide-in-up'
@@ -159,9 +147,7 @@ angular
     }
 
     function saveUpdatedUserDetail(updatedUserDetail){
-        console.log('updatedActivity',updatedUserDetail);
          userInfoService.updateUserDetail(updatedUserDetail).then(function(data){
-            console.log('updatedataresult',data)
             $scope.modal.hide();
          },function(error){
             console.log(error);
@@ -176,14 +162,10 @@ angular
     }
 
     function addNewUser(userDetail){
-console.log('sss',userDetail);
         vm.userList.push(userDetail);
-        console.log('vm.userList');
         var newUserDetail = [];
         newUserDetail = userDetail;
-        console.log('newUserDetail',newUserDetail);
          userInfoService.addNewUser(newUserDetail).then(function(data){
-               console.log('returndata',data);
           },function(error){
                console.log('error');
           })

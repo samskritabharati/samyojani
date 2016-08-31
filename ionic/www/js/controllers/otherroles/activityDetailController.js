@@ -35,13 +35,11 @@ angular
     	}
 
     	function showDetailActivity(activity){
-        console.log("kkkkkkkkkkkkkkkkkkkkkk",activity);
     /*    console.log("projrct urlllllllllllllll",activity.Project_url);*/
     	/*	userInfoService.getActivityProjectDetail(activity.Project_url).then(function(projectDetails){*/
           /*console.log("project",projectDetails);*/
                 if(activity.Coordinator_url != null || activity.Coordinator_url == ""){
                     userInfoService.getActivityCoordinatorDetail(activity.Coordinator_url).then(function(coordinatorDetails){
-                        console.log("coordinator_Role",coordinatorDetails);
                        /* ActivityDetailStructure(activity,coordinatorDetails,projectDetails);*/
                           ActivityDetailStructure(activity,coordinatorDetails);
                     },function(error){
@@ -59,7 +57,6 @@ angular
     	}
     	 
     	function ActivityDetailStructure(activity,coordinatorDetails){
-        console.log("detail str",coordinatorDetails)
 	        var _activityDetail = {
 	            activity_type_id: activity.Activity_type_id,
 	            activity_address: activity.Address,
@@ -87,10 +84,8 @@ angular
 	            coordinator__url: coordinatorDetails.data._url
 	        }
 	         vm.activityDetail = _activityDetail;
-           console.log("vm.activityDetail ",vm.activityDetail);
    		}
           function ActivityDetailStructureWithoutCoordinator(activity){
-        console.log("detail str")
           var _activityDetail = {
               activity_type_id: activity.Activity_type_id,
               activity_address: activity.Address,
@@ -118,11 +113,9 @@ angular
               coordinator__url: ''
           }
            vm.activityDetail = _activityDetail;
-           console.log("vm.activityDetail ",vm.activityDetail);
       }
 
    		function getParticipants(){
-   			console.log("userUrl",activity._url);
 
    			activityService.getActivityParticipants(activity._url).then(function(perticipants){
    				vm.perticepantsList = perticipants;
@@ -138,19 +131,14 @@ angular
    		}
 
    		function perticipantsStructure(_perticepantInfo,_perticipantStatus){
-   			console.log('_perticepantInfo',_perticepantInfo);
-   			console.log('_perticipantStatus',_perticipantStatus);
    			var perticipantsStructureObject = {
    				participantStatus: _perticipantStatus,
    				participantInfo: _perticepantInfo
    			}
-   			console.log('perticipantsStructureObject',perticipantsStructureObject);
    			vm.participentDetailList.push(perticipantsStructureObject);
-   			console.log('vm.participentDetailList',vm.participentDetailList);
    		}
 
    		function deleteUserFromActivity(activityDetail){
-        console.log("deleting this",activityDetail);
    			activityService.deletActivityFromUserList(activityDetail.participantStatus._url).then(function(data){
    				vm.participentDetailList = [];
    				getParticipants();
@@ -160,9 +148,7 @@ angular
    		}
 
    		function updateUserDetailFromActivity(perticipant){
-        console.log("ths for update",perticipant)
    			activityService.updateActivity(perticipant.participantStatus,perticipant.participantStatus._url).then(function(data){
-                console.log('activity joined scc',data);
                vm.participentDetailList = [];
    				getParticipants();
    				$scope.modal.hide();
@@ -173,9 +159,7 @@ angular
 
    		function showFormToUpdatePerticipantInActivity(perticipantInfo){
    			getEventRole();
-        console.log("show form");
    			vm.userActivityDetailToEdit = perticipantInfo
-        console.log("vm.userActivityDetailToEdit",vm.userActivityDetailToEdit);
    			$ionicModal.fromTemplateUrl('editUserInActivity.html', {
            scope: $scope,
            animation: 'slide-in-right'
@@ -268,7 +252,6 @@ angular
                 }
             }
             activityService.joinActivity(newJoindActivity).then(function(data){
-               console.log("participant added");
                  vm.showSpinner = false;
                  vm.participantAdded = true;
                  $timeout(function () { vm.participantAdded = false; }, 1000); 
@@ -317,7 +300,6 @@ angular
 					lat: position.coords.latitude,
 					lng: position.coords.longitude
 				};
-				console.log(geolocation);
 				var circle = new google.maps.Circle({
 					center: geolocation,
 					radius: position.coords.accuracy
@@ -379,7 +361,6 @@ angular
  	);*/
 
 	function addNewActivityDetail(newActivity){
-		console.log('activitynew',newActivity);
 		newActivity.Coordinator_url = $localStorage.userInfo.data[0]._url;
 		newActivity.Address = {'Country': document.getElementById('country').value,
           							'Postal_code': document.getElementById('postal_code').value,
@@ -390,7 +371,6 @@ angular
           							'Address_line2': document.getElementById('route').value,
       							}
 		activityService.addNewActivity(newActivity).then(function(data){
-			console.log('activity added',data);
 		},function(error){
 			console.log('Error in adding activity',error);
 		})
@@ -398,7 +378,6 @@ angular
 
 	function recurrenceList(){
 		activityService.getRecurrence().then(function(recurrence){
-			console.log('recrr',recurrence);
 			vm.recurrenceList = recurrence
 		})
 	}

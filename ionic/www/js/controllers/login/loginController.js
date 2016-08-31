@@ -18,6 +18,10 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
   $scope.signedIn = false;
   $rootScope.email = [];
   $rootScope.fbResponse = [];
+  
+
+
+
 
   function signInWithFacebook(){
     FB.login(function(response) {
@@ -107,7 +111,7 @@ console.log("dataavilable",userData.data.length);
 
   function newSignInWithEmail (){
 
-    /* $scope.modal.hide();*/
+  $scope.modal.hide();
     $ionicHistory.nextViewOptions({
       disableBack: true
     });

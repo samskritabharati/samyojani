@@ -11,10 +11,11 @@
         <div class="field list">
 
          <div class="row">
-            <div class="col">Email
+            <div class="col">
               <label class="item item-input border_color_orange">
                 <input type="email" name="emailAddress" ng-model="vm.newUser.Email" required placeholder="Enter Your Email Address" />
-                <div ng-messages="userForm.emailAddress.$error" ng-show="userForm.emailAddress.$touched">
+              </label>
+                <div ng-messages="userForm.emailAddress.$error" ng-show="userForm.emailAddress.$touched" class="text_red">
                   <div ng-message="required">
                     You forgot to enter your email address...
                   </div>
@@ -22,61 +23,65 @@
                     You did not enter your email address correctly...
                   </div>
                 </div>
-              </label>
+            
             </div>
           </div>
 
           <div class="row">
-            <div class="col">Name
+            <div class="col">
               <label class="item item-input border_color_orange">
                 <input type="text" name="userName" ng-model="vm.newUser.Name" required placeholder="Enter Your Name" />
-                <div ng-messages="userForm.userName.$error" ng-if="userForm.userName.$dirty" >
+               </label>
+                <div ng-messages="userForm.userName.$error" ng-if="userForm.userName.$dirty" class="text_red" >
                   <div ng-message="required">Name is required</div>
                 </div>
-              </label>
+              
             </div>
           </div>
 
          
 
           <div class="row">
-            <div class="col">Phone
+            <div class="col">
               <label class="item item-input border_color_orange">
                 <input type="text" name="userPhoneNumber" ng-model="vm.newUser.Phone" 
                 ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/"  required placeholder="Enter your phone number" />
-                <div ng-messages="userForm.userPhoneNumber.$error" ng-if="userForm.userPhoneNumber.$dirty">
+                 </label>
+                <div ng-messages="userForm.userPhoneNumber.$error" ng-if="userForm.userPhoneNumber.$dirty" class="text_red">
                   <div ng-message="required">This field is required</div>
                   <div ng-message="pattern">Must be a valid 10 digit phone number</div>
                 </div>
-              </label>
+             
             </div>
           </div>
 
           <div class="row">
-            <div class="col">Profession
+            <div class="col">
               <label class="item item-input border_color_orange">
-                <select name="userProfession" ng-model="vm.newUser.Profession" ng-options="v for v in vm.userProfessionList.data" class="bordernone with100p" required>
+                <select name="userProfession" ng-model="vm.newUser.Profession" ng-options="v for v in vm.userProfessionList.data" class="bordernone with100p" required><option value="" disabled selected="selected" style="display: none;">Choose profession</option>
                 </select>
-                <div ng-messages="userForm.userProfession.$error" ng-if="userForm.userProfession.$dirty">
+                 </label>
+                <div ng-messages="userForm.userProfession.$error" ng-if="userForm.userProfession.$dirty" class="text_red">
                   <div ng-message="required">Profession is required</div>
                 </div>
-              </label>
+             
             </div>
           </div>
 
           
           <div class="row">
             <div class="col">
-              <h4>Address</h4>
+           
               <label class="item item-input border_color_orange">
                 <div id="locationField" class="with100p">
                       <input type="text" name="useraddress" id="autocomplete" ng-focus="vm.geolocate()" 
                       required/>
-                    <div ng-messages="userForm.useraddress.$error" ng-if="userForm.useraddress.$dirty" >
+                </label>
+                    <div ng-messages="userForm.useraddress.$error" ng-if="userForm.useraddress.$dirty" class="text_red">
                       <div ng-message="required">Address is required</div>
                     </div>
                 </div> 
-              </label>
+              
             </div>
             </div>
 
@@ -86,10 +91,11 @@
             <div class="col">
               <label class="item item-input border_color_orange">
                 <input type="text" id="street_number" name="street1"  ng-model="vm.newUser.Address.Address_line1" placeholder="street address line1" required/>
-                <div ng-messages="userForm.street1.$error" ng-if="userForm.street1.$dirty" >
+                </label>
+                <div ng-messages="userForm.street1.$error" ng-if="userForm.street1.$dirty" class="text_red">
                   <div ng-message="required"> Street address is required</div>
                 </div>
-              </label>
+              
             </div>
 
             <div class="col">
@@ -133,10 +139,11 @@
             <div class="col">
               <label class="item item-input border_color_orange">
                 <input type="text" id="postal_code" name="postalcode" ng-model="vm.newUser.Address.Postal_code"  placeholder="postal code is required" required/>
-                <!-- <div ng-messages="userForm.postalcode.$error" ng-show="userForm.postalcode.$touched">
+                 </label>
+                <div ng-messages="userForm.postalcode.$error" ng-show="userForm.postalcode.$dirty" class="text_red">
                   <div ng-message="required">Field is required</div>
-                </div> -->
-              </label>
+                </div>
+             
               </div>
             
           </div>

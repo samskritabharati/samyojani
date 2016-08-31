@@ -48,14 +48,13 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 			console.log("vm.newUser",vm.newUser);
 		}
 
-		console.log('$localStorage.update.length');
+		console.log('$localStorage.update.length',$localStorage.update.length);
 	if($localStorage.update.length){
 		vm.showUpdateButtn = true;
 		console.log("$localStorage.update.email",$localStorage.update);
 		userAuthenticationService.emailauthentication($localStorage.update).then(function(userData){
 			console.log("console.log",userData);
 				vm.newUser = userData.data[0];
-				console.log(vm.newUser.Profession);
 				vm.newUser.Profession = vm.newUser.Profession
 		},function(error){
 			console.log(error)

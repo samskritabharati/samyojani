@@ -2,13 +2,13 @@
 
 	<ion-nav-buttons side="right">
 		<div>
-			<p> HI {{vm.userName }}</p>
+			<span class="orangeText"> HI {{vm.userName }}</span>
 		</div>
 	</ion-nav-buttons>
 
-	<ion-content class="silverbg has-header"   overflow-scroll = "true">
-		<ul class = "row">
-			<li  class = "col" ng-repeat="tab in tabs" 
+	<ion-content class="has-header"   overflow-scroll = "true">
+		<ul>
+			<li  class = "tab width46p" ng-repeat="tab in tabs" 
 			ng-class="{active:isActiveTab(tab.url)}" 
 			ng-click="onClickTab(tab)" >{{tab.title}}</li>
 		</ul>
@@ -20,46 +20,98 @@
 		<script type="text/ng-template" id="joinshibira.html">
 			<div id="viewOne">
 				<div class="with100p display_inlineflex mrgtopbtm10px searchbtn">
-					<span class="ion-android-search font_size_30px"></span><input type="text" ng-model="vm.searchKeyword" class="border1px width90p" placeholder="Enter  here to search">
+					<span class="ion-android-search font_size_30px orangeText"></span><input type="text" ng-model="vm.searchKeyword" class="border1px width90p" placeholder="Enter  here to search">
 				</div>
-				<div  ng-repeat="activity in vm.activityData  | orderBy:sortType:sortReverse | filter: vm.searchKeyword" style="border-bottom: 1px solid black;">
+				<div  ng-repeat="activity in vm.activityData  | orderBy:sortType:sortReverse | filter: vm.searchKeyword" class="btmborder">
+
 					<div class ="row">
 						<div class="col3">
-							<p>Date: &nbsp&nbsp {{activity.Start_date | date }} 
-								<span  ng-if="activity.End_date !='' || activity.End_date != null">
-									to {{activity.End_date | date }}</span>
-								</p>
-								<p ng-if=' activity.Start_time != ""|| activity.Start_time != null '>Time: &nbsp&nbsp{{activity.Start_time}} <span ng-if='activity.End_time != "" || activity.End_time != null ''>to {{activity.End_time}}</span></p>
-								<p ng-if='(activity.Phone != "")'>Phone: &nbsp&nbsp {{activity.Phone}}</p>
-								<p ng-if='(activity.Email != "")'>Email: &nbsp&nbsp {{activity.Email}}</p>
-								<address parameter="activity.Address"></address>
-							</div>	
-							<div class="col3">
-								<p>Activity:&nbsp&nbsp{{activity.Activity_type_id}}</p>
-							</div>
-							<div class="col3">
-								<p>
-									<span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_30px mrgrgt20"></span>
-
-									<span ng-if='(activity.Phone != "")'><a  href="tel:activity.Phone" class="ion-ios-telephone font_size_30px mrgrgt20" title="call"></a></span>
-
-									<span ng-if='(activity.Email != "")'><a href="mailto:{{activity.Email}}" class="ion-email font_size_30px mrgrgt20" title="mail"></a> </span>
-
-									<span ng-click="vm.joinActivity(activity,'Confirmed')" class="ion-plus-circled font_size_30px mrgrgt20" >Join</span> 
-
-									<span ng-click="vm.joinActivity(activity,'Tentative')" class="ion-help-circled font_size_30px mrgrgt20" >Tentative</span> 
-								</p>
-							</div>
-						</div>
+							<table>
+								<tr>
+									<td class="keytd">Date</td>
+									<td class="valuetabletd with100p">
+										<span ng-if="(activity.Start_date)">{{activity.Start_date | date }}</span>
+										<span ng-if="(activity.End_date)">
+										to {{activity.End_date | date }}</span>
+									</td>
+								</tr>
+							<tr>
+								<td class="keytd">Time</td>
+								<td class="valuetabletd with100p">
+									<span ng-if="(activity.Start_time)">{{activity.Start_time}}</span>
+									<span ng-if="(activity.End_time)">
+									to {{activity.End_time}}</span>
+								</td>
+							</tr>
+							<tr ng-if="(activity.Phone)">
+								<td class="keytd">Phone</td>
+								<td class="valuetabletd with100p">
+									{{activity.Phone}}
+									
+								</td>
+							</tr>
+							<tr ng-if="(activity.Email)">
+								<td class="keytd">Email</td>
+								<td class="valuetabletd with100p">
+									{{activity.Email}}
+								</td>
+							</tr>
+							<tr>
+								<td class="keytd">Address</td>
+								<td class="valuetabletd with100p">
+									<address parameter="activity.Address"></address>
+								</td>
+							</tr>
+						</table>
 					</div>
-				</script>
 
-				<script type="text/ng-template" id="myshibira.html">
-					<div id="viewTwo">
-						<h1>About my shibira</h1>
-						<p></p>
+					<div class="col3">
+						<table>
+							<tr>
+								<td class="keytd">Activity</td>
+								<td class="valuetabletd with100p">
+									<span>{{activity.Activity_type_id}}</span>
+								
+								</td>
+							</tr>
+						</table>
 					</div>
-				</script>
 
-			</ion-content>
-		</ion-view>
+					<div class="col3 resmrg10px">
+						<table class="">
+							<tr class="keytd">
+								
+								
+								<td ng-click="vm.joinActivity(activity,'Confirmed')">
+									<span class="ion-plus-circled font_size_20px mrgrgt20 orangeText resfontsize" >Join</span> 
+								</td>
+								<td ng-click="vm.joinActivity(activity,'Tentative')">
+									<span class="ion-help-circled font_size_20px mrgrgt20 orangeText resfontsize" >Tentative</span>
+								</td>
+								<td>
+									<span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_20px mrgrgt20 orangeText resfontsize"></span>
+								</td>
+								<td ng-if='(activity.Phone != "")'>
+									<span ><a  href="tel:activity.Phone" class="ion-ios-telephone font_size_20px mrgrgt20 orangeText resfontsize"></a></span>
+								</td>
+								<td ng-if='(activity.Email != "")'>
+									<span><a href="mailto:{{activity.Email}}" class="ion-email font_size_20px mrgrgt20 orangeText resfontsize"></a></span>
+								</td>
+								
+							</tr>
+						</table>
+					</div>
+						
+				</div>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="myshibira.html">
+			<div id="viewTwo">
+				<h1>About my shibira</h1>
+				<p></p>
+			</div>
+		</script>
+
+	</ion-content>
+</ion-view>

@@ -14,7 +14,9 @@
 .lighterOrange{
     background: #faded1!important;
 }
-
+.text_red{
+     color: red;
+}
 .text_white{
     color: white;
 }
@@ -24,8 +26,14 @@
 .with100p{
     width: 100%;
 }
+.with50p{
+    width: 50%;
+}
 .width90p{
     width: 90%;
+}
+.width46p{
+    width: 46%;
 }
 
 .margin0auto{
@@ -86,6 +94,9 @@
 .border1px{
     border: 1px solid #e9682e !important;
 }
+.btmborder{
+    border-bottom: 1px solid #e9682e;
+}
 .bordernone{
     border: none;
 }
@@ -129,25 +140,31 @@ ul {
 }
 li {
     float: left;
-    border: 1px solid #000;
+    border: 1px solid #e9682e;
     border-bottom-width: 0;
     margin: 3px 3px 0px 3px;
-    padding: 5px 5px 0px 5px;
-    background-color: #CCC;
+    padding: 10px 10px 10px 5px;
+    background-color: white;
     color: #696969;
 }
 #mainView {
-    border: 1px solid black;
+    /*border-bottom: 1px solid #e26228;*/
 	clear: both;
 	padding: 0 1em;
 }
-.active {
-    background-color: #FFF;
-    color: #000;
+.tab.active {
+    background-color: #e26228;
+    color: white;
 }
-
+.item-content.activated{
+    background: white !important
+}
 .button:hover{
-    color: yellow
+    opacity: 0.8;
+    color: white;
+}
+.themBackgroundColor.activated{
+background: #e26228;
 }
 .slide-in-right {
   -webkit-transform: translateX(100%);
@@ -192,7 +209,7 @@ li {
     }
 
 .searchbtn{
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #e26228;
     padding-bottom: 20px;
 }
 
@@ -215,6 +232,19 @@ li {
 }
 .padding5px{
     padding: 5px
+}
+
+.keytd{
+    padding: 0 50px 0 10px;
+}
+.valuetabletd{
+    padding: 0;
+}
+.floatingHeader{
+    float: right;
+    position: relative;
+    width: 1% !important;
+    display: table;
 }
 
 @media (min-width : 768px) and (max-width : 1200px){
@@ -245,5 +275,14 @@ li {
     .menuimg{
     margin-top: 40%;
     }
-    
+    .resfontsize{
+        font-size: 20px !important;
+    }
+    .resmrg10px{
+            margin: 10px;
+    }
+    .resmrgtopbtm5px{
+            margin: 5px 0;
+    }
+
 }
