@@ -375,6 +375,11 @@ angular
           							'Address_line2': document.getElementById('route').value,
       							}
 		activityService.addNewActivity(newActivity).then(function(data){
+      $ionicHistory.nextViewOptions({
+        disableBack: true
+      });
+     $state.go('app.organizer');
+     
 		},function(error){
 			console.log('Error in adding activity',error);
 		})

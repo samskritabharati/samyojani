@@ -31,6 +31,11 @@ angular
     $scope.sortReverse  = false;
     $scope.sortReverse = false;
     vm.addActivityIcon = true;
+    vm.addUserIcon = false;
+    vm.userAdded = false
+    vm.useraddSpinner = false;
+
+
     $scope.tabs = [{
             title: 'Upcoming Classes',
             url: 'addClass.html'
@@ -45,9 +50,12 @@ angular
         console.log("tab",tab);
         if(tab.url == "addClass.html"){
             vm.addActivityIcon = true;
+            vm.addUserIcon = false
         }
         if(tab.url == "people.html"){
             vm.addActivityIcon = false;
+            vm.addUserIcon = true
+
         }
         $scope.currentTab = tab.url;
     }
@@ -133,7 +141,9 @@ angular
             },function(error){
                 console.log(error);
             });
-        },null)
+        },function(){
+
+        })
         
     }
 
@@ -174,10 +184,17 @@ angular
     }
 
     function addNewUser(userDetail){
+        vm.NewUserData = [];
+        vm.useraddSpinner = true;
+
         vm.userList.push(userDetail);
         var newUserDetail = [];
         newUserDetail = userDetail;
          userInfoService.addNewUser(newUserDetail).then(function(data){
+             vm.useraddSpinner = false;
+                 vm.userAdded = true;
+                 $timeout(function () { vm.userAdded = false; }, 1000); 
+
           },function(error){
                console.log('error');
           })

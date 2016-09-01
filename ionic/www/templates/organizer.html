@@ -6,6 +6,8 @@
 	</ion-nav-buttons>
 	<div class="bar bar-subheader floatingHeader">
 		<span  ng-show="vm.addActivityIcon" class="ion-plus-circled floatingbtn font_size_30px" ng-click="vm.showNewActivityForm()"></span>
+		<span  ng-show="vm.addUserIcon" class="ion-plus-circled floatingbtn font_size_30px" 
+		ng-click="vm.showFormForNewUser()"></span>
 	</div>
 	<ion-content class="has-header"  overflow-scroll = "true">
 		<ul>
@@ -91,10 +93,10 @@
 										<a href="mailto:{{activity.Email}}" class="ion-email font_size_30px mrgrgt20 orangeText resfontsize"></a>
 									</td>
 									<td ng-click="vm.updateActivity(activity)">
-										<span ng-click="vm.updateActivity(activity)" class="ion-edit font_size_30px mrgrgt20 orangeText resfontsize"></span> 
+										<span  class="ion-edit font_size_30px mrgrgt20 orangeText resfontsize"></span> 
 									</td>
 									<td ng-click="vm.deleteActivity(activity)">
-										<span ng-click="vm.deleteActivity(activity)" class="ion-trash-a font_size_30px mrgrgt20 orangeText resfontsize"></span>
+										<span  class="ion-trash-a font_size_30px mrgrgt20 orangeText resfontsize"></span>
 									</td>
 									
 								</tr>
@@ -108,9 +110,9 @@
 
 		<script type="text/ng-template" id="people.html">
 			<div id="viewTwo">
-					<span  class="ion-plus-circled float_right font_size_20px" style="color: green"><p class="font_size_15px" ng-click="vm.showFormForNewUser()">Add New User</p></span>
-					<div class = "row " class="btmborder">
-						<div class = "col" ng-click="sortType = 'Name';sortReverse = !sortReverse">User
+					<!-- <span  class="ion-plus-circled float_right font_size_20px" style="color: green"><p class="font_size_15px" ng-click="vm.showFormForNewUser()">Add New User</p></span> -->
+					<!--<div class = "row " class="btmborder">
+						 <div class = "col" ng-click="sortType = 'Name';sortReverse = !sortReverse">User
 							<span ng-show="sortType == 'Start_date' && !sortReverse" class="ion-arrow-up-b"></span>
 							<span ng-show="sortType == 'Start_date' && sortReverse" class="ion-arrow-down-b"></span>
 						</div>
@@ -120,9 +122,9 @@
 						</div>
 						<div class = "col">Action
 
-						</div>
-					</div>	
-					<div  ng-repeat="user in vm.userlist.data | orderBy:sortType:sortReverse" class="btmborder">
+						</div> 
+					</div>	-->
+					<!-- <div  ng-repeat="user in vm.userlist.data | orderBy:sortType:sortReverse" class="btmborder">
 						<div class ="row" >
 							<div class="col">
 								<p>Name: &nbsp&nbsp {{user.Name }} </p>
@@ -133,8 +135,7 @@
 
 							<div class="col">{{user.Role}}</div>
 							<div class="col">
-<!-- <span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_20px"></span>
-	&nbsp &nbsp	&nbsp &nbsp -->
+
 							<a  href="tel:user.Phone" class="ion-ios-telephone font_size_20px orangeText"></a>
 							&nbsp &nbsp	&nbsp &nbsp
 							<a href="mailto:{{user.Email}}" class="ion-email font_size_20px orangeText"></a> 
@@ -145,8 +146,75 @@
 						</div>
 						</div>
 						</div>
+ -->
+			
 
-						</div>	
+ 				<div  ng-repeat="user in vm.userlist.data | orderBy:sortType:sortReverse" class="btmborder">
+					<div class ="row">
+						<div class="col3">
+							<table>
+								<tr>
+									<td class="keytd">Name</td>
+									<td class="valuetabletd with100p">
+										<span> {{user.Name }}</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="keytd">Phone</td>
+									<td class="valuetabletd with100p">
+										<span> {{user.Phone }}</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="keytd">Email</td>
+									<td class="valuetabletd with100p">
+										<span> {{user.Email }}</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="keytd">Address</td>
+									<td class="valuetabletd with100p">
+										<span> <address parameter="user.Address"></address></span>
+									</td>
+								</tr>
+								<tr>
+								</tr>
+							</table>
+						</div>
+						<div class="col3">
+							<table>
+								<tr>
+									<td class="keytd">Role</td>
+									<td class="valuetabletd with100p">
+										<span> {{user.Role}}</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="col3 resmrg10px">
+							<table>
+								<tr class="keytd">
+									<td>
+										<span ng-click="vm.deleteUser(user)" class="ion-trash-a font_size_30px mrgrgt20 orangeText resfontsize"></span>
+									</td>
+									<td>
+										<span ng-click="vm.updateUser(user)" class="ion-edit font_size_30px mrgrgt20 orangeText resfontsize"></span> 
+									</td>
+									<td ng-if='(user.Phone != "")'>
+										<a  href="tel:user.Phone" class="ion-ios-telephone font_size_30px mrgrgt20 orangeText resfontsize"></a>
+									</td>
+									<td ng-if='(user.Email != "")'>
+										<a href="mailto:{{user.Email}}" class="ion-email font_size_30px mrgrgt20 orangeText resfontsize"></a>
+									</td>
+									
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+
+			</div>	
 
 
 		</script>
@@ -241,13 +309,6 @@
 						<input type="text" ng-model="vm.editActivity.Address.Address_line2">
 					</div>
 				</div>
-				
-					<!-- <div class="col-10 text_align_center line_height3">Address</div>
-					<div class="col border1px">	
-						<div class="display_inlineflex">
-							<span class="display_inlineTable position_relative"><input type="text" ng-model="vm.editActivity.Address.Address_line1" class=""></span>
-							<span class="display_inlineTable position_relative"><input type="text" ng-model="vm.editActivity.Address.Address_line2" class=""></span>
-						</div> -->
 
 				<div class="row mrg_top5px">
 					<div class="col border1px">	
@@ -295,131 +356,144 @@
 			</button>
 		</ion-header-bar>
 		<ion-content>
-			<div class="row mrg_top5px">
-				<div class="col-10 text_align_center line_height3">Name</div>
-				<div class="col border1px">	
-					<input type="text" ng-model="vm.showUserDetail.Name" class="with100p">
+			<div class="mrg25px">
+				<div class="row mrg_top5px">
+					
+					<div class="col border1px">	
+						<input type="text" ng-model="vm.showUserDetail.Name" placeholder="Name" class="with100p">
+					</div>
 				</div>
-			</div>
 
-			<div class="row mrg_top5px">
-				<div class="col-10 text_align_center line_height3">Phone</div>
-				<div class="col border1px">	
-					<input type="text" ng-model="vm.showUserDetail.Phone" class="with100p">
+				<div class="row mrg_top5px">
+					<div class="col border1px">	
+						<input type="text" ng-model="vm.showUserDetail.Phone"  placeholder="Phone"  class="with100p">
+					</div>
 				</div>
-				<div class="col-10 text_align_center line_height3">Email</div>
-				<div class="col border1px">	
-					<input type="text" ng-model="vm.showUserDetail.Email" class="with100p">
+
+				<div class="row mrg_top5px">
+					<div class="col border1px">	
+						<input type="text" ng-model="vm.showUserDetail.Email" placeholder="Email" class="with100p">
+					</div>
 				</div>
-			</div>
 
+				<div class="row mrg_top5px">
+					<div class="col border1px">	
+						<select  ng-model="vm.showUserDetail.Profession" ng-options="v for v in vm.userProfessionList.data" class="bordernone with100p"></select>
 
-			<div class="row mrg_top5px">
-				<div class="col-10 text_align_center line_height3">Profession</div>
-				<div class="col border1px">	
-					<select  ng-model="vm.showUserDetail.Profession" ng-options="v for v in vm.userProfessionList.data" class="border_color_orange"></select>
-
+					</div>
 				</div>
-				<div class="col-10 text_align_center line_height3">Role</div>
-				<div class="col border1px">	
-					<select  ng-model="vm.showUserDetail.Role" ng-options="v for v in vm.userRole" class="border_color_orange"></select>
+
+				<div class="row mrg_top5px">
+
+					<div class="col border1px">	
+						<select  ng-model="vm.showUserDetail.Role" ng-options="v for v in vm.userRole" class="bordernone with100p"></select>
+					</div>
 				</div>
-			</div>
 
-			<div class="row mrg_top5px">
-				<div class="col-10 text_align_center line_height3">Address</div>
-				<div class="col border1px">	
-					<span class="display_inlineTable position_relative"><input type="text" ng-model="vm.showUserDetail.Address.Address_line1" class=""></span>
-					<span class="display_inlineTable position_relative"><input type="text" ng-model="vm.showUserDetail.Address.Address_line2" class=""></span>
-
-					<div class="row">
-						<div class="col-10 text_align_center line_height3">City</div>
+				<div class="row mrg_top5px">
 						<div class="col border1px">	
-							<input type="text" ng-model="vm.showUserDetail.Address.City" class="with100p">
-						</div>
-						<div class="col-10 text_align_center line_height3">District</div>
-						<div class="col border1px">
-							<input type="text" ng-model="vm.showUserDetail.Address.District" class="with100p">
+							<input type="text" ng-model="vm.showUserDetail.Address.Address_line1">
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-10 text_align_center line_height3">State</div>
+
+					<div class="row mrg_top5px">
 						<div class="col border1px">	
-							<input type="text" ng-model="vm.showUserDetail.Address.State" class="with100p">
-						</div>
-						<div class="col-10 text_align_center line_height3">Country</div>
-						<div class="col border1px">
-							<input type="text" ng-model="vm.showUserDetail.Address.Country" class="with100p">
+							<input type="text" ng-model="vm.showUserDetail.Address.Address_line2">
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-10 text_align_center line_height3">Pincode</div>
-						<div class="col-40 border1px">	
-							<input type="text" ng-model="vm.showUserDetail.Address.Postal_code" class="with100p">
+
+					<div class="row mrg_top5px">
+						<div class="col border1px">	
+							<input type="text" ng-model="vm.showUserDetail.Address.City" class="with100p" placeholder="City">
+						</div>
+					</div>
+					<div class="row mrg_top5px">
+						<div class="col border1px">
+							<input type="text" ng-model="vm.showUserDetail.Address.District" class="with100p" placeholder="District">
+						</div>
+					</div>
+					<div class="row mrg_top5px">
+						<div class="col border1px">	
+							<input type="text" ng-model="vm.showUserDetail.Address.State" class="with100p" placeholder="State">
+						</div>
+					</div>
+					<div class="row mrg_top5px">
+						<div class="col border1px">
+							<input type="text" ng-model="vm.showUserDetail.Address.Country" class="with100p" placeholder="Country">
+						</div>
+					</div>
+					<div class="row mrg_top5px">
+						<div class="col border1px">	
+							<input type="text" ng-model="vm.showUserDetail.Address.Postal_code" class="with100p" placeholder="Pincode">
+						</div>
+					</div>
+
+					<div class="row mrg_top5px padding0">
+						<div class="col text_align_center">
+							<button class="button button-block themBackgroundColor text_white" ng-click="vm.saveUpdatedUserDetail(vm.showUserDetail)" type="submit">Update </button>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="text_align_center">
-				<button class="button themBackgroundColor" ng-click="vm.saveUpdatedUserDetail(vm.showUserDetail)" type="submit">Update </button>
-			</div>
-
 		</ion-content>
 	</ion-modal-view>
 </script>
 
-<script id="newUsersForm.html" type="text/ng-template">
-	<ion-modal-view>
-		<ion-header-bar>
-			<h1 class="title">Add New User</h1>
-		</ion-header-bar>
-		<ion-content>
+	<script id="newUsersForm.html" type="text/ng-template">
+		<ion-modal-view>
+			<ion-header-bar>
+				<h1 class="title orangeText">Add New User</h1>
+				<button class="button  button-light bordernone" ng-click="vm.closeModel()">
+					<span class="ion-android-cancel orangeText font_size_20px"></span>
+				</button>
+			</ion-header-bar>
+			<ion-content>
+
+				<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+					<div class="mrg25px">
+	      				<div class="row mrg_top5px">
+							<!-- <div class="col-10 text_align_center line_height3">Name</div> -->
+							<div class="col border1px">	
+								<input type="text" ng-model="vm.NewUserData.Name" placeholder="Enter name" class="with100p">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<!-- <div class="col-10 text_align_center line_height3">Name</div> -->
+							<div class="col border1px">	
+								<input type="text" ng-model="vm.NewUserData.Email" placeholder="Enter Email" class="with100p">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<!-- <div class="col-10 text_align_center line_height3">Role</div> -->
+							<div class="col border1px">	
+								<select  ng-model="vm.NewUserData.Role" ng-options="v for v in vm.userRole" class="bordernone with100p">
+									<option value="" disabled selected="selected" style="display: none;">Choose role</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row mrg_top5px padding0">
+							<div class="col text_align_center">
+									<button class="button button-block themBackgroundColor text_align_center text_white" 
+									ng-click="vm.addNewUser(vm.NewUserData)" type="submit">Add </button>
+							</div>
+						</div>
+						<div ng-show="vm.userAdded" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">User added</div>
+					</div>
+				<!-- <input type="text" ng-model="vm.NewUserData.Name" placeholder="Name" class="border1px"><br />
+				<input type="email" ng-model="vm.NewUserData.Email" placeholder="Email" class="border1px"><br />
+				<select  ng-model="vm.NewUserData.Role" ng-options="v for v in vm.userRole" class="bordernone with100p">
+				</select required><br />
+				<button type="button" ng-click="vm.addNewUser(vm.NewUserData)">Add User</button> -->
+
+				
 
 
-			<input type="text" ng-model="vm.NewUserData.Name" placeholder="Name" class="border1px"><br />
-			<input type="email" ng-model="vm.NewUserData.Email" placeholder="Email" class="border1px"><br />
-			<select  ng-model="vm.NewUserData.Role" ng-options="v for v in vm.userRole" class="bordernone with100p">
-			</select required><br />
-			<button type="button" ng-click="vm.addNewUser(vm.NewUserData)">Add User</button>
 
-			<table border="1" cellpadding="10">
-				<thead>
-					<tr>
-						<th>
-							Name
-						</th>
-						<th>
-							Email
-						</th>
-						<th>
-							Role
-						</th>
-						<th>
-
-						</th>
-					</tr>
-				</thead>
-
-				<tr ng-repeat="person in vm.userList">
-					<td>
-						{{ person.Name }}
-					</td>
-					<td>
-						{{ person.Email }}
-					</td>
-					<td>
-						{{ person.Role }}
-					</td>
-
-				</tr>
-
-			</table>
-
-
-
-		</ion-content>
-	</ion-modal-view>
-</script> 
+			</ion-content>
+		</ion-modal-view>
+	</script> 
 </ion-content>
 
 </ion-view>

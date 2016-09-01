@@ -9,6 +9,7 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
      
      vm.detailAboutActivity = detailAboutActivity;
      vm.joinActivity = joinActivity;
+    
 
     vm.activityNewList = [];
     vm.userName = $localStorage.userInfo.data[0].Name
@@ -88,6 +89,7 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
     function joinActivity(activityTOjoin,state){
         
         if(state == "Confirmed"){
+    
             var newJoindActivity = {
                 Activity_url: activityTOjoin._url, 
                 Person_url: $localStorage.userInfo.data[0]._url, 
