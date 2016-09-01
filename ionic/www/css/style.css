@@ -76,6 +76,9 @@
 .mrgtopbtm10px{
         margin: 10px 0;
     }
+    .mrg25px{
+            margin: 25px;
+    }
     .boldtext{
         font-weight: bold;
     }
@@ -244,7 +247,19 @@ background: #e26228;
     float: right;
     position: relative;
     width: 1% !important;
+     border: none;
     display: table;
+    top: 39px;
+    height: 4px;
+        /* top: 24px;
+   
+    width: 1%;
+    border: none; */
+}
+.floatingbtn{
+    color: green;
+
+
 }
 
 @media (min-width : 768px) and (max-width : 1200px){
@@ -283,6 +298,9 @@ background: #e26228;
     }
     .resmrgtopbtm5px{
             margin: 5px 0;
+    }
+    .resmrgtop10{
+        margin-top: 10%;
     }
 
 }

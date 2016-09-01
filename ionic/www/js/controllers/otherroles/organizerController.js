@@ -30,6 +30,7 @@ angular
     showUser();
     $scope.sortReverse  = false;
     $scope.sortReverse = false;
+    vm.addActivityIcon = true;
     $scope.tabs = [{
             title: 'Upcoming Classes',
             url: 'addClass.html'
@@ -41,6 +42,13 @@ angular
     $scope.currentTab = 'addClass.html';
 
     $scope.onClickTab = function (tab) {
+        console.log("tab",tab);
+        if(tab.url == "addClass.html"){
+            vm.addActivityIcon = true;
+        }
+        if(tab.url == "people.html"){
+            vm.addActivityIcon = false;
+        }
         $scope.currentTab = tab.url;
     }
     
@@ -106,7 +114,8 @@ angular
     }
 
     function closeModel(){
-          $scope.modal.hide();
+        console.log("hr");
+          $scope.modal.hide();  
     }  
 
     function showUser(){
@@ -144,6 +153,9 @@ angular
             $scope.modal = modal;
             $scope.modal.show();
         });
+        $scope.closeModal = function() {
+            $scope.modal.hide();
+        };
     }
 
     function saveUpdatedUserDetail(updatedUserDetail){

@@ -128,7 +128,8 @@ console.log("dataavilable",userData.data.length);
       $state.go('app.signUp');
     $localStorage.update = email;
   }else{
-    if($rootScope.fbResponse) {
+    console.log('$rootScope.fbResponse',$rootScope.fbResponse.length);
+    if($rootScope.fbResponse.length > 0) {
         if(!(userData.data[0].Facebook_id)){
           userData.data[0].Facebook_id = $rootScope.fbResponse.id;
            userInfoService.updateUserDetail(userData.data[0]).then(function(userUpdateddata){

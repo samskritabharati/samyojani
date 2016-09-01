@@ -24,6 +24,8 @@ angular
         Status: 'Tentative',
         Role: 'Student'
       }
+      console.log('vm.role ',vm.role );
+
       vm.showSpinner = false;
       vm.participantAdded = false
     	showDetailActivity(activity);
@@ -175,6 +177,7 @@ angular
    		}
 
    		function closeModel(){
+
           $scope.modal.hide();
         }  
 
@@ -349,9 +352,10 @@ angular
 
 	function closeModel(){
      $ionicHistory.nextViewOptions({
-                        disableBack: true
-                      });
-		 $scope.modal.hide();
+        disableBack: true
+      });
+     $state.go('app.organizer');
+		 
 	} 
 
 	/*$scope.$watch(function() { return vm.newActivity.Start_time },
