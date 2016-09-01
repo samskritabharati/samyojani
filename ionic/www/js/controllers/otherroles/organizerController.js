@@ -19,6 +19,7 @@ angular
     vm.showFormForNewUser = showFormForNewUser;
     vm.closeModel = closeModel;
     vm.deleteUser = deleteUser;
+    vm.openMap = openMap;
     vm.activityDetail = [];
     vm.userList = [];
 
@@ -218,5 +219,40 @@ angular
              console.log(error);
         })
     }
-  }
+    function openMap(address){
+        var locationAddress = [];
+        if(address.Address_line1){
+             locationAddress.push(address.Address_line1)
+        }
+        if(address.Address_line2){
+            console.log("if");
+             locationAddress.push(address.Address_line2)
+        }
+        if(address.Locality){
+            locationAddress.push(address.Locality)
+        }
+         if(address.District){
+            locationAddress.push(address.District)
+        }
+         if(address.City){
+            locationAddress.push(address.City)
+        }
+        if(address.State){
+            locationAddress.push(address.State)
+        }
+        if(address.Country){
+            locationAddress.push(address.Country)
+        }
+        if(address.Postal_code){
+            locationAddress.push(address.Postal_code)
+        }
+     
+        var Completeaddress=""
+        for (var i = 0; i < locationAddress.length; i++) {
+            locationAddress[i]
+            Completeaddress = Completeaddress+ locationAddress[i]
+        }
+        window.open("http://maps.google.com/?q=" + Completeaddress, '_system');
+    }
+}
 

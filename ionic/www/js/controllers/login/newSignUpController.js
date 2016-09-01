@@ -120,10 +120,11 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 
 
 	function closeModel(){
-		 $ionicHistory.nextViewOptions({
+		$ionicHistory.nextViewOptions({
             disableBack: true
           });
 		$state.go('app.main');
+		
 	} 
 
 	function userProfession(){

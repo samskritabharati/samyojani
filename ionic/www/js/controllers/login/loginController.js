@@ -72,9 +72,6 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
         $scope.modal.hide();
         userAuthenticationService.emailauthentication(vm.email).then(function(userData){
-            console.log('gg',userData.data.length);
-            console.log("ssssss",userData.data != undefined)
-            console.log("dataavilable",userData.data.length);
             if(userData.data.length != 0){
                 routingTONextPage(userData,vm.email);
             }else{
@@ -110,6 +107,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
 
     function newSignInWithEmail (){
+
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
@@ -117,7 +115,6 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     }
 
     function newDirectSignUp (){
-
         $scope.modal.hide();
         $ionicHistory.nextViewOptions({
             disableBack: true
