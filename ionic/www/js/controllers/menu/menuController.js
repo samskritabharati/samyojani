@@ -12,18 +12,13 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
     vm.upcomingEvent = upcomingEvent;
     vm.updateProfile = updateProfile;
     vm.redirectProject = redirectProject;
-
-
+    vm.home = home;
+  
     $localStorage.userlogin = false;
 
     $scope.$watch(function() { return   $localStorage.userlogin },
       function() {
       	/*vm.newActivity.End_time = vm.newActivity.Start_time;*/
-      	console.log('from menu', $localStorage.userlogin);
-       /* console.log($localStorage.userInfo.data[0].Role);
-        console.log('s',$localStorage.userInfo.data[0].Role == 'Student');
-        console.log('loginst',$localStorage.userlogin);
-        console.log($localStorage.userInfo.data[0].Name != "" || $localStorage.userInfo.data[0].Name != null);*/
         if(($localStorage.userlogin == false)) {
           vm.notlogin = true
           vm.student = false
@@ -56,12 +51,7 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
     $localStorage.userlogin = false;
     $localStorage.userInfo = '';
     $localStorage.update = [];
-
-    console.log("logout",$localStorage.userlogin);
-    console.log($localStorage.userInfo);
     gapi.auth.signOut();
-   
-
      FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
                 FB.logout(function(response) {
@@ -75,8 +65,6 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
   }
 
   function upcomingEvent(){
-    console.log("upcommng evnt");
-    console.log('role',$localStorage.userInfo.data[0].Role);
     $ionicHistory.nextViewOptions({
             disableBack: true
         });
@@ -101,5 +89,12 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
             disableBack: true
         });
     $state.go('app.project');
+  }
+
+  function home(){
+    $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+    $state.go('app.main');
   }
  }

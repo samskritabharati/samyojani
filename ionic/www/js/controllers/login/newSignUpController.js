@@ -120,10 +120,21 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 
 
 	function closeModel(){
+		console.log("hr")
+		console.log("ss",$localStorage.userInfo);
 		$ionicHistory.nextViewOptions({
             disableBack: true
           });
-		$state.go('app.main');
+		
+		if($localStorage.userInfo == ""){
+			$state.go('app.main');
+		}
+		if($localStorage.userInfo.data[0].Role == 'Student'){
+				$state.go('app.student')
+		}
+		if($localStorage.userInfo.data[0].Role != 'Student'){
+			$state.go('app.organizer')
+		}
 		
 	} 
 
@@ -135,9 +146,25 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
         })
 	} 
 
+	/* $scope.user = {'from': '', 'fromLat': '', 'fromLng' : ''};
+    var options = {
+        componentRestrictions: {country: "in"}
+    };
+    var inputFrom = document.getElementById('from');
+    var autocompleteFrom = new google.maps.places.Autocomplete(inputFrom, options);
+    google.maps.event.addListener(autocompleteFrom, 'place_changed', function() {
+        var place = autocompleteFrom.getPlace();
+        console.log("place",place);
+console.log("formate",place.formatted_address);
+        $scope.user.fromLat = place.geometry.location.lat();
+        $scope.user.fromLng = place.geometry.location.lng();
+        $scope.user.from = place.formatted_address;
+        $scope.$apply();
+    });*/
+
+
 	function addUser(newUserDetail){
-		
-          newUserDetail.Address = {'Country': document.getElementById('country').value,
+      newUserDetail.Address = {'Country': document.getElementById('country').value,
           							'Postal_code': document.getElementById('postal_code').value,
           							'City': document.getElementById('locality').value,
           							'State': document.getElementById('administrative_area_level_1').value,
@@ -174,7 +201,6 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
           },function(error){
                console.log('error');
           })
-
      } 
 
      function updateUser(newUserDetail){
@@ -188,7 +214,7 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 					$rootScope.email = [];
 					$rootScope.googleInfo = [];
 					$localStorage.update = [];
-           			$localStorage.userInfo = data;
+           			$localStorage.userInfo = userData;
                
            			$ionicHistory.nextViewOptions({
                     	disableBack: true
@@ -201,11 +227,6 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 	          },function(error){
 	               console.log(error);
 	          });
-
-
-
-
-           
             
          },function(error){
             console.log(error);
