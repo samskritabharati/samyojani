@@ -110,44 +110,6 @@
 
 		<script type="text/ng-template" id="people.html">
 			<div id="viewTwo">
-					<!-- <span  class="ion-plus-circled float_right font_size_20px" style="color: green"><p class="font_size_15px" ng-click="vm.showFormForNewUser()">Add New User</p></span> -->
-					<!--<div class = "row " class="btmborder">
-						 <div class = "col" ng-click="sortType = 'Name';sortReverse = !sortReverse">User
-							<span ng-show="sortType == 'Start_date' && !sortReverse" class="ion-arrow-up-b"></span>
-							<span ng-show="sortType == 'Start_date' && sortReverse" class="ion-arrow-down-b"></span>
-						</div>
-						<div class = "col" ng-click="sortType = 'Activity_type_id';sortReverse = !sortReverse">Role
-							<span ng-show="sortType == 'Activity_type_id' && !sortReverse" class="ion-arrow-up-b"></span>
-							<span ng-show="sortType == 'Activity_type_id' && sortReverse" class="ion-arrow-down-b"></span>
-						</div>
-						<div class = "col">Action
-
-						</div> 
-					</div>	-->
-					<!-- <div  ng-repeat="user in vm.userlist.data | orderBy:sortType:sortReverse" class="btmborder">
-						<div class ="row" >
-							<div class="col">
-								<p>Name: &nbsp&nbsp {{user.Name }} </p>
-								<p>Phone: &nbsp&nbsp {{user.Phone }} </p>
-								<p>Email: &nbsp&nbsp {{user.Email}} </p>
-								<address parameter="user.Address"></address>
-							</div>
-
-							<div class="col">{{user.Role}}</div>
-							<div class="col">
-
-							<a  href="tel:user.Phone" class="ion-ios-telephone font_size_20px orangeText"></a>
-							&nbsp &nbsp	&nbsp &nbsp
-							<a href="mailto:{{user.Email}}" class="ion-email font_size_20px orangeText"></a> 
-							&nbsp &nbsp	&nbsp &nbsp
-							<span ng-click="vm.updateUser(user)" class="ion-edit font_size_20px orangeText"></span> 
-							&nbsp&nbsp	&nbsp&nbsp
-							<span ng-click="vm.deleteUser(user)" class="ion-trash-a font_size_20px orangeText"></span>
-						</div>
-						</div>
-						</div>
- -->
-			
 
  				<div  ng-repeat="user in vm.userlist.data | orderBy:sortType:sortReverse" class="btmborder">
 					<div class ="row">

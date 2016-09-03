@@ -249,8 +249,9 @@ background: #e26228;
     width: 1% !important;
      border: none;
     display: table;
-    top: 39px;
+    top: 36%;
     height: 4px;
+        margin-right: 1%;
         /* top: 24px;
    
     width: 1%;

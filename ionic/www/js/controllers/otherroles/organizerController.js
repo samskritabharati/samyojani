@@ -48,7 +48,6 @@ angular
     $scope.currentTab = 'addClass.html';
 
     $scope.onClickTab = function (tab) {
-        console.log("tab",tab);
         if(tab.url == "addClass.html"){
             vm.addActivityIcon = true;
             vm.addUserIcon = false
@@ -123,7 +122,6 @@ angular
     }
 
     function closeModel(){
-        console.log("hr");
           $scope.modal.hide();  
     }  
 
@@ -225,7 +223,6 @@ angular
              locationAddress.push(address.Address_line1)
         }
         if(address.Address_line2){
-            console.log("if");
              locationAddress.push(address.Address_line2)
         }
         if(address.Locality){

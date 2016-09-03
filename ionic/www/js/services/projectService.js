@@ -8,8 +8,6 @@ function projectService($http, $q, constantsService) {
     var service = {
         
         getAllProject: getAllProject,
-      
-
 
     };
 
