@@ -37,6 +37,8 @@ class Presets(Resource):
             ['daily', 'weekly', 'monthly', 'yearly'],
         'EventRole' :
             ['Student', 'Shikshaka', 'Samyojaka', 'Prabandhaka', 'Adhyaksha'],
+        'Days' :
+            ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     }
     def get(self, field=None):
         

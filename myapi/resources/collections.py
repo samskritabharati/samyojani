@@ -314,6 +314,7 @@ class Activities(_SBCollection):
             'Coordinator_id': { 'ref' : 'users', 'default' : '' },
             'Project_id': { 'ref' : 'projects', 'default' : '' },
             'Name': '',
+            'Days' : '',
             'Email': '',
             'Phone': '',
             'Start_date': '',
