@@ -162,9 +162,9 @@ angular
    		function showFormToUpdatePerticipantInActivity(perticipantInfo){
    			getEventRole();
    			vm.userActivityDetailToEdit = perticipantInfo
+        console.log("vm.userActivityDetailToEdit",vm.userActivityDetailToEdit);
    			$ionicModal.fromTemplateUrl('editUserInActivity.html', {
            scope: $scope,
-           animation: 'slide-in-right'
           }).then(function(modal) {
             $scope.modal = modal;
             $scope.modal.show();
@@ -193,7 +193,6 @@ angular
         getEventRole();
     		$ionicModal.fromTemplateUrl('addPerticipantToActivity.html', {
            scope: $scope,
-           animation: 'slide-in-right'
           }).then(function(modal) {
             $scope.modal = modal;
             $scope.modal.show();
@@ -281,12 +280,11 @@ angular
   	addActivityController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService','activityService', '$localStorage','$ionicHistory'];
 
   	function addActivityController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, activityService, $localStorage, $ionicHistory) {
-    	var vm = this;
+      var vm = this;
 
     	vm.closeModel = closeModel;
-    	vm.geolocate = geolocate;
     	vm.addNewActivityDetail = addNewActivityDetail;
-    /*	vm.newActivity.Start_time = 00;*/
+   
 
       vm.newActivity = {
         Activity_type_id : 'varga',
@@ -295,59 +293,9 @@ angular
     	activityList();
     	recurrenceList();
       daysList();
+      getCountry();
 
-    	function geolocate(){
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(function(position) {
-				var geolocation = {
-					lat: position.coords.latitude,
-					lng: position.coords.longitude
-				};
-				var circle = new google.maps.Circle({
-					center: geolocation,
-					radius: position.coords.accuracy
-				});
-				autocomplete.setBounds(circle.getBounds());
-			});
-		}
-	}
-	initAutocomplete();
-
-	var componentForm = {
-		street_number: 'short_name',
-		route: 'long_name',
-		locality: 'long_name',
-		administrative_area_level_1: 'short_name',
-		country: 'long_name',
-		postal_code: 'short_name'
-	};
-
-	google.maps.event.addDomListener(document.getElementById('autocomplete'), 'focus', geolocate); 
-
-	function initAutocomplete() {
-		autocomplete = new google.maps.places.Autocomplete(
-			(document.getElementById('autocomplete')),
-			{types: ['geocode']});
-
-		autocomplete.addListener('place_changed', fillInAddress);
-	}
-
-	function fillInAddress() {
-		var place = autocomplete.getPlace();
-
-		for (var component in componentForm) {
-			document.getElementById(component).value = '';
-			document.getElementById(component).disabled = false;
-		}
-
-		for (var i = 0; i < place.address_components.length; i++) {
-			var addressType = place.address_components[i].types[0];
-			if (componentForm[addressType]) {
-				var val = place.address_components[i][componentForm[addressType]];
-				document.getElementById(addressType).value = val;
-			}
-		}
-	}
+ 
 
 
 	function closeModel(){
@@ -366,14 +314,14 @@ angular
 
 	function addNewActivityDetail(newActivity){
 		newActivity.Coordinator_url = $localStorage.userInfo.data[0]._url;
-		newActivity.Address = {'Country': document.getElementById('country').value,
+		/*newActivity.Address = {'Country': document.getElementById('country').value,
           							'Postal_code': document.getElementById('postal_code').value,
           							'City': document.getElementById('locality').value,
           							'State': document.getElementById('administrative_area_level_1').value,
           							'Country': document.getElementById('country').value,
           							'Address_line1': document.getElementById('street_number').value,
           							'Address_line2': document.getElementById('route').value,
-      							}
+      							}*/
 		activityService.addNewActivity(newActivity).then(function(data){
       $ionicHistory.nextViewOptions({
         disableBack: true
@@ -402,4 +350,12 @@ angular
             vm.daysList= daysList.data;
         })
   }
+
+  function getCountry(){
+    userInfoService.getAllCountryList().then(function(countrty){
+            vm.countrList = countrty;
+        },function(error){
+             console.log(error);
+        })
+  } 
 }

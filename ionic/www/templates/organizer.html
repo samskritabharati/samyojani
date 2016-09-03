@@ -110,8 +110,11 @@
 
 		<script type="text/ng-template" id="people.html">
 			<div id="viewTwo">
+				<div class="with100p display_inlineflex mrgtopbtm10px searchbtn">
+					<span class="ion-android-search font_size_30px orangeText"></span><input type="text" ng-model="vm.searchKeywordForUser" class="border1px width90p" placeholder="Enter  here to search">
+				</div>
 
- 				<div  ng-repeat="user in vm.userlist.data | orderBy:sortType:sortReverse" class="btmborder">
+ 				<div  ng-repeat="user in vm.userlist.data | orderBy:sortType:sortReverse | filter: vm.searchKeywordForUser" class="btmborder">
 					<div class ="row">
 						<div class="col3">
 							<table>

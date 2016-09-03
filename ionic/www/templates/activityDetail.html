@@ -4,7 +4,11 @@
 			<p> HI {{vm.userName }}</p>
 		</div>
 	</ion-nav-buttons>
+	<div class="bar bar-subheader floatingHeader" ng-if="!(vm.role == 'Student')">
 
+		<span class="ion-plus-circled floatingbtn font_size_30px orangeText" ng-click="vm.showAddPerticipantForm()">
+		</span>
+	</div>
 	<ion-content class="has-header resmrg20px" overflow-scroll = "true">	
 
 		<div class="text_align_center font_size_20px mrg_btm10px orangeText">
@@ -93,9 +97,9 @@
 			</div>					
 		</div>
 		<div>
-			<span  ng-if="!(vm.role == 'Student')" class="ion-plus-circled float_right font_size_20px" style="color: green" ng-click="vm.showAddPerticipantForm()">Add Participants</span>
-
-			<span><div class="text_align_center font_size_20px mrg_btm10px orangeText">Participants </div></span>
+			
+			<span><div class="text_align_center font_size_20px mrg_btm10px orangeText">Participants </div>
+			</span>
 			
 			<div  ng-repeat="participant in vm.participentDetailList" class="btmborder">
 				<div class="row">
@@ -134,7 +138,7 @@
 					<div class="col3 resmrg10px" ng-if="!(vm.role == 'Student')">
 						<table class="with100p">
 							<tr >
-								<span ng-click="vm.showFormToUpdatePerticipantInActivity(perticipant)" class="ion-edit font_size_20px mrgrgt20 orangeText resfontsize"></span>
+								<span ng-click="vm.showFormToUpdatePerticipantInActivity(participant)" class="ion-edit font_size_20px mrgrgt20 orangeText resfontsize"></span>
 							</tr>
 							<tr>
 								<span ng-click="vm.deleteUserFromActivity(participant)" class="ion-trash-a font_size_20px mrgrgt20 orangeText resfontsize"></span>
@@ -157,7 +161,7 @@
 					<div class="row mrg_top5px">
 						<div class="col-10 text_align_center line_height3">Name</div>
 						<div class="col border1px">	
-							<input type="text" ng-model="vm.userActivityDetailToEdit.perticepantInfo.Name" class="with100p">
+							<input type="text" ng-model="vm.userActivityDetailToEdit.participantInfo.Name" class="with100p">
 						</div>
 					</div>
 					
@@ -165,12 +169,14 @@
 						<div class="col-10 text_align_center line_height3">Role</div>
 						<div class="col border1px">	
 							<!-- <input type="text" ng-model="vm.userActivityDetailToEdit.perticipantStaus.Role" class="with100p"> -->
-							<select  ng-model="vm.userActivityDetailToEdit.perticipantStaus.Role" ng-options="v for v in vm.userRole" class="border_color_orange"></select>
+							<select  ng-model="vm.userActivityDetailToEdit.participantStatus.EventRole" ng-options="v for v in vm.userRole" class="bordernone with100p">
+								<option value="" disabled selected="selected" style="display: none;">{{vm.userActivityDetailToEdit.participantStatus.EventRole}}</option>
+							</select>
 						</div>
 						<div class="col-10 text_align_center line_height3">Status</div>
 						<div class="col border1px">	
 							<!-- <input type="text" ng-model="vm.userActivityDetailToEdit.perticipantStaus.Status" class="with100p"> -->
-							<select  ng-model="vm.userActivityDetailToEdit.perticipantStaus.Status" ng-options="v for v in vm.activityEnrollTypes" class="bordernone with100p"></select>
+							<select  ng-model="vm.userActivityDetailToEdit.participantStatus.Status" ng-options="v for v in vm.activityEnrollTypes" class="bordernone with100p"></select>
 						</div>
 					</div>
 

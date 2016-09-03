@@ -76,7 +76,7 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
             var newJoindActivity = {
                 Activity_url: activityTOjoin._url, 
                 Person_url: $localStorage.userInfo.data[0]._url, 
-                Role:  $localStorage.userInfo.data[0].Role,
+                EventRole:  'Student',
                 Status:'Confirmed',
                 Last_active_date:new Date()
             }
@@ -85,7 +85,7 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
             var newJoindActivity = {
                 Activity_url: activityTOjoin._url, 
                 Person_url: $localStorage.userInfo.data[0]._url, 
-                Role:  $localStorage.userInfo.data[0].Role,
+                EventRole:  'Student',
                 Status:'Tentative',
                 Last_active_date:new Date()
             }
@@ -154,7 +154,6 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
         var newJoindActivity = {
             Activity_url: activityTOjoin.myActivity.Activity_url, 
             Person_url:  $localStorage.userInfo.data[0]._url, 
-            Role:  $localStorage.userInfo.data[0].Role,
             Status:'Confirmed',
             Last_active_date:new Date(),
             _url: activityTOjoin.myActivity._url
