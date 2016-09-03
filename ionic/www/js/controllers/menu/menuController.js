@@ -11,6 +11,7 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
     vm.studentLogOut = studentLogOut;
     vm.upcomingEvent = upcomingEvent;
     vm.updateProfile = updateProfile;
+    vm.redirectProject = redirectProject;
 
 
     $localStorage.userlogin = false;
@@ -93,5 +94,12 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
             disableBack: true
         });
     $state.go('app.signUp');
+  }
+
+  function redirectProject(){
+    $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+    $state.go('app.project');
   }
  }

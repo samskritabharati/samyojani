@@ -1,0 +1,60 @@
+<ion-view>
+
+	<ion-nav-buttons side="right">
+		<div>
+			<span class="orangeText"> HI {{vm.userName }}</span>
+		</div>
+	</ion-nav-buttons>
+
+	<ion-content class="has-header"   overflow-scroll = "true">
+		<div  ng-repeat="project in vm.projectList" class="btmborder">
+
+					<div class ="row">
+						<div class="col3">
+							<table>
+								<tr>
+									<td class="keytd">Name</td>
+									<td class="valuetabletd with100p">
+										<span>{{project.Name}}</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="keytd">Date</td>
+									<td class="valuetabletd with100p">
+										<span>{{project.End_date | date}}</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="col3">
+							<table>
+								<tr>
+									<td class="keytd">Email</td>
+									<td class="valuetabletd with100p">
+										<span>{{project.Email}}</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="keytd">Adress</td>
+									<td class="valuetabletd with100p">
+										<span>		
+											<address ng-click="vm.openMap(activity.allActivity.Address)"  
+											parameter="project.Address"></address>
+										</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="col3">
+							<table>
+								<tr>
+									<td class="keytd">Phone</td>
+									<td class="valuetabletd with100p">
+										<span>{{project.Phone}}</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+	</ion-content>
+</ion-view>

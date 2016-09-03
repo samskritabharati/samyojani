@@ -196,47 +196,51 @@
                   </button>
 				</ion-header-bar>
 				<ion-content>
-								<div class="spinnerDiv" ng-show="vm.useraddSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+					<div class="spinnerDiv" ng-show="vm.useraddSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+					
+					 <form name="form" class="mrg25px" novalidate>
+	      				<div class="row mrg_top5px">
+							<!-- <div class="col-10 text_align_center line_height3">Name</div> -->
+							<div class="col border1px">	
+								<input type="text" ng-model="vm.participant.Name" placeholder="Enter name of participant" class="with100p">
+							</div>
+							
+     
+						</div>
+						<div class="row mrg_top5px">
+							<!-- <div class="col-10 text_align_center line_height3">Email</div> -->
+							<div class="col border1px">	
+								 <input type="email" ng-model="vm.participant.Email" placeholder="Enter email of participant" class="with100p" placeholder="Enter email id of participant">
+							</div>
+						</div>
+			
+	   		
+						<div class="row mrg_top5px">
+							<!-- <div class="col-10 text_align_center line_height3">Role</div> -->
+							<div class="col border1px">	
+								<select  ng-model="vm.participant.Role" ng-options="v for v in vm.userRole" class="bordernone with100p"></select>
+							</div>
+						</div>
 
-      				<div class="row mrg_top5px">
-						<!-- <div class="col-10 text_align_center line_height3">Name</div> -->
-						<div class="col border1px">	
-							<input type="text" ng-model="vm.participant.Name" placeholder="Enter name of participant" class="with100p">
+						<!-- <div class="row mrg_top5px">
+							<div class="col border1px">	
+								<select  ng-model="vm.participant.Status" ng-options="v for v in vm.activityEnrollTypes" 
+								class="bordernone with100p"></select>
+							</div>
+						</div -->
+						<div class="row mrg_top5px">
+							<div class="col border1px">
+								<select  ng-model="vm.participant.Status" ng-options="v for v in vm.activityEnrollTypes" class="bordernone with100p"></select>
+							</div>
 						</div>
-					</div>
-					<div class="row mrg_top5px">
-						<!-- <div class="col-10 text_align_center line_height3">Email</div> -->
-						<div class="col border1px">	
-							 <input type="email" ng-model="vm.participant.Email" placeholder="Enter email of participant" class="with100p" placeholder="Enter email id of participant">
-						</div>
-					</div>
-		
-   		
-					<div class="row mrg_top5px">
-						<!-- <div class="col-10 text_align_center line_height3">Role</div> -->
-						<div class="col border1px">	
-							<select  ng-model="vm.participant.Role" ng-options="v for v in vm.userRole" class="bordernone with100p"></select>
-						</div>
-					</div>
 
-					<!-- <div class="row mrg_top5px">
-						<div class="col border1px">	
-							<select  ng-model="vm.participant.Status" ng-options="v for v in vm.activityEnrollTypes" 
-							class="bordernone with100p"></select>
+						<div class="row mrg_top5px valuetabletd">
+							<div class="col text_align_center">
+									<button class="button button-block themBackgroundColor text_align_center text_white" ng-click="vm.addParticipentToActivity(vm.participant)" type="submit">Add </button>
+							</div>
 						</div>
-					</div -->
-					<div class="row mrg_top5px">
-						<div class="col border1px">
-							<select  ng-model="vm.participant.Status" ng-options="v for v in vm.activityEnrollTypes" class="bordernone with100p"></select>
-						</div>
-					</div>
-
-					<div class="row mrg_top5px">
-						<div class="col text_align_center">
-								<button class="button button-block themBackgroundColor text_align_center text_white" ng-click="vm.addParticipentToActivity(vm.participant)" type="submit">Add </button>
-						</div>
-					</div>
-					<div ng-show="vm.participantAdded" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">Participant added</div>
+						<div ng-show="vm.participantAdded" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">Participant added</div>
+					</form>
 				</ion-content>
 			</ion-modal-view>
   		</script>

@@ -18,6 +18,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     $scope.signedIn = false;
     $rootScope.email = [];
     $rootScope.fbResponse = [];
+    $localStorage.update= [];
 
 
 
