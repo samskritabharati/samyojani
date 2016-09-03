@@ -22,7 +22,15 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
 
 
-
+    $scope.$watch(function() { return   $localStorage.userlogin },
+    function() {      
+        if($localStorage.userlogin){
+          vm.hideSignIn = false;
+        }else{
+          vm.hideSignIn = true
+          console.log(' vm.hideSignIn', vm.hideSignIn);
+        }
+    }) 
 
     function signInWithFacebook(){
         FB.login(function(response) {

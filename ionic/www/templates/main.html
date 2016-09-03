@@ -25,10 +25,10 @@
 		 
 		  </ion-content>
 
-		  <ion-footer-bar>
-		 
-		  		<div class="with100p font_size_20px">
-		  		<a href="#/app/login" style="border-bottom:none; text-decoration:none"><button class="button button-full themBackgroundColor text_white font_size_20px" ng-click="vm.loginPage()"style="margin:0; text-decoration:none;">Sign in/Register</button></a>  </div>
+		  <ion-footer-bar ng-if="vm.hideSignIn">
+		
+		  		 <div class="with100p font_size_20px"> 
+		  		<a href="#/app/login" style="border-bottom:none; text-decoration:none"><button class="button button-full themBackgroundColor text_white font_size_20px" ng-click="vm.loginPage()"style="margin:0; text-decoration:none;">Sign In/Register</button></a>  </div> 
 		  
       
         </ion-footer-bar>

@@ -15,7 +15,7 @@
 
   <ion-side-menu side="left">
     <ion-header-bar class="bar-stable lighterOrange ">
-      <h1 class="title orangeText">Menu</h1>
+      <h1 class="title orangeText"> </h1>
     </ion-header-bar>
     <ion-content>
       <ion-list ng-if="vm.notlogin">
@@ -23,7 +23,7 @@
         <ion-item menu-close  href="#/app/login">
           Sign In&nbsp/&nbspRegister
         </ion-item>
-        <ion-item menu-close href="#/app/search">
+        <ion-item menu-close>
           About us
         </ion-item>
         
@@ -32,9 +32,11 @@
 
       <ion-list ng-if="vm.student">
         <div>
-          <ion-item menu-close ng-click="vm.studentLogOut()">
-            LogOut
+          
+           <ion-item menu-close ng-click="vm.home()">
+           Home
           </ion-item>
+         
           <ion-item menu-close ng-click="vm.updateProfile()">
             My Profile
           </ion-item>
@@ -42,10 +44,10 @@
           <ion-item menu-close  ng-click="vm.showStudentClass()">
             My Classes
           </ion-item>  
-          <ion-item menu-close href="#/app/browse">
+          <ion-item menu-close>
             My Wish List
           </ion-item>
-          <ion-item menu-close href="#/app/browse">
+          <ion-item menu-close>
            Set Location
           </ion-item>
           <ion-item menu-close> Browse
@@ -55,12 +57,15 @@
             <ion-item menu-close ng-click="vm.redirectProject()">
              Projects
             </ion-item>
-            <ion-item menu-close href="#/app/browse">
+            <ion-item menu-close>
              People
             </ion-item>
-            <ion-item menu-close href="#/app/browse">
+            <ion-item menu-close >
              Courses
             </ion-item>
+          </ion-item>
+          <ion-item menu-close ng-click="vm.studentLogOut()">
+            LogOut
           </ion-item>
         </div>
   
@@ -68,9 +73,10 @@
 
       <ion-list ng-if="vm.other">
         <div>
-          <ion-item menu-close ng-click="vm.studentLogOut()">
-            LogOut
+           <ion-item menu-close ng-click="vm.home()">
+           Home
           </ion-item>
+          
           <ion-item menu-close ng-click="vm.updateProfile()">
             My Profile
           </ion-item>
@@ -78,10 +84,10 @@
           <ion-item menu-close  ng-click="vm.showStudentClass()">
             My Classes
           </ion-item>  
-          <ion-item menu-close href="#/app/browse">
+          <ion-item menu-close >
             My Wish List
           </ion-item>
-          <ion-item menu-close href="#/app/browse">
+          <ion-item menu-close >
            Set Location
           </ion-item>
           <ion-item menu-close> Manage
@@ -91,12 +97,15 @@
             <ion-item menu-close ng-click="vm.redirectProject()">
              Projects
             </ion-item>
-            <ion-item menu-close href="#/app/browse">
+            <ion-item menu-close>
              People
             </ion-item>
-            <ion-item menu-close href="#/app/browse">
+            <ion-item menu-close >
              Courses
             </ion-item>
+          </ion-item>
+          <ion-item menu-close ng-click="vm.studentLogOut()">
+            LogOut
           </ion-item>
         </div>
   
