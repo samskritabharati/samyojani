@@ -20,7 +20,9 @@ function userInfoService($http, $q, constantsService) {
         deleteUser: deleteUser,
         getUserClassList:getUserClassList,
         getUserByUrl: getUserByUrl,
-        findUserByFacebookID:findUserByFacebookID
+        findUserByFacebookID:findUserByFacebookID,
+        getAllCountryList:getAllCountryList,
+        searchForUser:searchForUser
 
 
     };
@@ -28,7 +30,6 @@ function userInfoService($http, $q, constantsService) {
     return service;
 
     function getUserActivities(region){
-        console.log("info",region);
         var deferred = $q.defer();
         $http({
             method : 'GET',
@@ -246,4 +247,33 @@ function userInfoService($http, $q, constantsService) {
         return deferred.promise;
     }
     
+    function getAllCountryList(){
+        var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url : constantsService.url+'/presets/Country'
+        }).then(function(data){
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+    function searchForUser(searchCriteria){
+        console.log('searchCriteria',searchCriteria);
+        
+        var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url : constantsService.url+'/users?Name='+searchCriteria.name+'&Email='+searchCriteria.email+'&Phone='+searchCriteria.phone+'&AddressString='+searchCriteria.address
+        }).then(function(data){
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
 }

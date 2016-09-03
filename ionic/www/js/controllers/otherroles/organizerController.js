@@ -85,7 +85,6 @@ angular
 
         $ionicModal.fromTemplateUrl('editActivity.html', {
             scope: $scope,
-            animation: 'slide-in-up'
         }).then(function(modal) {
             $scope.modal = modal;
             $scope.modal.show();
@@ -156,8 +155,7 @@ angular
 
         userRole();
         $ionicModal.fromTemplateUrl('editUser.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
+            scope: $scope
         }).then(function(modal) {
             $scope.modal = modal;
             $scope.modal.show();
@@ -186,7 +184,6 @@ angular
         vm.NewUserData = [];
         vm.useraddSpinner = true;
 
-        vm.userList.push(userDetail);
         var newUserDetail = [];
         newUserDetail = userDetail;
          userInfoService.addNewUser(newUserDetail).then(function(data){
@@ -202,8 +199,7 @@ angular
     function showFormForNewUser(){
         userRole();
         $ionicModal.fromTemplateUrl('newUsersForm.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
+            scope: $scope
         }).then(function(modal) {
             $scope.modal = modal;
             $scope.modal.show();

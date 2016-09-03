@@ -53,7 +53,7 @@
     padding: 0;
 }
 .mrg_top10px{
-    margin-top: 10px;
+    margin-top: 10px !important;
 }
 .mrg_top55px{
     margin-top: 55px;
@@ -135,6 +135,9 @@
 }
 .italictext{
         font-style: italic;
+}
+.verticalalignmiddle{
+    vertical-align: middle;
 }
 ul {
     list-style: none;
@@ -249,9 +252,9 @@ background: #e26228;
     width: 1% !important;
      border: none;
     display: table;
-    top: 36%;
+    top: 30%;
     height: 4px;
-        margin-right: 1%;
+        margin-right: 2%;
         /* top: 24px;
    
     width: 1%;

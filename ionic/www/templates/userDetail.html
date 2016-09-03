@@ -1,0 +1,126 @@
+<ion-view>
+	<ion-nav-buttons side="right">
+		
+	</ion-nav-buttons>
+	
+	<ion-content class="has-header"  overflow-scroll = "true">
+
+		<div class ="row">
+			<div class="col3">
+				<table>
+					<tr>
+						<td class="keytd">Name</td>
+						<td class="valuetabletd with100p verticalalignmiddle">
+							<span> <input type="text" ng-model="vm.search.name" class="border1px with100p" /></span>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="col3">
+				<table>
+					<tr>
+						<td class="keytd">Email</td>
+						<td class="valuetabletd with100p verticalalignmiddle">
+							<span> <input type="email" ng-model="vm.search.email" class="border1px with100p" /></span>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="col3">
+				<table>
+					<tr>
+						<td class="keytd">Phone</td>
+						<td class="valuetabletd with100p verticalalignmiddle">
+							<span><input type="text" ng-model="vm.search.phone" class="border1px with100p" /></span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!-- <div class ="row mrg_top10px">
+			<div class="col3">
+				<table>
+					<tr>
+						<td class="keytd">Address</td>
+						<td class="valuetabletd with100p verticalalignmiddle">
+							<span> <input type="text" ng-model="vm.search.address" class="border1px with100p" /></span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div> -->
+		<div class ="row ">
+			<div class="col text_align_center">
+				   <button class="button   themBackgroundColor text_white" 
+				   ng-click="vm.searchUser(vm.search)"
+                            >Search</button>
+			</div>
+		</div>
+
+		<div  ng-repeat="user in vm.user.data | orderBy:sortType:sortReverse | filter: vm.searchKeywordForUser" class="btmborder">
+					<div class ="row">
+						<div class="col3">
+							<table>
+								<tr>
+									<td class="keytd">Name</td>
+									<td class="valuetabletd with100p">
+										<span> {{user.Name }}</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="keytd">Phone</td>
+									<td class="valuetabletd with100p">
+										<span> {{user.Phone }}</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="keytd">Email</td>
+									<td class="valuetabletd with100p">
+										<span> {{user.Email }}</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="keytd">Address</td>
+									<td class="valuetabletd with100p">
+										<span> <address vm.openMap(user.Address) parameter="user.Address"></address></span>
+									</td>
+								</tr>
+								<tr>
+								</tr>
+							</table>
+						</div>
+						<div class="col3">
+							<table>
+								<tr>
+									<td class="keytd">Role</td>
+									<td class="valuetabletd with100p">
+										<span> {{user.Role}}</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="col3 resmrg10px" ng-if="!(vm.role == 'Student')">
+							<table>
+								<tr class="keytd">
+									<td>
+										<span ng-click="vm.deleteUser(user)" class="ion-trash-a font_size_30px mrgrgt20 orangeText resfontsize"></span>
+									</td>
+									<td>
+										<span ng-click="vm.updateUser(user)" class="ion-edit font_size_30px mrgrgt20 orangeText resfontsize"></span> 
+									</td>
+									<td ng-if='(user.Phone != "")'>
+										<a  href="tel:user.Phone" class="ion-ios-telephone font_size_30px mrgrgt20 orangeText resfontsize"></a>
+									</td>
+									<td ng-if='(user.Email != "")'>
+										<a href="mailto:{{user.Email}}" class="ion-email font_size_30px mrgrgt20 orangeText resfontsize"></a>
+									</td>
+									
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+
+
+	</ion-content>
+</ion-view>
