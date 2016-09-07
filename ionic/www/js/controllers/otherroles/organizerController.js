@@ -7,7 +7,7 @@ angular
   function organizerController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout,activityService) {
     var vm = this;
 
-    vm.addNewUser = addNewUser;
+    /*vm.addNewUser = addNewUser;*/
     vm.detailAboutActivity = detailAboutActivity;
     vm.updateActivity = updateActivity;
     vm.saveUpdatedActivityDetail = saveUpdatedActivityDetail;
@@ -31,8 +31,7 @@ angular
     }
     showActivity();
 /*    showUser();*/
-    $scope.sortReverse  = false;
-    $scope.sortReverse = false;
+   
     vm.addActivityIcon = true;
     vm.addUserIcon = false;
     vm.userAdded = false
@@ -149,7 +148,7 @@ angular
          $state.go('app.addActivity',{},{location: false, inherit: false});
     }
 
-    function addNewUser(userDetail){
+    /*function addNewUser(userDetail){
         vm.NewUserData = [];
         vm.useraddSpinner = true;
 
@@ -163,7 +162,7 @@ angular
           },function(error){
                console.log('error');
           })
-    }
+    }*/
 
    /* function showFormForNewUser(){
         userRole();
@@ -232,7 +231,7 @@ console.log("fina",criteria);
 
         activityService.searchForActivity(criteria).then(function(activityDetail){
             console.log("criteria",activityDetail);
-             vm.showSearchCount = true;
+            
             vm.activityData = activityDetail.data;
         },function(error){
             console.log("Error in updating FacebookID")

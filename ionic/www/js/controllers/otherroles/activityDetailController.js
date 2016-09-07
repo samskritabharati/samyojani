@@ -2,9 +2,9 @@ angular
     .module('starter')
     .controller('activityDetailController', activityDetailController);
 
-  	activityDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService', '$localStorage', 'activityService','$timeout'];
+  	activityDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService', '$localStorage', 'activityService','$timeout','$ionicHistory'];
 
-  	function activityDetailController($scope, $stateParams, $state ,userInfoService, $ionicModal, userAuthenticationService, $localStorage, activityService,$timeout) {
+  	function activityDetailController($scope, $stateParams, $state ,userInfoService, $ionicModal, userAuthenticationService, $localStorage, activityService,$timeout ,$ionicHistory) {
     	var vm = this;
     	vm.deleteUserFromActivity = deleteUserFromActivity;
     	vm.updateUserDetailFromActivity = updateUserDetailFromActivity;
@@ -13,6 +13,7 @@ angular
     	vm.showAddPerticipantForm = showAddPerticipantForm;
     	vm.addParticipentToActivity = addParticipentToActivity;
     	vm.closeModelAndRefeshParticipant = closeModelAndRefeshParticipant;
+      vm.backToActivity = backToActivity;
          
     	var activity = $state.params.activityDetail;
     	vm.userName = $localStorage.userInfo.data[0].Name;
@@ -271,6 +272,15 @@ angular
          vm.participentDetailList = [];
 	    	 getParticipants();
 	    }
+
+      function backToActivity(){
+        $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+    
+        $state.go('app.organizer', {}, {reload: true});
+    
+      }
 	}
 
 	angular

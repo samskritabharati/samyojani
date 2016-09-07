@@ -10,7 +10,9 @@
 		</span>
 	</div>
 	<ion-content class="has-header resmrg20px" overflow-scroll = "true">	
-
+<div   class=" orangeText text_align_center headerTextMrg " > <span class="font_size_30px">Activity Detail</span>
+<span class="float_right orangeText" ng-click="vm.backToActivity()"><button class="themBackgroundColor bordernone text_white padding5px font_size_15px">Back to Activity</button></span>
+</div>
 		<div class="text_align_center font_size_20px mrg_btm10px orangeText">
 			{{vm.activityDetail.activity_type_id}}:&nbsp{{vm.activityDetail.activity_name}}
 		</div>
@@ -201,7 +203,7 @@
                        <span class="ion-android-cancel orangeText font_size_20px"></span>
                   </button>
 				</ion-header-bar>
-				<ion-content>
+				<ion-content overflow-scroll = "true">
 					<div class="spinnerDiv" ng-show="vm.useraddSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
 					
 					 <form name="form" class="mrg25px" novalidate>
@@ -216,7 +218,14 @@
 						<div class="row mrg_top5px">
 							<!-- <div class="col-10 text_align_center line_height3">Email</div> -->
 							<div class="col border1px">	
-								 <input type="email" ng-model="vm.participant.Email" placeholder="Enter email of participant" class="with100p" placeholder="Enter email id of participant">
+								 <input type="email" ng-model="vm.participant.Email" class="with100p" placeholder="Enter email id of participant">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<!-- <div class="col-10 text_align_center line_height3">Email</div> -->
+							<div class="col border1px">	
+								 <input type="number" ng-model="vm.participant.Phone" placeholder="Enter phone number of participant" class="with100p">
 							</div>
 						</div>
 			

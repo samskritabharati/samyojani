@@ -7,7 +7,8 @@
 	</ion-nav-buttons>
 
 	<ion-content class="has-header"   overflow-scroll = "true">
-		<ul>
+	<div   class=" font_size_30px orangeText text_align_center headerTextMrg " >Upcoming Activitys</div>
+		<!-- <ul>
 			<li  class = "tab width46p" ng-repeat="tab in tabs" 
 			ng-class="{active:isActiveTab(tab.url)}" 
 			ng-click="onClickTab(tab)" >{{tab.title}}</li>
@@ -18,11 +19,44 @@
 		</div>
 
 		<script type="text/ng-template" id="joinshibira.html">
-			<div id="viewOne">
+			<div id="viewOne"> -->
+
+			<div class ="row">
+			<div style="position: relative;display: table;">
+				<table class="mrg10px">
+					<tr class="">
+						<td>Search By State</td>
+						<td class="  verticalalignmiddle">
+							<input type="text" ng-model="vm.search.state" class="border1px " />
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div style="position: relative;display: table;">
+				<table class="mrg10px">
+					<tr>
+						<td class="">Search By City</td>
+						<td class=" verticalalignmiddle">
+							<input type="text" ng-model="vm.search.city" class="border1px " />
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+		</div>
+
+		<div class ="row btmborder">
+			<div class="col text_align_center">
+				   <button class="button   themBackgroundColor text_white" 
+				   ng-click="vm.searchActivity(vm.search)"
+                            >Search</button>
+			</div>
+		</div>
+
 				<div class="with100p display_inlineflex mrgtopbtm10px searchbtn">
-					<span class="ion-android-search font_size_30px orangeText"></span><input type="text" ng-model="vm.searchKeyword" class="border1px width90p" placeholder="Enter  here to search">
+					<span class="ion-android-search font_size_30px orangeText"></span><input type="text" ng-model="vm.searchKeyword" class="border1px width90p" placeholder="Search in result">
 				</div>
-				<div  ng-repeat="activity in vm.activityNewList  | orderBy:sortType:sortReverse | filter: vm.searchKeyword" class="btmborder">
+				<div  ng-repeat="activity in vm.activityNewList  | filter: vm.searchKeyword" class="btmborder">
 
 					<div class ="row">
 						<div class="col3">
@@ -85,7 +119,7 @@
 												<span ng-click="vm.detailAboutActivity(activity.allActivity)" class="ion-share font_size_20px mrgrgt20 orangeText resfontsize"></span>
 											</td>
 											<td ng-if='(activity.allActivity.Phone != "")'>
-												<span ><a  href="tel:activity.Phone" class="ion-ios-telephone font_size_20px mrgrgt20 orangeText resfontsize"></a></span>
+												<span ><a  href="tel:{{activity.Phone}}" class="ion-ios-telephone font_size_20px mrgrgt20 orangeText resfontsize"></a></span>
 											</td>
 											<td ng-if='(activity.allActivity.Email != "")'>
 												<span><a href="mailto:{{activity.allActivity.Email}}" class="ion-email font_size_20px mrgrgt20 orangeText resfontsize"></a></span>
@@ -116,8 +150,8 @@
 						</div>
 
 					</div>
-				</div>
-			</script>
+				<!-- </div>
+			</script> -->
 
 			<script type="text/ng-template" id="myshibira.html">
 				<div id="viewTwo">
