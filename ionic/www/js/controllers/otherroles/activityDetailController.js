@@ -296,7 +296,7 @@ angular
       getCountry();
 
  
-
+ 
 
 	function closeModel(){
      $ionicHistory.nextViewOptions({

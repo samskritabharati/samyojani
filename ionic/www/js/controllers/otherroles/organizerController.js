@@ -12,13 +12,14 @@ angular
     vm.updateActivity = updateActivity;
     vm.saveUpdatedActivityDetail = saveUpdatedActivityDetail;
     vm.deleteActivity = deleteActivity;
-    vm.updateUser = updateUser;
+    
+   
     vm.userName = $localStorage.userInfo.data[0].Name;
-    vm.saveUpdatedUserDetail = saveUpdatedUserDetail;
+   /* vm.saveUpdatedUserDetail = saveUpdatedUserDetail;*/
     vm.showNewActivityForm = showNewActivityForm;
-    vm.showFormForNewUser = showFormForNewUser;
+  /*  vm.showFormForNewUser = showFormForNewUser;*/
     vm.closeModel = closeModel;
-    vm.deleteUser = deleteUser;
+  
     vm.openMap = openMap;
     vm.activityDetail = [];
     vm.userList = [];
@@ -28,7 +29,7 @@ angular
 
     }
     showActivity();
-    showUser();
+/*    showUser();*/
     $scope.sortReverse  = false;
     $scope.sortReverse = false;
     vm.addActivityIcon = true;
@@ -41,7 +42,7 @@ angular
             title: 'Upcoming Classes',
             url: 'addClass.html'
         }, {
-            title: 'People',
+            title: 'test',
             url: 'people.html'
         }];
 
@@ -113,8 +114,10 @@ angular
     }
 
     function showActivity(){
+        console.log('$localStorage.userInfo.data[0].SB_Region',$localStorage.userInfo.data[0].SB_Region);
         userInfoService.getUserActivities($localStorage.userInfo.data[0].SB_Region).then(function(activityData){
             vm.activityData = activityData.data;
+            console.log("this s activity", vm.activityData);
         },function(error){
             console.log(error);
         });
@@ -124,54 +127,19 @@ angular
           $scope.modal.hide();  
     }  
 
-    function showUser(){
+    /*function showUser(){
         userInfoService.getUser().then(function(userlist){
             vm.userlist = userlist;
         },function(error){
             console.log('Error in getting all userList',error);
         })
-    }
+    }*/
 
-    function deleteUser(user){
-        userAuthenticationService.confirm('','Do You Want To Delet This User?','Yes','No',function(){
-            userInfoService.deleteActivity(user).then(function(data){
-                showUser();
-            },function(error){
-                console.log(error);
-            });
-        },function(){
+   
 
-        })
-        
-    }
+   
 
-    function updateUser(userDetail){
-        vm.showUserDetail = userDetail;
-        userAuthenticationService.getProfession().then(function(userProfession){
-            vm.userProfessionList = userProfession;
-        },function(error){
-             console.log(error);
-        })
-
-        userRole();
-        $ionicModal.fromTemplateUrl('editUser.html', {
-            scope: $scope
-        }).then(function(modal) {
-            $scope.modal = modal;
-            $scope.modal.show();
-        });
-        $scope.closeModal = function() {
-            $scope.modal.hide();
-        };
-    }
-
-    function saveUpdatedUserDetail(updatedUserDetail){
-         userInfoService.updateUserDetail(updatedUserDetail).then(function(data){
-            $scope.modal.hide();
-         },function(error){
-            console.log(error);
-         });
-    }
+    
 
     function showNewActivityForm(){
         $ionicHistory.nextViewOptions({
@@ -196,7 +164,7 @@ angular
           })
     }
 
-    function showFormForNewUser(){
+   /* function showFormForNewUser(){
         userRole();
         $ionicModal.fromTemplateUrl('newUsersForm.html', {
             scope: $scope
@@ -205,7 +173,7 @@ angular
             $scope.modal.show();
         });
  
-    }
+    }*/
     function userRole(){
         userInfoService.getUserRole().then(function(userRole){
             vm.userRole = userRole.data;

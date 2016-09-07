@@ -52,13 +52,13 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
     $localStorage.userlogin = false;
     $localStorage.userInfo = '';
     $localStorage.update = [];
-    gapi.auth.signOut();
+    /*gapi.auth.signOut();
      FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
                 FB.logout(function(response) {
                 });
             }
-        });
+        });*/
     $ionicHistory.nextViewOptions({
             disableBack: true
         });

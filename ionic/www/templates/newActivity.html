@@ -61,11 +61,12 @@
             Start Date
             <div class="row mrg_top5px">
                 <div class="col">
+<!-- <input ng-model="date" ui-date> -->
+                   <input type="text" name="startDate" ng-model="vm.newActivity.Start_date" 
+                    class="border1px with100p"  placeholder = "Choose start date" required  ui-date/>
+                    
 
-                    <input type="text" name="startDate" ng-model="vm.newActivity.Start_date" 
-                    class="border1px with100p"  placeholder = "dd/mm/yyyy" required />
-
-                    <div ng-messages="newActivityForm.startDate.$error" ng-show="newActivityForm.startDate.$touched">
+                    <div ng-messages="newActivityForm.startDate.$error" ng-show="newActivityForm.startDate.$touched" >
                         <div ng-message="required">
                             select date
                         </div>
@@ -78,7 +79,7 @@
             <div class="row mrg_top5px">
                 <div class="col">
 
-                    <input type="text" name="enddate" ng-model="vm.newActivity.End_date" class="border1px with100p"  placeholder = "dd/mm/yyyy" required/>
+                    <input type="text" name="enddate" ng-model="vm.newActivity.End_date" class="border1px with100p"  placeholder = "Choose end date" required ui-date/>
                     <div ng-messages="newActivityForm.enddate.$error" ng-show="newActivityForm.enddate.$touched">
                         <div ng-message="required">
                             select date
