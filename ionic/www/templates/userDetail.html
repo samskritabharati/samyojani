@@ -56,8 +56,13 @@
                             >Search</button>
 			</div>
 		</div>
-
+		<div class ="row" ng-if="vm.showSearchCount">
+						<div class="col3 orangeText font_size_15px text_align_center">
+						Search result {{vm.user.data.length}}
+						</div>
+					</div>
 		<div  ng-repeat="user in vm.user.data | orderBy:sortType:sortReverse | filter: vm.searchKeywordForUser" class="btmborder">
+					
 					<div class ="row">
 						<div class="col3">
 							<table>
@@ -121,6 +126,102 @@
 					</div>
 				</div>
 
+				 <pagination 
+				      ng-model="currentPage"
+				      total-items="todos.length"
+				      max-size="maxSize"  
+				      boundary-links="true">
+				    </pagination>
 
+<script id="editUser.html" type="text/ng-template">
+	<ion-modal-view>										
+		<ion-header-bar class="bar bar-header button-clear">
+			<h1 class="title orangeText">Edit User</h1>
+			<button class="button  button-light" ng-click="vm.closeModel()">
+				<span class="ion-android-cancel orangeText font_size_20px"></span>
+			</button>
+		</ion-header-bar>
+		<ion-content>
+			<div class="mrg25px">
+				<div class="row mrg_top5px">
+					
+					<div class="col border1px">	
+						<input type="text" ng-model="vm.showUserDetail.Name" placeholder="Name" class="with100p">
+					</div>
+				</div>
+
+				<div class="row mrg_top5px">
+					<div class="col border1px">	
+						<input type="text" ng-model="vm.showUserDetail.Phone"  placeholder="Phone"  class="with100p">
+					</div>
+				</div>
+
+				<div class="row mrg_top5px">
+					<div class="col border1px">	
+						<input type="text" ng-model="vm.showUserDetail.Email" placeholder="Email" class="with100p">
+					</div>
+				</div>
+
+				<div class="row mrg_top5px">
+					<div class="col border1px">	
+						<select  ng-model="vm.showUserDetail.Profession" ng-options="v for v in vm.userProfessionList.data" class="bordernone with100p"></select>
+
+					</div>
+				</div>
+
+				<div class="row mrg_top5px">
+
+					<div class="col border1px">	
+						<select  ng-model="vm.showUserDetail.Role" ng-options="v for v in vm.userRole" class="bordernone with100p"></select>
+					</div>
+				</div>
+
+				<div class="row mrg_top5px">
+						<div class="col border1px">	
+							<input type="text" ng-model="vm.showUserDetail.Address.Address_line1">
+						</div>
+					</div>
+
+					<div class="row mrg_top5px">
+						<div class="col border1px">	
+							<input type="text" ng-model="vm.showUserDetail.Address.Address_line2">
+						</div>
+					</div>
+
+					<div class="row mrg_top5px">
+						<div class="col border1px">	
+							<input type="text" ng-model="vm.showUserDetail.Address.City" class="with100p" placeholder="City">
+						</div>
+					</div>
+					<div class="row mrg_top5px">
+						<div class="col border1px">
+							<input type="text" ng-model="vm.showUserDetail.Address.District" class="with100p" placeholder="District">
+						</div>
+					</div>
+					<div class="row mrg_top5px">
+						<div class="col border1px">	
+							<input type="text" ng-model="vm.showUserDetail.Address.State" class="with100p" placeholder="State">
+						</div>
+					</div>
+					<div class="row mrg_top5px">
+						<div class="col border1px">
+							<input type="text" ng-model="vm.showUserDetail.Address.Country" class="with100p" placeholder="Country">
+						</div>
+					</div>
+					<div class="row mrg_top5px">
+						<div class="col border1px">	
+							<input type="text" ng-model="vm.showUserDetail.Address.Postal_code" class="with100p" placeholder="Pincode">
+						</div>
+					</div>
+
+					<div class="row mrg_top5px padding0">
+						<div class="col text_align_center">
+							<button class="button button-block themBackgroundColor text_white" ng-click="vm.saveUpdatedUserDetail(vm.showUserDetail)" type="submit">Update </button>
+						</div>
+					</div>
+				</div>
+		</ion-content>
+	</ion-modal-view>
+</script>
 	</ion-content>
 </ion-view>

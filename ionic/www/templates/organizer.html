@@ -6,8 +6,8 @@
 	</ion-nav-buttons>
 	<div class="bar bar-subheader floatingHeader">
 		<span  ng-show="vm.addActivityIcon" class="ion-plus-circled floatingbtn font_size_30px orangeText" ng-click="vm.showNewActivityForm()"></span>
-		<span  ng-show="vm.addUserIcon" class="ion-plus-circled floatingbtn font_size_30px orangeText" 
-		ng-click="vm.showFormForNewUser()"></span>
+		<!-- <span  ng-show="vm.addUserIcon" class="ion-plus-circled floatingbtn font_size_30px orangeText" 
+		ng-click="vm.showFormForNewUser()"></span> -->
 	</div>
 	<ion-content class="has-header"  overflow-scroll = "true">
 		<ul>
@@ -110,7 +110,7 @@
 
 		<script type="text/ng-template" id="people.html">
 			<div id="viewTwo">
-				<div class="with100p display_inlineflex mrgtopbtm10px searchbtn">
+				<!-- <div class="with100p display_inlineflex mrgtopbtm10px searchbtn">
 					<span class="ion-android-search font_size_30px orangeText"></span><input type="text" ng-model="vm.searchKeywordForUser" class="border1px width90p" placeholder="Enter  here to search">
 				</div>
 
@@ -178,17 +178,17 @@
 					</div>
 				</div>
 				
-
+ -->
 			</div>	
 
 
 		</script>
 
-		<script type="text/ng-template" id="bulkClass.html">
+		<!-- <script type="text/ng-template" id="bulkClass.html">
 			<div id="viewThree">
 				<h1>bulkClass</h1>			
 			</div>
-		</script>
+		</script> -->
 
 	<script id="editActivity.html" type="text/ng-template">
 		<ion-modal-view>										
@@ -220,12 +220,12 @@
 
 				<div class="row mrg_top5px">
 					<div class="col border1px">	
-						<input type="text" ng-model="vm.editActivity.Start_date" class="with100p" placeholder="Start date">
+						<input type="text" ng-model="vm.editActivity.Start_date | date" class="with100p" placeholder="Start date">
 					</div>
 				</div>
 				<div class="row mrg_top5px">
 					<div class="col border1px">	
-						<input type="text" ng-model="vm.editActivity.End_date" class="with100p" placeholder="End date">
+						<input type="text" ng-model="vm.editActivity.End_date | date" class="with100p" placeholder="End date" >
 					</div>
 				</div>
 
@@ -312,7 +312,7 @@
 
 
 
-<script id="editUser.html" type="text/ng-template">
+<!-- <script id="editUser.html" type="text/ng-template">
 	<ion-modal-view>										
 		<ion-header-bar class="bar bar-header button-clear">
 			<h1 class="title orangeText">Edit User</h1>
@@ -402,8 +402,8 @@
 		</ion-content>
 	</ion-modal-view>
 </script>
-
-	<script id="newUsersForm.html" type="text/ng-template">
+ -->
+	<!-- <script id="newUsersForm.html" type="text/ng-template">
 		<ion-modal-view>
 			<ion-header-bar>
 				<h1 class="title orangeText">Add New User</h1>
@@ -416,21 +416,18 @@
 				<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
 					<div class="mrg25px">
 	      				<div class="row mrg_top5px">
-							<!-- <div class="col-10 text_align_center line_height3">Name</div> -->
 							<div class="col border1px">	
 								<input type="text" ng-model="vm.NewUserData.Name" placeholder="Enter name" class="with100p">
 							</div>
 						</div>
 
 						<div class="row mrg_top5px">
-							<!-- <div class="col-10 text_align_center line_height3">Name</div> -->
 							<div class="col border1px">	
 								<input type="text" ng-model="vm.NewUserData.Email" placeholder="Enter Email" class="with100p">
 							</div>
 						</div>
 
 						<div class="row mrg_top5px">
-							<!-- <div class="col-10 text_align_center line_height3">Role</div> -->
 							<div class="col border1px">	
 								<select  ng-model="vm.NewUserData.Role" ng-options="v for v in vm.userRole" class="bordernone with100p">
 									<option value="" disabled selected="selected" style="display: none;">Choose role</option>
@@ -446,19 +443,14 @@
 						</div>
 						<div ng-show="vm.userAdded" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">User added</div>
 					</div>
-				<!-- <input type="text" ng-model="vm.NewUserData.Name" placeholder="Name" class="border1px"><br />
-				<input type="email" ng-model="vm.NewUserData.Email" placeholder="Email" class="border1px"><br />
-				<select  ng-model="vm.NewUserData.Role" ng-options="v for v in vm.userRole" class="bordernone with100p">
-				</select required><br />
-				<button type="button" ng-click="vm.addNewUser(vm.NewUserData)">Add User</button> -->
-
+				
 				
 
 
 
 			</ion-content>
 		</ion-modal-view>
-	</script> 
+	</script>  -->
 </ion-content>
 
 </ion-view>
