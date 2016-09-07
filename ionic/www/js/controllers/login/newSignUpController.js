@@ -12,9 +12,19 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 	vm.updateUser = updateUser;
 
 	vm.showUpdateButtn = false;
+	vm.showText = false
 	vm.userAddress = [];
-	userProfession();
+	vm.newUser = [];
+	vm.newUser.Interests = [];
+
+	
+
+
+
+
+		userProfession();
 	 	getCountry();
+	 	UserInterestsList();
 	if($rootScope.fbResponse && (!$rootScope.email)){
 		$rootScope.fbResponse
 		vm.newUser = {
@@ -76,6 +86,15 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
              console.log(error);
         })
 	} 
+
+	function UserInterestsList(){
+		userInfoService.getUserInterestsList().then(function(userInterests){
+            vm.userInterestsList = userInterests;
+        },function(error){
+             console.log(error);
+        })
+	}
+
 	function addUser(newUserDetail){
 		if($rootScope.fbResponse){
 			newUserDetail.Facebook_id = $rootScope.fbResponse.id;
@@ -141,4 +160,19 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
              console.log(error);
         })
 	} 
+
+	/*$scope.$watch('vm.userInterestsList', function(nowSelected){
+        $scope.selectedValues = [];*/
+
+         $scope.$watch(function() { return   vm.newUser.Interests},
+      function(data) {
+console.log("ths s selected",data);
+console.log(data == 'Other');
+if(data == 'Other'){
+	console.log("if")
+	vm.showText = true
+
+}
+      })
+        
 }

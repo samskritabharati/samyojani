@@ -2,9 +2,9 @@ angular
     .module('starter')
     .controller('organizerController', organizerController);
 
-  organizerController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory','$timeout'];
+  organizerController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory','$timeout' ,'activityService'];
 
-  function organizerController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout) {
+  function organizerController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout,activityService) {
     var vm = this;
 
     vm.addNewUser = addNewUser;
@@ -12,6 +12,7 @@ angular
     vm.updateActivity = updateActivity;
     vm.saveUpdatedActivityDetail = saveUpdatedActivityDetail;
     vm.deleteActivity = deleteActivity;
+    vm.searchActivity = searchActivity;
     
    
     vm.userName = $localStorage.userInfo.data[0].Name;
@@ -38,13 +39,13 @@ angular
     vm.useraddSpinner = false;
 
 
-    $scope.tabs = [{
+   /* $scope.tabs = [{
             title: 'Upcoming Classes',
             url: 'addClass.html'
         }, {
             title: 'test',
             url: 'people.html'
-        }];
+        } ];
 
     $scope.currentTab = 'addClass.html';
 
@@ -63,7 +64,7 @@ angular
     
     $scope.isActiveTab = function(tabUrl) {
         return tabUrl == $scope.currentTab;
-    }
+    }*/
 
     function detailAboutActivity(activity){ 
          $ionicHistory.nextViewOptions({
@@ -215,5 +216,28 @@ angular
         }
         window.open("http://maps.google.com/?q=" + Completeaddress, '_system');
     }
+
+    function searchActivity(criteria){
+        console.log('vm.search',criteria);
+        if(!criteria.state){
+            criteria.state =''
+        }
+        if(!criteria.city){
+            criteria.city =''
+        }
+       
+console.log("fina",criteria);
+
+
+
+        activityService.searchForActivity(criteria).then(function(activityDetail){
+            console.log("criteria",activityDetail);
+             vm.showSearchCount = true;
+            vm.activityData = activityDetail.data;
+        },function(error){
+            console.log("Error in updating FacebookID")
+        })
+    }
+
 }
 

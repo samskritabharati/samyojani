@@ -14,7 +14,8 @@ function activityService($http, $q, constantsService) {
         updateActivity: updateActivity,
         getActivityParticipants: getActivityParticipants,
         getEventRole: getEventRole,
-        getAllDays: getAllDays
+        getAllDays: getAllDays,
+        searchForActivity: searchForActivity
     };
 
     return service;
@@ -150,6 +151,22 @@ function activityService($http, $q, constantsService) {
         $http({
             method : 'GET',
             url :  constantsService.url+'/presets/Days'
+        }).then(function(data){
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+    function searchForActivity(searchCriteria){
+        console.log('searchCriteria',searchCriteria);
+        
+        var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url : constantsService.url+'/activities?State='+searchCriteria.state+'&City='+searchCriteria.city
         }).then(function(data){
             deferred.resolve(data);
         }, function(error){

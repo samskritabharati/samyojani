@@ -10,8 +10,8 @@
 		ng-click="vm.showFormForNewUser()"></span> -->
 	</div>
 	<ion-content class="has-header"  overflow-scroll = "true">
-		<ul>
-			<li  class = "tab width46p" ng-repeat="tab in tabs" 
+		<!-- <ul class="text_align_center">
+			<li  class = "tab width90p" style="float: none; margin: 0 auto" ng-repeat="tab in tabs" 
 			ng-class="{active:isActiveTab(tab.url)}" 
 			ng-click="onClickTab(tab)" >{{tab.title}}</li>
 		</ul>
@@ -19,11 +19,45 @@
 		<div id="mainView">
 			<div ng-include="currentTab"></div>
 		</div>
+ -->
+		<!-- <script type="text/ng-template" id="addClass.html">
+			<div id="viewOne"> -->
 
-		<script type="text/ng-template" id="addClass.html">
-			<div id="viewOne">
+
+			<div class ="row">
+			<div style="position: relative;display: table;">
+				<table class="mrg10px">
+					<tr class="">
+						<td>Search By State</td>
+						<td class="  verticalalignmiddle">
+							<input type="text" ng-model="vm.search.state" class="border1px " />
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div style="position: relative;display: table;">
+				<table class="mrg10px">
+					<tr>
+						<td class="">Search By City</td>
+						<td class=" verticalalignmiddle">
+							<input type="text" ng-model="vm.search.city" class="border1px " />
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+		</div>
+
+		<div class ="row btmborder">
+			<div class="col text_align_center">
+				   <button class="button   themBackgroundColor text_white" 
+				   ng-click="vm.searchActivity(vm.search)"
+                            >Search</button>
+			</div>
+		</div>
+
 				<div class="with100p display_inlineflex mrgtopbtm10px searchbtn">
-					<span class="ion-android-search font_size_30px orangeText"></span><input type="text" ng-model="vm.searchKeyword" class="border1px width90p" placeholder="Enter  here to search">
+					<span class="ion-android-search font_size_30px orangeText"></span><input type="text" ng-model="vm.searchKeyword" class="border1px width90p" placeholder="Type here to search">
 				</div>
 
 				<div  ng-repeat="activity in vm.activityData  | orderBy:sortType:sortReverse | filter: vm.searchKeyword" class="btmborder">
@@ -105,8 +139,8 @@
 							
 					</div>
 				</div>
-			</div>
-		</script>
+		<!-- 	</div>
+		</script> -->
 
 		<script type="text/ng-template" id="people.html">
 			<div id="viewTwo">
@@ -220,12 +254,12 @@
 
 				<div class="row mrg_top5px">
 					<div class="col border1px">	
-						<input type="text" ng-model="vm.editActivity.Start_date | date" class="with100p" placeholder="Start date">
+						<input type="text" ng-model="vm.editActivity.Start_date" class="with100p" placeholder="Start date">
 					</div>
 				</div>
 				<div class="row mrg_top5px">
 					<div class="col border1px">	
-						<input type="text" ng-model="vm.editActivity.End_date | date" class="with100p" placeholder="End date" >
+						<input type="text" ng-model="vm.editActivity.End_date" class="with100p" placeholder="End date" >
 					</div>
 				</div>
 

@@ -9,7 +9,7 @@
     <ion-content class="has-header" overflow-scroll = "true" >
 
         <form class="margin0auto width90p" name="newActivityForm">
-            Activity Type
+            Activity Type(Required)
             <div class="row mrg_top5px">
                 <div class="col border1px"> 
                     <select name="activityType" ng-model="vm.newActivity.Activity_type_id" 
@@ -20,7 +20,7 @@
                 </div>
             </div>
 
-            Activity Name
+            Activity Name(Required)
             <div class="row mrg_top5px">
                 <div class="col">
                     <label class="item item-input border_color_orange">
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            Recurrence
+            Recurrence(Required)
             <div class="row mrg_top5px">
                 <div class="col border1px"> 
                     <select  name="recurrence" ng-model="vm.newActivity.Recurrence" ng-options="v for v in vm.recurrenceList.data" class="bordernone with100p" required>
@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            Days Of Week
+            Days Of Week(Required)
             <div class="row mrg_top5px">
                 <div class="col border1px"> 
                     <select  name="daysofweek" ng-model="vm.newActivity.Days" ng-options="v for v in vm.daysList" class="bordernone with100p" required>
@@ -56,14 +56,22 @@
                         <div ng-message="required"> Please select days of week</div>
                     </div> 
                 </div>
-            </div>
+            </div> 
 
-            Start Date
+            <!-- <div class="form-group">
+              <label ng-repeat="days in vm.daysList" class="checkbox-inline">
+                <input type="checkbox" name="selectedFruits[]" value="{{days}}" ng-checked="selection.indexOf(fruidaystName) > -1" ng-click="toggleSelection(days)"> {{days}}
+              </label>
+            </div>
+ -->
+
+
+            Start Date(Required)
             <div class="row mrg_top5px">
                 <div class="col">
 <!-- <input ng-model="date" ui-date> -->
                    <input type="text" name="startDate" ng-model="vm.newActivity.Start_date" 
-                    class="border1px with100p"  placeholder = "Choose start date" required  ui-date/>
+                    class="border1px with100p"  placeholder = "Choose start date"   ui-date/>
                     
 
                     <div ng-messages="newActivityForm.startDate.$error" ng-show="newActivityForm.startDate.$touched" >
@@ -75,11 +83,11 @@
                 </div>
             </div> 
 
-            End Date
+            End Date(Required)
             <div class="row mrg_top5px">
                 <div class="col">
 
-                    <input type="text" name="enddate" ng-model="vm.newActivity.End_date" class="border1px with100p"  placeholder = "Choose end date" required ui-date/>
+                    <input type="text" name="enddate" ng-model="vm.newActivity.End_date" class="border1px with100p"  placeholder = "Choose end date"  ui-date/>
                     <div ng-messages="newActivityForm.enddate.$error" ng-show="newActivityForm.enddate.$touched">
                         <div ng-message="required">
                             select date
@@ -130,7 +138,7 @@
             </div>
 
 
-            Country
+            Country(Required)
             <div class="row">
                 <div class="col">
                     <label class="item item-input border_color_orange">
@@ -143,7 +151,7 @@
 
                 </div>
             </div>
-            Postal code
+            Postal code(Required)
             <div class="row">
                 <div class="col">
                     <label class="item item-input border_color_orange">
@@ -155,7 +163,7 @@
 
                 </div>
             </div>
-            Street address1*
+            Street address1(Required)
             <div class="row">
                 <div class="col">
                     <label class="item item-input border_color_orange">
@@ -203,10 +211,11 @@
             </div>
             <div class=" row text_align_center">
                 <div class="col">
-                    <button ng-disabled="newActivityForm.$invalid" class="button button-block themBackgroundColor text_white" 
-                    ng-click="vm.addNewActivityDetail(vm.newActivity)" type="submit">Submit </button>
+                    <button  class="button button-block themBackgroundColor text_white" 
+                    ng-click="vm.addNewActivityDetail(vm.newActivity)" type="submit" ng-disabled="newActivityForm.$invalid">Submit </button>
                 </div>
             </div>
+            <div class="orangeText text_align_center">Required fields are mandatory</div>
         </form>
 
     </ion-content>

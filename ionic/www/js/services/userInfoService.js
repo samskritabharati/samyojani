@@ -22,7 +22,8 @@ function userInfoService($http, $q, constantsService) {
         getUserByUrl: getUserByUrl,
         findUserByFacebookID:findUserByFacebookID,
         getAllCountryList:getAllCountryList,
-        searchForUser:searchForUser
+        searchForUser:searchForUser,
+        getUserInterestsList:  getUserInterestsList
 
 
     };
@@ -267,7 +268,21 @@ function userInfoService($http, $q, constantsService) {
         var deferred = $q.defer();
         $http({
             method : 'GET',
-            url : constantsService.url+'/users?Name='+searchCriteria.name+'&Email='+searchCriteria.email+'&Phone='+searchCriteria.phone+'&AddressString='+searchCriteria.address
+            url : constantsService.url+'/users?Name='+searchCriteria.name+'&Email='+searchCriteria.email+'&Phone='+searchCriteria.phone+'&Role='+searchCriteria.role+'&State='+searchCriteria.state+'&Country='+searchCriteria.country+'&AddressString='+searchCriteria.address
+        }).then(function(data){
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+    function getUserInterestsList(){
+        var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url : constantsService.url+'/presets/Interests'
         }).then(function(data){
             deferred.resolve(data);
         }, function(error){

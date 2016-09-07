@@ -68,7 +68,7 @@
     margin: 0;
 }
 .mrg10px{
-    margin: 10px
+    margin: 10px !important;
 }
 .mrgrgt20{
             margin-right: 20px;
@@ -252,7 +252,7 @@ background: #e26228;
     width: 1% !important;
      border: none;
     display: table;
-    top: 30%;
+    top: 14%;
     height: 4px;
         margin-right: 2%;
         /* top: 24px;

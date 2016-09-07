@@ -29,6 +29,15 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
 		if(!criteria.address){
 			criteria.address =''
 		}
+        if(!criteria.role){
+            criteria.role =''
+        }
+        if(!criteria.city){
+            criteria.city =''
+        }
+        if(!criteria.country){
+            criteria.country =''
+        }
 console.log("fina",criteria);
 
 

@@ -322,11 +322,12 @@ angular
           							'Address_line1': document.getElementById('street_number').value,
           							'Address_line2': document.getElementById('route').value,
       							}*/
-		activityService.addNewActivity(newActivity).then(function(data){
+		activityService.addNewActivity(newActivity).then(function( detail){
       $ionicHistory.nextViewOptions({
         disableBack: true
       });
-     $state.go('app.organizer');
+     /*$state.go('app.organizer');*/
+     $state.go('app.activityDetail',{'activityDetail':detail.data},{location: false, inherit: false});
      
 		},function(error){
 			console.log('Error in adding activity',error);
@@ -358,4 +359,22 @@ angular
              console.log(error);
         })
   } 
+/*$scope.selection = [];
+   $scope.toggleSelection = function toggleSelection(fruitName) {
+      console.log("fruitName",fruitName);
+      var idx = $scope.selection.indexOf(fruitName);
+    
+      // is currently selected
+      if (idx > -1) {
+        $scope.selection.splice(idx, 1);
+      }
+      
+      // is newly selected
+      else {
+        $scope.selection.push(fruitName);
+      }
+
+      console.log(' $scope.selection', $scope.selection);
+    };*/
+  
 }
