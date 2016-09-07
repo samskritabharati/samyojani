@@ -136,6 +136,9 @@ class _SBCollection(Resource):
             abort(404)
 
     def sanitize(self, entry):
+        for k in entry:
+            if entry[k] in ['null', 'undefined']:
+                entry[k] = ''
         if 'SB_Region' in entry:
             entry['Praanta_id'] = '' if entry['SB_Region'] in ['', 'null', 'undefined'] \
                 else sbget().sbregions().from_path(entry['SB_Region'])['_id']

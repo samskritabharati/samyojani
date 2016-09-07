@@ -29,9 +29,13 @@ class activity_types(_Types):
 class Presets(Resource):
     _presets = {
         'Profession' :
-            ['Technical Professional', \
+            ['Technical Professional', 'Manager', \
             'Student', 'Self-employed', 'Not Employed', 'Homemaker', \
             'Vedic', 'Sanskrit Teaching', 'Sanskrit Pundit', 'Education', \
+            'Other'],
+        'Interests' :
+            ['Learn Samskrit', 'Teach Samskrit', \
+            'Volunteer for Samskrit', 'Help with Projects', \
             'Other'],
         'Recurrence' :
             ['daily', 'weekly', 'monthly', 'yearly'],
@@ -39,6 +43,8 @@ class Presets(Resource):
             ['Student', 'Shikshaka', 'Samyojaka', 'Prabandhaka', 'Adhyaksha'],
         'Days' :
             ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        'Country' :
+            ['India', 'USA'],
     }
     def get(self, field=None):
         
