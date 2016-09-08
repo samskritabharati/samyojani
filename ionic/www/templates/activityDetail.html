@@ -67,8 +67,19 @@
 						<tr>
 							<td class="keytd with50p">Address</td>
 							<td class="valuetabletd with100p">
-								<span>{{vm.activityDetail.activity_address.Line1}}, {{vm.activityDetail.activity_address.Line2}},{{vm.activityDetail.activity_address.City}},{{vm.activityDetail.activity_address.District}}, {{vm.activityDetail.activity_address.State}}, {{vm.activityDetail.activity_address.Country}}
-																	,{{vm.activityDetail.activity_address.State}}, {{vm.activityDetail.activity_address.Pincode}}</span>
+								<span>
+								<span ng-if='vm.activityDetail.activity_address.Line1'>{{vm.activityDetail.activity_address.Line1}},</span>
+
+								<span ng-if='vm.activityDetail.activity_address.Line2'>{{vm.activityDetail.activity_address.Line2}},</span>
+								<span ng-if='vm.activityDetail.activity_address.City'>{{vm.activityDetail.activity_address.City}},</span>
+
+								<span ng-if="vm.activityDetail.activity_address.District">{{vm.activityDetail.activity_address.District}},</span>
+
+								<span ng-if="vm.activityDetail.activity_address.State">{{vm.activityDetail.activity_address.State}},</span>
+
+								<span ng-if="vm.activityDetail.activity_address.Country">{{vm.activityDetail.activity_address.Country}},</span> 
+
+								<span ng-if="vm.activityDetail.activity_address.Postal_code">{{vm.activityDetail.activity_address.Postal_code}}.</span>
 							</td>
 						</tr>							
 					</table>

@@ -324,6 +324,7 @@ angular
 
 	function addNewActivityDetail(newActivity){
 		newActivity.Coordinator_url = $localStorage.userInfo.data[0]._url;
+    console.log("newActivity",newActivity);
 		/*newActivity.Address = {'Country': document.getElementById('country').value,
           							'Postal_code': document.getElementById('postal_code').value,
           							'City': document.getElementById('locality').value,
