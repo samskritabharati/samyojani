@@ -20,9 +20,11 @@ api.add_resource(Presets, '/presets', '/presets/<field>')
 
 api.add_resource(Users, '/users/schema', '/users', '/users/<_id>')
 api.add_resource(Activities, '/activities/schema', '/activities', '/activities/<_id>')
+api.add_resource(Courses, '/courses/schema', '/courses', '/courses/<_id>')
 api.add_resource(Regions, '/regions/schema', '/regions', '/regions/<_id>')
 api.add_resource(Projects, '/projects/schema', '/projects', '/projects/<_id>')
-api.add_resource(Roles, '/users/schema', '/roles', '/roles/<_id>')
+api.add_resource(Roles, '/roles/schema', '/roles', '/roles/<_id>')
+api.add_resource(WishList, '/wishlist/schema', '/wishlist', '/wishlist/<_id>')
 
 app.register_blueprint(ui_bp, url_prefix='/ui')
 
@@ -32,7 +34,21 @@ def not_found(error):
 
 @app.route('/')
 def index():
-	return redirect('/www')
+    return redirect('/www')
+#    mgmtdb = sbget()
+#    coll = mgmtdb.list()
+#    print coll
+#    return make_response(jsonify({'collections' : coll}))
+
+@app.route('/admin/upgrade')
+def restart():
+    print "Pulling latest code updates ..."
+    msg = mycheck_output("git pull")
+    print msg
+    print "Restarting web server ..."
+    mycheck_output("sudo apache2ctl restart")
+    return redirect('/www')
+
 #    mgmtdb = sbget()
 #    coll = mgmtdb.list()
 #    print coll

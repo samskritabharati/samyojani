@@ -128,6 +128,8 @@ class MyDB:
         return self.c[name]
 
     def __getitem__(self, name):
+        if name not in self.c:
+            self.add(name)
         return self.c[name]
 
     def add(self, cname, cache=False):

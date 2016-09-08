@@ -43,6 +43,8 @@ class _Rsrc_url(fields.Raw):
 
 class _User_url(_Rsrc_url):
     cname = 'users'
+class _Course_url(_Rsrc_url):
+    cname = 'courses'
 class _Activity_url(_Rsrc_url):
     cname = 'activities'
 class _Project_url(_Rsrc_url):
@@ -51,6 +53,7 @@ class _Project_url(_Rsrc_url):
 attr2external = {
     'Coordinator_id' : { 'Coordinator_url' : _User_url(attribute='Coordinator_id') },
     'Person_id' : { 'Person_url' : _User_url(attribute='Person_id') },
+    'Course_id' : { 'Course_url' : _Course_url(attribute='Course_id') },
     'Activity_id' : { 'Activity_url' : _Activity_url(attribute='Activity_id') },
     'Project_id' : { 'Project_url' : _Project_url(attribute='Project_id') },
     'Praanta_id' : { 'SB_Region' : _Praanta_name(attribute='Praanta_id') },
@@ -330,6 +333,19 @@ class Activities(_SBCollection):
             self.schema[f] = ''
         _SBCollection.__init__(self)
 
+class Courses(_SBCollection):
+    def __init__(self):
+        self.cname = 'courses'
+        self.helpprefix = 'The course \'s '
+        self.schema = {
+            'Name': '',
+            'Description': '',
+            'Duration' : { 'options' : range(1, 30), 'default' : 1 },
+            'Units': { 'options' : ['hours', 'days', 'weeks', 'months', 'years'], 'default' : 'days' },
+            'Type' : { 'options' : Presets().get('CourseType'), 'default' : 'Classroom' },
+            'URL': '' }
+        _SBCollection.__init__(self)
+
 class Projects(_SBCollection):
     def __init__(self):
         self.cname = 'projects'
@@ -358,6 +374,17 @@ class Roles(_SBCollection):
             'Person_id': { 'ref' : 'users', 'default' : '' },
             'EventRole': { 'options' : Presets().get('EventRole'), 'default' : 'Student' },
             'Status': { 'options' : ['Tentative', 'Confirmed'], 'default' : 'Tentative' },
+            }
+        _SBCollection.__init__(self)
+
+class WishList(_SBCollection):
+    def __init__(self):
+        self.cname = 'wishlist'
+        self.helpprefix = 'The wish list\'s '
+        self.schema = {
+            'Last_active_date': '',
+            'Course_id': { 'ref' : 'courses', 'default' : '' },
+            'Person_id': { 'ref' : 'users', 'default' : '' },
             }
         _SBCollection.__init__(self)
 

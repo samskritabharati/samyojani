@@ -37,6 +37,8 @@ class Presets(Resource):
             ['Learn Samskrit', 'Teach Samskrit', \
             'Volunteer for Samskrit', 'Help with Projects', \
             'Other'],
+        'CourseType' :
+            ['Classroom', 'Virtual', 'Self-paced'],
         'Recurrence' :
             ['daily', 'weekly', 'monthly', 'yearly'],
         'EventRole' :
