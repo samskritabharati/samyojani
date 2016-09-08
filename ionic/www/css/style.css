@@ -285,7 +285,7 @@ option:before { content: "☐ " }
 
   .selecttodiv{
     display: inline-block;
-    height: 3em !important;    
+    height: 2em !important;    
     -webkit-appearance: none;
     -moz-appearance: none;
     overflow: inherit !important;

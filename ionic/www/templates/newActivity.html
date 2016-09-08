@@ -55,10 +55,9 @@
                     <div ng-messages="newActivityForm.daysofweek.$error" ng-if="userForm.daysofweek.$dirty" class="text_red">
                         <div ng-message="required"> Please select days of week</div>
                     </div> --> 
-                    <select ng-model="selectedValues" multiple class="selecttodiv with100p bordernone">
+                    <select ng-model="vm.newActivity.Days" multiple class="selecttodiv with100p bordernone">
     <option ng-repeat="option in vm.daysList" value="{{option}}">{{option}}</option>
 </select>
-{{selectedValues}}
 
                 </div>
             </div> 
