@@ -280,6 +280,25 @@ background: #e26228;
 .top8p{
     top:8% !important;
 }
+option:before { content: "☐ " }
+       option:checked:before { content: "☑ " }
+
+  .selecttodiv{
+    display: inline-block;
+    height: 3em !important;    
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    overflow: inherit !important;
+}
+
+.selecttodiv option{
+    display: inline-block;
+    width: 3.5em;
+    height: 2.5em;
+    float:left;
+}
+
+     
 @media (min-width : 768px) and (max-width : 1200px){
     .col3 {
     width: 33.33333333%;
