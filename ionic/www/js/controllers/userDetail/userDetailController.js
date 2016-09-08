@@ -53,7 +53,7 @@ console.log("fina",criteria);
             vm.user = userDetail;
             console.log("ths s result",vm.user);
 
-           // pagination controls
+        /*   // pagination controls
   $scope.currentPage = 1;
   $scope.totalItems = vm.user.data.length;
   $scope.entryLimit = 2; // items per page
@@ -67,7 +67,7 @@ console.log("fina",criteria);
     $scope.totalItems = $scope.filtered.length;
     $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
     $scope.currentPage = 1;
-  }, true);
+  }, true);*/
 
         },function(error){
             console.log("Error in updating FacebookID")

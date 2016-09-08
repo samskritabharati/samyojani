@@ -2,7 +2,7 @@
 	<ion-nav-buttons side="right">
 		
 	</ion-nav-buttons>
-	<div class="bar bar-subheader floatingHeader">
+	<div class="bar bar-subheader floatingHeader top8p">
 		<span class="ion-plus-circled floatingbtn font_size_30px orangeText" ng-click="vm.showAddClassForm()"></span>
 	</div>
 	<ion-content class="has-header" overflow-scroll = "true">
@@ -62,10 +62,10 @@
 										<span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_30px mrgrgt20 orangeText resfontsize"></span>
 									</td> -->
 									
-									<td ng-click="vm.showFormToEditCourse(course)">
+									<td ng-if="!(vm.role == 'Student')" ng-click="vm.showFormToEditCourse(course)">
 										<span  class="ion-edit font_size_30px mrgrgt20 orangeText resfontsize"></span> 
 									</td>
-									<td ng-click="vm.deleteClass(course)">
+									<td  ng-if="!(vm.role == 'Student')" ng-click="vm.deleteClass(course)">
 										<span  class="ion-trash-a font_size_30px mrgrgt20 orangeText resfontsize"></span>
 									</td>
 									<td ng-if="!(vm.addwishbtn == course.allClass._url)" ng-click="vm.addToWishList(course)">

@@ -166,6 +166,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
       }
     }
   })
+  .state('app.wishlist', {
+    cache: false,
+    url: '/wishlist',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/wishList.html',
+        controller: 'wishListController as vm'
+      }
+    }
+  })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('app/main');
