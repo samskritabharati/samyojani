@@ -14,6 +14,7 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
     vm.redirectProject = redirectProject;
     vm.home = home;
     vm.redirectUserDetail = redirectUserDetail;
+    vm.showCourses = showCourses;
   
     $localStorage.userlogin = false;
 
@@ -104,5 +105,12 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
             disableBack: true
         });
     $state.go('app.userDetail');
+  }
+
+  function showCourses(){
+     $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+    $state.go('app.courses');
   }
  }

@@ -11,7 +11,9 @@
 	</div>
 	<ion-content class="has-header"  overflow-scroll = "true">
 	<div   class=" font_size_30px orangeText text_align_center headerTextMrg " >Upcoming Activitys</div>
-
+<div ng-if="dataLoading">
+    Loading...
+</div>
 		<!-- <ul class="text_align_center">
 			<li  class = "tab width90p" style="float: none; margin: 0 auto" ng-repeat="tab in tabs" 
 			ng-class="{active:isActiveTab(tab.url)}" 
@@ -295,7 +297,7 @@
 				<div class="row mrg_top5px">
 					<div class="col border1px">	
 						<select  ng-model="vm.editActivity.Project_url" ng-options="v._url as v.Name for v in vm.projectList" class="bordernone with100p">
-						</select required> 
+						</select> 
 					</div>
 				</div>
 

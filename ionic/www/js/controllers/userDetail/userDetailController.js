@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('userDetailController', userDetailController);
 
-userDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService', '$ionicHistory', '$localStorage','userAuthenticationService','$ionicModal', '$timeout'];
+userDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService', '$ionicHistory', '$localStorage','userAuthenticationService','$ionicModal', '$timeout','filterFilter'];
 
-function userDetailController($scope, $stateParams, $state, userInfoService, $ionicHistory,$localStorage,userAuthenticationService,$ionicModal,$timeout) {
+function userDetailController($scope, $stateParams, $state, userInfoService, $ionicHistory,$localStorage,userAuthenticationService,$ionicModal,$timeout,filterFilter) {
 	var vm = this;
 	 vm.updateUser = updateUser;
 	vm.searchUser = searchUser;
@@ -52,11 +52,35 @@ console.log("fina",criteria);
              vm.showSearchCount = true;
             vm.user = userDetail;
             console.log("ths s result",vm.user);
+
+           // pagination controls
+  $scope.currentPage = 1;
+  $scope.totalItems = vm.user.data.length;
+  $scope.entryLimit = 2; // items per page
+  $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+
+  // $watch search to update pagination
+  $scope.$watch('search', function (newVal, oldVal) {
+    console.log('newVal',newVal);
+    console.log('oldVal',oldVal);
+    $scope.filtered = filterFilter( vm.user.data, newVal);
+    $scope.totalItems = $scope.filtered.length;
+    $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+    $scope.currentPage = 1;
+  }, true);
+
         },function(error){
             console.log("Error in updating FacebookID")
         })
 	}
+  $scope.search = {};
 
+  $scope.resetFilters = function () {
+    // needs to be a function or it won't trigger a $watch
+    $scope.search = {};
+  };
+
+  
 	 function updateUser(userDetail){
 	 	console.log("update",userDetail);
         vm.showUserDetail = userDetail;

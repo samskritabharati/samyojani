@@ -97,7 +97,8 @@
 						Found {{vm.user.data.length}} results
 						</div>
 					</div>
-		<div  ng-repeat="user in vm.user.data | orderBy:sortType:sortReverse | filter: vm.searchKeywordForUser" class="btmborder">
+		<div  ng-repeat="user in filtered = vm.user.data | filter: vm.searchKeywordForUser 
+		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" class="btmborder">
 					
 					<div class ="row">
 						<div class="col3">

@@ -24,7 +24,7 @@ angular
     vm.openMap = openMap;
     vm.activityDetail = [];
     vm.userList = [];
-
+$scope.dataLoading = true;
     if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
          $localStorage.userlogin = true;
 
@@ -120,7 +120,10 @@ angular
             console.log("this s activity", vm.activityData);
         },function(error){
             console.log(error);
-        });
+        }).finally(function () {
+            console.log("finally")
+    $scope.dataLoading = false;
+});
     }
 
     function closeModel(){
