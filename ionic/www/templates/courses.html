@@ -10,7 +10,8 @@
 
 		<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
 
-		<div  ng-repeat="course in vm.coursesList | filter: vm.searchKeyword" class="btmborder">
+		<div  ng-repeat="course in filtered = vm.coursesList | filter: vm.searchKeyword 
+		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" class="btmborder">
 			<div class ="row">
 				<div class="col3">
 					<table>
@@ -77,7 +78,12 @@
 
 				</div>
 			</div>
-
+			<pagination  
+					ng-model="currentPage"
+					total-items="vm.coursesList.length"
+					max-size="noOfPages"  
+					boundary-links="true" items-per-page="entryLimit">
+			</pagination>
 			<script id="editClassDetail.html" type="text/ng-template">
 				<ion-modal-view>										
 					<ion-header-bar class="bar bar-header button-clear">

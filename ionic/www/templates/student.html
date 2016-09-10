@@ -46,7 +46,8 @@
 		<div class="with100p display_inlineflex mrgtopbtm10px searchbtn">
 			<span class="ion-android-search font_size_30px orangeText"></span><input type="text" ng-model="vm.searchKeyword" class="border1px width90p" placeholder="Search in result">
 		</div>
-		<div  ng-repeat="activity in vm.activityNewList  | filter: vm.searchKeyword" class="btmborder">
+		<div  ng-repeat="activity in filtered = vm.activityNewList  | filter: vm.searchKeyword 
+		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" class="btmborder">
 
 			<div class ="row">
 				<div class="col3">
@@ -140,5 +141,12 @@
 				</div>
 
 			</div>
+			</div>{{currentPage}}
+			<pagination  
+	ng-model="currentPage"
+	total-items="vm.activityNewList.length"
+	max-size="noOfPages"  
+	boundary-links="true" items-per-page="entryLimit">
+</pagination>
 		</ion-content>
 	</ion-view>

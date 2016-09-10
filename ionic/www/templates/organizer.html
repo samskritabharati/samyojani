@@ -51,7 +51,8 @@
 			<span class="ion-android-search font_size_30px orangeText"></span><input type="text" ng-model="vm.searchKeyword" class="border1px width90p" placeholder="Search in result">
 		</div>
 
-		<div  ng-repeat="activity in vm.activityData  | orderBy:sortType:sortReverse | filter: vm.searchKeyword" class="btmborder">
+		<div  ng-repeat="activity in filtered =  vm.activityData | filter: vm.searchKeyword 
+		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" class="btmborder">
 			<div class ="row">
 				<div class="col3">
 					<table>
@@ -131,6 +132,13 @@
 					</div>
 				</div>
 
+				<pagination  
+					ng-model="currentPage"
+					total-items="vm.activityData.length"
+					max-size="noOfPages"  
+					boundary-links="true" items-per-page="entryLimit">
+				</pagination>
+								
 				<script id="editActivity.html" type="text/ng-template">
 					<ion-modal-view>										
 						<ion-header-bar class="bar bar-header button-clear">

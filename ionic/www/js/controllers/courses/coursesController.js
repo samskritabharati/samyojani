@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('coursesController', coursesController);
 
-coursesController.$inject = ['$scope', '$state','coursesService', '$localStorage','$ionicModal','userAuthenticationService'];
+coursesController.$inject = ['$scope', '$state','coursesService', '$localStorage','$ionicModal','userAuthenticationService','filterFilter'];
 
-function coursesController($scope,  $state,coursesService, $localStorage,$ionicModal,userAuthenticationService) {
+function coursesController($scope,  $state,coursesService, $localStorage,$ionicModal,userAuthenticationService,filterFilter) {
 	var vm = this;
 	vm.showSpinner = true
 	vm.showFormToEditCourse = showFormToEditCourse;
@@ -48,6 +48,21 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 						}
 
 					})
+
+					$scope.currentPage = 1;
+		            $scope.totalItems =  vm.coursesList.length;
+		            $scope.entryLimit = 5; 
+		            $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+
+            		$scope.$watch('search', function (newVal, oldVal) {
+
+		                $scope.filtered = filterFilter( vm.coursesList, newVal);
+		                $scope.totalItems = $scope.filtered.length;
+		                $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+		                $scope.currentPage = 1;
+		                vm.showSpinner = false;
+            		}, true);
+
 				},function(error){
 					console.log('error in getting student class',error);
 				})

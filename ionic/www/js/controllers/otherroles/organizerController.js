@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('organizerController', organizerController);
 
-organizerController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory','$timeout' ,'activityService'];
+organizerController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory','$timeout' ,'activityService' ,'filterFilter'];
 
-function organizerController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout,activityService) {
+function organizerController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout,activityService,filterFilter) {
     var vm = this;
 
     vm.showSpinner = true;
@@ -88,6 +88,20 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
         vm.showSpinner = true;
         userInfoService.getUserActivities($localStorage.userInfo.data[0].SB_Region).then(function(activityData){
             vm.activityData = activityData.data;
+
+            $scope.currentPage = 1;
+            $scope.totalItems = vm.activityData.length;
+            $scope.entryLimit = 5; 
+            $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+
+            $scope.$watch('search', function (newVal, oldVal) {
+                $scope.filtered = filterFilter(vm.activityData, newVal);
+                $scope.totalItems = $scope.filtered.length;
+                $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+                $scope.currentPage = 1;
+                vm.showSpinner = false;
+            }, true);
+
         },function(error){
             console.log(error);
         }).finally(function () {

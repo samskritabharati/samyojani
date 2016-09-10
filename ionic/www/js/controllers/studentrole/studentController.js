@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('studentController', studentController);
 
-studentController.$inject = ['$scope', '$stateParams', '$state', '$location', '$localStorage', 'userInfoService' ,'activityService','$ionicHistory' ,'userAuthenticationService'];
+studentController.$inject = ['$scope', '$stateParams', '$state', '$location', '$localStorage', 'userInfoService' ,'activityService','$ionicHistory' ,'userAuthenticationService', 'filterFilter'];
 
-function studentController($scope, $stateParams, $state, $location, $localStorage, userInfoService, activityService, $ionicHistory,userAuthenticationService) {
+function studentController($scope, $stateParams, $state, $location, $localStorage, userInfoService, activityService, $ionicHistory,userAuthenticationService,filterFilter) {
     var vm = this;
 
     vm.detailAboutActivity = detailAboutActivity;
@@ -39,6 +39,21 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
                     }
 
                 })
+
+                $scope.currentPage = 1;
+                $scope.totalItems = vm.activityNewList.length;
+                $scope.entryLimit = 5; 
+                $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+
+                $scope.$watch('search', function (newVal, oldVal) {
+
+                    $scope.filtered = filterFilter(vm.activityNewList, newVal);
+                    $scope.totalItems = $scope.filtered.length;
+                    $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+                    $scope.currentPage = 1;
+                    vm.showSpinner = false;
+                }, true);
+
             },function(error){
                 console.log('error in getting student class',error);
             })
@@ -46,6 +61,12 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
             console.log(error);
         });
     }
+
+    $scope.search = {};
+
+    $scope.resetFilters = function () {
+        $scope.search = {};
+    };
 
     function detailAboutActivity(activity){ 
         $ionicHistory.nextViewOptions({

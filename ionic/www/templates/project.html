@@ -7,9 +7,10 @@
 	</ion-nav-buttons>
 
 	<ion-content class="has-header"   overflow-scroll = "true">
-	<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
-		<div  ng-repeat="project in vm.projectList" class="btmborder">
 
+	<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+
+		<div  ng-repeat="project in filtered = vm.projectList | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" class="btmborder">
 					<div class ="row">
 						<div class="col3">
 							<table>
@@ -57,5 +58,12 @@
 							</table>
 						</div>
 					</div>
+				</div>
+				<pagination  
+					ng-model="currentPage"
+					total-items="vm.projectList.length"
+					max-size="noOfPages"  
+					boundary-links="true" items-per-page="entryLimit">
+				</pagination>
 	</ion-content>
 </ion-view>
