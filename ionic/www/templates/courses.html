@@ -158,13 +158,14 @@
 							<div class="row mrg_top5px">
 								<div class="col border1px">	
 									<select  ng-model="vm.newClassDetail.Type" ng-options="v for v in vm.unitOption" class="bordernone with100p">
+									<option value="" disabled selected="selected" style="display: none;">{{vm.newClassDetail.Type}}</option>
 									</select> 
 								</div>
 							</div>
 							Units
 							<div class="row mrg_top5px">
 								<div class="col border1px">	
-									<select  ng-model="vm.newClassDetail.Units" ng-options="v for v in vm.unitOption" class="bordernone with100p">
+									<select  ng-model="vm.newClassDetail.Units" ng-options="v for v in vm.unitOption" class="bordernone with100p"> <option value="" disabled selected="selected" style="display: none;">{{vm.newClassDetail.Units}}</option>
 									</select>
 								</div>
 							</div>
@@ -172,6 +173,7 @@
 							<div class="row mrg_top5px">
 								<div class="col border1px">	
 									<select  ng-model="vm.newClassDetail.Duration" ng-options="v for v in vm.durationOptions" class="bordernone with100p">
+									option value="" disabled selected="selected" style="display: none;">{{vm.newClassDetail.Duration}}</option>
 									</select>
 								</div>
 							</div>
@@ -190,7 +192,7 @@
 
 							<div class="row mrg_top5px">
 								<div class="text_align_center col valuetabletd">
-									<button class="button button-block themBackgroundColor text_white" ng-click="vm.addClassDetail(vm.newClassDetail)" type="submit">Update </button>
+									<button class="button button-block themBackgroundColor text_white" ng-click="vm.addClassDetail(vm.newClassDetail)" type="submit">Add </button>
 								</div>
 							</div>
 						</div>

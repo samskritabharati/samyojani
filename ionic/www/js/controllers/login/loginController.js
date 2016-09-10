@@ -152,7 +152,6 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
                     })
                 }
             }
-console.log('$localStorage',$localStorage);
             $localStorage.userInfo = userData;
             $ionicHistory.nextViewOptions({
                 disableBack: true

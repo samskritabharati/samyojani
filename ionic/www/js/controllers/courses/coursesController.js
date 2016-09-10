@@ -16,6 +16,9 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 	vm.addClassDetail = addClassDetail;
 	vm.role = $localStorage.userInfo.data[0].Role;
 	vm.coursesList = [];
+	vm.newClassDetail = {Units: 'days',
+		Duration: 1,
+	Type : 'Classroom'}
 	vm.unitOption = ["hours", "days", "weeks", "months", "years"]
 	vm.durationOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
 	vm.typeOptions = ["Classroom", "Virtual", "Self-paced"]
@@ -29,28 +32,29 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 	function showCourses(){
 		vm.showSpinner = true;
 		coursesService.getCourses().then(function(courses){
-			console.log('courses',courses);
-			coursesService.getUserWishListList($localStorage.userInfo.data[0]._url).then( function (wishListClass){
-				console.log('wishListClass',wishListClass);
-				angular.forEach(courses.data, function (key, index) {
-					vm.showSpinner = false;
-					var result = $.grep(wishListClass.data, function (packState) {
-						console.log('packState',packState);
-						console.log('key',key);
-						return  packState.Course_id == key._url;
-					});
-					console.log("result",result);
-					if (result && result.length > 0) {
-						classWithEnrollStructure(key,result[0]);
-					}
-					else {
-						classWithOutEnrollStructure(key);
-					}
+			console.log("coursescourses",courses);
+			if(courses.data.length > 0){
+				coursesService.getUserWishListList($localStorage.userInfo.data[0]._url).then( function (wishListClass){
+					angular.forEach(courses.data, function (key, index) {
+						vm.showSpinner = false;
+						var result = $.grep(wishListClass.data, function (packState) {
+							return  packState.Course_id == key._url;
+						});
+						if (result && result.length > 0) {
+							classWithEnrollStructure(key,result[0]);
+						}
+						else {
+							classWithOutEnrollStructure(key);
+						}
 
+					})
+				},function(error){
+					console.log('error in getting student class',error);
 				})
-			},function(error){
-				console.log('error in getting student class',error);
-			})
+			}else{
+				vm.showSpinner = false;
+			}
+			
 		},function(error){
 			console.log(error);
 		});
@@ -118,6 +122,7 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 	}
 
 	function addToWishList(classDetail){
+		console.log("classDetailnnnnnnnnnnnnnnnnnnn",classDetail);
 		userAuthenticationService.confirm('','Do You Want Add This Class To Wish List?','Yes','No',function(){
 			vm.addwishbtn = classDetail.allClass._url
 			vm.showSpinner = true
@@ -129,6 +134,7 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 			}
 			coursesService.addToMyWisList(newWishList).then(function(data){
 				vm.showSpinner = false
+				console.log("data return",data);
 			},function(error){
 				console.log(error);
 			})

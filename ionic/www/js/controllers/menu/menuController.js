@@ -80,11 +80,11 @@ function menuController($scope, $stateParams, $state, $location, $localStorage, 
   }
 
   function updateProfile(){
-    $localStorage.update = $localStorage.userInfo.data[0].Email;
+   /* $localStorage.update = $localStorage.userInfo.data[0].Email;*/
     $ionicHistory.nextViewOptions({
             disableBack: true
         });
-    $state.go('app.signUp');
+    $state.go('app.userProfile');
   }
 
   function redirectProject(){

@@ -13,7 +13,6 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
     vm.updateActivityInfo = updateActivityInfo;
     vm.searchActivity = searchActivity;
     vm.showSpinner = true;
-
     vm.activityNewList = [];
     vm.userName = $localStorage.userInfo.data[0].Name
     if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
@@ -90,8 +89,6 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
             vm.showSpinner = false;
 
         })
-
-
 
     }
 

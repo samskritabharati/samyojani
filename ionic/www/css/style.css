@@ -14,6 +14,9 @@
 .lighterOrange{
     background: #faded1!important;
 }
+.backgroundNone{
+    background: none !important;
+}
 .text_red{
      color: red;
 }
@@ -51,6 +54,9 @@
 }
 .padding0{
     padding: 0;
+}
+.padding10{
+    padding: 10px;
 }
 .mrg_top10px{
     margin-top: 10px !important;
@@ -116,6 +122,10 @@
 }
 .line_height3{
     line-height: 3
+}
+
+.line_height2p5{
+    line-height: 2.5
 }
 
 .position_relative{
@@ -339,5 +349,7 @@ option:before { content: "☐ " }
     .resmrgtop10{
         margin-top: 10%;
     }
-
+    .respadding20px{
+        padding: 20px
+    }
 }

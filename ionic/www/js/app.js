@@ -176,6 +176,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
       }
     }
   })
+  .state('app.userProfile', {
+    cache: false,
+    url: '/userProfile',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/userProfile.html',
+        controller: 'userProfileController as vm'
+      }
+    }
+  })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('app/main');

@@ -79,6 +79,7 @@ function coursesService($http, $q, constantsService) {
     }
 
     function addToMyWisList(newWishList){
+        console.log("from service",newWishList);
         var deferred = $q.defer();
         $http({
             method : 'POST',
