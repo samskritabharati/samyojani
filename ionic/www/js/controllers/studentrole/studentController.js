@@ -12,6 +12,7 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
     vm.openMap = openMap;
     vm.updateActivityInfo = updateActivityInfo;
     vm.searchActivity = searchActivity;
+    vm.routingTOMapView = routingTOMapView;
     vm.showSpinner = true;
     vm.activityNewList = [];
     vm.userName = $localStorage.userInfo.data[0].Name
@@ -161,6 +162,7 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
             locationAddress[i]
             Completeaddress = Completeaddress+ locationAddress[i]
         }
+        console.log("Completeaddress",Completeaddress)
         window.open("http://maps.google.com/?q=" + Completeaddress, '_system');
     }
 
@@ -220,6 +222,13 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
         },function(error){
             console.log('error in getting student class',error);
         })
+    }
+
+    function routingTOMapView(){
+        $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+        $state.go('app.activitymapview');
     }
 
 }

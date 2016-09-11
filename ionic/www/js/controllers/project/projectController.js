@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('projectController', projectController);
 
-projectController.$inject = ['$scope', '$stateParams', '$state', '$localStorage', 'projectService','filterFilter'];
+projectController.$inject = ['$scope', '$state', '$localStorage', 'projectService','filterFilter'];
 
-function projectController($scope, $stateParams, $state, $localStorage, projectService,filterFilter) {
+function projectController($scope, $state, $localStorage, projectService,filterFilter) {
     var vm = this;
     vm.showSpinner = true;
     vm.userName = $localStorage.userInfo.data[0].Name;

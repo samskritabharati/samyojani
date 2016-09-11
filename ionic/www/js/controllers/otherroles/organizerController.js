@@ -13,6 +13,7 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
     vm.saveUpdatedActivityDetail = saveUpdatedActivityDetail;
     vm.deleteActivity = deleteActivity;
     vm.searchActivity = searchActivity;
+    vm.routingTOMapView = routingTOMapView;
 
 
     vm.userName = $localStorage.userInfo.data[0].Name;
@@ -180,6 +181,13 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
         },function(error){
             console.log("Error in updating FacebookID")
         })
+    }
+
+    function routingTOMapView(){
+        $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+        $state.go('app.activitymapview');
     }
 
 }

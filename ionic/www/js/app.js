@@ -148,7 +148,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
   })
   .state('app.userDetail', {
     cache: false,
-    url: '/project',
+    url: '/userDetail',
     views: {
       'menuContent': {
         templateUrl: 'templates/userDetail.html',
@@ -186,6 +186,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
       }
     }
   })
+
+  .state('app.activitymapview', {
+    cache: false,
+    url: '/activitymapview',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/activityMapView.html',
+        controller: 'activityMapViewController as vm'
+      }
+    }
+  })
+
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('app/main');

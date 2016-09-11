@@ -54,7 +54,7 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
             vm.showSearchCount = true;
             vm.user = userDetail;
             $scope.currentPage = 1;
-            $scope.totalItems = vm.user.data.length;
+            $scope.totalItems = userDetail.data.length;
             $scope.entryLimit = 5; 
             $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
 
