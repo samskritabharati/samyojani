@@ -14,8 +14,9 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     vm.newSignInWithEmail = newSignInWithEmail;
     vm.signInWithGoogle = signInWithGoogle;
     vm.newDirectSignUp = newDirectSignUp;
-
     $scope.signedIn = false;
+    vm.showSpinner = false;
+
     $rootScope.email = [];
     $rootScope.fbResponse = [];
     $localStorage.update= [];
@@ -33,6 +34,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     }) 
 
     function signInWithFacebook(){
+        vm.showSpinner = true;
         FB.login(function(response) {
             if (response.authResponse) {
                 FB.api('/me',{fields: 'last_name,name,email,gender'}, function(response) {
@@ -56,6 +58,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
                                 scope: $scope,
                             }).then(function(modal) {
                                 $scope.modal = modal;
+                                vm.showSpinner = false;
                                 $scope.modal.show();
 
                             });
@@ -78,9 +81,13 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     }
 
     function signInWithEmail(){
+console.log("ss")
+vm.showSpinner = true;
+        /*$scope.modal.hide();*/
+        console.log('vm.email',vm.email);
+        if(vm.email){
+            userAuthenticationService.emailauthentication(vm.email).then(function(userData){
 
-        $scope.modal.hide();
-        userAuthenticationService.emailauthentication(vm.email).then(function(userData){
             if(userData.data.length != 0){
                 routingTONextPage(userData,vm.email);
             }else{
@@ -92,11 +99,17 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
         },function(error){
             console.log(error);
         });
+        }
+        
     }
 
 
     function popupForEmailLogin(){
-        $ionicModal.fromTemplateUrl('emailSigninPopUp.html', {
+
+        
+        
+          $("#emailSigninPopUp").slideToggle(600);
+       /* $ionicModal.fromTemplateUrl('emailSigninPopUp.html', {
             scope: $scope,
         }).then(function(modal) {
             $scope.modal = modal;
@@ -106,7 +119,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
         $scope.closeModal = function() {
             $scope.modal.hide();
-        };
+        }*/;
     }
 
     function closeModel(){
@@ -124,7 +137,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     }
 
     function newDirectSignUp (){
-        $scope.modal.hide();
+       /* $scope.modal.hide();*/
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
@@ -133,26 +146,32 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
 
     function routingTONextPage(userData,email){
+        vm.showSpinner = true;
         console.log("userData",userData);
         if((userData.data[0].Email == null || "") || (userData.data[0].Name == null || "") || (userData.data[0].Phone == null || "") || (userData.data[0].Role
             == null || "") || (userData.data[0].Address.Postal_code == null || "") ){
 
             console.log('update ths',userData);
+             $localStorage.update = email;
+              vm.showSpinner = false;
             $state.go('app.signUp');
-            $localStorage.update = email;
+            
         }else{
+
             console.log('$rootScope.fbResponse',$rootScope.fbResponse.length);
             if($rootScope.fbResponse.length > 0) {
                 if(!(userData.data[0].Facebook_id)){
                     userData.data[0].Facebook_id = $rootScope.fbResponse.id;
                     userInfoService.updateUserDetail(userData.data[0]).then(function(userUpdateddata){
                         console.log("facebook id updated");
+                        vm.showSpinner = false;
                     },function(error){
                         console.log("Error in updating FacebookID")
                     })
                 }
             }
             $localStorage.userInfo = userData;
+            vm.showSpinner = false;
             $ionicHistory.nextViewOptions({
                 disableBack: true
             });
@@ -165,6 +184,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     }
 
     function signInWithGoogle(){
+        vm.showSpinner = true;
         gapi.signin.render('signInButton',
         {
             'callback': $scope.signInCallback, 

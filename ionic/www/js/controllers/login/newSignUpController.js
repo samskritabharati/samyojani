@@ -38,7 +38,9 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 			Email: $rootScope.email
 		}
 	}
+
 	if(($rootScope.email) && (!$rootScope.fbResponse)){
+		console.log("hrrrr")
 		vm.newUser = {
 			Email: $rootScope.email
 		}

@@ -1,19 +1,21 @@
-<ion-modal-view scroll="false">
+<ion-view>
 
-    <ion-content class="has-header" overflow-scroll = "false">
-        <div class="text_align_center login_parentdiv">
+    <ion-content class="has-header" overflow-scroll = "true">
+
+        <div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+
+        <div class="text_align_center login_parentdiv login_parentdiv">
             <div class="row row-no-padding">
                 <div class="col">
                     <button class="button button-block  fbColor text_white" ng-click="vm.signInWithFacebook()">
-                        <span class="ion-social-facebook font_size_20px">&nbsp</span> Sign in with Facebook
+                        <span class="ion-social-facebook font_size_20px">&nbsp</span> Sign In With Facebook
                     </button>
                 </div>
             </div>
             <div class="row row-no-padding">
                 <div class="col">
-                    <button class="button button-block  googleColor text_white" id="signInButton" ng-click="vm.signInWithGoogle()">  <span class="ion-social-googleplus font_size_20px">&nbsp</span>Sign in With Google       
+                    <button class="button button-block  googleColor text_white" id="signInButton" ng-click="vm.signInWithGoogle()">  <span class="ion-social-googleplus font_size_20px">&nbsp</span>Sign In With Google       
                         <span id="googleSignIn" >
-                           <!--  <span id="signInButton" ></span> -->
                         </span>
                     </button>
 
@@ -23,67 +25,47 @@
             <div class="row row-no-padding">
                 <div class="col">            
                     <button class="button button-block themBackgroundColor float_right text_white" ng-click="vm.popupForEmailLogin()"
-                    >Sign in with Email</button>  
+                    >Sign In With Email</button>  
                 </div>
-            </div>           
+            </div>  
         </div>
 
-      <!--   <script type="text/javascript">
-            (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/client:plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-            })();
-        </script> -->
-        
-        <script id="emailSigninPopUp.html" type="text/ng-template">
-            <ion-modal-view>
-                <ion-header-bar class="bar bar-header button-clear">
-                    <h1 class="title orangeText">Sign In</h1>
-                    <button class="button  button-light" ng-click="vm.closeModel()">
-                        <span class="ion-android-cancel orangeText font_size_20px"></span>
+        <div id="emailSigninPopUp" class="displayNone">
+            <form class="padding_top10px mrglftrt20px" name="loginForm">
+                <div class="list list-inset mrgtopbtm20px">
+                    <label class="item item-input border_color_orange">
+                        <i class="icon ion-android-mail placeholder-icon"></i>
+                        <input type="email" ng-model="vm.email" placeholder="Enter Your Email ID " name="emailAddress" required/>
+                        <div ng-messages="loginForm.emailAddress.$error" ng-show="loginForm.emailAddress.$touched">
+                            <div ng-message="required">
+                                You forgot to enter your email address...
+                            </div>
+                            <div ng-message="email">
+                                Your email address is not correctly...
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <!--  <div class="list list-inset mrgtopbtm20px">
+                <label class="item item-input border_color_orange">
+                <i class="icon ion-android-lock placeholder-icon"></i>
+                <input type="text" ng-model="vm.password" placeholder="Enter Your Password">
+                </label>
+                </div> -->
+                <div class="list list-inset mrgtopbtm20px">
+                    <button class="button button-block themBackgroundColor text_white" ng-click="vm.signInWithEmail()" >
+                        Log In
                     </button>
-                </ion-header-bar>
-                <ion-content class="has-header" overflow-scroll = "false">
+                </div>
+                <div class="list list-inset">
+                    <span class="font_size_15px orangeText">Forgot Password?</span>
+                    <span class="float_right font_size_15px orangeText" ng-click="vm.newDirectSignUp()">Sign up</span>
+                </div>
+            </form>
+        </div>
 
-                    <form class="margin0auto width90p" name="loginForm">
-                        <div class="list list-inset">
-                            <label class="item item-input border_color_orange">
-                                <i class="icon ion-android-mail placeholder-icon"></i>
-                                <input type="email" ng-model="vm.email" placeholder="Enter Your Email ID " name="emailAddress" required/>
-                                <div ng-messages="loginForm.emailAddress.$error" ng-show="loginForm.emailAddress.$touched">
-                                    <div ng-message="required">
-                                        You forgot to enter your email address...
-                                    </div>
-                                    <div ng-message="email">
-                                        Your email address is not correctly...
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-
-                        <div class="list list-inset">
-                            <label class="item item-input border_color_orange">
-                                <i class="icon ion-android-lock placeholder-icon"></i>
-                                <input type="text" ng-model="vm.password" placeholder="Enter Your Password">
-                            </label>
-                        </div>
-                        <div class="list list-inset">
-                            <button class="button button-block themBackgroundColor text_white" ng-click="vm.signInWithEmail()" >
-                                Log In
-                            </button>
-                        </div>
-                        <div class="list list-inset">
-                            <span class="font_size_15px orangeText">Forgot Password?</span>
-                            <span class="float_right font_size_15px orangeText" ng-click="vm.newDirectSignUp()">Sign up</span>
-                        </div>
-                    </form>
-
-                </ion-content>
-            </ion-modal-view>
-        </script>
-
-<script id="Enteremailpopup.html" type="text/ng-template">
+        <script id="Enteremailpopup.html" type="text/ng-template">
             <ion-modal-view>
                 <ion-header-bar class="bar bar-header button-clear">
                     <h1 class="title orangeText">Enter Email Address</h1>
@@ -109,7 +91,7 @@
                             </label>
                         </div>
                     </form>
-                     <div class="row ">
+                    <div class="row ">
                         <div class="col text_align_center">            
                             <button class="button  themBackgroundColor text_white" ng-click="vm.signInWithEmail()"
                             >Enter</button>  
@@ -119,6 +101,5 @@
             </ion-modal-view>
         </script>
 
-
-        </ion-content>
-    </ion-modal-view>
+    </ion-content>
+</ion-view>

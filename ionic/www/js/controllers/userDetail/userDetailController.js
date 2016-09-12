@@ -27,49 +27,75 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
     }
     
     function searchUser(criteria){ 
+
         vm.showSpinner = true;
-        if(!criteria.name){
-            criteria.name =''
-        }
-        if(!criteria.email){
-            criteria.email =''
-        }
-        if(!criteria.phone){
-            criteria.phone =''
-        }
-        if(!criteria.address){
-            criteria.address =''
-        }
-        if(!criteria.role){
-            criteria.role =''
-        }
-        if(!criteria.city){
-            criteria.city =''
-        }
-        if(!criteria.country){
-            criteria.country =''
-        }
-
-        userInfoService.searchForUser(criteria).then(function(userDetail){
-            vm.showSearchCount = true;
-            vm.user = userDetail;
-            $scope.currentPage = 1;
-            $scope.totalItems = userDetail.data.length;
-            $scope.entryLimit = 5; 
-            $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
-
-            $scope.$watch('search', function (newVal, oldVal) {
-
-                $scope.filtered = filterFilter(vm.user.data, newVal);
-                $scope.totalItems = $scope.filtered.length;
-                $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+        if(!criteria){
+            console.log("nthg");
+            userInfoService.getUser().then(function(userDetail){
+                vm.showSearchCount = true;
+                vm.user = userDetail;
                 $scope.currentPage = 1;
-                vm.showSpinner = false;
-            }, true);
+                $scope.totalItems = userDetail.data.length;
+                $scope.entryLimit = 5; 
+                $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
 
-        },function(error){
-            console.log("Error in updating FacebookID")
-        })
+                $scope.$watch('search', function (newVal, oldVal) {
+
+                    $scope.filtered = filterFilter(vm.user.data, newVal);
+                    $scope.totalItems = $scope.filtered.length;
+                    $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+                    $scope.currentPage = 1;
+                    vm.showSpinner = false;
+                }, true);
+
+            },function(error){
+                console.log("Error in updating FacebookID")
+            })
+
+        }else{
+        
+            if(!criteria.name){
+                criteria.name =''
+            }
+            if(!criteria.email){
+                criteria.email =''
+            }
+            if(!criteria.phone){
+                criteria.phone =''
+            }
+            if(!criteria.address){
+                criteria.address =''
+            }
+            if(!criteria.role){
+                criteria.role =''
+            }
+            if(!criteria.city){
+                criteria.city =''
+            }
+            if(!criteria.country){
+                criteria.country =''
+            }
+            userInfoService.searchForUser(criteria).then(function(userDetail){
+                vm.showSearchCount = true;
+                vm.user = userDetail;
+                $scope.currentPage = 1;
+                $scope.totalItems = userDetail.data.length;
+                $scope.entryLimit = 5; 
+                $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+
+                $scope.$watch('search', function (newVal, oldVal) {
+
+                    $scope.filtered = filterFilter(vm.user.data, newVal);
+                    $scope.totalItems = $scope.filtered.length;
+                    $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+                    $scope.currentPage = 1;
+                    vm.showSpinner = false;
+                }, true);
+
+            },function(error){
+                console.log("Error in updating FacebookID")
+            })
+        }
     }
     $scope.search = {};
 
@@ -165,12 +191,24 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
         vm.NewUserData = [];
         vm.useraddSpinner = true;
         vm.userExit = false;
-        var newUserDetail = [];
+       /* var newDetail = [];
+        newDetail = userDetail*/
+        console.log("userDetail.Email",userDetail.Email);
         userAuthenticationService.emailauthentication(userDetail.Email).then(function(userData){
+            console.log("response fr",userData);
             if(userData.data.length > 0){
                 vm.userExit = true;
+                $timeout(function () { vm.userExit = false; }, 1000); 
             }else{
-                userInfoService.addNewUser(newUserDetail).then(function(data){
+                var newDetail = {
+                     Name: userDetail.Name,
+                    Email: userDetail.Email,
+                    Phone: userDetail.Phone,
+                    Role : userDetail.Role
+                }
+                console.log("this detaili am sending",newDetail);
+                userInfoService.addNewUser(newDetail).then(function(data){
+                    console.log("ths data i amgtng",data);
                     vm.useraddSpinner = false;
                     vm.userAdded = true;
                     $timeout(function () { vm.userAdded = false; }, 1000); 

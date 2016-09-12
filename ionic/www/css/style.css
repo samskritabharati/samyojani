@@ -52,6 +52,9 @@
 .padding_right30px{
     padding-right: 30px;
 }
+.padding_top10px{
+    padding-top: 10px;
+}
 .padding0{
     padding: 0;
 }
@@ -72,6 +75,16 @@
 }
 .mrg0{
     margin: 0;
+}
+.mrgtopbtm20px{
+     margin:20px 0px
+}
+.mrglftrt20px{
+    margin: 0px 20%;
+}
+
+.login_parentdiv{
+    margin: 6% 20% 0 20%;
 }
 .mrg10px{
     margin: 10px !important;
@@ -142,6 +155,9 @@
 }
 .displayTable{
     display: table;
+}
+.displayNone{
+    display: none;
 }
 .top10px{
     top:10px;
@@ -328,15 +344,17 @@ option:before { content: "☐ " }
     .restextalign{
         text-align: center;
     }
-    .login_parentdiv{
-     margin: 20px;
-    margin-top: 40%;
+   .login_parentdiv{
+     margin: 23% 10% 0 10%
     }
 
     .resmrg20px{
         margin: 20px;
     }
-
+    
+    .mrglftrt20px{
+           margin: 0px 10%
+    }
     .menuimg{
     margin-top: 40%;
     }
