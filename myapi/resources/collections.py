@@ -86,6 +86,16 @@ class _SBCollection(Resource):
 
         self.get_parser = reqparse.RequestParser()
         self.exported_fields = {}
+
+        # Externalize the schema field names
+        for a in self.schema.keys():
+            m = re.search('^(.*?)_id$', a)
+            if m and a != 'Role_id':
+                repl_a = m.group(1) + '_url'
+                v = self.schema[a]
+                self.schema[repl_a] = v
+                self.schema.pop(a)
+
         for a in self.schema.keys():
             if a == 'Email':
                 self.get_parser.add_argument(a, dest=a,
@@ -161,7 +171,7 @@ class _SBCollection(Resource):
         if 'Role_id' in entry and entry['Role_id'] == '':
             entry['Role_id'] = 'Student'
 
-        for f in ['Coordinator', 'Project', 'Activity', 'Person']:
+        for f in ['Coordinator', 'Project', 'Activity', 'Person', 'Course']:
             if f + '_url' in entry:
                 entry[f + '_id'] = _Rsrc_url().id(entry[f + '_url'])
                 entry.pop(f + '_url')
@@ -304,6 +314,7 @@ class Users(_SBCollection):
             'Phone': '',
             'Praanta_id': { 'ref' : 'regions', 'default' : '' },
             'Profession': { 'options' : Presets().get('Profession'), 'default' : 'Student' },
+            'Interests': { 'options' : Presets().get('Interests'), 'default' : 'Student' },
             'Facebook_id': '',
             'Role_id': { 'ref' : 'roles', 'default' : 'Student' },
             'URL': '' }
