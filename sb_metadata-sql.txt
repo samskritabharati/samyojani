@@ -30,7 +30,7 @@ DROP TABLE IF EXISTS `activity`;
 CREATE TABLE IF NOT EXISTS `activity` (
   `Activity_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL DEFAULT '',
-  `Activity_type_id` bigint(20) NOT NULL DEFAULT '0',
+  `Activity_type` bigint(20) NOT NULL DEFAULT '0',
   `Start_date` date NOT NULL DEFAULT '0000-00-00',
   `End_date` date NOT NULL DEFAULT '0000-00-00',
   `Start_time` varchar(30) NOT NULL DEFAULT '',
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
 -- Dumping data for table `activity`
 --
 
-INSERT INTO `activity` (`Activity_id`, `Name`, `Activity_type_id`, `Start_date`, `End_date`, `Start_time`, `End_time`, `Recurrence`, `Project_id`, `Coordinator_id`, `Praanta_id`, `Email`, `Phone`, `URL`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`) VALUES
+INSERT INTO `activity` (`Activity_id`, `Name`, `Activity_type`, `Start_date`, `End_date`, `Start_time`, `End_time`, `Recurrence`, `Project_id`, `Coordinator_id`, `Praanta_id`, `Email`, `Phone`, `URL`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`) VALUES
 (16, 'bhaashaa-bodhana-varga-Khammam', 3, '2011-04-24', '2011-04-28', '9am', '5pm', 'daily', 13, 68, 92, '', '', 'http://', 'mamillagudem', '', 'Khammam', '', 'Andhra Pradesh', '', 0),
 (13, 'Padmaraonagar Shibiram', 3, '2011-04-04', '2011-04-13', '6:30pm', '8:30pm', 'Daily', 12, 62, 95, 'krupaluv@rediffmail.com', '', 'http://', 'Pavani-Satya', '', 'Hyderabad', '', 'AP', '', 0),
 (28, 'bhaashaa-bodhana-varga-Chittoor', 3, '2011-04-25', '2011-04-29', '9am', '5pm', 'daily', 13, 72, 92, '', '', 'http://', 'Oriental College', 'Tirupathi', 'Chittoor', '', 'Andhra Pradesh', '', 0),
@@ -202,16 +202,16 @@ DROP TABLE IF EXISTS `activity_assignee`;
 CREATE TABLE IF NOT EXISTS `activity_assignee` (
   `Activity_id` bigint(20) NOT NULL DEFAULT '0',
   `Person_id` bigint(20) NOT NULL DEFAULT '0',
-  `Role_id` bigint(20) NOT NULL DEFAULT '0',
+  `Role` bigint(20) NOT NULL DEFAULT '0',
   `Last_active_date` date NOT NULL DEFAULT '0000-00-00',
-  UNIQUE KEY `Activity_id` (`Activity_id`,`Person_id`,`Role_id`)
+  UNIQUE KEY `Activity_id` (`Activity_id`,`Person_id`,`Role`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `activity_assignee`
 --
 
-INSERT INTO `activity_assignee` (`Activity_id`, `Person_id`, `Role_id`, `Last_active_date`) VALUES
+INSERT INTO `activity_assignee` (`Activity_id`, `Person_id`, `Role`, `Last_active_date`) VALUES
 (11, 1, 4, '2011-03-15'),
 (12, 55, 15, '2011-03-28'),
 (14, 10, 5, '2011-03-22'),
@@ -225,16 +225,16 @@ INSERT INTO `activity_assignee` (`Activity_id`, `Person_id`, `Role_id`, `Last_ac
 
 DROP TABLE IF EXISTS `activity_types`;
 CREATE TABLE IF NOT EXISTS `activity_types` (
-  `Activity_type_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Activity_type` bigint(20) NOT NULL AUTO_INCREMENT,
   `Name` varchar(30) NOT NULL DEFAULT '',
-  PRIMARY KEY (`Activity_type_id`)
+  PRIMARY KEY (`Activity_type`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `activity_types`
 --
 
-INSERT INTO `activity_types` (`Activity_type_id`, `Name`) VALUES
+INSERT INTO `activity_types` (`Activity_type`, `Name`) VALUES
 (1, 'shibiram'),
 (3, 'varga'),
 (4, 'utsava'),
@@ -253,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `Person_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `Name` varchar(30) NOT NULL DEFAULT '',
   `Profession` varchar(30) NOT NULL,
-  `Role_id` bigint(20) NOT NULL DEFAULT '0',
+  `Role` bigint(20) NOT NULL DEFAULT '0',
   `Praanta_id` bigint(20) NOT NULL,
   `Phone` varchar(30) NOT NULL DEFAULT '',
   `Email` varchar(40) NOT NULL DEFAULT '',
@@ -272,7 +272,7 @@ CREATE TABLE IF NOT EXISTS `person` (
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`Person_id`, `Name`, `Profession`, `Role_id`, `Praanta_id`, `Phone`, `Email`, `URL`, `Address_line1`, `Address_line2`, `City`, `State`, `Country`, `Geo_id`) VALUES
+INSERT INTO `person` (`Person_id`, `Name`, `Profession`, `Role`, `Praanta_id`, `Phone`, `Email`, `URL`, `Address_line1`, `Address_line2`, `City`, `State`, `Country`, `Geo_id`) VALUES
 (1, 'Bhawana Purohit', 'Sanskrit teaching', 4, 18, '+919341254067', '', 'http://', '', '', '', '', '', 0),
 (3, 'Dharmvir Singh', 'Sanskrit teaching', 5, 18, '+919740396256', 'dharmvir.singh@hotmail.com', 'http://', '207, Pawani Prestige,Kundanhalli Gate, Marathalli', '', 'Bangalore', 'Karnataka', '', 0),
 (4, 'Suneesh Kumar TK', 'Sanskrit teaching', 11, 5, '+919035195170', 'suneeshkumar@gmail.com', 'http://', 'Aksharam, Girinagar, Second Phase, 8th Cr', '', 'Bangalore', 'Karnataka', '', 560085),
@@ -518,17 +518,17 @@ INSERT INTO `person` (`Person_id`, `Name`, `Profession`, `Role_id`, `Praanta_id`
 
 DROP TABLE IF EXISTS `personrole`;
 CREATE TABLE IF NOT EXISTS `personrole` (
-  `Role_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Role` bigint(20) NOT NULL AUTO_INCREMENT,
   `Name` varchar(30) NOT NULL DEFAULT '',
   `Level` bigint(20) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`Role_id`)
+  PRIMARY KEY (`Role`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `personrole`
 --
 
-INSERT INTO `personrole` (`Role_id`, `Name`, `Level`) VALUES
+INSERT INTO `personrole` (`Role`, `Name`, `Level`) VALUES
 (0, 'Student', 0),
 (1, 'Karyakarta', 1),
 (5, 'Karyakrama Samyojaka', 2),
@@ -553,7 +553,7 @@ CREATE TABLE IF NOT EXISTS `praanta` (
   `Praanta_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `Name` varchar(30) NOT NULL DEFAULT '',
   `Description` varchar(70) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `Praanta_type_id` bigint(20) NOT NULL DEFAULT '0',
+  `Praanta_type` bigint(20) NOT NULL DEFAULT '0',
   `Coordinator_id` bigint(20) NOT NULL DEFAULT '0',
   `Parent_praanta_id` bigint(20) NOT NULL DEFAULT '0',
   `Geo_id` bigint(20) NOT NULL,
@@ -566,7 +566,7 @@ CREATE TABLE IF NOT EXISTS `praanta` (
 -- Dumping data for table `praanta`
 --
 
-INSERT INTO `praanta` (`Praanta_id`, `Name`, `Description`, `Praanta_type_id`, `Coordinator_id`, `Parent_praanta_id`, `Geo_id`, `URL`) VALUES
+INSERT INTO `praanta` (`Praanta_id`, `Name`, `Description`, `Praanta_type`, `Coordinator_id`, `Parent_praanta_id`, `Geo_id`, `URL`) VALUES
 (0, 'World', '', 0, 56, -1, 0, 'http://samskritabharati.org'),
 (1, 'Karnataka', '', 3, 55, 2, 560085, ''),
 (2, 'India', '', 1, 56, 0, 0, 'http://samskritabharati.in'),
@@ -721,16 +721,16 @@ INSERT INTO `praanta` (`Praanta_id`, `Name`, `Description`, `Praanta_type_id`, `
 
 DROP TABLE IF EXISTS `praantatypes`;
 CREATE TABLE IF NOT EXISTS `praantatypes` (
-  `Praanta_type_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Praanta_type` bigint(20) NOT NULL AUTO_INCREMENT,
   `Name` varchar(30) NOT NULL DEFAULT '',
-  PRIMARY KEY (`Praanta_type_id`)
+  PRIMARY KEY (`Praanta_type`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `praantatypes`
 --
 
-INSERT INTO `praantatypes` (`Praanta_type_id`, `Name`) VALUES
+INSERT INTO `praantatypes` (`Praanta_type`, `Name`) VALUES
 (0, 'World'),
 (1, 'Country'),
 (3, 'Zone'),
@@ -756,7 +756,7 @@ CREATE TABLE IF NOT EXISTS `project` (
   `Start_date` date NOT NULL DEFAULT '0000-00-00',
   `End_date` date NOT NULL DEFAULT '0000-00-00',
   `Coordinator_id` bigint(20) NOT NULL DEFAULT '0',
-  `Project_type_id` bigint(20) NOT NULL DEFAULT '1',
+  `Project_type` bigint(20) NOT NULL DEFAULT '1',
   `Praanta_id` bigint(20) NOT NULL DEFAULT '0',
   `Phone` varchar(30) NOT NULL DEFAULT '',
   `Email` varchar(40) NOT NULL DEFAULT '',
@@ -775,7 +775,7 @@ CREATE TABLE IF NOT EXISTS `project` (
 -- Dumping data for table `project`
 --
 
-INSERT INTO `project` (`Project_id`, `Name`, `Start_date`, `End_date`, `Coordinator_id`, `Project_type_id`, `Praanta_id`, `Phone`, `Email`, `URL`, `Address_line1`, `Address_line2`, `City`, `State`, `Country`, `Geo_id`) VALUES
+INSERT INTO `project` (`Project_id`, `Name`, `Start_date`, `End_date`, `Coordinator_id`, `Project_type`, `Praanta_id`, `Phone`, `Email`, `URL`, `Address_line1`, `Address_line2`, `City`, `State`, `Country`, `Geo_id`) VALUES
 (10, 'Samskrit in Wikipedia', '0000-00-00', '0000-00-00', 0, 1, 5, '', '', '', '', '', '', '', '', 0),
 (12, '10-day Spoken Samskrit Classes', '0000-00-00', '0000-00-00', 56, 1, 2, '', '', 'http://samskritabharati.in/spoken-samskrit-class', '', '', '', '', '', 0),
 (13, 'bhaashaa bodhana vargaah', '2011-04-24', '2014-04-24', 57, 1, 92, '+919848444906', 'uramanamurty@yahoo.in', '', '', '', '', '', '', 0),
@@ -801,16 +801,16 @@ INSERT INTO `project` (`Project_id`, `Name`, `Start_date`, `End_date`, `Coordina
 
 DROP TABLE IF EXISTS `project_types`;
 CREATE TABLE IF NOT EXISTS `project_types` (
-  `Project_type_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Project_type` bigint(20) NOT NULL AUTO_INCREMENT,
   `Name` varchar(30) NOT NULL DEFAULT '',
-  PRIMARY KEY (`Project_type_id`)
+  PRIMARY KEY (`Project_type`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `project_types`
 --
 
-INSERT INTO `project_types` (`Project_type_id`, `Name`) VALUES
+INSERT INTO `project_types` (`Project_type`, `Name`) VALUES
 (1, 'abhiyanam'),
 (8, 'Sammelanam'),
 (7, 'prakaashanam'),

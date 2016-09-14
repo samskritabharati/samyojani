@@ -58,7 +58,6 @@ attr2external = {
     'Project_id' : { 'Project_url' : _Project_url(attribute='Project_id') },
     'Praanta_id' : { 'SB_Region' : _Praanta_name(attribute='Praanta_id') },
     'Parent_praanta_id' : { 'SB_Parent_Region' : _Praanta_name(attribute='Parent_praanta_id') },
-    'Role_id' : { 'Role' : fields.FormattedString('{Role_id}') },
     'Address_line1' : { 'Address' : _address_fields },
     'Address_line2' : { 'Address' : _address_fields },
     'City' : { 'Address' : _address_fields },
@@ -90,7 +89,7 @@ class _SBCollection(Resource):
         # Externalize the schema field names
         for a in self.schema.keys():
             m = re.search('^(.*?)_id$', a)
-            if m and a != 'Role_id':
+            if m:
                 repl_a = m.group(1) + '_url'
                 v = self.schema[a]
                 self.schema[repl_a] = v
@@ -168,17 +167,13 @@ class _SBCollection(Resource):
         if 'Parent_praanta_id' in entry and entry['Parent_praanta_id'] == '':
             entry['Parent_praanta_id'] = sbget().sbregions().root['Parent_praanta_id']
 
-        if 'Role_id' in entry and entry['Role_id'] == '':
-            entry['Role_id'] = 'Student'
+        if 'Role' in entry and entry['Role'] == '':
+            entry['Role'] = 'Student'
 
         for f in ['Coordinator', 'Project', 'Activity', 'Person', 'Course']:
             if f + '_url' in entry:
                 entry[f + '_id'] = _Rsrc_url().id(entry[f + '_url'])
                 entry.pop(f + '_url')
-
-        if 'Role' in entry:
-            entry['Role_id'] = entry['Role']
-            entry.pop('Role')
 
         if 'Address' in entry:
             addr = entry['Address']
@@ -316,7 +311,7 @@ class Users(_SBCollection):
             'Profession': { 'options' : Presets().get('Profession'), 'default' : 'Student' },
             'Interests': { 'options' : Presets().get('Interests'), 'default' : 'Student' },
             'Facebook_id': '',
-            'Role_id': { 'ref' : 'roles', 'default' : 'Student' },
+            'Role': { 'ref' : 'roles', 'default' : 'Student' },
             'URL': '' }
         for f in _address_fields.keys():
             self.schema[f] = ''
@@ -327,7 +322,7 @@ class Activities(_SBCollection):
         self.cname = 'activities'
         self.helpprefix = 'The activity\'s '
         self.schema = {
-            'Activity_type_id': { 'ref' : 'activity_types', 'default' : 'varga' },
+            'Activity_type': { 'ref' : 'activity_types', 'default' : 'varga' },
             'Coordinator_id': { 'ref' : 'users', 'default' : '' },
             'Project_id': { 'ref' : 'projects', 'default' : '' },
             'Name': '',
@@ -363,7 +358,7 @@ class Projects(_SBCollection):
         self.key = ['Name']
         self.helpprefix = 'The project\'s '
         self.schema = {
-            'Project_type_id': { 'ref' : 'project_types', 'default' : 'varga' },
+            'Project_type': { 'ref' : 'project_types', 'default' : 'varga' },
             'Coordinator_id': { 'ref' : 'users', 'default' : '' },
             'Name': '',
             'Email': '',

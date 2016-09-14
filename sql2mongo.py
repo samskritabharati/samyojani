@@ -20,7 +20,7 @@ class TableDict:
             elif table['name'] == 'visitor':
                 r.pop('Interest')  # discard Interest and Message columns
                 r.pop('Message')
-                r['Role_id'] = 0   # Set visitor's role to 'Student'
+                r['Role'] = 0   # Set visitor's role to 'Student'
 
             #if 'Email' in r and table['name'] not in ['visitor', 'person']:
             #    r.pop('Email')
@@ -145,13 +145,13 @@ localtables = {
         "projects" : TableDict(mytables['project'], 'Project_id'),
         "activities" : TableDict(mytables['activity'], 'Activity_id'),
         "project_types" : 
-            TableDict(mytables['project_types'], "Project_type_id", 'Name'),
+            TableDict(mytables['project_types'], "Project_type", 'Name'),
         "region_types" : 
-            TableDict(mytables['praantatypes'], "Praanta_type_id", 'Name'),
+            TableDict(mytables['praantatypes'], "Praanta_type", 'Name'),
         "role_types" : 
-            TableDict(mytables['personrole'], "Role_id", 'Name'),
+            TableDict(mytables['personrole'], "Role", 'Name'),
         "activity_types" : 
-            TableDict(mytables['activity_types'], "Activity_type_id", 'Name'),
+            TableDict(mytables['activity_types'], "Activity_type", 'Name'),
     };
 
 # Upload all tables into MongoDB
@@ -173,10 +173,10 @@ id_mappings = {
     "Person_id" : "users",
     "Project_id" : "projects",
     "Activity_id" : "activities",
-    "Project_type_id" : "project_types",
-    "Praanta_type_id" : "region_types",
-    "Role_id" : "role_types",
-    "Activity_type_id" : "activity_types",
+    "Project_type" : "project_types",
+    "Praanta_type" : "region_types",
+    "Role" : "role_types",
+    "Activity_type" : "activity_types",
 }
 
 # Modify embedded id fields to database-generated ids
