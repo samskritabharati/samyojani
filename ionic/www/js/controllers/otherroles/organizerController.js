@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('organizerController', organizerController);
 
-organizerController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory','$timeout' ,'activityService' ,'filterFilter'];
+organizerController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory','$timeout' ,'activityService' ,'filterFilter','$rootScope'];
 
-function organizerController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout,activityService,filterFilter) {
+function organizerController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout,activityService,filterFilter,$rootScope) {
     var vm = this;
 
     vm.showSpinner = true;
@@ -14,9 +14,8 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
     vm.deleteActivity = deleteActivity;
     vm.searchActivity = searchActivity;
     vm.routingTOMapView = routingTOMapView;
+    $rootScope.currentMenu = 'organizerActivity';
 
-
-    vm.userName = $localStorage.userInfo.data[0].Name;
     vm.showNewActivityForm = showNewActivityForm;
     vm.closeModel = closeModel;
 
@@ -167,28 +166,33 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
     }
 
     function searchActivity(criteria){
-        vm.showSpinner = true;
-        if(!criteria.state){
-            criteria.state =''
-        }
-        if(!criteria.city){
-            criteria.city =''
-        }
+        console.log("!criteria",!criteria);
+         if(criteria){
+            vm.showSpinner = true;
+            if(!criteria.state){
+                criteria.state =''
+            }
+            if(!criteria.city){
+                criteria.city =''
+            }
 
-        activityService.searchForActivity(criteria).then(function(activityDetail){            
-            vm.activityData = activityDetail.data;
-            vm.showSpinner = false;
-        },function(error){
-            console.log("Error in updating FacebookID")
-        })
+            activityService.searchForActivity(criteria).then(function(activityDetail){            
+                vm.activityData = activityDetail.data;
+                vm.showSpinner = false;
+            },function(error){
+                console.log("Error in updating FacebookID")
+            })
+        }
     }
 
-    function routingTOMapView(){
+    function routingTOMapView(activityData){
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
-        $state.go('app.activitymapview');
+      /*  $state.go('app.activitymapview');*/
+         $state.go('app.activitymapview',{'activitys':activityData},{location: false, inherit: false});
     }
 
+    
 }
 

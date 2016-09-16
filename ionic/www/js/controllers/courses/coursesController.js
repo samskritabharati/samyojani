@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('coursesController', coursesController);
 
-coursesController.$inject = ['$scope', '$state','coursesService', '$localStorage','$ionicModal','userAuthenticationService','filterFilter'];
+coursesController.$inject = ['$scope', '$state','coursesService', '$localStorage','$ionicModal','userAuthenticationService','filterFilter','$rootScope'];
 
-function coursesController($scope,  $state,coursesService, $localStorage,$ionicModal,userAuthenticationService,filterFilter) {
+function coursesController($scope,  $state,coursesService, $localStorage,$ionicModal,userAuthenticationService,filterFilter,$rootScope) {
 	var vm = this;
 	vm.showSpinner = true
 	vm.showFormToEditCourse = showFormToEditCourse;
@@ -16,6 +16,7 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 	vm.addClassDetail = addClassDetail;
 	vm.role = $localStorage.userInfo.data[0].Role;
 	vm.coursesList = [];
+	$rootScope.currentMenu = 'courses';
 	vm.newClassDetail = {Units: 'days',
 		Duration: 1,
 	Type : 'Classroom'}
@@ -32,13 +33,12 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 	function showCourses(){
 		vm.showSpinner = true;
 		coursesService.getCourses().then(function(courses){
-			console.log("coursescourses",courses);
 			if(courses.data.length > 0){
 				coursesService.getUserWishListList($localStorage.userInfo.data[0]._url).then( function (wishListClass){
 					angular.forEach(courses.data, function (key, index) {
 						vm.showSpinner = false;
 						var result = $.grep(wishListClass.data, function (packState) {
-							return  packState.Course_id == key._url;
+							return  packState.Course_url == key._url;
 						});
 						if (result && result.length > 0) {
 							classWithEnrollStructure(key,result[0]);
@@ -78,10 +78,9 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 	function classWithEnrollStructure(allclass,myClass){
 		var _classDetail = {
 			allClass : allclass,
-			myWishClass : ""               
+			myWishClass : myClass               
 		}
 		vm.coursesList.push(_classDetail);
-		console.log('vm.classListwith',vm.coursesList);
 	}
 
 	function classWithOutEnrollStructure(allclass){
@@ -90,7 +89,6 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 			myWishClass : ""               
 		}
 		vm.coursesList.push(_classDetail);
-		console.log('vm.classListwithout',vm.coursesList);
 	}
 
 	function  showFormToEditCourse(classDetail){
@@ -108,6 +106,8 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 
 	function closeModel(){
 		$scope.modal.hide();  
+		showCourses();
+		vm.coursesList = [];
 	} 
 
 	function saveUpdatedclassDetail(updatedDetail){
@@ -121,8 +121,9 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 	}
 
 	function deleteClass(classToDelete){
-		vm.showSpinner = true
+		
 		userAuthenticationService.confirm('','Do You Want To Delet Class?','Yes','No',function(){
+			vm.showSpinner = true
 			coursesService.deleteClass(classToDelete.allClass).then(function(data){
 				vm.coursesList = [];
 				vm.showSpinner = false
@@ -137,19 +138,17 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 	}
 
 	function addToWishList(classDetail){
-		console.log("classDetailnnnnnnnnnnnnnnnnnnn",classDetail);
 		userAuthenticationService.confirm('','Do You Want Add This Class To Wish List?','Yes','No',function(){
 			vm.addwishbtn = classDetail.allClass._url
 			vm.showSpinner = true
 
 			var newWishList = {
-				Course_id: classDetail.allClass._url, 
-				Person_id: $localStorage.userInfo.data[0]._url, 
+				Course_url: classDetail.allClass._url, 
+				Person_url: $localStorage.userInfo.data[0]._url, 
 				Last_active_date:new Date()
 			}
 			coursesService.addToMyWisList(newWishList).then(function(data){
 				vm.showSpinner = false
-				console.log("data return",data);
 			},function(error){
 				console.log(error);
 			})

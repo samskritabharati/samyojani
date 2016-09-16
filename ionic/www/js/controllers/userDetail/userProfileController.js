@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('userProfileController', userProfileController);
 
-userProfileController.$inject = ['$scope', '$state', 'userInfoService', '$ionicHistory', '$localStorage','$ionicModal' ,'userAuthenticationService'];
+userProfileController.$inject = ['$scope', '$state', 'userInfoService', '$ionicHistory', '$localStorage','$ionicModal' ,'userAuthenticationService','$rootScope'];
 
-function userProfileController($scope, $state, userInfoService, $ionicHistory,$localStorage,$ionicModal,userAuthenticationService) {
+function userProfileController($scope, $state, userInfoService, $ionicHistory,$localStorage,$ionicModal,userAuthenticationService, $rootScope) {
 
 	var vm = this;
 	vm.showSpinner = true;
@@ -20,8 +20,8 @@ function userProfileController($scope, $state, userInfoService, $ionicHistory,$l
 	vm.showEditButton = true;
 	vm.showUpdateButn = false;
 	vm.nonEditableField = true;
-
-
+	$rootScope.currentMenu = 'userProfile';
+	
 	if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
 		$localStorage.userlogin = true;
 

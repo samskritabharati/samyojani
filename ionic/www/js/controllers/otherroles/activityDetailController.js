@@ -16,7 +16,6 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
   vm.backToActivity = backToActivity;
 
   var activity = $state.params.activityDetail;
-  vm.userName = $localStorage.userInfo.data[0].Name;
   vm.role = $localStorage.userInfo.data[0].Role;
   vm.participentDetailList = [];
   vm.newParticipantList = [];
@@ -52,7 +51,7 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
 
   function ActivityDetailStructure(activity,coordinatorDetails){
     var _activityDetail = {
-      activity_type_id: activity.Activity_type_id,
+      activity_type_id: activity.Activity_type,
       activity_address: activity.Address,
       activity_coordinator_url: activity.Coordinator_url,
       activity_email: activity.Email,
@@ -134,6 +133,7 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
   }
 
   function deleteUserFromActivity(activityDetail){
+       userAuthenticationService.confirm('','Do You Want To Leave This Activity?','Yes','No',function(){
     vm.showSpinner = true;
     activityService.deletActivityFromUserList(activityDetail.participantStatus._url).then(function(data){
       vm.participentDetailList = [];
@@ -142,6 +142,7 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
     },function(error){
       console.log("error in deleting userFrom activity",error);
     })
+  },null)
   }
 
   function updateUserDetailFromActivity(perticipant){
@@ -303,7 +304,7 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
 
 
   vm.newActivity = {
-    Activity_type_id : 'varga',
+    Activity_type : 'varga',
     Recurrence : 'daily'
   }
   activityList();

@@ -16,22 +16,19 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     vm.newDirectSignUp = newDirectSignUp;
     $scope.signedIn = false;
     vm.showSpinner = false;
-
+    $rootScope.currentMenu = 'home';
     $rootScope.email = [];
     $rootScope.fbResponse = [];
     $localStorage.update= [];
 
-
-
     $scope.$watch(function() { return   $localStorage.userlogin },
-    function() {      
-        if($localStorage.userlogin){
-          vm.hideSignIn = false;
-        }else{
-          vm.hideSignIn = true
-          console.log(' vm.hideSignIn', vm.hideSignIn);
-        }
-    }) 
+        function() {      
+            if($localStorage.userlogin){
+                vm.hideSignIn = false;
+            }else{
+                vm.hideSignIn = true
+            }
+        }) 
 
     function signInWithFacebook(){
         vm.showSpinner = true;
@@ -42,9 +39,6 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
                     $rootScope.fbResponse = response;
 
                     userInfoService.findUserByFacebookID(response.id).then(function (res){
-                        console.log('res',res);
-
-                        console.log('res.data.length',res.data.length);
                         if(res.data.length>0){
                             if(res.data[0].Email != ""){
                                 routingTONextPage(res,res.data[0].Email);
@@ -81,52 +75,34 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     }
 
     function signInWithEmail(){
-console.log("ss")
-vm.showSpinner = true;
-        /*$scope.modal.hide();*/
-        console.log('vm.email',vm.email);
-        if(vm.email){
-            userAuthenticationService.emailauthentication(vm.email).then(function(userData){
-
-            if(userData.data.length != 0){
-                routingTONextPage(userData,vm.email);
-            }else{
-                $rootScope.email = vm.email;
-                newSignInWithEmail();
-
-            }
-
-        },function(error){
-            console.log(error);
-        });
-        }
         
+        console.log("vm.email",vm.email);
+        /*$scope.modal.hide();*/
+        if(vm.email){
+            vm.showSpinner = true;
+            userAuthenticationService.emailauthentication(vm.email).then(function(userData){
+                if(userData.data.length != 0){
+                    routingTONextPage(userData,vm.email);
+                }else{
+                    $rootScope.email = vm.email;
+                    newSignInWithEmail();
+                }
+
+            },function(error){
+                console.log(error);
+            });
+        }
+
     }
 
 
     function popupForEmailLogin(){
-
-        
-        
-          $("#emailSigninPopUp").slideToggle(600);
-       /* $ionicModal.fromTemplateUrl('emailSigninPopUp.html', {
-            scope: $scope,
-        }).then(function(modal) {
-            $scope.modal = modal;
-            $scope.modal.show();
-
-        });
-
-        $scope.closeModal = function() {
-            $scope.modal.hide();
-        }*/;
+        $("#emailSigninPopUp").slideToggle(600);
     }
 
     function closeModel(){
         $scope.modal.hide();
     }        
-
-
 
     function newSignInWithEmail (){
 
@@ -137,7 +113,7 @@ vm.showSpinner = true;
     }
 
     function newDirectSignUp (){
-       /* $scope.modal.hide();*/
+        /* $scope.modal.hide();*/
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
@@ -147,18 +123,16 @@ vm.showSpinner = true;
 
     function routingTONextPage(userData,email){
         vm.showSpinner = true;
-        console.log("userData",userData);
-        if((userData.data[0].Email == null || "") || (userData.data[0].Name == null || "") || (userData.data[0].Phone == null || "") || (userData.data[0].Role
-            == null || "") || (userData.data[0].Address.Postal_code == null || "") ){
-
-            console.log('update ths',userData);
-             $localStorage.update = email;
-              vm.showSpinner = false;
-            $state.go('app.signUp');
-            
+        if(userData.data[0].Email == null || userData.data[0].Name == null || userData.data[0].Phone == null  || userData.data[0].Address.Postal_code == null){
+            console.log("if")
+        }
+       
+        if(userData.data[0].Email == null || userData.data[0].Name == null || userData.data[0].Phone == null  || userData.data[0].Address.Postal_code == null){
+            console.log("error");
+            $localStorage.update = email;
+        vm.showSpinner = false;
+        $state.go('app.signUp');
         }else{
-
-            console.log('$rootScope.fbResponse',$rootScope.fbResponse.length);
             if($rootScope.fbResponse.length > 0) {
                 if(!(userData.data[0].Facebook_id)){
                     userData.data[0].Facebook_id = $rootScope.fbResponse.id;

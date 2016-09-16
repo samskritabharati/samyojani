@@ -1,69 +1,65 @@
 <ion-view>
 
-	<ion-nav-buttons side="right">
-		<div>
-			<span class="orangeText"> HI {{vm.userName }}</span>
-		</div>
-	</ion-nav-buttons>
-
 	<ion-content class="has-header"   overflow-scroll = "true">
+		<div   class="boldtext font_size_20px orangeText text_align_center headerTextMrg ">
+			<span class="btmborder padding5px">Project List</span>
+		</div>
 
-	<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+		<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span></div>
 
-		<div  ng-repeat="project in filtered = vm.projectList | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" class="btmborder">
-					<div class ="row">
-						<div class="col3">
-							<table>
-								<tr>
-									<td class="keytd">Name</td>
-									<td class="valuetabletd with100p">
-										<span>{{project.Name}}</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="keytd">Date</td>
-									<td class="valuetabletd with100p">
-										<span>{{project.End_date | date}}</span>
-									</td>
-								</tr>
-							</table>
+		<div class="spinnerDiv background_transparent" ng-show="!vm.showSpinner && vm.projectList.length == 0">
+			<span>No records </span>
+		</div>
+
+		<div  ng-repeat="project in filtered = vm.projectList | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+			<div class="padding10">
+			<div class ="row valuetabletd  btmborder">
+
+				<div class="col3 mrgrgt5p">
+					<div class="position_relative displayflex mrg_top5px">
+						<div class="with50p">Name</div>
+						<div class="with50p">
+							<span>{{project.Name}}</span>
 						</div>
-						<div class="col3">
-							<table>
-								<tr>
-									<td class="keytd">Email</td>
-									<td class="valuetabletd with100p">
-										<span>{{project.Email}}</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="keytd">Adress</td>
-									<td class="valuetabletd with100p">
-										<span>		
-											<address ng-click="vm.openMap(activity.allActivity.Address)"  
-											parameter="project.Address"></address>
-										</span>
-									</td>
-								</tr>
-							</table>
-						</div>
-						<div class="col3">
-							<table>
-								<tr>
-									<td class="keytd">Phone</td>
-									<td class="valuetabletd with100p">
-										<span>{{project.Phone}}</span>
-									</td>
-								</tr>
-							</table>
+					</div>
+					<div class="position_relative displayflex mrg_top5px">
+						<div class="with50p">Date</div>
+						<div class="with50p">
+							<span>{{project.End_date | date}}</span>
 						</div>
 					</div>
 				</div>
-				<pagination  
-					ng-model="currentPage"
-					total-items="vm.projectList.length"
-					max-size="noOfPages"  
-					boundary-links="true" items-per-page="entryLimit">
-				</pagination>
+
+				<div class="col3 mrgrgt5p">
+					<div class="position_relative displayflex mrg_top5px" ng-if="(project.Email)">
+						<div class="with50p">Email</div>
+						<div class="with50p">
+							<span>{{project.Email}}</span>
+						</div>
+					</div>
+					<div class="position_relative displayflex mrg_top5px">
+						<div class="with50p">Adress</div>
+						<div class="with50p">
+							<span>		
+								<address ng-click="vm.openMap(activity.allActivity.Address)"  
+								parameter="project.Address"></address>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="col3 mrgrgt5p resbtmborder">
+					<div class="position_relative displayflex mrg_top5px" ng-if="(project.Phone)">
+						<div class="with50p">Phone</div>
+						<div class="with50p">
+							<span>{{project.Phone}}</span>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		</div>
+		<div class="display_inlineflex margin0auto with100p"><pagination  ng-model="currentPage" total-items="vm.projectList.length" max-size="noOfPages"  boundary-links="true" items-per-page="entryLimit"> </pagination></div>
 	</ion-content>
 </ion-view>

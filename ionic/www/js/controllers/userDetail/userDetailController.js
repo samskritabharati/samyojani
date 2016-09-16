@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('userDetailController', userDetailController);
 
-userDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService', '$ionicHistory', '$localStorage','userAuthenticationService','$ionicModal', '$timeout','filterFilter'];
+userDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService', '$ionicHistory', '$localStorage','userAuthenticationService','$ionicModal', '$timeout','filterFilter','$rootScope'];
 
-function userDetailController($scope, $stateParams, $state, userInfoService, $ionicHistory,$localStorage,userAuthenticationService,$ionicModal,$timeout,filterFilter) {
+function userDetailController($scope, $stateParams, $state, userInfoService, $ionicHistory,$localStorage,userAuthenticationService,$ionicModal,$timeout,filterFilter,$rootScope) {
     var vm = this;
     vm.updateUser = updateUser;
     vm.searchUser = searchUser;
@@ -14,11 +14,14 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
     vm.deleteUser = deleteUser;
     vm.addNewUser = addNewUser;
     vm.showFormForNewUser = showFormForNewUser;
+    vm.detailAboutUser = detailAboutUser
+
     vm.showSpinner = false;
     vm.showSearchCount = false;
     vm.userAdded = false
     vm.useraddSpinner = false;
     vm.userExit = false;
+     $rootScope.currentMenu = 'usersDetail';
     userRole();
 
     if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
@@ -27,10 +30,8 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
     }
     
     function searchUser(criteria){ 
-
         vm.showSpinner = true;
         if(!criteria){
-            console.log("nthg");
             userInfoService.getUser().then(function(userDetail){
                 vm.showSearchCount = true;
                 vm.user = userDetail;
@@ -40,7 +41,6 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
                 $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
 
                 $scope.$watch('search', function (newVal, oldVal) {
-
                     $scope.filtered = filterFilter(vm.user.data, newVal);
                     $scope.totalItems = $scope.filtered.length;
                     $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
@@ -193,9 +193,7 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
         vm.userExit = false;
        /* var newDetail = [];
         newDetail = userDetail*/
-        console.log("userDetail.Email",userDetail.Email);
         userAuthenticationService.emailauthentication(userDetail.Email).then(function(userData){
-            console.log("response fr",userData);
             if(userData.data.length > 0){
                 vm.userExit = true;
                 $timeout(function () { vm.userExit = false; }, 1000); 
@@ -206,9 +204,7 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
                     Phone: userDetail.Phone,
                     Role : userDetail.Role
                 }
-                console.log("this detaili am sending",newDetail);
                 userInfoService.addNewUser(newDetail).then(function(data){
-                    console.log("ths data i amgtng",data);
                     vm.useraddSpinner = false;
                     vm.userAdded = true;
                     $timeout(function () { vm.userAdded = false; }, 1000); 
@@ -220,5 +216,20 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
 
         })
 
+    }
+
+    function detailAboutUser(user){
+        vm.userDetailInfo = [];
+        vm.userDetailInfo = user;
+        $ionicModal.fromTemplateUrl('userInfo.html', {
+            scope: $scope
+        }).then(function(modal) {
+            $scope.modal = modal;
+            vm.showSpinner = false;
+            $scope.modal.show();
+        });
+        $scope.closeModal = function() {
+            $scope.modal.hide();
+        };
     }
 }

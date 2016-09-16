@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('studentController', studentController);
 
-studentController.$inject = ['$scope', '$stateParams', '$state', '$location', '$localStorage', 'userInfoService' ,'activityService','$ionicHistory' ,'userAuthenticationService', 'filterFilter'];
+studentController.$inject = ['$scope', '$stateParams', '$state', '$location', '$localStorage', 'userInfoService' ,'activityService','$ionicHistory' ,'userAuthenticationService', 'filterFilter','$rootScope'];
 
-function studentController($scope, $stateParams, $state, $location, $localStorage, userInfoService, activityService, $ionicHistory,userAuthenticationService,filterFilter) {
+function studentController($scope, $stateParams, $state, $location, $localStorage, userInfoService, activityService, $ionicHistory,userAuthenticationService,filterFilter,$rootScope) {
     var vm = this;
 
     vm.detailAboutActivity = detailAboutActivity;
@@ -15,7 +15,7 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
     vm.routingTOMapView = routingTOMapView;
     vm.showSpinner = true;
     vm.activityNewList = [];
-    vm.userName = $localStorage.userInfo.data[0].Name
+    $rootScope.currentMenu = 'StudentUpcomingActivity';
     if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
         $localStorage.userlogin = true;
 
@@ -101,6 +101,7 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
             }
 
             activityService.joinActivity(newJoindActivity).then(function(data){
+                console.log("test",data);
                 vm.showSpinner = false;
 
             },function(error){
@@ -224,11 +225,17 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
         })
     }
 
-    function routingTOMapView(){
+   
+        function routingTOMapView(activityInfo){
+            var activityList = [];
+       angular.forEach(activityInfo, function (key, index) {
+        activityList.push(key.allActivity);
+       })
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
-        $state.go('app.activitymapview');
+         $state.go('app.activitymapview',{'activitys':activityList},{location: false, inherit: false});
     }
+    
 
 }

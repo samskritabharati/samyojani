@@ -1,61 +1,164 @@
 <ion-view>
 
-	<ion-nav-buttons side="right">
-		<div>
-			<span class="orangeText"> HI {{vm.userName }}</span>
-		</div>
-	</ion-nav-buttons>
-
 	<ion-content class="has-header"   overflow-scroll = "true">
-		<div   class=" font_size_30px orangeText text_align_center headerTextMrg " >Upcoming Activitys</div>
-		<div>
-			<button class="button themBackgroundColor text_white float_right bordernone" 
-			ng-click="vm.routingTOMapView()">Map View</button>
+	
+	<div class="spinnerDiv" ng-show="vm.showSpinner">
+			<span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span>
 		</div>
+		<div   class=" boldtext font_size_20px orangeText text_align_center headerTextMrg " >
+			<span class="btmborder padding5px">Upcoming Activitys</span>	
+		</div>
+		
+		
+		<div class="padding10">
 
-		<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
-
-		<div class ="row">
-			<div style="position: relative;display: table;">
-				<table class="mrg10px">
+		<div class ="row padding0">
+			<div style="position: relative;display: table;" class="reswidth100p mrgrgt5p">
+				<table class="reswidth100p">
 					<tr class="">
-						<td>Search By State</td>
-						<td class="  verticalalignmiddle">
-							<input type="text" ng-model="vm.search.state" class="border1px " />
+						<td class="with50p verticalalignmiddle">Search By State</td>
+						<td class=" with50p verticalalignmiddle">
+							<input type="text" ng-model="vm.search.state" class="btmborder with100p " />
 						</td>
 					</tr>
 				</table>
 			</div>
-			<div style="position: relative;display: table;">
-				<table class="mrg10px">
+			<div style="position: relative;display: table;" class="reswidth100p resmrg_top5p ">
+				<table class="reswidth100p">
 					<tr>
-						<td class="">Search By City</td>
-						<td class=" verticalalignmiddle">
-							<input type="text" ng-model="vm.search.city" class="border1px " />
+						<td class="with50p verticalalignmiddle">Search By City</td>
+						<td class="with50p verticalalignmiddle">
+							<input type="text" ng-model="vm.search.city" class="btmborder with100p" />
 						</td>
 					</tr>
 				</table>
 			</div>
-
 		</div>
 
-		<div class ="row btmborder">
+		<div class ="row padding0 mrg_top10px">
 			<div class="col text_align_center">
 				<button class="button   themBackgroundColor text_white" 
 				ng-click="vm.searchActivity(vm.search)"
 				>Search</button>
 			</div>
 		</div>
-
-		<div class="with100p display_inlineflex mrgtopbtm10px searchbtn">
-			<span class="ion-android-search font_size_30px orangeText"></span><input type="text" ng-model="vm.searchKeyword" class="border1px width90p" placeholder="Search in result">
 		</div>
-		<div  ng-repeat="activity in filtered = vm.activityNewList  | filter: vm.searchKeyword 
-		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" class="btmborder">
+		<!-- <div class="with100p display_inlineflex mrgtopbtm10px searchbtn">
+			<span class="ion-android-search font_size_30px orangeText"></span>
+			<input type="text" ng-model="vm.searchKeyword" class="border1px width90p" placeholder="Search in result">
+		</div>
+ -->
+ <div class="list list-inset btmborder ">
+  <label class="item item-input bordernone padding0">
+    <i class="icon ion-search placeholder-icon"></i>
+    <input type="text" placeholder="Search in result" ng-model="vm.searchKeyword">
+  </label>
+</div>
+		<div>
+			<span class="padding10 line_height3 verticalalignmiddle">Found {{vm.activityNewList.length}} results</span>
+			<button class="button themBackgroundColor  text_white float_right bordernone mrgrgt10" 
+				ng-click="vm.routingTOMapView(vm.activityNewList)">Map View</button>
+		</div>
 
-			<div class ="row">
+		<div  ng-repeat="activity in filtered = vm.activityNewList  | filter: vm.searchKeyword 
+		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" class="padding10">
+
+			<div class ="row valuetabletd  btmborder">
 				<div class="col3">
-					<table>
+					<div class="position_relative displayflex">
+						<div class="with50p">Date</div>
+						<div class="with50p">
+							<span ng-if="(activity.allActivity.Start_date)">{{activity.allActivity.Start_date | date }}
+							</span>
+								<span ng-if="(activity.allActivity.End_date)">
+									to {{activity.allActivity.End_date | date }}</span>
+						</div>
+					</div>
+
+					<div class="position_relative displayflex">
+						<div class="with50p">Time</div>
+						<div class="with50p">
+							<span ng-if="(activity.allActivity.Start_time)">{{activity.allActivity.Start_time}}</span>
+							<span ng-if="(activity.allActivity.End_time)"> to {{activity.allActivity.End_time}}</span>
+						</div>
+					</div>
+
+					<div class="position_relative displayflex" ng-if="(activity.allActivity.Phone)">
+						<div class="with50p">Phone</div>
+						<div class="with50p">
+							<span>{{activity.allActivity.Phone}}</span>
+						</div>
+					</div>
+
+					<div class="position_relative displayflex" ng-if="(activity.allActivity.Email)">
+						<div class="with50p">Email</div>
+						<div class="with50p">
+							<span>{{activity.allActivity.Email}}</span>
+						</div>
+					</div>
+
+					<div class="position_relative displayflex">
+						<div class="with50p">Address</div>
+						<div class="with50p">
+							<span><address ng-click="vm.openMap(activity.allActivity.Address)"  parameter="activity.allActivity.Address"></address></span>
+						</div>
+					</div>
+				</div>
+			
+				<div class="col3">
+					<div class="position_relative displayflex">
+						<div class="with50p">Activity</div>
+						<div class="with50p">
+							<span>{{activity.allActivity.Activity_type}}</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="col3 resmrg_top5p resbtmborder">
+					<div class="position_relative displayflex">
+						<div class="with100p">
+							<span ng-click="vm.detailAboutActivity(activity.allActivity)" class="ion-share font_size_20px mrgrgt20 orangeText resfontsize"></span>
+
+							<span ng-if='(activity.allActivity.Phone != "")'><a  href="tel:{{activity.Phone}}" class="ion-ios-telephone font_size_20px mrgrgt20 orangeText resfontsize"></a></span>
+									
+							<span ng-if='(activity.allActivity.Email != "")'><a href="mailto:{{activity.allActivity.Email}}" class="ion-email font_size_20px mrgrgt20 orangeText resfontsize"></a></span>
+									
+							<span  ng-if='(activity.myActivity == "")' 
+							ng-click="vm.joinActivity(activity.allActivity,'Confirmed')">
+								<span class="ion-plus-circled font_size_20px mrgrgt20 orangeText resfontsize" 
+									ng-if="!(vm.joinbtn == activity.allActivity._url)">Join</span> 
+							</span>
+
+							<span ng-if="(activity.myActivity == '')" ng-click="vm.joinActivity(activity.allActivity,'Tentative')">
+								<span class="ion-help-circled font_size_20px mrgrgt20 orangeText resfontsize" 
+									ng-if="!(vm.tentativebtn == activity.allActivity._url)">Tentative</span>
+							</span>
+
+							<span  ng-if='((activity.myActivity != "") && (activity.myActivity.Status == "Tentative"))'
+								ng-click="vm.updateActivityInfo(activity)" >
+								<span class="ion-plus-circled font_size_20px mrgrgt20 orangeText resfontsize" 
+								ng-if="!(vm.joinbtn == activity.allActivity._url)">Join</span> 
+							</span>
+
+							<span ng-if ='((activity.myActivity != "")&&(activity.myActivity.Status == "Confirmed"))'>
+								<span class="font_size_20px mrgrgt20 orangeText resfontsize">Joined</span> 
+							</span>
+
+							<span ng-if="(vm.joinedbtn == activity.allActivity._url)">
+								<span  class="font_size_20px mrgrgt20 orangeText resfontsize">Joined</span> 
+							</span>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		
+		<div class="display_inlineflex margin0auto with100p"><pagination  ng-model="currentPage" total-items="vm.activityNewList.length" max-size="noOfPages"  
+				boundary-links="true" items-per-page="entryLimit"> </pagination></div>
+					<!-- <table>
 						<tr>
 							<td class="keytd">Date</td>
 							<td class="valuetabletd with100p">
@@ -91,22 +194,22 @@
 										<address ng-click="vm.openMap(activity.allActivity.Address)"  parameter="activity.allActivity.Address"></address>
 									</td>
 								</tr>
-							</table>
-						</div>
+							</table> -->
+						
 
-						<div class="col3">
+						<!-- <div class="col3">
 							<table>
 								<tr>
 									<td class="keytd">Activity</td>
 									<td class="valuetabletd with100p">
-										<span>{{activity.allActivity.Activity_type_id}}</span>
+										<span>{{activity.allActivity.Activity_type}}</span>
 
 									</td>
 								</tr>
 							</table>
-						</div>
+						</div> -->
 
-						<div class="col3 resmrg10px">
+						<!-- <div class="col3 resmrg10px">
 							<table class="">
 								<tr class="keytd">
 
@@ -142,15 +245,9 @@
 							</td>
 						</tr>
 					</table>
-				</div>
+				</div> -->
 
-			</div>
-			</div>
-			<pagination  
-	ng-model="currentPage"
-	total-items="vm.activityNewList.length"
-	max-size="noOfPages"  
-	boundary-links="true" items-per-page="entryLimit">
-</pagination>
+			
+			
 		</ion-content>
 	</ion-view>

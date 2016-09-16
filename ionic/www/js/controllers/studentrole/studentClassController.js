@@ -2,17 +2,16 @@ angular
 .module('starter')
 .controller('studentClassController', studentClassController);
 
-studentClassController.$inject = ['$scope', '$stateParams', '$state', '$location', '$localStorage', 'userInfoService', 'activityService'];
+studentClassController.$inject = ['$scope', '$stateParams', '$state', '$location', '$localStorage', 'userInfoService', 'activityService','userAuthenticationService','$rootScope'];
 
-function studentClassController($scope, $stateParams, $state, $location, $localStorage, userInfoService, activityService) {
+function studentClassController($scope, $stateParams, $state, $location, $localStorage, userInfoService, activityService,userAuthenticationService,$rootScope) {
     var vm = this;
 
     vm.joinActivity = joinActivity;
     vm.DeletActivityFromList = DeletActivityFromList;
-
+    vm.showSpinner = true;
     vm.activityList = [];
-    vm.userName =  $localStorage.userInfo.data[0].Name;
-
+    $rootScope.currentMenu = 'classes';
     $scope.$on('$ionicView.enter', function () {
         showStudentClass();
     });
@@ -20,7 +19,9 @@ function studentClassController($scope, $stateParams, $state, $location, $localS
         $localStorage.userlogin = true;
     }
     function showStudentClass(){
+            vm.showSpinner = true;
         userInfoService.getUserClassList($localStorage.userInfo.data[0]._url).then( function (studentClass){
+                vm.showSpinner = false;
             angular.forEach(studentClass.data, function (piece, index) {
                 activityService.getActivityByUrl(piece.Activity_url).then(function(activity){
                     ActivityDetailStructure(activity.data,piece);
@@ -35,7 +36,7 @@ function studentClassController($scope, $stateParams, $state, $location, $localS
 
     function ActivityDetailStructure(activity,roledActivity){
         var _activityDetail = {
-            activity_type_id: activity.Activity_type_id,
+            activity_type_id: activity.Activity_type,
             activity_address: activity.Address,
             activity_coordinator_url: activity.Coordinator_url,
             activity_email: activity.Email,
@@ -55,6 +56,7 @@ function studentClassController($scope, $stateParams, $state, $location, $localS
             roleurl:roledActivity._url
         }
         vm.activityList.push(_activityDetail)
+
     }
 
     function joinActivity(activityTOjoin,state){            
@@ -71,9 +73,7 @@ function studentClassController($scope, $stateParams, $state, $location, $localS
         }
 
         activityService.updateActivity(newJoindActivity,activityTOjoin.roleurl).then(function(data){
-            console.log('activity joined scc',data);
             vm.activityList = [];
-
             $state.go('app.studentClass', {}, {reload: true});
         },function(error){
             console.log(error);
@@ -81,10 +81,11 @@ function studentClassController($scope, $stateParams, $state, $location, $localS
     }
 
     function DeletActivityFromList(activity){
-        activityService.deletActivityFromUserList(activity.roleurl).then(function(data){
-            console.log('activity Deletd');
-            vm.activityList = [];
-            $state.go('app.studentClass', {}, {reload: true});
-        });
+        userAuthenticationService.confirm('','Do You Want To Leave This Activity?','Yes','No',function(){
+            activityService.deletActivityFromUserList(activity.roleurl).then(function(data){
+                vm.activityList = [];
+                $state.go('app.studentClass', {}, {reload: true});
+            });
+        },null)
     }
 }

@@ -24,7 +24,7 @@ angular.module('starter')
       ];
 
     },
-    template: '<select name="timepicker" id="timePicker" class="bordernone padding5px with100p height100p">\
+    template: '<select name="timepicker" id="timePicker" class="bordernone padding5px btmborder with100p">\
     <option value="{{time}}" ng-repeat="time in timings">{{time}}</option>\
     </select>'
   };

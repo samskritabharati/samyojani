@@ -2,12 +2,13 @@ angular
 .module('starter')
 .controller('wishListController', wishListController);
 
-wishListController.$inject = ['$scope', '$state','coursesService', '$localStorage','$ionicModal','userAuthenticationService'];
+wishListController.$inject = ['$scope', '$state','coursesService', '$localStorage','$ionicModal','userAuthenticationService','$rootScope'];
 
-function wishListController($scope,  $state,coursesService, $localStorage,$ionicModal,userAuthenticationService) {
+function wishListController($scope,  $state,coursesService, $localStorage,$ionicModal,userAuthenticationService, $rootScope) {
     var vm = this;
     vm.DeletClassFromMyList = DeletClassFromMyList;
-
+    vm.showSpinner = true;
+    $rootScope.currentMenu = 'wishLists';
     showMyWishList();
     vm.coursesDetailList = [];
     if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
@@ -16,10 +17,11 @@ function wishListController($scope,  $state,coursesService, $localStorage,$ionic
     }
 
     function showMyWishList(){
-    	 coursesService.getUserWishList($localStorage.userInfo.data[0]._url).then( function (userClass){
+        coursesService.getUserWishList($localStorage.userInfo.data[0]._url).then( function (userClass){
+            vm.showSpinner = false;
             angular.forEach(userClass.data, function (piece, index) {
                 coursesService.getClassByUrl(piece.Course_url).then(function(courseDetail){
-                    wishListDetailStructure(courseDetail.data);
+                    wishListDetailStructure(courseDetail.data,piece);
                 },function(error){
                     console.log("error in getting activity detail",error);
                 })
@@ -29,16 +31,22 @@ function wishListController($scope,  $state,coursesService, $localStorage,$ionic
         })  
     }
 
-    function wishListDetailStructure(courseDetail){
-    	vm.coursesDetailList.push(courseDetail);
-    	console.log("vm.coursesDetailList",vm.coursesDetailList);
+    function wishListDetailStructure(courseDetail,wishlistDetail){
+        var wishListDetailInfo = {
+            courseInfo : courseDetail,
+            wishListInfo : wishlistDetail
+        }
+        vm.coursesDetailList.push(wishListDetailInfo);
     }
 
     function DeletClassFromMyList(course){
-    	 coursesService.deletClassFromUserWishList(course._url).then(function(data){
-            console.log('class Deletd');
-            vm.activityList = [];
-            $state.go('app.wishlist', {}, {reload: true});
-        });
+        userAuthenticationService.confirm('','Do You Want To Leave this?','Yes','No',function(){
+            vm.showSpinner = true;
+            coursesService.deletClassFromUserWishList(course._url).then(function(data){
+                vm.showSpinner = false;
+                vm.activityList = [];
+                $state.go('app.wishlist', {}, {reload: true});
+            });
+        },null)
     }
 }

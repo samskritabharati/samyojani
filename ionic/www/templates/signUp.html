@@ -1,15 +1,21 @@
-<ion-modal-view class="signupmodel" class="has-header">
+<ion-modal-view class="signupmodel has-header resmrgtop15p" >
    <ion-header-bar class="bar bar-header button-clear">
-      <h1 class="title orangeText btmborder">User Profile</h1>
+      <!-- <h1 class="title orangeText btmborder">User Profile</h1>
       <button class="button  button-light" ng-click="vm.closeModel()">
          <span class="ion-android-cancel orangeText font_size_20px"></span>
-      </button>
+      </button> -->
+      <div class="text_align_center with100p">
+                  <span class="btmborder padding5px orangeText font_size_20px boldtext">User Profile</span>
+                  <button class="button  button-light float_right background_transparent" ng-click="vm.closeModel()">
+                     <span class="ion-android-cancel orangeText font_size_20px"></span>
+                  </button>
+               </div>
    </ion-header-bar>
 
    <ion-content overflow-scroll = "true" class="has-header">
 
       <div class="">
-         <form name="userForm" class="margin0auto width90p mrg_top10px">
+         <form name="userForm" class="margin0auto width90p">
             <div class="field list">
                Email*
                <div class="row">

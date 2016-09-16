@@ -1,282 +1,294 @@
 <ion-view>
-	<ion-nav-buttons side="right">
-		<div>
-			<p class="orangeText"> HI {{vm.userName }} !</p>
-		</div>
-	</ion-nav-buttons>
 
-	<div class="bar bar-subheader floatingHeader">
+	<div class="bar bar-subheader floatingHeader background_transparent">
 		<span  ng-show="vm.addActivityIcon" class="ion-plus-circled floatingbtn font_size_30px orangeText" ng-click="vm.showNewActivityForm()"></span>
 	</div>
 
 	<ion-content class="has-header"  overflow-scroll = "true">
-
-		<div   class=" font_size_30px orangeText text_align_center headerTextMrg " >Upcoming Activitys</div>
-
-		<div>
-			<button class="button themBackgroundColor text_white float_right bordernone" 
-			ng-click="vm.routingTOMapView()">Map View</button>
+		<div class="spinnerDiv" ng-show="vm.showSpinner">
+			<span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span>
+		</div>
+		<div   class="boldtext font_size_20px orangeText text_align_center headerTextMrg ">
+			<span class="btmborder padding5px">Upcoming Activitys</span>
 		</div>
 
-		<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+		
 
-		<div class ="row">
-			<div style="position: relative;display: table;">
-				<table class="mrg10px">
+		<div class="padding10">
+		<div class ="row padding0">
+			<div style="position: relative;display: table;" class="reswidth100p mrgrgt5p">
+				<table class="reswidth100p">
 					<tr class="">
-						<td>Search By State</td>
-						<td class="  verticalalignmiddle">
-							<input type="text" ng-model="vm.search.state" class="border1px " />
+						<td class="with50p verticalalignmiddle">Search By State</td>
+						<td class=" with50p verticalalignmiddle">
+							<input type="text" ng-model="vm.search.state" class="btmborder with100p " />
 						</td>
 					</tr>
 				</table>
 			</div>
-			<div style="position: relative;display: table;">
-				<table class="mrg10px">
+			<div style="position: relative;display: table;" class="reswidth100p resmrg_top5p ">
+				<table class="reswidth100p">
 					<tr>
-						<td class="">Search By City</td>
-						<td class=" verticalalignmiddle">
-							<input type="text" ng-model="vm.search.city" class="border1px " />
+						<td class="with50p verticalalignmiddle">Search By City</td>
+						<td class="with50p verticalalignmiddle">
+							<input type="text" ng-model="vm.search.city" class="btmborder with100p" />
 						</td>
 					</tr>
 				</table>
 			</div>
-
 		</div>
-
-		<div class ="row btmborder">
-			<div class="col text_align_center">
+		<div class ="row padding0 mrg_top10px">
+			<div class="col text_align_center btmborder">
 				<button class="button   themBackgroundColor text_white" 
 				ng-click="vm.searchActivity(vm.search)"
 				>Search</button>
 			</div>
 		</div>
+</div>
+		
 
-		<div class="with100p display_inlineflex mrgtopbtm10px searchbtn">
-			<span class="ion-android-search font_size_30px orangeText"></span><input type="text" ng-model="vm.searchKeyword" class="border1px width90p" placeholder="Search in result">
+		<!-- <div class="row display_inlineflex mrgtopbtm10px searchbtn" style="margin-top:0">
+		<div class="col-10">
+			 <span class="ion-android-search font_size_30px orangeText float_right"></span>
+			 <i class="icon ion-search placeholder-icon"></i>
+			</div><div class="col-90"><input type="text" ng-model="vm.searchKeyword" class="btmborder width90p" placeholder="Search in result">
+			</div>
+		</div> -->
+<div class="list list-inset btmborder ">
+  <label class="item item-input bordernone padding0">
+    <i class="icon ion-search placeholder-icon"></i>
+    <input type="text" placeholder="Search in result" ng-model="vm.searchKeyword">
+
+  </label>
+</div>
+		<div>
+			<span class="padding10 line_height3 verticalalignmiddle orangeText">Found {{vm.activityData.length}} results</span>
+			<button class="button themBackgroundColor  text_white float_right bordernone mrgrgt10" 
+			ng-click="vm.routingTOMapView(vm.activityData)">Map View</button>
 		</div>
 
-		<div  ng-repeat="activity in filtered =  vm.activityData | filter: vm.searchKeyword 
-		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" class="btmborder">
-			<div class ="row">
-				<div class="col3">
-					<table>
-						<tr>
-							<td class="keytd">Date</td>
-							<td class="valuetabletd with100p">
-								<span ng-if="(activity.Start_date)">{{activity.Start_date | date }}</span>
-								<span ng-if="(activity.End_date)">
-									to {{activity.End_date | date }}</span>
-								</td>
-							</tr>
-							<tr>
-								<td class="keytd">Time</td>
-								<td class="valuetabletd with100p">
-									<span ng-if="(activity.Start_time)">{{activity.Start_time}}</span>
-									<span ng-if="(activity.End_time)">
-										to {{activity.End_time}}</span>
-									</td>
-								</tr>
-								<tr ng-if="(activity.Phone)">
-									<td class="keytd">Phone</td>
-									<td class="valuetabletd with100p">
-										{{activity.Phone}}
+		<div  ng-repeat="activity in filtered = vm.activityData | filter: vm.searchKeyword 
+		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+<div class="padding10">
+		<div class ="row valuetabletd  btmborder">
+			<div class="col3 padding_right5p">
+				<div class="position_relative displayflex">
+					<div class="with50p">Date</div>
+					<div class="with50p">
+						<span ng-if="(activity.Start_date)">{{activity.Start_date | date }}</span>
+						<span ng-if="(activity.End_date)">
+							to {{activity.End_date | date }}</span>
+						</div>
+					</div>
 
-									</td>
-								</tr>
-								<tr ng-if="(activity.Email)">
-									<td class="keytd">Email</td>
-									<td class="valuetabletd with100p">
-										{{activity.Email}}
-									</td>
-								</tr>
-								<tr>
-									<td class="keytd">Address</td>
-									<td class="valuetabletd with100p">
-										<address ng-click="vm.openMap(activity.Address)" parameter="activity.Address"></address>
-									</td>
-								</tr>
-							</table>
+					<div class="position_relative displayflex">
+						<div class="with50p">Time</div>
+						<div class="with50p">
+							<span ng-if="(activity.Start_time)">{{activity.Start_time}}</span>
+							<span ng-if="(activity.End_time)">
+								to {{activity.End_time}}</span>
+							</div>
 						</div>
 
-						<div class="col3">
-							<table>
-								<tr>
-									<td class="keytd">Activity</td>
-									<td class="valuetabletd with100p">
-										<span>{{activity.Activity_type_id}}</span>
-
-									</td>
-								</tr>
-							</table>
+						<div class="position_relative displayflex" ng-if="(activity.Phone)">
+							<div class="with50p">Phone</div>
+							<div class="with50p">
+								<span >{{activity.Phone}}</span>
+							</div>
 						</div>
 
-						<div class="col3 resmrg10px">
-							<table class="">
-								<tr class="keytd">
-									<td>
-										<span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_30px mrgrgt20 orangeText resfontsize"></span>
-									</td>
-									<td ng-if='(activity.Phone != "")'>
-										<a  href="tel:activity.Phone" class="ion-ios-telephone font_size_30px mrgrgt20 orangeText resfontsize"></a>
-									</td>
-									<td ng-if='(activity.Email != "")'>
-										<a href="mailto:{{activity.Email}}" class="ion-email font_size_30px mrgrgt20 orangeText resfontsize"></a>
-									</td>
-									<td ng-click="vm.updateActivity(activity)">
-										<span  class="ion-edit font_size_30px mrgrgt20 orangeText resfontsize"></span> 
-									</td>
-									<td ng-click="vm.deleteActivity(activity)">
-										<span  class="ion-trash-a font_size_30px mrgrgt20 orangeText resfontsize"></span>
-									</td>
-
-								</tr>
-							</table>
+						<div class="position_relative displayflex" ng-if="(activity.Email)">
+							<div class="with50p">Email</div>
+							<div class="with50p">
+								<span>{{activity.Email}}</span>
+							</div>
 						</div>
 
+						<div class="position_relative displayflex">
+							<div class="with50p">Address</div>
+							<div class="with50p">
+								<span><address ng-click="vm.openMap(activity.Address)" parameter="activity.Address"></address>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col3 padding_right5p">
+						<div class="position_relative displayflex">
+							<div class="with50p">Activity</div>
+							<div class="with50p">
+								<span>{{activity.Activity_type}}</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col3 resmrg_top5p resbtmborder">
+						<div class="position_relative displayflex with100p">
+							<div class="with100p">
+								<span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_30px mrgrgt20 orangeText"></span>
+
+								<span ng-if='(activity.Phone)'>
+									<a  href="tel:{{activity.Phone}}" class="ion-ios-telephone font_size_30px mrgrgt20 orangeText "></a>
+								</span>
+								<span ng-if='(activity.Email)'>
+									<a href="mailto:{{activity.Email}}" class="ion-email font_size_30px mrgrgt20 orangeText "></a>
+								</span>
+								<span ng-click="vm.updateActivity(activity)">
+									<span  class="ion-edit font_size_30px mrgrgt20 orangeText"></span> 
+								</span>
+								<span ng-click="vm.deleteActivity(activity)">
+									<span  class="ion-trash-a font_size_30px mrgrgt20 orangeText"></span>
+								</span>
+							</div>
+						</div>
 					</div>
 				</div>
 
-				<pagination  
-					ng-model="currentPage"
-					total-items="vm.activityData.length"
-					max-size="noOfPages"  
-					boundary-links="true" items-per-page="entryLimit">
-				</pagination>
-								
-				<script id="editActivity.html" type="text/ng-template">
-					<ion-modal-view>										
-						<ion-header-bar class="bar bar-header button-clear">
-							<h1 class="title orangeText">Edit Activity</h1>
-							<button class="button  button-light" ng-click="vm.closeModel()">
-								<span class="ion-android-cancel orangeText font_size_20px"></span>
-							</button>
-						</ion-header-bar>
-						<ion-content class="has-header"   overflow-scroll = "true">
+			</div>
+</div>
+			<div class="display_inlineflex margin0auto with100p"><pagination  
+			ng-model="currentPage"
+			total-items="vm.activityData.length"
+			max-size="noOfPages"  
+			boundary-links="true" items-per-page="entryLimit">
+		</pagination></div>
 
-							<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+		<script id="editActivity.html" type="text/ng-template">
+			<ion-modal-view>										
+				<ion-header-bar class="bar bar-header button-clear">
+					<div class="text_align_center with100p">
+						<span class="btmborder padding5px orangeText font_size_20px boldtext">Edit Activity</span>
+						<button class="button  button-light float_right background_transparent mrgrgt5p resmrg_right10p" ng-click="vm.closeModel()">
+							<span class="ion-android-cancel orangeText font_size_20px"></span>
+						</button>
+					</div>
+				</ion-header-bar>
+				<ion-content  overflow-scroll = "true" style="top:0">
 
-							<div class="mrg25px">
-							Name
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<input type="text" ng-model="vm.editActivity.Name" class="with100p">
-									</div>
-								</div>
-							Phone
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<input type="text" ng-model="vm.editActivity.Phone" class="with100p">
-									</div>
-								</div>
-							Email
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<input type="text" ng-model="vm.editActivity.Email" class="with100p">
-									</div>
-								</div>
-							Start Date
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<input type="text" ng-model="vm.editActivity.Start_date" class="with100p">
-									</div>
-								</div>
-							End Date
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<input type="text" ng-model="vm.editActivity.End_date" class="with100p">
-									</div>
-								</div>
-							Start Time
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<input type="text" ng-model="vm.editActivity.Start_time" class="with100p" >
-									</div>
-								</div>
-							End Time
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<input type="text" ng-model="vm.editActivity.End_time" class="with100p">
-									</div>
-								</div>
-							Recurrence	
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<input type="text" ng-model="vm.editActivity.Recurrence" class="with100p">
-									</div>
-								</div>
-							URL
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<input type="text" ng-model="vm.editActivity.URL" class="with100p">
-									</div>
-								</div>
-								Activity Type
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<select  ng-model="vm.editActivity.Activity_type_id" ng-options="v for v in vm.activityList" class="bordernone with100p">
-										</select>
-									</div>
-								</div>
-								Project 
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<select  ng-model="vm.editActivity.Project_url" ng-options="v._url as v.Name for v in vm.projectList" class="bordernone with100p">
-										</select> 
-									</div>
-								</div>
-								Address Line1
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<input type="text" ng-model="vm.editActivity.Address.Address_line1">
-									</div>
-								</div>
-								Address Line2
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<input type="text" ng-model="vm.editActivity.Address.Address_line2">
-									</div>
-								</div>
-								City
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<input type="text" ng-model="vm.editActivity.Address.City" class="with100p">
-									</div>
-								</div>
-								District
-								<div class="row mrg_top5px">
-									<div class="col border1px">
-										<input type="text" ng-model="vm.editActivity.Address.District" class="with100p">
-									</div>
-								</div>
-								State
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<input type="text" ng-model="vm.editActivity.Address.State" class="with100p">
-									</div>
-								</div>
-								Country
-								<div class="row mrg_top5px">
-									<div class="col border1px">
-										<input type="text" ng-model="vm.editActivity.Address.Country" class="with100p">
-									</div>
-								</div>
-								Postal Code
-								<div class="row mrg_top5px">
-									<div class="col border1px">	
-										<input type="text" ng-model="vm.editActivity.Address.Postal_code" class="with100p">
-									</div>
-								</div>
-								<div class="row mrg_top5px">
-									<div class="text_align_center col valuetabletd">
-										<button class="button button-block themBackgroundColor text_white" ng-click="vm.saveUpdatedActivityDetail(vm.editActivity)" type="submit">Update </button>
-									</div>
-								</div>
+					<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+
+					<div class="mrg25px">
+
+						<div class="row mrg_top5px">
+							<div class="col">	Name
+								<input type="text" ng-model="vm.editActivity.Name" class="with100p btmborder">
 							</div>
-						</ion-content>
-					</ion-modal-view>
-				</script>
+						</div>
 
-			</ion-content>
+						<div class="row mrg_top5px">
+							<div class="col">	Phone
+								<input type="text" ng-model="vm.editActivity.Phone" class="with100p btmborder">
+							</div>
+						</div>
 
-		</ion-view>
+						<div class="row mrg_top5px">
+							<div class="col ">	Email
+								<input type="text" ng-model="vm.editActivity.Email" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Start Date
+								<input type="text" ng-model="vm.editActivity.Start_date" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	End Date
+								<input type="text" ng-model="vm.editActivity.End_date" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Start Time
+								<input type="text" ng-model="vm.editActivity.Start_time" class="with100p btmborder" >
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	End Time
+								<input type="text" ng-model="vm.editActivity.End_time" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Recurrence
+								<input type="text" ng-model="vm.editActivity.Recurrence" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col ">	URL
+								<input type="text" ng-model="vm.editActivity.URL" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Activity Type
+								<select  ng-model="vm.editActivity.Activity_type" ng-options="v for v in vm.activityList" class="bordernone with100p btmborder padding5px ">
+									<optgroup style="border: 1px solid red"><option value="" disabled selected="selected" style="display: none;">{{vm.editActivity.Activity_type}}</option></optgroup> 
+								</select>
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Project
+								<select  ng-model="vm.editActivity.Project_url" ng-options="v._url as v.Name for v in vm.projectList" class="bordernone with100p btmborder padding5px">
+
+								</select> 
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Address Line1
+								<input type="text" ng-model="vm.editActivity.Address.Address_line1" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Address Line2
+								<input type="text" ng-model="vm.editActivity.Address.Address_line2" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	City
+								<input type="text" ng-model="vm.editActivity.Address.City" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">District
+								<input type="text" ng-model="vm.editActivity.Address.District" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">State	
+								<input type="text" ng-model="vm.editActivity.Address.State" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">Country
+								<input type="text" ng-model="vm.editActivity.Address.Country" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Postal Code
+								<input type="text" ng-model="vm.editActivity.Address.Postal_code" class="with100p btmborder">
+							</div>
+						</div>
+						<div class="row mrg_top5px">
+							<div class="text_align_center col valuetabletd">
+								<button class="button themBackgroundColor text_white" ng-click="vm.saveUpdatedActivityDetail(vm.editActivity)" type="submit">Update </button>
+							</div>
+						</div>
+					</div>
+				</ion-content>
+			</ion-modal-view>
+		</script>
+
+	</ion-content>
+
+</ion-view>

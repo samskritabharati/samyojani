@@ -13,11 +13,15 @@ function activityMapViewController($scope, $state, $localStorage,userInfoService
 		$localStorage.userlogin = true;
 	}
 
+	 var activity = $state.params.activitys;
+	 console.log("dgfhhjh",activity);
+
 	var locations = [];
 
-	userInfoService.getUserActivities($localStorage.userInfo.data[0].SB_Region).then(function(activityData){
-		vm.activityData = activityData.data;
-		angular.forEach(activityData.data, function (key, index) {
+	/*userInfoService.getUserActivities($localStorage.userInfo.data[0].SB_Region).then(function(activityData){
+		vm.activityData = activityData.data;*/
+		/*console.log("ttttttttttttttttt",activityData);*/
+		angular.forEach(activity, function (key, index) {
 			key.Address.Address_line1
 			var address = [];
 			address.details = [];
@@ -35,11 +39,11 @@ function activityMapViewController($scope, $state, $localStorage,userInfoService
 		})
 		initialize();
 
-	},function(error){
+	/*},function(error){
 		console.log(error);
 	}).finally(function () {
 		vm.showSpinner = false;
-	});
+	});*/
 
 
 
@@ -75,6 +79,7 @@ function activityMapViewController($scope, $state, $localStorage,userInfoService
 						map: map,
 
 					});
+					console.log("ths ssss",locations[index]);
 					var content = '<a ng-click="cityDetail('+ index +')" class="btn btn-default">'+locations[index].details[0].Name+'</a>';
 
 

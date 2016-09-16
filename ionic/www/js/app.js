@@ -35,6 +35,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
      js.src = "//connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
+ 
   });
 })
 
@@ -190,6 +191,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
   .state('app.activitymapview', {
     cache: false,
     url: '/activitymapview',
+    params: {
+     activitys: null
+    },
     views: {
       'menuContent': {
         templateUrl: 'templates/activityMapView.html',

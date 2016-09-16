@@ -1,76 +1,73 @@
 <ion-view>
-	<ion-nav-buttons side="right">
-		
-	</ion-nav-buttons>
-	<div class="bar bar-subheader floatingHeader top8p">
-		<span class="ion-plus-circled floatingbtn font_size_30px orangeText" ng-click="vm.showAddClassForm()"></span>
-	</div>
 	<ion-content class="has-header" overflow-scroll = "true">
-		<div  class=" font_size_30px orangeText text_align_center headerTextMrg ">Courses Offered</div>
 
-		<div  ng-repeat="course in vm.coursesDetailList | filter: vm.searchKeyword" class="btmborder">
-					<div class ="row">
-						<div class="col3">
-							<table>
-								<tr>
-									<td class="keytd">Name</td>
-									<td class="valuetabletd with100p">
-										<span >{{course.Name}}</span>
-									</td>
-								</tr>
-								
-								<tr>
-									<td class="keytd">Duration</td>
-									<td class="valuetabletd with100p">
-										{{course.Duration}}{{course.Units}}
-										
-									</td>
-								</tr>
-								<tr ng-if="course.allClass.URL">
-									<td class="keytd">URL</td>
-									<td class="valuetabletd with100p">
-										{{course.URL}}
-									</td>
-								</tr>
-								
-								
-							</table>
-						</div>
+		<div   class="boldtext font_size_20px orangeText text_align_center headerTextMrg ">
+			<span class="btmborder padding5px">Courses Offered</span>
+		</div>
 
-						<div class="col3">
-							<table>
-								<tr>
-									<td class="keytd">Type</td>
-									<td class="valuetabletd with100p">
-										<span >{{course.Type}}</span>
-										
-									</td>
-								</tr>
-								<tr>
-									<td class="keytd">Description</td>
-									<td class="valuetabletd with100p">
-										{{course.Description}}
-									</td>
-								</tr>
-							</table>
-						</div>
+		<div class="spinnerDiv" ng-show="vm.showSpinner">
+			<span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span>
+		</div>
 
-						<div class="col3 resmrg10px">
-							<table class="">
-								<tr class="keytd">
-									<!-- <td>
-										<span ng-click="vm.detailAboutActivity(course)" class="ion-share font_size_30px mrgrgt20 orangeText resfontsize"></span>
-									</td> -->
-									
-									<td ng-click="vm.DeletClassFromMyList(course)">
-										<span  class="ion-help-circled font_size_20px mrgrgt20 orangeText resfontsize" >Leave</span>
-									</td>
-									
-								</tr>
-							</table>
+		<div class="spinnerDiv background_transparent" ng-show="!vm.showSpinner && vm.coursesDetailList.length == 0">
+			<span>No records </span>
+		</div>
+		
+		<div  ng-repeat="course in vm.coursesDetailList | filter: vm.searchKeyword">
+		<div class="padding10">
+			<div class ="row btmborder valuetabletd">
+				<div class="col3">
+					<div class="position_relative displayflex mrg_top5px">
+						<div class="with50p">Name</div>
+						<div class="with50p">
+							<span >{{course.courseInfo.Name}}</span>
 						</div>
-							
+					</div>
+
+					<div class="position_relative displayflex mrg_top5px">
+						<div class="with50p">Duration</div>
+						<div class="with50p">
+							{{course.courseInfo.Duration}}{{course.courseInfo.Units}}
+
+						</div>
+					</div>
+					<div class="position_relative displayflex mrg_top5px" ng-if="course.allClass.URL">
+						<div class="with50p">URL</div>
+						<div class="with50p">
+							{{course.courseInfo.URL}}
+						</div>
 					</div>
 				</div>
-				</ion-content>
-				</ion-view>
+
+				<div class="col3">
+					<div class="position_relative displayflex mrg_top5px">
+						<div class="with50p">Type</div>
+						<div class="with50p">
+							<span >{{course.courseInfo.Type}}</span>
+						</div>
+					</div>
+
+					<div class="position_relative displayflex mrg_top5px">
+						<div class="with50p">Description</div>
+						<div class="with50p">
+							{{course.courseInfo.Description}}
+						</div>
+					</div>
+
+				</div>
+
+				<div class="col3 resmrg_top5p resbtmborder">
+					<div class="position_relative displayflex mrg_top5px">
+						<div class="with50p">
+							<span ng-click="vm.DeletClassFromMyList(course.wishListInfo)">
+								<span  class="ion-help-circled font_size_20px mrgrgt20 orangeText resfontsize" >Leave</span>
+							</span>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</ion-content>
+</ion-view>

@@ -1,13 +1,13 @@
 <ion-view>
-	<ion-nav-buttons side="right">
-
-	</ion-nav-buttons>
 
 	<ion-content class="has-header"  overflow-scroll = "true">
 
-		<div   class=" font_size_30px orangeText text_align_center headerTextMrg " >UserProfile</div>
+		<!-- <div   class=" font_size_30px orangeText text_align_center headerTextMrg " >UserProfile</div> -->
+		<div   class="boldtext font_size_20px orangeText text_align_center headerTextMrg ">
+			<span class="btmborder padding5px">UserProfile</span>
+		</div>
 
-		<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+		<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span></div>
 		
 		<div>
 			<button ng-show="vm.showEditButton" class="button themBackgroundColor text_white float_right bordernone" 
@@ -16,92 +16,92 @@
 			ng-click="vm.decline()">Cancel</button>
 		</div>
 
-		<div class="respadding20px">
-			<div class="row text_align_center" style="display: flex !important; ">
-				<div class="col line_height2p5">Name</div>
-				<div class="col" ng-class="vm.edititem === vm.edititemtrue ? 'border1px' :  ''">
+		<div class="padding10">
+			<div class="row padding0" style="display: flex !important; ">
+				<div class="with50p bg_lightgry text_black line_height2p5">Name</div>
+				<div class="with50p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
 					<input type="text" class="backgroundNone with100p"  ng-model="vm.userProfileInfo.Name" ng-readonly="vm.fieldEditable">
 				</div>
 			</div>
-			<div class="row text_align_center mrg_top10px" style="display: flex !important; ">
-				<div class="col line_height2p5">Role</div>
-				<div class="col" ng-class="vm.edititem === vm.edititemtrue ? 'border1px' :  ''">
+			<div class="row padding0 mrg_top10px" style="display: flex !important; ">
+				<div class="with50p line_height2p5 bg_lightgry text_black">Role</div>
+				<div class="with50p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
 					<input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Role" ng-readonly="vm.nonEditableField">
 				</div>
 			</div>
 
-			<div class="row text_align_center mrg_top10px" style="display: flex !important; ">
-				<div class="col line_height2p5">Phone</div>
-				<div class="col" ng-class="vm.edititem === vm.edititemtrue ? 'border1px' :  ''">
+			<div class="row  padding0 mrg_top10px" style="display: flex !important; ">
+				<div class="with50p line_height2p5 bg_lightgry text_black">Phone</div>
+				<div class="with50p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
 					<input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Phone" ng-readonly="vm.fieldEditable">
 				</div>
 			</div>
-			<div class="row text_align_center mrg_top10px" style="display: flex !important; ">
-				<div class="col line_height2p5">Email</div>
-				<div class="col" ng-class="vm.edititem === vm.edititemtrue ? 'border1px' :  ''">
+			<div class="row  padding0 mrg_top10px" style="display: flex !important; ">
+				<div class="with50p line_height2p5 bg_lightgry text_black">Email</div>
+				<div class="with50p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
 					<input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Email" ng-readonly="vm.fieldEditable">
 				</div>
 			</div>
-			<div class="row text_align_center mrg_top10px" style="display: flex !important; ">
-				<div class="col line_height2p5">Profession</div>
-				<div class="col" ng-class="vm.edititem === vm.edititemtrue ? 'border1px' :  ''">
+			<div class="row padding0 mrg_top10px" style="display: flex !important; ">
+				<div class="with50p line_height2p5 bg_lightgry text_black">Profession</div>
+				<div class="with50p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
 					<select  name="userProfession"   ng-model="vm.userProfileInfo.Profession" ng-options="v for v in vm.userProfessionList.data" class="bordernone with100p backgroundNone" ng-readonly="vm.fieldEditable">
 						<option value="" disabled selected="selected" style="display: none;">{{vm.userProfileInfo.Profession}}</option>
 					</select>
 				</div>
 			</div>
-			<div class="row text_align_center mrg_top10px" style="display: flex !important; ">
-				<div class="col line_height2p5">Address Line1</div>
-				<div class="col" ng-class="vm.edititem === vm.edititemtrue ? 'border1px' :  ''">
+			<div class="row padding0 mrg_top10px" style="display: flex !important; ">
+				<div class="with50p line_height2p5 bg_lightgry text_black">Address Line1</div>
+				<div class="with50p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
 					<input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Address.Address_line1" ng-readonly="vm.fieldEditable">
 				</div>
 			</div>
-			<div class="row text_align_center mrg_top10px" style="display: flex !important; ">
-				<div class="col line_height2p5">Address Line2</div>
-				<div class="col" ng-class="vm.edititem === vm.edititemtrue ? 'border1px' :  ''">
+			<div class="row padding0 mrg_top10px" style="display: flex !important; ">
+				<div class="with50p line_height2p5 bg_lightgry text_black">Address Line2</div>
+				<div class="with50p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
 					<input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Address.Address_line2" ng-readonly="vm.fieldEditable">
 				</div>
 			</div>
-			<div class="row text_align_center mrg_top10px" style="display: flex !important; ">
-				<div class="col line_height2p5">City</div>
-				<div class="col" ng-class="vm.edititem === vm.edititemtrue ? 'border1px' :  ''">
+			<div class="row padding0 mrg_top10px" style="display: flex !important; ">
+				<div class="with50p line_height2p5 bg_lightgry text_black">City</div>
+				<div class="with50p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
 					<input type="text" class="backgroundNone with100p"ng-model="vm.userProfileInfo.Address.City" ng-readonly="vm.fieldEditable">
 				</div>
 			</div>
-			<div class="row text_align_center mrg_top10px" style="display: flex !important; ">
-				<div class="col line_height2p5">Locality</div>
-				<div class="col" ng-class="vm.edititem === vm.edititemtrue ? 'border1px' :  ''">
+			<div class="row padding0 mrg_top10px" style="display: flex !important; ">
+				<div class="with50p line_height2p5 bg_lightgry text_black">Locality</div>
+				<div class="with50p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
 					<input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Address.Locality" ng-readonly="vm.fieldEditable">
 				</div>
 			</div>
-			<div class="row text_align_center mrg_top10px" style="display: flex !important; ">
-				<div class="col line_height2p5">District</div>
-				<div class="col" ng-class="vm.edititem === vm.edititemtrue ? 'border1px' :  ''">
+			<div class="row padding0  mrg_top10px" style="display: flex !important; ">
+				<div class="with50p line_height2p5 bg_lightgry text_black">District</div>
+				<div class="with50p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
 					<input type="text"class="backgroundNone with100p" ng-model="vm.userProfileInfo.Address.District" ng-readonly="vm.fieldEditable">
 				</div>
 			</div>
-			<div class="row text_align_center mrg_top10px" style="display: flex !important; ">
-				<div class="col line_height2p5">State</div>
-				<div class="col" ng-class="vm.edititem === vm.edititemtrue ? 'border1px' :  ''">
+			<div class="row padding0 mrg_top10px" style="display: flex !important; ">
+				<div class="with50p line_height2p5 bg_lightgry text_black">State</div>
+				<div class="with50p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
 					<input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Address.State" ng-readonly="vm.fieldEditable">
 				</div>
 			</div>
-			<div class="row text_align_center mrg_top10px" style="display: flex !important; ">
-				<div class="col line_height2p5">Country</div>
-				<div class="col" ng-class="vm.edititem === vm.edititemtrue ? 'border1px' :  ''">
+			<div class="row padding0 mrg_top10px" style="display: flex !important; ">
+				<div class="with50p line_height2p5 bg_lightgry text_black">Country</div>
+				<div class="with50p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
 					<input type="text" class="backgroundNone with100p"  ng-model="vm.userProfileInfo.Address.Country" ng-readonly="vm.fieldEditable">
 				</div>
 			</div>
-			<div class="row text_align_center mrg_top10px" style="display: flex !important; ">
-				<div class="col line_height2p5">Postal Code</div>
-				<div class="col" ng-class="vm.edititem === vm.edititemtrue ? 'border1px' :  ''">
+			<div class="row padding0 mrg_top10px" style="display: flex !important; ">
+				<div class="with50p line_height2p5 bg_lightgry text_black">Postal Code</div>
+				<div class="with50p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
 					<input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Address.Postal_code" ng-readonly="vm.fieldEditable">
 				</div>
 			</div>
 
 
-			<div class=" with50p  margin0auto text_align_center mrg_top10px" style="display: flex !important; ">
-				<button class="button button-block themBackgroundColor text_white" ng-click="vm.updateUserProfile(vm.userProfileInfo)" ng-show="vm.showUpdateButn">Update</button></div>
+			<div class=" with50p  margin0auto text_align_center mrg_top10px">
+				<button class="button themBackgroundColor text_white" ng-click="vm.updateUserProfile(vm.userProfileInfo)" ng-show="vm.showUpdateButn">Update</button></div>
 			</div>
 
 		</ion-content>

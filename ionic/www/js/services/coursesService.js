@@ -15,8 +15,6 @@ function coursesService($http, $q, constantsService) {
         getUserWishList: getUserWishList,
         getClassByUrl: getClassByUrl,
         deletClassFromUserWishList: deletClassFromUserWishList
-
-
     };
 
     return service;
@@ -36,10 +34,11 @@ function coursesService($http, $q, constantsService) {
     }
 
     function getUserWishListList(userUrl){
+        console.log("servc",userUrl);
         var deferred = $q.defer();
         $http({
             method : 'GET',
-            url :  constantsService.url+'/wishlist?Person_id='+userUrl
+            url :  constantsService.url+'/wishlist?Person_url='+userUrl
         }).then(function(data){
             deferred.resolve(data);
         }, function(error){
@@ -79,7 +78,6 @@ function coursesService($http, $q, constantsService) {
     }
 
     function addToMyWisList(newWishList){
-        console.log("from service",newWishList);
         var deferred = $q.defer();
         $http({
             method : 'POST',
@@ -138,16 +136,13 @@ function coursesService($http, $q, constantsService) {
     }
 
     function deletClassFromUserWishList(roleurl){
-        console.log('i am deleting',roleurl);
         var deferred = $q.defer();
         $http({
             method : 'DELETE',
             url :  constantsService.url+roleurl
         }).then(function(data){
-            console.log('delete data',data);
             deferred.resolve(data);
         }, function(error){
-            console.log('error',error);
             deferred.reject(error);
         });
         return deferred.promise;

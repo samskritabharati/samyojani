@@ -17,11 +17,20 @@
 .backgroundNone{
     background: none !important;
 }
+.bg_lightgry{
+    background: #f8f8f8;
+}
+.background_transparent{
+    background: transparent !important;
+}
 .text_red{
      color: red;
 }
 .text_white{
     color: white;
+}
+.text_black{
+    color:#000 !important;
 }
 .silverbg{
     background: #f9f9f9;
@@ -59,11 +68,15 @@
     padding: 0;
 }
 .padding10{
-    padding: 10px;
+    padding: 10px !important;
+}
+.padding_right5p{
+    padding-right: 5%;
 }
 .mrg_top10px{
     margin-top: 10px !important;
 }
+
 .mrg_top55px{
     margin-top: 55px;
 }
@@ -73,8 +86,14 @@
 .mrg_btm10px{
     margin-bottom: 10px;
 }
+.mrgleft10p{
+    margin-left:10%;
+}
 .mrg0{
     margin: 0;
+}
+.mrgrgt5p{
+    margin-right: 5%;
 }
 .mrgtopbtm20px{
      margin:20px 0px
@@ -92,11 +111,21 @@
 .mrgrgt20{
             margin-right: 20px;
     }
+
+    .mrgrgt42{
+            margin-right: 42px;
+    }
+    .mrgrgt10{
+            margin-right: 10px;
+    }
 .mrgtopbtm10px{
         margin: 10px 0;
     }
     .mrg25px{
             margin: 25px;
+    }
+    .mrg10px{
+            margin: 10px;
     }
     .boldtext{
         font-weight: bold;
@@ -117,7 +146,7 @@
     border: 1px solid #e9682e !important;
 }
 .btmborder{
-    border-bottom: 1px solid #e9682e;
+    border-bottom: 1px solid #e9682e !important;
 }
 .bordernone{
     border: none;
@@ -150,6 +179,9 @@
 .display_inlineTable{
     display: inline-table;
 }
+.display_listItem{
+    display:list-item;
+}
 .display_inlineflex{
     display: inline-flex;
 }
@@ -158,6 +190,9 @@
 }
 .displayNone{
     display: none;
+}
+.displayflex{
+    display: flex;
 }
 .top10px{
     top:10px;
@@ -170,18 +205,25 @@
 }
 ul {
     list-style: none;
-    padding: 0;
-    margin: 0;
+    display: inherit;
+    margin: 0 auto
 }
 li {
-    float: left;
+    padding: 10px;
+   /* float: left;
     border: 1px solid #e9682e;
     border-bottom-width: 0;
     margin: 3px 3px 0px 3px;
     padding: 10px 10px 10px 5px;
     background-color: white;
-    color: #696969;
+    color: #696969;*/
 }
+li a{
+    text-decoration: none;
+    color: #e26228;
+}
+
+
 #mainView {
     /*border-bottom: 1px solid #e26228;*/
 	clear: both;
@@ -229,9 +271,14 @@ background: #e26228;
 .popup-buttons{
     width: 100% !important;
     margin: 0 auto !important;
+   /* background: #e26228 !important;*/
+
 }
 .popup-container.popup-showing{
-    background: #999999 !important;
+    background: transparent !important;
+}
+.popup-buttons .button.button-positive{
+    background: #e26228 !important;
 }
 
 .signupmodel{
@@ -244,8 +291,8 @@ background: #e26228;
     }
 
 .searchbtn{
-    border-bottom: 1px solid #e26228;
-    padding-bottom: 20px;
+   /* border-bottom: 1px solid #e26228;*/
+  /*  padding-bottom: 20px;*/
 }
 
 .spinnerDiv{
@@ -257,16 +304,24 @@ background: #e26228;
     /* left: 46%; */
     /* top: 32%; */
     opacity: .4;
-    background: #999;
-    padding: 27%;
+    background: #111;
+    padding: 20%;
     width: 100%;
+    height: 100%;
 }
 .spinner svg {
     width: 116px !important;
     height: 67px !important;
 }
+.spinner.spinner-energized {
+    stroke: #e26228 !important;
+    fill: #e26228 !important;
+}
 .padding5px{
     padding: 5px
+}
+.padding6px{
+    padding: 6px
 }
 
 .keytd{
@@ -281,9 +336,9 @@ background: #e26228;
     width: 1% !important;
      border: none;
     display: table;
-    top: 35%;
+    top: 33%;
     height: 4px;
-        margin-right: 2%;
+        margin-right: 21px;
         /* top: 24px;
    
     width: 1%;
@@ -314,7 +369,7 @@ option:before { content: "☐ " }
 
   .selecttodiv{
     display: inline-block;
-    height: 2em !important;    
+    height: 3.5em !important;    
     -webkit-appearance: none;
     -moz-appearance: none;
     overflow: inherit !important;
@@ -323,11 +378,19 @@ option:before { content: "☐ " }
 .selecttodiv option{
     display: inline-block;
     width: 3.5em;
-    height: 2.5em;
+  /*  height: 2.5em;*/
     float:left;
 }
+select{
+    color: #999 !important;
+}
+input{
+    color: #999 !important;
+}
+.minheight10px{
+         min-height: 10px !important;
 
-     
+     }
 @media (min-width : 768px) and (max-width : 1200px){
     .col3 {
     width: 33.33333333%;
@@ -335,19 +398,28 @@ option:before { content: "☐ " }
 }
 @media (min-width : 320px) and (max-width : 767px){
     .col3 {
-    width: 100%;
+    width: 99%;
     float: left;
     }
     .row{
-        display: table !important;
+       /* display: table !important;*/
+       display: inline !important;
+
     }
     .restextalign{
         text-align: center;
     }
    .login_parentdiv{
-     margin: 23% 10% 0 10%
+     /*margin: 23% 10% 0 10%*/
+     display: table;
+    width: 100%;
+    position: relative;
+    padding: 10%;
+    margin: 0;
     }
-
+    .restop0{
+        top: 0;
+    }
     .resmrg20px{
         margin: 20px;
     }
@@ -361,6 +433,9 @@ option:before { content: "☐ " }
     .resfontsize{
         font-size: 20px !important;
     }
+    .resfontsize10{
+        font-size: 10px !important;
+    }
     .resmrg10px{
             margin: 10px;
     }
@@ -370,15 +445,34 @@ option:before { content: "☐ " }
     .resmrgtop10{
         margin-top: 10%;
     }
+     .resmrgbtm10{
+        margin-bottom: 10px;
+    }
+     .resmrgtop15p{
+        margin-top: 15%;
+    }
     .respadding20px{
         padding: 20px
     }
+    .reswidth100p{
+     width: 100%;
+    }
+    .resmrg_top5p{
+        margin-top: 5% !important;
+    }
+    .resmrg_right10p{
+        margin-right: 10% !important;
+    }
+    .resbtmborder{
+    border-bottom: 1px solid #e9682e !important;
+}
 }
 
     html, body {
         height: 100%;
         margin: 0;
         padding: 0;
+        color: #999 !important;
       }
       #map {
         height: 100%;
@@ -395,4 +489,11 @@ option:before { content: "☐ " }
   font-family: 'Roboto','sans-serif';
   line-height: 30px;
   padding-left: 10px;
+}
+
+.paddingleft10{
+     padding-left: 10px;
+}
+.mrgtop025{
+        margin: 0 25px 25px 25px;
 }

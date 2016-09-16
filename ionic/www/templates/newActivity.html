@@ -1,29 +1,34 @@
 <ion-modal-view class="signupmodel resmrgtop10">
 
-    <ion-header-bar class="bar bar-header button-clear">
-        <h1 class="title orangeText">Enter New Activity Detail</h1>
-        <button class="button  button-light" ng-click="vm.closeModel()">
-            <span class="ion-android-cancel orangeText font_size_20px"></span>
-        </button>
+    <ion-header-bar class="bar bar-header button-clear resmrg_top5p">
+        <div class="text_align_center with100p">
+                            <!-- <span class="btmborder padding5px orangeText font_size_20px boldtext">Enter New Activity Detail</span> -->
+                            <span class="btmborder padding5px orangeText font_size_20px boldtext">Enter New Activity Detail</span>
+                            <button class="button  button-light float_right background_transparent resmrg_right10p " ng-click="vm.closeModel()" style=" margin-right: 6%;">
+                            <span class="ion-android-cancel orangeText font_size_20px"></span>
+                        </button>
+        </div>
     </ion-header-bar>
-    <ion-content class="has-header" overflow-scroll = "true" >
-<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+    <ion-content class="has-header resmrg_top5p" overflow-scroll = "true" >
+<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span></div>
         <form class="margin0auto width90p" name="newActivityForm">
-            Activity Type(Required)
+          
             <div class="row mrg_top5px">
-                <div class="col border1px"> 
-                    <select name="activityType" ng-model="vm.newActivity.Activity_type_id" 
-                    ng-options="v for v in vm.activityList" class="bordernone with100p" required></select>
+                <div class="col"> Activity Type(Required)
+                    <select name="activityType" ng-model="vm.newActivity.Activity_type" 
+                    ng-options="v for v in vm.activityList" class="bordernone with100p btmborder padding6px" required>
+                         <option value="" disabled selected="selected" style="display: none;">{{vm.newActivity.Activity_type}}</option>
+                    </select>
                 </div> 
                 <div ng-messages="newActivityForm.activityType.$error" ng-if="userForm.activityType.$dirty" class="text_red">
                     <div ng-message="required"> Please select activity type</div>
                 </div>
             </div>
 
-            Activity Name(Required)
+           
             <div class="row mrg_top5px">
-                <div class="col">
-                    <label class="item item-input border_color_orange">
+                <div class="col">  Activity Name(Required)
+                    <label class="item item-input btmborder bordernone padding0">
                         <input type="Name" ng-model="vm.newActivity.Name" name="activityName" class="bordernone" required/>
                     </label>
                     <div ng-messages="newActivityForm.activityName.$error" ng-show="newActivityForm.activityName.$touched">
@@ -35,11 +40,11 @@
                 </div>
             </div>
 
-            Recurrence(Required)
+           
             <div class="row mrg_top5px">
-                <div class="col border1px"> 
-                    <select  name="recurrence" ng-model="vm.newActivity.Recurrence" ng-options="v for v in vm.recurrenceList.data" class="bordernone with100p" required>
-                        <option value="" disabled selected="selected" style="display: none;"></option>
+                <div class="col">  Recurrence(Required)
+                    <select  name="recurrence" ng-model="vm.newActivity.Recurrence" ng-options="v for v in vm.recurrenceList.data" class="bordernone with100p btmborder bordernone padding6px" required>
+                        <option value="" disabled selected="selected" style="display: none;">{{vm.newActivity.Recurrence}}</option>
                     </select> 
                 </div>
                 <div ng-messages="newActivityForm.recurrence.$error" ng-if="userForm.recurrence.$dirty" class="text_red">
@@ -47,15 +52,15 @@
                 </div>
             </div>
 
-            Days Of Week(Required)
+           
            <div class="row mrg_top5px">
-                <div class="col border1px"> 
+                <div class="col">  Days Of Week(Required)
                     <!-- <select  name="daysofweek" ng-model="vm.newActivity.Days" ng-options="v for v in vm.daysList" class="bordernone with100p" required>
                     </select>
                     <div ng-messages="newActivityForm.daysofweek.$error" ng-if="userForm.daysofweek.$dirty" class="text_red">
                         <div ng-message="required"> Please select days of week</div>
                     </div> --> 
-                    <select ng-model="vm.newActivity.Days" multiple class="selecttodiv with100p bordernone">
+                    <select ng-model="vm.newActivity.Days" multiple class="selecttodiv with100p bordernone btmborder padding6px">
     <option ng-repeat="option in vm.daysList" value="{{option}}">{{option}}</option>
 </select>
 
@@ -63,12 +68,12 @@
             </div> 
 
 
-            Start Date(Required)
+          
             <div class="row mrg_top5px">
-                <div class="col">
+                <div class="col">  Start Date(Required)
 <!-- <input ng-model="date" ui-date> -->
                    <input type="text" name="startDate" ng-model="vm.newActivity.Start_date" 
-                    class="border1px with100p"  placeholder = "Choose start date"   ui-date/>
+                    class="btmborder with100p"  ui-date/>
                     
 
                     <div ng-messages="newActivityForm.startDate.$error" ng-show="newActivityForm.startDate.$touched" >
@@ -80,11 +85,11 @@
                 </div>
             </div> 
 
-            End Date(Required)
+          
             <div class="row mrg_top5px">
-                <div class="col">
+                <div class="col">  End Date(Required)
 
-                    <input type="text" name="enddate" ng-model="vm.newActivity.End_date" class="border1px with100p"  placeholder = "Choose end date"  ui-date/>
+                    <input type="text" name="enddate" ng-model="vm.newActivity.End_date" class="btmborder with100p"  ui-date/>
                     <div ng-messages="newActivityForm.enddate.$error" ng-show="newActivityForm.enddate.$touched">
                         <div ng-message="required">
                             select date
@@ -101,45 +106,45 @@
 
 
 
-            Start Time
+          
             <div class="row mrg_top5px">
-                <div  class="col">
-                    <div class="border1px mrg_top5px padding0 mrg0" ng-disabled="vm.disabletime" ng-class="{border_color_orange: !vm.disabletime}">  
+                <div  class="col">  Start Time
+                    <div class="mrg_top5px padding0 mrg0" ng-disabled="vm.disabletime" ng-class="{border_color_orange: !vm.disabletime}">  
                         <time-picker ng-model="vm.newActivity.Start_time" ng-disabled="vm.disabletime"></time-picker>  
                     </div>
                 </div>
             </div>
 
-            End Time
+           
             <div class="row mrg_top5px">
-                <div  class="col">
-                    <div class="border1px mrg_top5px padding0 mrg0" ng-disabled="vm.disabletime" ng-class="{border_color_orange: !vm.disabletime}">  
+                <div  class="col"> End Time
+                    <div class="mrg_top5px padding0 mrg0" ng-disabled="vm.disabletime" ng-class="{border_color_orange: !vm.disabletime}">  
                         <time-picker ng-model="vm.newActivity.End_time" ng-disabled="vm.disabletime"></time-picker>   
                     </div>
                 </div>
             </div>
 
 
-            Phone
+           
             <div class="row mrg_top5px">
-                <div  class="col ">
-                    <input type="text" ng-model="vm.newActivity.Phone"  class="border1px with100p" />
+                <div  class="col "> Phone
+                    <input type="text" ng-model="vm.newActivity.Phone"  class="btmborder with100p" />
                 </div>
             </div>
 
-            Email
+           
             <div class="row mrg_top5px">
-                <div  class="col">
-                    <input type="email" ng-model="vm.newActivity.Email" class="border1px with100p" />
+                <div  class="col"> Email
+                    <input type="email" ng-model="vm.newActivity.Email" class="btmborder with100p" />
                 </div>
             </div>
 
 
-            Country(Required)
+          
             <div class="row">
-                <div class="col">
-                    <label class="item item-input border_color_orange">
-                        <select name="country" ng-model="vm.newActivity.Address.Country" ng-options="v for v in vm.countrList.data" class="bordernone with100p" required><option value="" disabled selected="selected" style="display: none;">Country</option>
+                <div class="col">   Country(Required)
+                    <label class="item item-input bordernone padding0">
+                        <select name="country" ng-model="vm.newActivity.Address.Country" ng-options="v for v in vm.countrList.data" class=" with100p padding5px bordernone btmborder" required><option value="" disabled selected="selected" style="display: none;">Country</option>
                         </select>
                     </label>
                     <div ng-messages="newActivityForm.country.$error" ng-if="newActivityForm.country.$dirty" class="text_red">
@@ -148,11 +153,11 @@
 
                 </div>
             </div>
-            Postal code(Required)
+           
             <div class="row">
-                <div class="col">
-                    <label class="item item-input border_color_orange">
-                        <input type="text" name="postalCode" ng-model="vm.newActivity.Address.Postal_code"  required/>
+                <div class="col">  Postal code(Required)
+                    <label class="item item-input bordernone padding0">
+                        <input type="text" name="postalCode" ng-model="vm.newActivity.Address.Postal_code"  class="btmborder" required/>
                     </label>
                     <div ng-messages="newActivityForm.postalCode.$error" ng-if="newActivityForm.postalCode.$dirty" class="text_red">
                         <div ng-message="required">PostalCode is required</div>
@@ -160,11 +165,11 @@
 
                 </div>
             </div>
-            Street address1(Required)
+           
             <div class="row">
-                <div class="col">
-                    <label class="item item-input border_color_orange">
-                        <input type="text" name="address1" ng-model="vm.newActivity.Address.Address_line1" required/>
+                <div class="col">  Street address1(Required)
+                    <label class="item item-input bordernone padding0">
+                        <input type="text" name="address1" ng-model="vm.newActivity.Address.Address_line1" class="btmborder" required/>
                     </label>
                     <div ng-messages="newActivityForm.address1.$error" ng-if="newActivityForm.address1.$dirty" class="text_red">
                         <div ng-message="required">Address line 1 is required</div>
@@ -172,43 +177,43 @@
 
                 </div>
             </div>
-            Street address2
+          
             <div class="row">
-                <div class="col">
-                    <label class="item item-input border_color_orange">
-                        <input type="text"  ng-model="vm.newActivity.Address.Address_line2"/>
+                <div class="col">   Street address2
+                    <label class="item item-input bordernone padding0">
+                        <input type="text"  ng-model="vm.newActivity.Address.Address_line2" class="btmborder"/>
                     </label>
 
                 </div>
             </div>
-            City
+          
             <div class="row">
-                <div class="col">
-                    <label class="item item-input border_color_orange">
-                        <input type="text" ng-model="vm.newActivity.Address.City" />
+                <div class="col">   City
+                    <label class="item item-input bordernone padding0">
+                        <input type="text" ng-model="vm.newActivity.Address.City" class="btmborder" />
                     </label>
                 </div>
             </div>
-            District
+           
             <div class="row">
-                <div class="col">
-                    <label class="item item-input border_color_orange">
-                        <input type="text" ng-model="vm.newActivity.Address.District" />
+                <div class="col">  District
+                    <label class="item item-input bordernone padding0">
+                        <input type="text" ng-model="vm.newActivity.Address.District" class="btmborder" />
                     </label>
                 </div>
             </div>
-            State
+         
             <div class="row">
-                <div class="col">
-                    <label class="item item-input border_color_orange">
-                        <input type="text" ng-model="vm.newActivity.Address.State" />
+                <div class="col">    State
+                    <label class="item item-input bordernone padding0">
+                        <input type="text" ng-model="vm.newActivity.Address.State" class="btmborder" />
                     </label>
 
                 </div>
             </div>
             <div class=" row text_align_center">
-                <div class="col">
-                    <button  class="button button-block themBackgroundColor text_white" 
+                <div class="col padding0">
+                    <button  class="button themBackgroundColor text_white" 
                     ng-click="vm.addNewActivityDetail(vm.newActivity)" type="submit" ng-disabled="newActivityForm.$invalid">Submit </button>
                 </div>
             </div>
