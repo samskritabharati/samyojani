@@ -37,6 +37,7 @@ function activityMapViewController($scope, $state, $localStorage,userInfoService
 			address.details.push(key);
 			locations.push(address); 
 		})
+
 		initialize();
 
 	/*},function(error){
@@ -48,17 +49,17 @@ function activityMapViewController($scope, $state, $localStorage,userInfoService
 
 
 	function initialize() {
+		console.log("inz")
 		var map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 8,
 			center: {lat: -34.397, lng: 150.644}
 		});
+				var geocoder = new google.maps.Geocoder();
 
-		var geocoder = new google.maps.Geocoder();
-
-		$scope.cities = [
+		/*$scope.cities = [
 		{ title: 'Sydney', lat: -33.873033, lng: 151.231397 },
 		{ title: 'Melbourne', lat: -37.812228, lng: 144.968355 }
-		];
+		];*/
 
 
 		$scope.infowindow = new google.maps.InfoWindow({
@@ -71,24 +72,29 @@ function activityMapViewController($scope, $state, $localStorage,userInfoService
 
 
 				if (status == google.maps.GeocoderStatus.OK) {
+var latitude = results[0].geometry.location.lat();
+var longitude = results[0].geometry.location.lng();
+console.log(latitude);
+console.log(longitude);
 
 					map.setCenter(results[0].geometry.location);
 					var latlang = results[0].geometry.location;
+					console.log("latlang",latlang);
 					var marker = new google.maps.Marker({
-						position: latlang,
+						position: new google.maps.LatLng(latitude,longitude),
 						map: map,
 
 					});
 					console.log("ths ssss",locations[index]);
 					var content = '<a ng-click="cityDetail('+ index +')" class="btn btn-default">'+locations[index].details[0].Name+'</a>';
-
-
 					var compiledContent = $compile(content)($scope)
 					google.maps.event.addListener(marker, 'click', (function(marker, content, scope) {
+						google.maps.event.trigger(map, 'resize');
 						return function() {
 							scope.infowindow.setContent(content);
 							scope.infowindow.open(scope.map, marker);
 						};
+
 					})(marker, compiledContent[0], $scope));
 				}
 			})

@@ -201,6 +201,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
       }
     }
   })
+  .state('app.setLocation', {
+    cache: false,
+    url: '/setLocation',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/setLocation.html',
+        controller: 'setLocationController as vm'
+      }
+    }
+  })
 
 
   // if none of the above states are matched, use this as the fallback
