@@ -76,6 +76,9 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
             if(!criteria.country){
                 criteria.country =''
             }
+            if(!criteria.city){
+                criteria.city =''
+            }
             userInfoService.searchForUser(criteria).then(function(userDetail){
                 vm.showSearchCount = true;
                 vm.user = userDetail;
