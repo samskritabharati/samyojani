@@ -20,21 +20,22 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 	userProfession();
 	getCountry();
 	UserInterestsList();
-	if($rootScope.fbResponse && (!$rootScope.email)){
+	if($rootScope.fbResponse && (!$rootScope.email)){console.log("1")
 		$rootScope.fbResponse
 		vm.newUser = {
 			Name: $rootScope.fbResponse.name
 		}
 	}
-	if($rootScope.fbResponse && $rootScope.email){
-		$rootScope.fbResponse
+	console.log("$rootScope.fbResponse",$rootScope.fbResponse.length);
+	if(($rootScope.fbResponse.length>0) && $rootScope.email){console.log("2")
 		vm.newUser = {
 			Name: $rootScope.fbResponse.name,
 			Email: $rootScope.email
 		}
 	}
 
-	if(($rootScope.email) && (!$rootScope.fbResponse)){
+	if(($rootScope.email) && (!$rootScope.fbResponse)){console.log("3")
+
 		vm.newUser = {
 			Email: $rootScope.email
 		}
@@ -45,15 +46,42 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 			Email:  $rootScope.googleInfo.email
 		}
 	}
-
-	if($localStorage.update.length){
+console.log("$localStorage.update",$localStorage.update);
+	if($localStorage.update.length>0){
 		vm.showUpdateButtn = true;
+		
 		userAuthenticationService.emailauthentication($localStorage.update).then(function(userData){
-			vm.newUser = userData.data[0];
-			vm.newUser.Profession = vm.newUser.Profession
+			console.log("test",userData.data);
+			if(userData.data.length>0){
+				console.log("no data");
+				vm.newUser = userData.data[0];
+				vm.newUser.Profession = vm.newUser.Profession
+			}else{
+				 userAuthenticationService.phoneauthentication($rootScope.userPhone).then(function(userData){
+                    if(userData.data.length > 0){
+                    	vm.newUser = userData.data[0];
+                    	vm.newUser.Email = $localStorage.update;
+						vm.newUser.Profession = vm.newUser.Profession
+                    }else{
+                    	vm.newUser = {
+							Phone: $rootScope.userPhone,
+							Email: $localStorage.update
+						}
+                    }
+                })
+				
+			}
+			
+			console.log("ggggggggggggggggg",vm.newUser);
 		},function(error){
 			console.log(error)
 		})
+	}else{
+		console.log("4")
+		vm.newUser = {
+							Phone: $rootScope.userPhone,
+							Email: $rootScope.email
+						}
 	}
 
 
@@ -70,6 +98,9 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 			}
 			if($localStorage.userInfo.data[0].Role != 'Student'){
 				$state.go('app.organizer');
+			}
+			if($localStorage.userInfo.data[0].Role == null){
+				$state.go('app.student');
 			}
 		}
 
@@ -120,6 +151,7 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 	} 
 
 	function updateUser(newUserDetail){
+		console.log("newUserDetail",newUserDetail);
 		if($rootScope.fbResponse){
 			newUserDetail.Facebook_id = $rootScope.fbResponse.id;
 		}
@@ -138,7 +170,12 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 				if(userData.data[0].Role == 'Student'){
 					$state.go('app.student');
 				}else{
-					$state.go('app.organizer');
+					if(userData.data[0].Role == null){
+							$state.go('app.student');
+					}else{
+						$state.go('app.organizer');
+					}
+					
 				}
 			},function(error){
 				console.log(error);

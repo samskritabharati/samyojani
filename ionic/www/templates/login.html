@@ -28,6 +28,13 @@
                     >Sign In With Email</button>  
                 </div>
             </div>  
+            <div class="row row-no-padding">
+                <div class="col">            
+                    <button class="button button-block themBackgroundColor float_right text_white" 
+                    ng-click="vm.popupForPhoneLogin()"
+                    >Sign In With Phone Number</button>  
+                </div>
+            </div> 
         </div>
 
         <div id="emailSigninPopUp" class="displayNone">
@@ -100,6 +107,107 @@
                 </ion-content>
             </ion-modal-view>
         </script>
+
+          <script id="EnterPhonepopup.html" type="text/ng-template">
+            <ion-modal-view>
+                <ion-header-bar class="bar bar-header button-clear">
+                    <h1 class="title orangeText">Enter Phone Number</h1>
+                    <button class="button  button-light" ng-click="vm.closeModel()">
+                        <span class="ion-android-cancel orangeText font_size_20px"></span>
+                    </button>
+                </ion-header-bar>
+                <ion-content class="has-header" overflow-scroll = "false">
+
+                    <form class="margin0auto width90p" name="phonenumberloginForm">
+                        <div class="list list-inset">
+                            <label class="item item-input border_color_orange">
+                                <i class="icon ion-android-mail placeholder-icon"></i>
+                                <input type="text" ng-model="vm.phone" placeholder="Enter Your Phone number " name="phonenumber" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" required/>
+                                <div ng-messages="phonenumberloginForm.phonenumber.$error" ng-show="phonenumberloginForm.phonenumber.$touched">
+                                    <div ng-message="required">
+                                        You forgot to enter your number ...
+                                    </div>
+                                    <div ng-message="pattern">
+                                        Your phone number is not correctly...
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </form>
+                    <div class="row ">
+                        <div class="col text_align_center">            
+                            <button class="button  themBackgroundColor text_white" ng-click="vm.signInWithPhoneNumber()"
+                            >Enter</button>  
+                        </div>
+                    </div> 
+                     <div class="list list-inset">
+                   
+                    <span class="float_right font_size_15px orangeText" ng-click="vm.newDirectSignUp()">New Sign up?</span>
+                </div>
+                </ion-content>
+            </ion-modal-view>
+        </script>
+
+       <!--  <div id="emailSigninPopUp" class="displayNone">
+            
+
+                    <form class="margin0auto width90p" name="phonenumberloginForm">
+                        <div class="list list-inset">
+                            <label class="item item-input border_color_orange">
+                                <i class="icon ion-android-mail placeholder-icon"></i>
+                                <input type="text" ng-model="vm.phone" placeholder="Enter Your Phone number " name="phonenumber" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" required/>
+                                <div ng-messages="phonenumberloginForm.phonenumber.$error" ng-show="phonenumberloginForm.phonenumber.$touched">
+                                    <div ng-message="required">
+                                        You forgot to enter your number ...
+                                    </div>
+                                    <div ng-message="pattern">
+                                        Your phone number is not correctly...
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </form>
+                    <div class="row ">
+                        <div class="col text_align_center">            
+                            <button class="button  themBackgroundColor text_white" ng-click="vm.signInWithPhone()"
+                            >Enter</button>  
+                        </div>
+                    </div> 
+                     <div class="list list-inset">
+                   
+                    <span class="float_right font_size_15px orangeText" ng-click="vm.newDirectSignUp()">New Sign up?</span>
+                </div>
+                
+        </div> -->
+
+        <div id="phonetogglediv" class="displayNone">
+              <form class="padding_top10px mrglftrt20px" name="phonenumberloginForm">
+                        <div class="list list-inset">
+                            <label class="item item-input border_color_orange">
+                                <i class="icon ion-android-mail placeholder-icon"></i>
+                                <input type="text" ng-model="vm.phone" placeholder="Enter Your Phone number " name="phonenumber" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" required/>
+                                <div ng-messages="phonenumberloginForm.phonenumber.$error" ng-show="phonenumberloginForm.phonenumber.$touched">
+                                    <div ng-message="required">
+                                        You forgot to enter your number ...
+                                    </div>
+                                    <div ng-message="pattern">
+                                        Your phone number is not correctly...
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                         <div class="row ">
+                        <div class="col text_align_center">            
+                            <button class="button  themBackgroundColor text_white" ng-click="vm.signInWithPhone()"
+                            >Enter</button>  
+                        </div>
+                    </div> 
+                     <div class="list list-inset">
+                   
+                    <span class="float_right font_size_15px orangeText" ng-click="vm.newDirectSignUp()">New Sign up?</span>
+                </div>
+                    </form>
+        </div>
 
     </ion-content>
 </ion-view>

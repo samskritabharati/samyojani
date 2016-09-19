@@ -9,13 +9,15 @@ function userAuthenticationService($http, $q, constantsService, $ionicPopup) {
         emailauthentication: emailauthentication,
         getProfession: getProfession,
         confirm: confirm,
-        alertUser: alertUser
+        alertUser: alertUser,
+        phoneauthentication: phoneauthentication
 
     };
 
     return service;
 
     function emailauthentication(email){
+      console.log("from service",email);
         var deferred = $q.defer();
         console.log(constantsService.url)
         console.log('service',email);
@@ -71,4 +73,21 @@ function userAuthenticationService($http, $q, constantsService, $ionicPopup) {
      template: alertMsg
    }).then(okAction);
   }
+
+  function phoneauthentication(phone){
+        var deferred = $q.defer();
+        console.log(constantsService.url)
+        console.log('service',phone);
+        $http({
+            method : 'GET',
+            url : constantsService.url+'/users?Phone='+phone+'&exact=1'
+        }).then(function(data){
+            console.log(data);
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
 }
