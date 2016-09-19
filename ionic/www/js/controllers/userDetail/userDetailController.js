@@ -14,7 +14,8 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
     vm.deleteUser = deleteUser;
     vm.addNewUser = addNewUser;
     vm.showFormForNewUser = showFormForNewUser;
-    vm.detailAboutUser = detailAboutUser
+    vm.detailAboutUser = detailAboutUser;
+    vm.routingTOMapView = routingTOMapView;
 
     vm.showSpinner = false;
     vm.showSearchCount = false;
@@ -231,5 +232,13 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
         $scope.closeModal = function() {
             $scope.modal.hide();
         };
+    }
+
+    function routingTOMapView(userData){
+        $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+      /*  $state.go('app.activitymapview');*/
+         $state.go('app.activitymapview',{'activitys':userData, 'type' : 'userInfo'},{location: false, inherit: false});
     }
 }

@@ -192,7 +192,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
     cache: false,
     url: '/activitymapview',
     params: {
-     activitys: null
+     activitys: null,
+     type: null
     },
     views: {
       'menuContent': {

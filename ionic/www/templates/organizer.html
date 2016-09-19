@@ -73,8 +73,8 @@
 		<div class ="row valuetabletd  btmborder">
 			<div class="col3 padding_right5p">
 				<div class="position_relative displayflex">
-					<div class="with50p">Date</div>
-					<div class="with50p">
+					<div class="with20p reswith30p">Date</div>
+					<div class="with80p reswith70p">
 						<span ng-if="(activity.Start_date)">{{activity.Start_date | date }}</span>
 						<span ng-if="(activity.End_date)">
 							to {{activity.End_date | date }}</span>
@@ -82,8 +82,8 @@
 					</div>
 
 					<div class="position_relative displayflex">
-						<div class="with50p">Time</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Time</div>
+						<div class="with80p reswith70p">
 							<span ng-if="(activity.Start_time)">{{activity.Start_time}}</span>
 							<span ng-if="(activity.End_time)">
 								to {{activity.End_time}}</span>
@@ -91,22 +91,22 @@
 						</div>
 
 						<div class="position_relative displayflex" ng-if="(activity.Phone)">
-							<div class="with50p">Phone</div>
-							<div class="with50p">
+							<div class="with20p reswith30p">Phone</div>
+							<div class="with80p reswith70p">
 								<span >{{activity.Phone}}</span>
 							</div>
 						</div>
 
 						<div class="position_relative displayflex" ng-if="(activity.Email)">
-							<div class="with50p">Email</div>
-							<div class="with50p">
+							<div class="with20p reswith30p">Email</div>
+							<div class="with80p reswith70p">
 								<span>{{activity.Email}}</span>
 							</div>
 						</div>
 
 						<div class="position_relative displayflex">
-							<div class="with50p">Address</div>
-							<div class="with50p">
+							<div class="with20p reswith30p">Address</div>
+							<div class="with80p reswith70p">
 								<span><address ng-click="vm.openMap(activity.Address)" parameter="activity.Address"></address>
 								</span>
 							</div>
@@ -114,8 +114,8 @@
 					</div>
 					<div class="col3 padding_right5p">
 						<div class="position_relative displayflex">
-							<div class="with50p">Activity</div>
-							<div class="with50p">
+							<div class="with20p reswith30p">Activity</div>
+							<div class="with80p reswith70p">
 								<span>{{activity.Activity_type}}</span>
 							</div>
 						</div>
@@ -187,8 +187,8 @@
 						</div>
 
 						<div class="row mrg_top5px">
-							<div class="col">	Start Date
-								<input type="text" ng-model="vm.editActivity.Start_date" class="with100p btmborder">
+							<div class="col">	Start Date<!-- vm.editActivity.Start_date -->
+								<input type="text" ng-model="" class="with100p btmborder" ui-date="{ dateFormat: 'dd-mm-yy' }">
 							</div>
 						</div>
 

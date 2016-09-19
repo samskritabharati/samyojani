@@ -234,7 +234,7 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
-         $state.go('app.activitymapview',{'activitys':activityList},{location: false, inherit: false});
+         $state.go('app.activitymapview',{'activitys':activityList, 'type' : 'activitInfos'},{location: false, inherit: false});
     }
     
 

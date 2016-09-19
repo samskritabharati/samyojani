@@ -24,59 +24,59 @@
 
 		<div class="padding10">
 			<div class="row padding0" style="display: flex !important; ">
-				<div class="with50p paddingleft10 bg_lightgry text_black line_height2p5">Recurrence</div>
-				<div class="with50p paddingleft10">
+				<div class="with20p reswith40p paddingleft10 bg_lightgry text_black line_height2p5">Recurrence</div>
+				<div class="with80p reswith60p paddingleft10">
 					{{vm.activityDetail.activity_recurrence}}
 				</div>
 			</div>
 			<div class="row mrg_top10px padding0" style="display: flex !important; ">
-				<div class="with50p bg_lightgry text_black line_height2p5 paddingleft10">Time</div>
-				<div class="with50p paddingleft10">
+				<div class="with20p reswith40p bg_lightgry text_black line_height2p5 paddingleft10">Time</div>
+				<div class="with80p reswith60p paddingleft10">
 					<span ng-if="(vm.activityDetail.activity_start_date)">{{vm.activityDetail.activity_start_time}}</span>
-								<span ng-if="(vm.activityDetail.activity_end_date)">
+								<span ng-if="(vm.activityDetail.activity_end_time)">
 									to {{vm.activityDetail.activity_end_time}}</span>
 				</div>
 			</div>
 			<div class="row mrg_top10px padding0" style="display: flex !important; ">
-				<div class="with50p bg_lightgry text_black line_height2p5 paddingleft10">Coordinator Name</div>
-				<div class="with50p paddingleft10">
+				<div class="with20p reswith40p bg_lightgry text_black line_height2p5 paddingleft10">Coordinator Name</div>
+				<div class="with80p reswith60p paddingleft10">
 					{{vm.activityDetail.coordinator_Name}}
 				</div>
 			</div>
 			<div class="row mrg_top10px padding0" style="display: flex !important; " ng-if="(vm.activityDetail.activity_start_date)">
-				<div class="with50p bg_lightgry text_black line_height2p5 paddingleft10">Date</div>
-				<div class="with50p paddingleft10">
+				<div class="with20p reswith40p bg_lightgry text_black line_height2p5 paddingleft10">Date</div>
+				<div class="with80p reswith60p paddingleft10">
 					<span >{{vm.activityDetail.activity_start_date  | date }}</span>
 					<span if="(vm.activityDetail.activity_end_date)">to {{vm.activityDetail.activity_end_date  | date }}</span>
 				</div>
 			</div>
 			<div class="row mrg_top10px padding0" style="display: flex !important; " ng-if="(vm.activityDetail.activity_phone)">
-				<div class="with50p bg_lightgry text_black line_height2p5 paddingleft10">Phone</div>
-				<div class="with50p paddingleft10">
+				<div class="with20p reswith40p bg_lightgry text_black line_height2p5 paddingleft10">Phone</div>
+				<div class="with80p reswith60p paddingleft10">
 					<span >{{vm.activityDetail.activity_phone}}</span>
 				</div>
 			</div>
 			<div class="row mrg_top10px padding0" style="display: flex !important; " ng-if="!(vm.activityDetail.activity_phone)">
-				<div class="with50p bg_lightgry text_black line_height2p5 paddingleft10">Phone</div>
-				<div class="with50p paddingleft10">
+				<div class="with20p reswith40p bg_lightgry text_black line_height2p5 paddingleft10">Phone</div>
+				<div class="with80p reswith60p paddingleft10">
 					<span>{{vm.activityDetail.coordinator_Phone}}</span>
 				</div>
 			</div>
 			<div class="row mrg_top10px padding0" style="display: flex !important; " ng-if="(vm.activityDetail.activity_email)">
-				<div class="with50p bg_lightgry text_black line_height2p5 paddingleft10">Email</div>
-				<div class="with50p paddingleft10">
+				<div class="with20p reswith40p bg_lightgry text_black line_height2p5 paddingleft10">Email</div>
+				<div class="with80p reswith60p paddingleft10">
 					<span >{{vm.activityDetail.activity_email}}</span>
 				</div>
 			</div>
 			<div class="row mrg_top10px padding0" style="display: flex !important; " ng-if="!(vm.activityDetail.activity_email)">
-				<div class="with50p bg_lightgry text_black line_height2p5 paddingleft10">Email</div>
-				<div class="with50p paddingleft10">
+				<div class="with20p reswith40p bg_lightgry text_black line_height2p5 paddingleft10">Email</div>
+				<div class="with80p reswith60p paddingleft10">
 					<span >{{vm.activityDetail.coordinator_Email}}</span>
 				</div>
 			</div>
 			<div class="row mrg_top10px padding0" style="display: flex !important; ">
-				<div class="with50p bg_lightgry text_black line_height2p5 paddingleft10">Address</div>
-				<div class="with50p paddingleft10">
+				<div class="with20p reswith40p bg_lightgry text_black line_height2p5 paddingleft10">Address</div>
+				<div class="with80p reswith60p paddingleft10">
 					<span>
 										<span ng-if='vm.activityDetail.activity_address.Line1'>{{vm.activityDetail.activity_address.Line1}},</span>
 
@@ -197,14 +197,14 @@
 						<div class="row padding0">
 							<div class="col3 padding_right5p ">
 								<div class="position_relative displayflex resmrg_top5p">
-											<div class="with50p">Name</div>
-											<div class="with50p">
+											<div class="with20p reswith40p">Name</div>
+											<div class="with80p reswith60p">
 											<span>{{participant.participantInfo.Name}}</span>
 										</div>
 									</div>
 									<div class="position_relative displayflex resmrg_top5p">
-											<div class="with50p">Role</div>
-											<div class="with50p">
+											<div class="with20p reswith40p">Role</div>
+											<div class="with80p reswith60p">
 											<span>{{participant.participantStatus.EventRole}}</span>
 										</div>
 									</div>
@@ -212,14 +212,14 @@
 							<div class="col3 padding_right5p ">
 							
 									<div class="position_relative displayflex resmrg_top5p">
-											<div class="with50p">Current Status</div>
-											<div class="with50p">
+											<div class="with20p reswith40p">Current Status</div>
+											<div class="with80p reswith60p">
 											<span>{{participant.participantStatus.Status}}</span>
 										</div>
 									</div>
 									<div class="position_relative displayflex resmrg_top5p">
-											<div class="with50p">Registration Date</div>
-											<div class="with50p">
+											<div class="with20p reswith40p">Registration Date</div>
+											<div class="with80p reswith60p">
 											<span>{{participant.participantStatus.Last_active_date | date}}</span>
 										</div>
 									</div>
@@ -227,7 +227,7 @@
 							</div>
 							<div class="col3 padding_right5p resmrg_top5p resbtmborder" resmrg10px" ng-if="!(vm.role == 'Student')">
 								<div class="position_relative displayflex">
-									<div class="with50p">
+									<div class="with100p">
 										<span ng-click="vm.showFormToUpdatePerticipantInActivity(participant)" class="ion-edit font_size_20px mrgrgt20 orangeText resfontsize"></span>
 									
 										<span ng-click="vm.deleteUserFromActivity(participant)" class="ion-trash-a font_size_20px mrgrgt20 orangeText resfontsize"></span>

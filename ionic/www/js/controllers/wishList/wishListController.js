@@ -40,7 +40,7 @@ function wishListController($scope,  $state,coursesService, $localStorage,$ionic
     }
 
     function DeletClassFromMyList(course){
-        userAuthenticationService.confirm('','Do You Want To Leave this?','Yes','No',function(){
+        userAuthenticationService.confirm('','Do You Want To Remove this from WishList ?','Yes','No',function(){
             vm.showSpinner = true;
             coursesService.deletClassFromUserWishList(course._url).then(function(data){
                 vm.showSpinner = false;

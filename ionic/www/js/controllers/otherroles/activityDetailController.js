@@ -203,8 +203,6 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
   }
 
   function addParticipentToActivity(newParticipantDetail){
-    console.log('newParticipantDetail',newParticipantDetail);
-
     if(newParticipantDetail.Name == undefined && newParticipantDetail.Email == undefined && newParticipantDetail.Phone == undefined){
 
 
@@ -294,15 +292,16 @@ angular
 .module('starter')
 .controller('addActivityController', addActivityController);
 
-addActivityController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService','activityService', '$localStorage','$ionicHistory'];
+addActivityController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService','activityService', '$localStorage','$ionicHistory','$filter'];
 
-function addActivityController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, activityService, $localStorage, $ionicHistory) {
+function addActivityController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, activityService, $localStorage, $ionicHistory,$filter) {
   var vm = this;
 
   vm.closeModel = closeModel;
   vm.addNewActivityDetail = addNewActivityDetail;
 
-
+  $scope.checked_days = [];
+ 
   vm.newActivity = {
     Activity_type : 'varga',
     Recurrence : 'daily'
@@ -323,11 +322,23 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
 
   } 
 
+/*$scope.$watch('vm.newActivity.Start_date', function (newValue) {
+  console.log('newValue',newValue);
+    
+    vm.newActivity.Start_date = $filter('date')(newValue, 'yyyy/MM/dd');
+});*/
+
+/*$scope.$watch('workerDetail.dateOfBirth', function (newValue) {
+    $scope.mydateOfBirth = $filter('date')(newValue, 'yyyy/MM/dd'); 
+});*/
 
 
   function addNewActivityDetail(newActivity){
     newActivity.Coordinator_url = $localStorage.userInfo.data[0]._url;
-    activityService.addNewActivity(newActivity).then(function( detail){
+    newActivity.Days = $scope.checked_days
+      console.log('newActivity',newActivity);
+    activityService.addNewActivity(newActivity).then(function(detail){
+  console.log('resnewActivity',detail);
       vm.showSpinner = false;
       $ionicHistory.nextViewOptions({
         disableBack: true

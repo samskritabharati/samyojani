@@ -51,6 +51,7 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
             vm.projectList = project.data;
         })
         vm.editActivity = activity;
+        console.log(" vm.editActivity", vm.editActivity);
         $ionicModal.fromTemplateUrl('editActivity.html', {
             scope: $scope,
         }).then(function(modal) {
@@ -190,7 +191,7 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
             disableBack: true
         });
       /*  $state.go('app.activitymapview');*/
-         $state.go('app.activitymapview',{'activitys':activityData},{location: false, inherit: false});
+         $state.go('app.activitymapview',{'activitys':activityData, 'type' : 'activitInfos'},{location: false, inherit: false});
     }
 
     

@@ -13,15 +13,15 @@
 			<div class ="row valuetabletd  btmborder">
 				<div class="col3">
 					<div class="position_relative displayflex mrg_top5px">
-						<div class="with50p">Name</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Name</div>
+						<div class="with80p reswith70p">
 							<span>{{activity.activity_name }}</span>
 						</div>
 					</div>
 
 					<div class="position_relative displayflex mrg_top5px">
-						<div class="with50p">Date</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Date</div>
+						<div class="with80p reswith70p">
 							<span ng-if="(activity.activity_start_date)">{{activity.activity_start_date | date }}</span>
 							<span ng-if="(activity.End_date)">
 								to {{activity.End_date | date }}</span>
@@ -29,16 +29,16 @@
 					</div>
 
 					<div class="position_relative displayflex mrg_top5px">
-						<div class="with50p">Time</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Time</div>
+						<div class="with80p reswith70p">
 							<span ng-if="(activity.activity_end_date)">{{activity.activity_end_date}}</span>
 							<span ng-if="(activity.activity_end_date)">
 								to {{activity.activity_end_date}}</span>
 						</div>
 					</div>
 					<div class="position_relative displayflex mrg_top5px">
-						<div class="with50p">Status</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Status</div>
+						<div class="with80p reswith70p">
 							{{activity.activityState}}
 
 						</div>
@@ -46,8 +46,8 @@
 				</div>
 				<div class="col3">
 					<div class="position_relative displayflex mrg_top5px">
-						<div class="with50p">Activity</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Activity</div>
+						<div class="with80p reswith70p">
 							<span>{{activity.activity_type_id}}</span>	
 						</div>
 					</div>
