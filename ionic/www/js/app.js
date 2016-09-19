@@ -212,7 +212,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
       }
     }
   })
-
+ .state('app.editactivity', {
+    cache: false,
+    url: '/editactivity',
+    params: {
+     editdata: null
+    },
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/editactivitys.html',
+        controller: 'editactivitysController as vm'
+      }
+    }
+  })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('app/main');

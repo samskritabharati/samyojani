@@ -152,7 +152,7 @@
 			boundary-links="true" items-per-page="entryLimit">
 		</pagination></div>
 
-		<script id="editActivity.html" type="text/ng-template">
+	<!-- 	<script id="editActivity.html" type="text/ng-template">
 			<ion-modal-view>										
 				<ion-header-bar class="bar bar-header button-clear">
 					<div class="text_align_center with100p">
@@ -187,14 +187,17 @@
 						</div>
 
 						<div class="row mrg_top5px">
-							<div class="col">	Start Date<!-- vm.editActivity.Start_date -->
-								<input type="text" ng-model="" class="with100p btmborder" ui-date="{ dateFormat: 'dd-mm-yy' }">
+							<div class="col">	Start Date
+								
+								 <input type="text" class="btmborder with100p" ng-model="vm.text" 
+								 ui-date="{dateFormat: 'dd-mm-yy' }"/> 
+                 
 							</div>
 						</div>
 
-						<div class="row mrg_top5px">
+				<div class="row mrg_top5px">
 							<div class="col">	End Date
-								<input type="text" ng-model="vm.editActivity.End_date" class="with100p btmborder">
+								<input type="text" value="{{vm.editActivity.End_date | date: 'dd-mm-yy'}}" class="with100p btmborder bordernone" ui-date/>
 							</div>
 						</div>
 
@@ -287,7 +290,7 @@
 					</div>
 				</ion-content>
 			</ion-modal-view>
-		</script>
+		</script> -->
 
 	</ion-content>
 

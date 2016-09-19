@@ -10,12 +10,12 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
     vm.showSpinner = true;
     vm.detailAboutActivity = detailAboutActivity;
     vm.updateActivity = updateActivity;
-    vm.saveUpdatedActivityDetail = saveUpdatedActivityDetail;
+  /*  vm.saveUpdatedActivityDetail = saveUpdatedActivityDetail;*/
     vm.deleteActivity = deleteActivity;
     vm.searchActivity = searchActivity;
     vm.routingTOMapView = routingTOMapView;
     $rootScope.currentMenu = 'organizerActivity';
-
+     /*var activity = $state.params.activitys;*/
     vm.showNewActivityForm = showNewActivityForm;
     vm.closeModel = closeModel;
 
@@ -50,19 +50,23 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
         projectService.getAllProject().then(function(project){
             vm.projectList = project.data;
         })
-        vm.editActivity = activity;
+       /* vm.editActivity = activity;*/
         console.log(" vm.editActivity", vm.editActivity);
-        $ionicModal.fromTemplateUrl('editActivity.html', {
+        /*$ionicModal.fromTemplateUrl('editActivity.html', {
             scope: $scope,
         }).then(function(modal) {
             $scope.modal = modal;
             vm.showSpinner = false;
             $scope.modal.show();
+        });*/
+        /* $state.go('app.editactivitys',{'editdata': activity});*/
+         $ionicHistory.nextViewOptions({
+            disableBack: true
         });
-
+        $state.go('app.editactivity',{'editdata': activity},{location: false, inherit: false});
     }
 
-    function saveUpdatedActivityDetail(updatedActivity){
+    /*function saveUpdatedActivityDetail(updatedActivity){
         vm.showSpinner = true;
         updatedActivity.Coordinator_url = $localStorage.userInfo.data[0]._url;    
         userInfoService.updateActivity(updatedActivity).then(function(data){
@@ -71,7 +75,7 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
         },function(error){
             console.log(error);
         });
-    }
+    }*/
 
     function deleteActivity(activityToDelete){
         userAuthenticationService.confirm('','Do You Want To Delet Activity?','Yes','No',function(){
@@ -194,6 +198,10 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
          $state.go('app.activitymapview',{'activitys':activityData, 'type' : 'activitInfos'},{location: false, inherit: false});
     }
 
-    
+     $scope.datepickerOptions = {
+    format: 'yyyy-mm-dd',
+    language: 'fr',
+    autoclose: true,
+    weekStart: 0}
 }
 
