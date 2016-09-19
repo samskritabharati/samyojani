@@ -14,7 +14,8 @@ function activityMapViewController($scope, $state, $localStorage,userInfoService
 	}
 
 	 var activity = $state.params.activitys;
-	 console.log("dgfhhjh",activity);
+	 var type = $state.params.type;
+	 console.log("dgfhhjh",type);
 
 	var locations = [];
 
@@ -67,8 +68,9 @@ function activityMapViewController($scope, $state, $localStorage,userInfoService
 		});
 
 		angular.forEach(locations, function (key, index) {
-
-			geocoder.geocode( { 'address': locations[index][1]}, function(results, status) {
+			console.log(locations[index][1]+' '+locations[index][2]+' '+locations[index][3]+' '+locations[index][4]);
+			var completeAddress = locations[index][1]+' '+locations[index][2]+' '+locations[index][3]+' '+locations[index][4];
+			geocoder.geocode( { 'address': completeAddress}, function(results, status) {
 
 
 				if (status == google.maps.GeocoderStatus.OK) {
@@ -86,7 +88,13 @@ console.log(longitude);
 
 					});
 					console.log("ths ssss",locations[index]);
-					var content = '<a ng-click="cityDetail('+ index +')" class="btn btn-default">'+locations[index].details[0].Name+'</a>';
+					if( type == 'userInfo'){
+						var content = '<a class="btn btn-default">'+locations[index].details[0].Name+'</br>'+locations[index].details[0].Phone+'</br>'+locations[index].details[0].Address.Address_line1+','+locations[index].details[0].Address.Address_line1+','+locations[index].details[0].Address.Address_line2+','+locations[index].details[0].Address.City+','+locations[index].details[0].Address.State+','+locations[index].details[0].Address.Country+'</a>';
+
+					}else{
+						var content = '<a ng-click="cityDetail('+ index +')" class="btn btn-default">'+locations[index].details[0].Name+'</br>'+locations[index].details[0].Address.Address_line1+','+locations[index].details[0].Address.Address_line1+','+locations[index].details[0].Address.Address_line2+','+locations[index].details[0].Address.City+','+locations[index].details[0].Address.State+','+locations[index].details[0].Address.Country+'</a>';
+
+					}
 					var compiledContent = $compile(content)($scope)
 					google.maps.event.addListener(marker, 'click', (function(marker, content, scope) {
 						google.maps.event.trigger(map, 'resize');

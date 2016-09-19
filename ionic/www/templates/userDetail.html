@@ -93,7 +93,7 @@
 		<div ng-if="vm.showSearchCount">
 			<span class="padding10 line_height3 verticalalignmiddle orangeText">Found {{vm.user.data.length}} results</span>
 			<button class="button themBackgroundColor  text_white float_right bordernone mrgrgt10" 
-			ng-click="vm.routingTOMapView(vm.activityData)">Map View</button>
+			ng-click="vm.routingTOMapView(vm.user.data)">Map View</button>
 		</div>
 
 
@@ -107,34 +107,34 @@
 		<div class ="row padding0 btmborder">
 			<div class="col3 padding5px">
 				<div class="position_relative displayflex mrg_top5px">
-					<div class="with50p">Name</div>
-					<div class="with50p">
+					<div class="with20p reswith30p">Name</div>
+					<div class="with80p reswith70p">
 						<span> {{user.Name }}</span>
 					</div>
 				</div>
 				<div class="position_relative displayflex mrg_top5px" ng-if="(user.Phone)">
-					<div class="with50p">Phone</div>
-					<div class="with50p">
+					<div class="with20p reswith30p">Phone</div>
+					<div class="with80p reswith70p">
 						<span> {{user.Phone }}</span>
 					</div>
 				</div>
 				<div class="position_relative displayflex mrg_top5px" ng-if="(user.Email)">
-					<div class="with50p">Email</div>
-					<div class="with50p">
+					<div class="with20p reswith30p">Email</div>
+					<div class="with80p reswith70p">
 						<span> {{user.Email }}</span>
 					</div>
 				</div>
 				<div class="position_relative displayflex mrg_top5px">
-					<div class="with50p">Address</div>
-					<div class="with50p">
+					<div class="with20p reswith30p">Address</div>
+					<div class="with80p reswith70p">
 						<span> <address vm.openMap(user.Address) parameter="user.Address"></address></span>
 					</div>
 				</div>
 			</div>
 			<div class="col3 padding5px">
 				<div class="position_relative displayflex mrg_top5px">
-					<div class="with50p">Role</div>
-					<div class="with50p">
+					<div class="with20p reswith30p">Role</div>
+					<div class="with80p reswith70p">
 						<span> {{user.Role}}</span>
 					</div>
 				</div>

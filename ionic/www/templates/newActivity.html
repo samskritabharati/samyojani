@@ -14,7 +14,7 @@
         <form class="margin0auto width90p" name="newActivityForm">
           
             <div class="row mrg_top5px">
-                <div class="col"> Activity Type(Required)
+                <div class="col"> Activity Type*
                     <select name="activityType" ng-model="vm.newActivity.Activity_type" 
                     ng-options="v for v in vm.activityList" class="bordernone with100p btmborder padding6px" required>
                          <option value="" disabled selected="selected" style="display: none;">{{vm.newActivity.Activity_type}}</option>
@@ -27,7 +27,7 @@
 
            
             <div class="row mrg_top5px">
-                <div class="col">  Activity Name(Required)
+                <div class="col">  Activity Name*
                     <label class="item item-input btmborder bordernone padding0">
                         <input type="Name" ng-model="vm.newActivity.Name" name="activityName" class="bordernone" required/>
                     </label>
@@ -42,7 +42,7 @@
 
            
             <div class="row mrg_top5px">
-                <div class="col">  Recurrence(Required)
+                <div class="col">  Recurrence*
                     <select  name="recurrence" ng-model="vm.newActivity.Recurrence" ng-options="v for v in vm.recurrenceList.data" class="bordernone with100p btmborder bordernone padding6px" required>
                         <option value="" disabled selected="selected" style="display: none;">{{vm.newActivity.Recurrence}}</option>
                     </select> 
@@ -54,15 +54,23 @@
 
            
            <div class="row mrg_top5px">
-                <div class="col">  Days Of Week(Required)
+                <div class="col">  Days Of Week*
                     <!-- <select  name="daysofweek" ng-model="vm.newActivity.Days" ng-options="v for v in vm.daysList" class="bordernone with100p" required>
                     </select>
                     <div ng-messages="newActivityForm.daysofweek.$error" ng-if="userForm.daysofweek.$dirty" class="text_red">
                         <div ng-message="required"> Please select days of week</div>
                     </div> --> 
-                    <select ng-model="vm.newActivity.Days" multiple class="selecttodiv with100p bordernone btmborder padding6px">
+                    <!-- <select ng-model="vm.newActivity.Days" multiple class="selecttodiv with100p bordernone btmborder padding6px">
     <option ng-repeat="option in vm.daysList" value="{{option}}">{{option}}</option>
-</select>
+</select> -->
+<div class="display_inlineflex with100p bordernone btmborder">
+
+<span ng-repeat="day in vm.daysList" class="padding10">
+      <input type='checkbox' value="{{day}}" ng-model="vm.newActivity.Days" check-list='checked_days'> {{day}}<br />
+    </span>
+    </div>
+  
+    
 
                 </div>
             </div> 
@@ -70,11 +78,11 @@
 
           
             <div class="row mrg_top5px">
-                <div class="col">  Start Date(Required)
+                <div class="col">  Start Date*
 <!-- <input ng-model="date" ui-date> -->
                    <input type="text" name="startDate" ng-model="vm.newActivity.Start_date" 
-                    class="btmborder with100p"  ui-date/>
-                    
+                    class="btmborder with100p"  ui-date="{ dateFormat: 'dd-mm-yy' }"/>
+                 
 
                     <div ng-messages="newActivityForm.startDate.$error" ng-show="newActivityForm.startDate.$touched" >
                         <div ng-message="required">
@@ -87,7 +95,7 @@
 
           
             <div class="row mrg_top5px">
-                <div class="col">  End Date(Required)
+                <div class="col">  End Date*
 
                     <input type="text" name="enddate" ng-model="vm.newActivity.End_date" class="btmborder with100p"  ui-date/>
                     <div ng-messages="newActivityForm.enddate.$error" ng-show="newActivityForm.enddate.$touched">
@@ -142,7 +150,7 @@
 
           
             <div class="row">
-                <div class="col">   Country(Required)
+                <div class="col">   Country*
                     <label class="item item-input bordernone padding0">
                         <select name="country" ng-model="vm.newActivity.Address.Country" ng-options="v for v in vm.countrList.data" class=" with100p padding5px bordernone btmborder" required><option value="" disabled selected="selected" style="display: none;">Country</option>
                         </select>
@@ -155,7 +163,7 @@
             </div>
            
             <div class="row">
-                <div class="col">  Postal code(Required)
+                <div class="col">  Postal code*
                     <label class="item item-input bordernone padding0">
                         <input type="text" name="postalCode" ng-model="vm.newActivity.Address.Postal_code"  class="btmborder" required/>
                     </label>
@@ -167,7 +175,7 @@
             </div>
            
             <div class="row">
-                <div class="col">  Street address1(Required)
+                <div class="col">  Street address1*
                     <label class="item item-input bordernone padding0">
                         <input type="text" name="address1" ng-model="vm.newActivity.Address.Address_line1" class="btmborder" required/>
                     </label>
@@ -217,7 +225,7 @@
                     ng-click="vm.addNewActivityDetail(vm.newActivity)" type="submit" ng-disabled="newActivityForm.$invalid">Submit </button>
                 </div>
             </div>
-            <div class="orangeText text_align_center">Required fields are mandatory</div>
+            <div class="orangeText text_align_center">* fields are mandatory</div>
         </form>
 
     </ion-content>

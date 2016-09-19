@@ -38,6 +38,15 @@
 .with100p{
     width: 100%;
 }
+.with20p{
+    width: 20%;
+}
+.with30p{
+    width: 30%;
+}
+.with80p{
+    width: 80%;
+}
 .with50p{
     width: 50%;
 }
@@ -465,6 +474,19 @@ input{
     }
     .resbtmborder{
     border-bottom: 1px solid #e9682e !important;
+    }
+
+    .reswith30p{
+        width: 30%;
+    }
+.reswith70p{
+    width: 70%;
+}
+.reswith40p{
+        width: 40%;
+    }
+.reswith60p{
+    width: 60%;
 }
 }
 
@@ -493,6 +515,9 @@ input{
 
 .paddingleft10{
      padding-left: 10px;
+}
+.paddingleft5{
+     padding-left: 5px;
 }
 .mrgtop025{
         margin: 0 25px 25px 25px;

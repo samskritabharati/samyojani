@@ -6,7 +6,7 @@
 			<span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span>
 		</div>
 		<div   class=" boldtext font_size_20px orangeText text_align_center headerTextMrg " >
-			<span class="btmborder padding5px">Upcoming Activitys</span>	
+			<span class="btmborder padding5px">Upcoming Events</span>	
 		</div>
 		
 		
@@ -66,8 +66,8 @@
 			<div class ="row valuetabletd  btmborder">
 				<div class="col3">
 					<div class="position_relative displayflex">
-						<div class="with50p">Date</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Date</div>
+						<div class="with80p reswith70p">
 							<span ng-if="(activity.allActivity.Start_date)">{{activity.allActivity.Start_date | date }}
 							</span>
 								<span ng-if="(activity.allActivity.End_date)">
@@ -76,30 +76,30 @@
 					</div>
 
 					<div class="position_relative displayflex">
-						<div class="with50p">Time</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Time</div>
+						<div class="with80p reswith70p">
 							<span ng-if="(activity.allActivity.Start_time)">{{activity.allActivity.Start_time}}</span>
 							<span ng-if="(activity.allActivity.End_time)"> to {{activity.allActivity.End_time}}</span>
 						</div>
 					</div>
 
 					<div class="position_relative displayflex" ng-if="(activity.allActivity.Phone)">
-						<div class="with50p">Phone</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Phone</div>
+						<div class="with80p reswith70p">
 							<span>{{activity.allActivity.Phone}}</span>
 						</div>
 					</div>
 
 					<div class="position_relative displayflex" ng-if="(activity.allActivity.Email)">
-						<div class="with50p">Email</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Email</div>
+						<div class="with80p reswith70p">
 							<span>{{activity.allActivity.Email}}</span>
 						</div>
 					</div>
 
 					<div class="position_relative displayflex">
-						<div class="with50p">Address</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Address</div>
+						<div class="with80p reswith70p">
 							<span><address ng-click="vm.openMap(activity.allActivity.Address)"  parameter="activity.allActivity.Address"></address></span>
 						</div>
 					</div>
@@ -107,8 +107,8 @@
 			
 				<div class="col3">
 					<div class="position_relative displayflex">
-						<div class="with50p">Activity</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Activity</div>
+						<div class="with80p reswith70p">
 							<span>{{activity.allActivity.Activity_type}}</span>
 						</div>
 					</div>

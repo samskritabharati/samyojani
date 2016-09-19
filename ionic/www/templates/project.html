@@ -17,29 +17,30 @@
 
 				<div class="col3 mrgrgt5p">
 					<div class="position_relative displayflex mrg_top5px">
-						<div class="with50p">Name</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Name</div>
+						<div class="with80p reswith70p">
 							<span>{{project.Name}}</span>
 						</div>
 					</div>
 					<div class="position_relative displayflex mrg_top5px">
-						<div class="with50p">Date</div>
-						<div class="with50p">
-							<span>{{project.End_date | date}}</span>
+						<div class="with20p reswith30p">Date</div>
+						<div class="with80p reswith70p">
+							<span ng-if="project.Start_date">{{project.Start_date | date}}</span> 
+							<span ng-if="project.End_date">to {{project.End_date | date}}</span>
 						</div>
 					</div>
 				</div>
 
 				<div class="col3 mrgrgt5p">
 					<div class="position_relative displayflex mrg_top5px" ng-if="(project.Email)">
-						<div class="with50p">Email</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Email</div>
+						<div class="with80p reswith70p">
 							<span>{{project.Email}}</span>
 						</div>
 					</div>
 					<div class="position_relative displayflex mrg_top5px">
-						<div class="with50p">Adress</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Adress</div>
+						<div class="with80p reswith70p">
 							<span>		
 								<address ng-click="vm.openMap(activity.allActivity.Address)"  
 								parameter="project.Address"></address>
@@ -50,8 +51,8 @@
 
 				<div class="col3 mrgrgt5p resbtmborder">
 					<div class="position_relative displayflex mrg_top5px" ng-if="(project.Phone)">
-						<div class="with50p">Phone</div>
-						<div class="with50p">
+						<div class="with20p reswith30p">Phone</div>
+						<div class="with80p reswith70p">
 							<span>{{project.Phone}}</span>
 						</div>
 					</div>
