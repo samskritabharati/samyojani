@@ -292,9 +292,9 @@ angular
 .module('starter')
 .controller('addActivityController', addActivityController);
 
-addActivityController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService','activityService', '$localStorage','$ionicHistory','$filter'];
+addActivityController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService','activityService', '$localStorage','$ionicHistory','projectService'];
 
-function addActivityController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, activityService, $localStorage, $ionicHistory,$filter) {
+function addActivityController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, activityService, $localStorage, $ionicHistory,projectService) {
   var vm = this;
 
   vm.closeModel = closeModel;
@@ -310,6 +310,7 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
   recurrenceList();
   daysList();
   getCountry();
+  projectList();
 
   vm.showSpinner = true;
 
@@ -383,5 +384,12 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
       console.log(error);
     })
   } 
+
+  function projectList(){
+    projectService.getAllProject().then(function(project){
+            vm.projectList = project.data;
+            console.log("vm.projectList",vm.projectList);
+        })
+  }
 
 }

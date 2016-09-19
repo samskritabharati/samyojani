@@ -1,0 +1,144 @@
+<ion-modal-view class="signupmodel">										
+				<ion-header-bar class="bar bar-header button-clear">
+					<div class="text_align_center with100p">
+						<span class="btmborder padding5px orangeText font_size_20px boldtext">Edit Activity</span>
+						<button class="button  button-light float_right background_transparent mrgrgt5p resmrg_right10p" ng-click="vm.closeModel()">
+							<span class="ion-android-cancel orangeText font_size_20px"></span>
+						</button>
+					</div>
+				</ion-header-bar>
+				<ion-content  overflow-scroll = "true" style="top:0">
+
+					<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+
+					<div class="mrg25px">
+
+						<div class="row mrg_top5px">
+							<div class="col">	Name
+								<input type="text" ng-model="vm.editActivity.Name" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Phone
+								<input type="text" ng-model="vm.editActivity.Phone" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col ">	Email
+								<input type="text" ng-model="vm.editActivity.Email" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Start Date
+								<!-- <input type="text" ng-model="vm.editActivity.Start_date" class="with100p btmborder" 
+								ui-date="{dateFormat: 'dd-mm-yy' }"> -->
+								 <input class="btmborder with100p bordernone" 
+								value="{{vm.editActivity.Start_date | date: 'dd-mm-yy'}}"  ui-date="{ dateFormat: 'dd-mm-yy' }"/> 
+                   <!--  <input id="datepicker" type="text" data-ng-datepicker data-ng-options="datepickerOptions"
+                    ng-model="vm.editActivity.Start_date"> -->
+							</div>
+						</div>
+
+				<div class="row mrg_top5px">
+							<div class="col">	End Date
+								<input type="text" value="{{vm.editActivity.End_date | date: 'dd-mm-yy'}}" class="with100p btmborder bordernone" ui-date="{ dateFormat: 'dd-mm-yy' }"/>
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Start Time
+								<!-- <input type="text" ng-model="vm.editActivity.Start_time" class="with100p btmborder" > -->
+								<time-picker ng-model="vm.editActivity.Start_time"></time-picker>  
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	End Time
+								<!-- <input type="text" ng-model="vm.editActivity.End_time" class="with100p btmborder"> -->
+								<time-picker ng-model="vm.editActivity.End_time"></time-picker> 
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Recurrence
+								<!-- <input type="text" ng-model="vm.editActivity.Recurrence" class="with100p btmborder"> -->
+								 <select  name="recurrence" ng-model="vm.editActivity.Recurrence" ng-options="v for v in vm.recurrenceList.data" class="bordernone with100p btmborder bordernone padding6px" required>
+                        <option value="" disabled selected="selected" style="display: none;">{{vm.newActivity.Recurrence}}</option>
+                    </select> 
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col ">	URL
+								<input type="text" ng-model="vm.editActivity.URL" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Activity Type
+								<select  ng-model="vm.editActivity.Activity_type" ng-options="v for v in vm.activityList" class="bordernone with100p btmborder padding5px ">
+									<optgroup style="border: 1px solid red"><option value="" disabled selected="selected" style="display: none;">{{vm.editActivity.Activity_type}}</option></optgroup> 
+								</select>
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Project
+								<select  ng-model="vm.editActivity.Project_url" ng-options="v._url as v.Name for v in vm.projectList" class="bordernone with100p btmborder padding5px">
+
+								</select> 
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Address Line1
+								<input type="text" ng-model="vm.editActivity.Address.Address_line1" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Address Line2
+								<input type="text" ng-model="vm.editActivity.Address.Address_line2" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	City
+								<input type="text" ng-model="vm.editActivity.Address.City" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">District
+								<input type="text" ng-model="vm.editActivity.Address.District" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">State	
+								<input type="text" ng-model="vm.editActivity.Address.State" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">Country
+								<input type="text" ng-model="vm.editActivity.Address.Country" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Postal Code
+								<input type="text" ng-model="vm.editActivity.Address.Postal_code" class="with100p btmborder">
+							</div>
+						</div>
+						<div class="row mrg_top5px">
+							<div class="text_align_center col valuetabletd">
+								<button class="button themBackgroundColor text_white" ng-click="vm.saveUpdatedActivityDetail(vm.editActivity)" type="submit">Update </button>
+							</div>
+						</div>
+					</div>
+				</ion-content>
+			</ion-modal-view>

@@ -76,18 +76,22 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
             if(!criteria.country){
                 criteria.country =''
             }
+            if(!criteria.city){
+                criteria.city =''
+            }
             userInfoService.searchForUser(criteria).then(function(userDetail){
                 vm.showSearchCount = true;
                 vm.user = userDetail;
                 $scope.currentPage = 1;
                 $scope.totalItems = userDetail.data.length;
-                $scope.entryLimit = 5; 
+                $scope.entryLimit = 10; 
                 $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
 
                 $scope.$watch('search', function (newVal, oldVal) {
 
                     $scope.filtered = filterFilter(vm.user.data, newVal);
                     $scope.totalItems = $scope.filtered.length;
+                    console.log("filtered",$scope.totalItems)
                     $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
                     $scope.currentPage = 1;
                     vm.showSpinner = false;

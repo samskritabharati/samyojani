@@ -250,7 +250,7 @@ function userInfoService($http, $q, constantsService) {
         console.log(searchCriteria.Role);
         $http({
             method : 'GET',
-            url : constantsService.url+'/users?Name='+searchCriteria.name+'&Email='+searchCriteria.email+'&Phone='+searchCriteria.phone+'&Role='+searchCriteria.role+'&State='+searchCriteria.state+'&Country='+searchCriteria.country+'&AddressString='+searchCriteria.address
+            url : constantsService.url+'/users?Name='+searchCriteria.name+'&Email='+searchCriteria.email+'&Phone='+searchCriteria.phone+'&Role='+searchCriteria.role+'&State='+searchCriteria.state+'&Country='+searchCriteria.country+'&City='+searchCriteria.city+'&AddressString='+searchCriteria.address
         }).then(function(data){
             deferred.resolve(data);
         }, function(error){
