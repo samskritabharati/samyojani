@@ -198,29 +198,56 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
         vm.userExit = false;
        /* var newDetail = [];
         newDetail = userDetail*/
-        userAuthenticationService.emailauthentication(userDetail.Email).then(function(userData){
-            if(userData.data.length > 0){
-                vm.userExit = true;
-                $timeout(function () { vm.userExit = false; }, 1000); 
-            }else{
-                var newDetail = {
-                     Name: userDetail.Name,
-                    Email: userDetail.Email,
-                    Phone: userDetail.Phone,
-                    Role : userDetail.Role
+        if(userDetail.Email){
+            userAuthenticationService.emailauthentication(userDetail.Email).then(function(userData){
+                if(userData.data.length > 0){
+                    vm.userExit = true;
+                    $timeout(function () { vm.userExit = false; }, 1000); 
+                }else{
+                        var newDetail = {
+                            Name: userDetail.Name,
+                            Email: userDetail.Email,
+                            Phone: userDetail.Phone,
+                            Role : userDetail.Role
+                        }
+                    
+                    userInfoService.addNewUser(newDetail).then(function(data){
+                        vm.useraddSpinner = false;
+                        vm.userAdded = true;
+                        $timeout(function () { vm.userAdded = false; }, 1000); 
+
+                    },function(error){
+                        console.log('error');
+                    });
                 }
-                userInfoService.addNewUser(newDetail).then(function(data){
-                    vm.useraddSpinner = false;
-                    vm.userAdded = true;
-                    $timeout(function () { vm.userAdded = false; }, 1000); 
 
-                },function(error){
-                    console.log('error');
-                });
+            })
+        }else{
+            if(userDetail.Phone){
+                userAuthenticationService.phoneauthentication(userDetail.Phone).then(function(userData){
+                    if(userData.data.length > 0){
+                        vm.userExit = true;
+                        $timeout(function () { vm.userExit = false; }, 1000); 
+                    }else{
+                        var newDetail = {
+                            Name: userDetail.Name,
+                            Email: userDetail.Email,
+                            Phone: userDetail.Phone,
+                            Role : userDetail.Role
+                        }
+                        userInfoService.addNewUser(newDetail).then(function(data){
+                            vm.useraddSpinner = false;
+                            vm.userAdded = true;
+                            $timeout(function () { vm.userAdded = false; }, 1000); 
+
+                        },function(error){
+                            console.log('error');
+                        });
+                    }
+            
+                })
             }
-
-        })
-
+        }
     }
 
     function detailAboutUser(user){

@@ -301,40 +301,46 @@
 				<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
 
 				<div class="mrg25px">
-					<div class="row mrg_top5px">
-						<div class="col">	Name
-							<input type="text" ng-model="vm.NewUserData.Name" class="with100p btmborder">
+				 	<form name="newUserForm">
+						<div class="row mrg_top5px">
+							<div class="col">	Name
+								<input type="text" ng-model="vm.NewUserData.Name" class="with100p btmborder">
+							</div>
 						</div>
-					</div>
 
-					<div class="row mrg_top5px">
-						<div class="col">	Email
-							<input type="text" ng-model="vm.NewUserData.Email" class="with100p btmborder">
+						<div class="row mrg_top5px">
+							<div class="col">	Email
+								<input type="email" ng-model="vm.NewUserData.Email" class="with100p btmborder" 
+								ng-required="!(vm.NewUserData.Email ||vm.NewUserData.Phone)" >
+							</div>
 						</div>
-					</div>
 
-					<div class="row mrg_top5px">
-						<div class="col">	Phone
-							<input type="text" ng-model="vm.NewUserData.Phone" class="with100p btmborder">
-						</div>
-					</div>
+						<div class="row mrg_top5px">
+							<div class="col">	Phone
+								<input type="text" ng-model="vm.NewUserData.Phone" class="with100p btmborder" 
+								name="phonenumber" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/"ng-required="!(vm.NewUserData.Email ||vm.NewUserData.Phone)"/>
+							</div>
 
-					<div class="row mrg_top5px">
-						<div class="col">	Role
-							<select  ng-model="vm.NewUserData.Role" ng-options="v for v in vm.userRole" class="bordernone with100p btmborder padding6px">
-								<option value="" disabled selected="selected" style="display: none;">Choose role</option>
-							</select>
 						</div>
-					</div>
 
-					<div class="row mrg_top5px padding0">
-						<div class="col text_align_center">
-							<button class="button themBackgroundColor text_align_center text_white" 
-							ng-click="vm.addNewUser(vm.NewUserData)" type="submit">Add </button>
+						<div class="row mrg_top5px">
+							<div class="col">	Role
+								<select  ng-model="vm.NewUserData.Role" ng-options="v for v in vm.userRole" class="bordernone with100p btmborder padding6px">
+									<option value="" disabled selected="selected" style="display: none;">Choose role</option>
+								</select>
+							</div>
 						</div>
-					</div>
-					<div ng-show="vm.userAdded" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">User added</div>
-					<div ng-show="vm.userExit" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">User already enroled</div>
+
+						<div class="row mrg_top5px padding0">
+							<div class="col text_align_center">
+								<button class="button themBackgroundColor text_align_center text_white" 
+								ng-click="vm.addNewUser(vm.NewUserData)" type="submit" ng-disabled="!newUserForm.$valid">Add </button>
+							</div>
+						</div>
+						<div class="text_align_center font_size_15px orangeText">Email or Phone number is required</div>
+						<div ng-show="vm.userAdded" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">User added</div>
+						<div ng-show="vm.userExit" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">User already enroled</div>
+					</form>
 				</div>
 
 			</ion-content>
