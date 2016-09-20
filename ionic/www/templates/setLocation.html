@@ -5,7 +5,7 @@
 	</div> -->
 
 	<ion-content class="has-header"  overflow-scroll = "true">
-	<div>
+<!-- 	<div>
             Country:
             <select id="country" ng-model="statessource" ng-options="country for (country, states) in countries"
                 ng-change="GetSelectedCountry()">
@@ -27,6 +27,52 @@
                 <option ng-repeat="city in citiessource" value='{{city}}'>{{city}}</option>
             </select>
         </div>
-        
+        {{citiessource}}
+       
+        {{city}} -->
+
+       <div>
+            Country:
+            <select id="country" ng-model="statessource" ng-options="country for (country, states) in countries"
+                ng-change="GetSelectedCountry()">
+                <option value=''>Select</option>
+            </select>
+        </div>
+        <div style='height: 15px;'>
+            &nbsp;</div>
+        <div>
+            States:<select id="state" ng-disabled="!statessource" ng-model="citiessource" ng-options="state for (state,city) in statessource"
+                ng-change="GetSelectedState()"><option value=''>Select</option>
+            </select>
+        </div>
+        <div style='height: 15px;'>
+            &nbsp;</div>
+        <div>
+            City:<select id="city" ng-disabled="!citiessource || !statessource" ng-model="city"><option value=''>
+                Select</option>
+                <option ng-repeat="city in citiessource" value='{{city}}'>{{city}}</option>
+            </select>
+        </div>
+        <div style='height: 15px;'>
+            &nbsp;</div>
+        <div>
+            <span>Selected Country: </span>
+            <label>
+                {{statessource}}</label>
+        </div>
+        <div style='height: 15px;'>
+            &nbsp;</div>
+        <div>
+            <span>Selected State: </span>
+            <label>
+                {{strState  | json}}</label>
+        </div>
+        <div style='height: 15px;'>
+            &nbsp;</div>
+        <div>
+            <span>Selected City: </span>
+            <label>
+                {{city}}</label>
+        </div>
 	</ion-content>
 </ion-view>

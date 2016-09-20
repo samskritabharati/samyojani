@@ -29,7 +29,9 @@ function setLocationController($scope, $state, $localStorage,$ionicHistory,$root
                 }
             };
             $scope.GetSelectedCountry = function () {
-                $scope.strCountry = document.getElementById("country").value;
+               
+                $scope.strCountry = document.getElementById("country").innerHTML;
+                console.log(JSON.stringify($scope.strCountry));
             };
             $scope.GetSelectedState = function () {
                 $scope.strState = document.getElementById("state").value;
