@@ -10,7 +10,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     vm.signInWithEmail = signInWithEmail;
     vm.signInWithFacebook = signInWithFacebook;
     vm.popupForEmailLogin =  popupForEmailLogin;
-     vm.popupForPhoneLogin =  popupForPhoneLogin;
+    vm.popupForPhoneLogin =  popupForPhoneLogin;
     vm.closeModel =  closeModel;
     vm.newSignInWithEmail = newSignInWithEmail;
     vm.signInWithGoogle = signInWithGoogle;
@@ -80,9 +80,6 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     }
 
     function signInWithEmail(){
-        
-        console.log("vm.email",vm.email);
-        /*$scope.modal.hide();*/
         if(vm.email){
             vm.showSpinner = true;
             userAuthenticationService.emailauthentication(vm.email).then(function(userData){
@@ -91,21 +88,14 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
                     routingTONextPage(userData,vm.email);
                 }else{
 
-                     $ionicModal.fromTemplateUrl('EnterPhonepopup.html', {
-                                scope: $scope,
-                            }).then(function(modal) {
-                                $scope.modal = modal;
-                                vm.showSpinner = false;
-                                $scope.modal.show();
+                    $ionicModal.fromTemplateUrl('EnterPhonepopup.html', {
+                        scope: $scope,
+                    }).then(function(modal) {
+                        $scope.modal = modal;
+                        vm.showSpinner = false;
+                        $scope.modal.show();
 
-                            });
-
-
-                     /*userAuthenticationService.phoneauthentication(vm.email).then(function(userData){
-
-                     })
-                    $rootScope.email = vm.email;
-                    newSignInWithEmail();*/
+                    });
                 }
 
             },function(error){
@@ -120,7 +110,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
         $("#emailSigninPopUp").slideToggle(600);
     }
 
-function popupForPhoneLogin(){
+    function popupForPhoneLogin(){
         $("#phonetogglediv").slideToggle(600);
     }
 
@@ -137,7 +127,6 @@ function popupForPhoneLogin(){
     }
 
     function newDirectSignUp (){
-        /* $scope.modal.hide();*/
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
@@ -146,19 +135,14 @@ function popupForPhoneLogin(){
 
 
     function routingTONextPage(userData,email){
-        console.log("caallll")
         vm.showSpinner = true;
-      
-        
         if(userData.data[0].Email == null || userData.data[0].Name == null || userData.data[0].Phone == null  || userData.data[0].Address.Postal_code == null){
-           console.log("emailemail",email);
             $localStorage.update = email;
-            console.log("$localStorage.update", $localStorage.update);
-        vm.showSpinner = false;
-        $ionicHistory.nextViewOptions({
-            disableBack: true
-        });
-        $state.go('app.signUp');
+            vm.showSpinner = false;
+            $ionicHistory.nextViewOptions({
+                disableBack: true
+            });
+            $state.go('app.signUp');
         }else{
             if($rootScope.fbResponse.length > 0) {
                 if(!(userData.data[0].Facebook_id)){
@@ -180,10 +164,10 @@ function popupForPhoneLogin(){
                 $state.go('app.student');
             }else{
                 if(userData.data[0].Role == null){
-                            $state.go('app.student');
-                    }else{
-                        $state.go('app.organizer');
-                    }
+                    $state.go('app.student');
+                }else{
+                    $state.go('app.organizer');
+                }
             }
         }
     }
@@ -193,16 +177,19 @@ function popupForPhoneLogin(){
         gapi.signin.render('signInButton',
         {
             'callback': $scope.signInCallback, 
+            'immediate': false,
             'clientid': constantsService.googleId, 
             'requestvisibleactions': 'http://schemas.google.com/AddActivity', 
             'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
-            'cookiepolicy': 'single_host_origin'
+            'cookiepolicy': 'single_host_origin',
+
         }
         );
     }
 
 
     $scope.signInCallback = function(authResult) {
+        console.log("cal back",authResult);
         $scope.$apply(function() {
             if(authResult['access_token']) {
                 $scope.signedIn = true;
@@ -210,7 +197,8 @@ function popupForPhoneLogin(){
                 {
                     'path':'/plus/v1/people/me',
                     'method':'GET',
-                    'callback': $scope.userInfoCallback
+                    'immediate': false,
+                    'callback': $scope.userInfoCallback,
                 }
                 );
 
@@ -223,8 +211,6 @@ function popupForPhoneLogin(){
 
     $scope.userInfoCallback = function(userInfo) {
         $rootScope.googleInfo = [];
-
-
         userAuthenticationService.emailauthentication(userInfo.emails[0].value).then(function(userData){
             if(userData.data.length != 0){
                 routingTONextPage(userData,userInfo.emails[0].value);
@@ -242,52 +228,27 @@ function popupForPhoneLogin(){
         });
     };
 
-function signInWithPhoneNumber(){
-     $scope.modal.hide();
-     signInWithPhone();
-}
+    function signInWithPhoneNumber(){
+        $scope.modal.hide();
+        signInWithPhone();
+    }
     function signInWithPhone(){
-        console.log("vn.phone",vm.phone);
-        console.log("vn.email",vm.email)
         if(vm.phone){
-           
             $rootScope.userPhone = vm.phone;
-             userAuthenticationService.phoneauthentication(vm.phone).then(function(userData){
-                
-                console.log("dddd",userData);
-                    if(userData.data.length > 0){
-                        console.log("alrdyb ext",userData);
-                        console.log("sdddddddddd",userData.data[0].Email == null);
-                        if(userData.data[0].Email == null){
-                             routingTONextPage(userData,vm.email);
-                        }else{
-
-                         routingTONextPage(userData,userData.data[0].Email);
-                        }
-
-                        /*vm.userExit = true;
-                        $timeout(function () { vm.userExit = false; }, 1000); */
+            userAuthenticationService.phoneauthentication(vm.phone).then(function(userData){
+                if(userData.data.length > 0){
+                    if(userData.data[0].Email == null){
+                        routingTONextPage(userData,vm.email);
                     }else{
-                        console.log("newuse");
-                        $rootScope.email = vm.email;
-                        newSignInWithEmail();
-                        /*var newDetail = {
-                            Name: userDetail.Name,
-                            Email: userDetail.Email,
-                            Phone: userDetail.Phone,
-                            Role : userDetail.Role
-                        }
-                        userInfoService.addNewUser(newDetail).then(function(data){
-                            vm.useraddSpinner = false;
-                            vm.userAdded = true;
-                            $timeout(function () { vm.userAdded = false; }, 1000); 
 
-                        },function(error){
-                            console.log('error');
-                        });*/
+                        routingTONextPage(userData,userData.data[0].Email);
                     }
-            
-                })
+                }else{
+                    $rootScope.email = vm.email;
+                    newSignInWithEmail();
+                }
+
+            })
         }
     }
 

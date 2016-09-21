@@ -133,16 +133,16 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
   }
 
   function deleteUserFromActivity(activityDetail){
-       userAuthenticationService.confirm('','Do You Want To Leave This Activity?','Yes','No',function(){
-    vm.showSpinner = true;
-    activityService.deletActivityFromUserList(activityDetail.participantStatus._url).then(function(data){
-      vm.participentDetailList = [];
+    userAuthenticationService.confirm('','Do You Want To Leave This Activity?','Yes','No',function(){
+      vm.showSpinner = true;
+      activityService.deletActivityFromUserList(activityDetail.participantStatus._url).then(function(data){
+        vm.participentDetailList = [];
 
-      getParticipants();
-    },function(error){
-      console.log("error in deleting userFrom activity",error);
-    })
-  },null)
+        getParticipants();
+      },function(error){
+        console.log("error in deleting userFrom activity",error);
+      })
+    },null)
   }
 
   function updateUserDetailFromActivity(perticipant){
@@ -292,16 +292,20 @@ angular
 .module('starter')
 .controller('addActivityController', addActivityController);
 
-addActivityController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService','activityService', '$localStorage','$ionicHistory','projectService'];
+addActivityController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService','activityService', '$localStorage','$ionicHistory','projectService', 'filterFilter'];
 
-function addActivityController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, activityService, $localStorage, $ionicHistory,projectService) {
+function addActivityController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, activityService, $localStorage, $ionicHistory,projectService, filterFilter) {
   var vm = this;
 
   vm.closeModel = closeModel;
   vm.addNewActivityDetail = addNewActivityDetail;
+  vm.seacrchForCoordinator = seacrchForCoordinator;
+  vm.searchUser = searchUser;
+  vm.choosedCoordinator =  choosedCoordinator;
+  vm.closeThisModel = closeThisModel;
 
   $scope.checked_days = [];
- 
+
   vm.newActivity = {
     Activity_type : 'varga',
     Recurrence : 'daily'
@@ -322,24 +326,9 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
     $state.go('app.organizer');
 
   } 
-
-/*$scope.$watch('vm.newActivity.Start_date', function (newValue) {
-  console.log('newValue',newValue);
-    
-    vm.newActivity.Start_date = $filter('date')(newValue, 'yyyy/MM/dd');
-});*/
-
-/*$scope.$watch('workerDetail.dateOfBirth', function (newValue) {
-    $scope.mydateOfBirth = $filter('date')(newValue, 'yyyy/MM/dd'); 
-});*/
-
-
   function addNewActivityDetail(newActivity){
-    newActivity.Coordinator_url = $localStorage.userInfo.data[0]._url;
     newActivity.Days = $scope.checked_days
-      console.log('newActivity',newActivity);
     activityService.addNewActivity(newActivity).then(function(detail){
-  console.log('resnewActivity',detail);
       vm.showSpinner = false;
       $ionicHistory.nextViewOptions({
         disableBack: true
@@ -387,9 +376,100 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
 
   function projectList(){
     projectService.getAllProject().then(function(project){
-            vm.projectList = project.data;
-            console.log("vm.projectList",vm.projectList);
-        })
+      vm.projectList = project.data;
+    })
+  }
+
+  function seacrchForCoordinator(){
+    $ionicModal.fromTemplateUrl('chooseCoordinator.html', {
+      scope: $scope,
+    }).then(function(modal) {
+      $scope.modal = modal;
+      vm.showSpinner = false;
+      $scope.modal.show();
+    });
+  }
+
+  function searchUser(criteria){ 
+    vm.showSpinner = true;
+    if(!criteria){
+      userInfoService.getUser().then(function(userDetail){
+        vm.showSearchCount = true;
+        vm.user = userDetail;
+        $scope.currentPage = 1;
+        $scope.totalItems = userDetail.data.length;
+        $scope.entryLimit = 5; 
+        $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+
+        $scope.$watch('search', function (newVal, oldVal) {
+          $scope.filtered = filterFilter(vm.user.data, newVal);
+          $scope.totalItems = $scope.filtered.length;
+          $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+          $scope.currentPage = 1;
+          vm.showSpinner = false;
+        }, true);
+
+      },function(error){
+        console.log("Error in updating FacebookID")
+      })
+
+    }else{
+
+      if(!criteria.name){
+        criteria.name =''
+      }
+      if(!criteria.email){
+        criteria.email =''
+      }
+      if(!criteria.phone){
+        criteria.phone =''
+      }
+      if(!criteria.address){
+        criteria.address =''
+      }
+      if(!criteria.role){
+        criteria.role =''
+      }
+      if(!criteria.city){
+        criteria.city =''
+      }
+      if(!criteria.country){
+        criteria.country =''
+      }
+      if(!criteria.city){
+        criteria.city =''
+      }
+      userInfoService.searchForUser(criteria).then(function(userDetail){
+        vm.showSearchCount = true;
+        vm.user = userDetail;
+        $scope.currentPage = 1;
+        $scope.totalItems = userDetail.data.length;
+        $scope.entryLimit = 10; 
+        $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+
+        $scope.$watch('search', function (newVal, oldVal) {
+
+          $scope.filtered = filterFilter(vm.user.data, newVal);
+          $scope.totalItems = $scope.filtered.length;
+          $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+          $scope.currentPage = 1;
+          vm.showSpinner = false;
+        }, true);
+
+      },function(error){
+        console.log("Error in updating FacebookID")
+      })
+    }
+  }
+
+  function choosedCoordinator(choosedData){
+    $scope.modal.hide();
+    vm.newActivity.Coordinator_url = choosedData._url;
+    vm.activityCo_ordinatorName = choosedData.Name;
+  }
+
+  function closeThisModel(){
+    $scope.modal.hide();
   }
 
 }

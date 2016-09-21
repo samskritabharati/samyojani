@@ -96,7 +96,7 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
 
             $scope.currentPage = 1;
             $scope.totalItems = vm.activityData.length;
-            $scope.entryLimit = 5; 
+            $scope.entryLimit = 10; 
             $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
 
             $scope.$watch('search', function (newVal, oldVal) {
