@@ -97,7 +97,7 @@ class SBRegions:
             myparent = self.mycollection.local[parent_id]
             if 'subregions' not in myparent:
                 myparent['subregions'] = {}
-            myparent['subregions'][r['Name']] = r
+            myparent['subregions'][r['Name']] = id
             #rtype = r['Praanta_type_id']
             #r.pop('Praanta_type_id')
             #r['type'] = praantatypes.get(rtype)['Name']

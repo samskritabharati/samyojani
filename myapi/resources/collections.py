@@ -70,6 +70,7 @@ attr2external = {
 
 class _SBCollection(Resource):
     schema = {}
+    schema_ext = {}
     cname = None
     key = None
     helpprefix = ''
@@ -92,8 +93,9 @@ class _SBCollection(Resource):
             if m:
                 repl_a = m.group(1) + '_url'
                 v = self.schema[a]
-                self.schema[repl_a] = v
-                self.schema.pop(a)
+                self.schema_ext[repl_a] = v
+            else:
+                self.schema_ext[a] = self.schema[a]
 
         for a in self.schema.keys():
             if a == 'Email':
@@ -167,8 +169,8 @@ class _SBCollection(Resource):
         if 'Parent_praanta_id' in entry and entry['Parent_praanta_id'] == '':
             entry['Parent_praanta_id'] = sbget().sbregions().root['Parent_praanta_id']
 
-        if 'Role' in entry and entry['Role'] == '':
-            entry['Role'] = 'Student'
+        #if 'Role' in entry and entry['Role'] == '':
+        #    entry['Role'] = 'Student'
 
         for f in ['Coordinator', 'Project', 'Activity', 'Person', 'Course']:
             if f + '_url' in entry:
@@ -255,7 +257,7 @@ class _SBCollection(Resource):
 
     def get(self, _id=None):
         if 'schema' in request.url_rule.rule:
-            return self.schema
+            return self.schema_ext
 
         if _id:
             print "Retrieving {} by {} ".format(self.cname,  _id)
@@ -275,7 +277,7 @@ class _SBCollection(Resource):
             offset = args['offset'] if 'offset' in args else 0
             if 'offset' in args:
                 args.pop('offset')
-            limit = args['limit'] if 'limit' in args else 25
+            limit = args['limit'] if 'limit' in args else 0
             if 'limit' in args:
                 args.pop('limit')
             fields = None
@@ -306,6 +308,7 @@ class Users(_SBCollection):
         self.schema = {
             'Email': '',
             'Name': '',
+            'Date_joined': '',
             'Phone': '',
             'Praanta_id': { 'ref' : 'regions', 'default' : '' },
             'Profession': { 'options' : Presets().get('Profession'), 'default' : 'Student' },
@@ -398,4 +401,30 @@ class Regions(_SBCollection):
     def __init__(self):
         self.cname = 'regions'
         self.helpprefix = 'The SB region\'s '
+        self.schema = {
+            'Coordinator_id': { 'ref' : 'users', 'default' : '' },
+            'Description': '',
+            'Parent_praanta_id': { 'ref' : 'regions', 'default' : '' },
+            'Praanta_type': { 'ref' : 'praanta_types', 'default' : '' },
+            'path': '',
+            'URL' : '',
+            'Name' : '',
+            }
         _SBCollection.__init__(self)
+
+class Locations(_SBCollection):
+    def __init__(self):
+        self.cname = 'locations'
+        self.helpprefix = 'The Geo location\'s '
+        self.schema = {
+            'Praanta_id': { 'ref' : 'users', 'default' : '' },
+            }
+        for f in _address_fields.keys():
+            self.schema[f] = ''
+        _SBCollection.__init__(self)
+
+    def post(self):
+        abort(403)
+
+    def put(self):
+        abort(403)
