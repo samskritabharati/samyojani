@@ -82,8 +82,8 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 		$ionicHistory.nextViewOptions({
 			disableBack: true
 		});
-
-		if($localStorage.userInfo == ""){
+$state.go('app.main');
+		/*if($localStorage.userInfo == ""){
 			$state.go('app.main');
 		}else {
 			if($localStorage.userInfo.data[0].Role == 'Student'){
@@ -95,7 +95,7 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 			if($localStorage.userInfo.data[0].Role == null){
 				$state.go('app.student');
 			}
-		}
+		}*/
 
 	} 
 
