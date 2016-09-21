@@ -4,9 +4,6 @@ from flask import Flask, Blueprint
 from flask_restful import Api
 from resources.types import *
 from resources.collections import *
-#from resources.activities import Shibiras, Vargas
-#from resources.projects import projects
-#from resources.regions import regions
 from ui import ui_bp
 
 app = Flask(__name__)
@@ -25,6 +22,7 @@ api.add_resource(Regions, '/regions/schema', '/regions', '/regions/<_id>')
 api.add_resource(Projects, '/projects/schema', '/projects', '/projects/<_id>')
 api.add_resource(Roles, '/roles/schema', '/roles', '/roles/<_id>')
 api.add_resource(WishList, '/wishlist/schema', '/wishlist', '/wishlist/<_id>')
+api.add_resource(Locations, '/locations/schema', '/locations', '/locations/<_id>')
 
 app.register_blueprint(ui_bp, url_prefix='/ui')
 

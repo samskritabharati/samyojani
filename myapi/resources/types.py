@@ -50,6 +50,8 @@ class Presets(Resource):
         'Interests' :
             ['Learn Samskrit', 'Teach Samskrit', \
             'Volunteer for Samskrit', 'Help with Projects', \
+            'Vedic literature', 'Puraana', 'kaavya', 'Hinduism', \
+            'Philosophy', 'Stories', \
             'Other'],
         'CourseType' :
             ['Classroom', 'Virtual', 'Self-paced'],
