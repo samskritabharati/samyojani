@@ -101,13 +101,14 @@
 		<div ng-if="vm.showSearchCount">
 			<span class="padding10 line_height3 verticalalignmiddle orangeText">Found {{vm.user.data.length}} results</span>
 			<button class="button themBackgroundColor  text_white float_right bordernone mrgrgt10" 
-			ng-click="vm.routingTOMapView(vm.user.data)">Map View</button>
+			ng-click="vm.routingTOMapView({{vm.user.data | filter: vm.searchKeywordForUser 
+		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit}})">Map View</button>
 		</div>
 
 
 
-		<div  ng-repeat="user in filtered = vm.user.data | filter: vm.searchKeywordForUser 
-		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+		<div  ng-repeat="user in (filtered = vm.user.data | filter: vm.searchKeywordForUser 
+		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit)">
 
 
 		<div class="padding10">

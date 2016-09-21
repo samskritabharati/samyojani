@@ -11,14 +11,19 @@
                         <span class="ion-social-facebook font_size_20px">&nbsp</span> Sign In With Facebook
                     </button>
                 </div>
-            </div>
-            <div class="row row-no-padding">
+            </div> 
+            <div class="row row-no-padding" ng-click="vm.signInWithGoogle()">
                 <div class="col">
-                    <button class="button button-block  googleColor text_white" id="signInButton" ng-click="vm.signInWithGoogle()">  <span class="ion-social-googleplus font_size_20px">&nbsp</span>Sign In With Google       
+                  <span id="googleSignIn">
+            <div class="button button-block googleColor text_white" id="signInButton">
+            <span class="ion-social-googleplus font_size_20px">&nbsp</span>Sign In With Email
+            </div>
+        </span>
+                   <!--  <button class="button button-block  googleColor text_white" id="signInButton" ng-click="vm.signInWithGoogle()">  <span class="ion-social-googleplus font_size_20px">&nbsp</span>Sign In With Google       
                         <span id="googleSignIn" >
                         </span>
                     </button>
-
+ -->
                 </div>
             </div>
             <div class="font_size_20px">---------- OR ----------</div> 
@@ -36,7 +41,14 @@
                 </div>
             </div> 
         </div>
-
+<!-- <script type="text/javascript">
+    (function() {
+                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                po.src = 'https://apis.google.com/js/client:plusone.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
+ 
+</script> -->
         <div id="emailSigninPopUp" class="displayNone">
             <form class="padding_top10px mrglftrt20px" name="loginForm">
                 <div class="list list-inset mrgtopbtm20px">
@@ -121,7 +133,7 @@
                     <form class="margin0auto width90p" name="phonenumberloginForm">
                         <div class="list list-inset">
                             <label class="item item-input border_color_orange">
-                                <i class="icon ion-android-mail placeholder-icon"></i>
+                                <i class="icon ion-ios-telephone placeholder-icon"></i>
                                 <input type="text" ng-model="vm.phone" placeholder="Enter Your Phone number " name="phonenumber" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" required/>
                                 <div ng-messages="phonenumberloginForm.phonenumber.$error" ng-show="phonenumberloginForm.phonenumber.$touched">
                                     <div ng-message="required">
@@ -184,7 +196,7 @@
               <form class="padding_top10px mrglftrt20px" name="phonenumberloginForm">
                         <div class="list list-inset">
                             <label class="item item-input border_color_orange">
-                                <i class="icon ion-android-mail placeholder-icon"></i>
+                                <i class="icon ion-ios-telephone placeholder-icon"></i>
                                 <input type="text" ng-model="vm.phone" placeholder="Enter Your Phone number " name="phonenumber" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" required/>
                                 <div ng-messages="phonenumberloginForm.phonenumber.$error" ng-show="phonenumberloginForm.phonenumber.$touched">
                                     <div ng-message="required">

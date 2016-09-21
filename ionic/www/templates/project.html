@@ -1,5 +1,7 @@
 <ion-view>
-
+	<div class="bar bar-subheader floatingHeader background_transparent" style="top:7%">
+		<span   class="ion-plus-circled floatingbtn font_size_30px orangeText" ng-click="vm.formForNewProject()"></span>
+	</div>
 	<ion-content class="has-header"   overflow-scroll = "true">
 		<div   class="boldtext font_size_20px orangeText text_align_center headerTextMrg ">
 			<span class="btmborder padding5px">Project List</span>
@@ -13,54 +15,234 @@
 
 		<div  ng-repeat="project in filtered = vm.projectList | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
 			<div class="padding10">
-			<div class ="row valuetabletd  btmborder">
+				<div class ="row valuetabletd  btmborder">
 
-				<div class="col3 mrgrgt5p">
-					<div class="position_relative displayflex mrg_top5px">
-						<div class="with20p reswith30p">Name</div>
-						<div class="with80p reswith70p">
-							<span>{{project.Name}}</span>
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with20p reswith30p">Name</div>
+							<div class="with80p reswith70p">
+								<span>{{project.Name}}</span>
+							</div>
+						</div>
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with20p reswith30p">Date</div>
+							<div class="with80p reswith70p">
+								<span ng-if="project.Start_date">{{project.Start_date | date}}</span> 
+								<span ng-if="project.End_date">to {{project.End_date | date}}</span>
+							</div>
+						</div>
+						<div class="position_relative displayflex mrg_top5px" ng-if="(project.Phone)">
+							<div class="with20p reswith30p">Phone</div>
+							<div class="with80p reswith70p">
+								<span>{{project.Phone}}</span>
+							</div>
 						</div>
 					</div>
-					<div class="position_relative displayflex mrg_top5px">
-						<div class="with20p reswith30p">Date</div>
-						<div class="with80p reswith70p">
-							<span ng-if="project.Start_date">{{project.Start_date | date}}</span> 
-							<span ng-if="project.End_date">to {{project.End_date | date}}</span>
+
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px" ng-if="(project.Email)">
+							<div class="with20p reswith30p">Email</div>
+							<div class="with80p reswith70p">
+								<span>{{project.Email}}</span>
+							</div>
+						</div>
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with20p reswith30p">Adress</div>
+							<div class="with80p reswith70p">
+								<span>		
+									<address ng-click="vm.openMap(project.Address)"  
+									parameter="project.Address"></address>
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col3 mrgrgt5p resbtmborder">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with100p">
+								<!-- <span ng-click="vm.detailAboutActivity(activity)" class="ion-share font_size_30px mrgrgt20 orangeText"></span> -->
+
+<!-- <span ng-if='(activity.Phone)'>
+<a  href="tel:{{activity.Phone}}" class="ion-ios-telephone font_size_30px mrgrgt20 orangeText "></a>
+</span>
+<span ng-if='(activity.Email)'>
+<a href="mailto:{{activity.Email}}" class="ion-email font_size_30px mrgrgt20 orangeText "></a>
+</span> -->
+<span ng-click="vm.formForEditProject(project)">
+	<span  class="ion-edit font_size_30px mrgrgt20 orangeText"></span> 
+</span>
+<span ng-click="vm.deleteProject(project._url)">
+	<span  class="ion-trash-a font_size_30px mrgrgt20 orangeText"></span>
+</span>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<div class="display_inlineflex margin0auto with100p"><pagination  ng-model="currentPage" total-items="vm.projectList.length" max-size="noOfPages"  boundary-links="true" items-per-page="entryLimit"> </pagination></div>
+
+
+
+<script id="chooseCoordinator.html" type="text/ng-template">
+	<ion-modal-view>                                        
+		<ion-header-bar class="bar bar-header button-clear">
+			<div class="text_align_center with100p">
+				<span class="btmborder padding5px orangeText font_size_20px boldtext">Search For User</span>
+				<button class="button  button-light float_right background_transparent mrgrgt5p resmrg_right10p" ng-click="vm.closeModel()">
+					<span class="ion-android-cancel orangeText font_size_20px"></span>
+				</button>
+			</div>
+		</ion-header-bar>
+		<ion-content  overflow-scroll = "true" >
+
+			<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span></div>
+			<div class="padding10">
+				<div class ="row padding0">
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with50p">Name</div>
+							<div class="with50p">
+								<span> <input type="text" ng-model="vm.search.name" class="btmborder with100p" /></span>
+							</div>
+						</div>
+					</div>
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with50p">Email</div>
+							<div class="with50p">
+								<span> <input type="text" ng-model="vm.search.email" class="btmborder with100p" /></span>
+							</div>
+						</div>
+					</div>
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with50p">Phone</div>
+							<div class="with50p">
+								<span><input type="text" ng-model="vm.search.phone" class="btmborder with100p" /></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class ="row padding0">
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with50p">Role</div>
+							<div class="with50p">
+								<span>  <select  ng-model="vm.search.role" ng-options="v for v in vm.userRole" class="bordernone with100p btmborder padding5px"></select></span>
+							</div>
+						</div>
+					</div>
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with50p">Country</div>
+							<div class="with50p">
+								<span> <input type="text" ng-model="vm.search.country" class="btmborder with100p" /></span>
+							</div>
+						</div>
+					</div>
+					<div class="col3 mrgrgt5p resmrgbtm10">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with50p">State</div>
+							<div class="with50p">
+								<span><input type="text" ng-model="vm.search.state" class="btmborder with100p" /></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class ="row padding0">
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with50p">City</div>
+							<div class="with50p">
+								<span>  <input type="text" ng-model="vm.search.city" class="btmborder with100p" /></span>
+							</div>
+						</div>
+					</div>
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+
+						</div>
+					</div>
+					<div class="col3 mrgrgt5p resmrgbtm10">
+						<div class="position_relative displayflex mrg_top5px">
+
 						</div>
 					</div>
 				</div>
 
-				<div class="col3 mrgrgt5p">
-					<div class="position_relative displayflex mrg_top5px" ng-if="(project.Email)">
-						<div class="with20p reswith30p">Email</div>
-						<div class="with80p reswith70p">
-							<span>{{project.Email}}</span>
+				<div class ="row padding0 mrg_top10px">
+					<div class="col text_align_center btmborder">
+						<button class="button   themBackgroundColor text_white" 
+						ng-click="vm.searchUser(vm.search)"
+						>Search</button>
+					</div>
+				</div>
+			</div>
+			<div  ng-repeat="user in filtered = vm.user.data | filter: vm.searchKeywordForUser 
+			| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+
+
+			<div class="padding10">
+
+				<div class ="row padding0 btmborder">
+					<div class="col3 padding5px">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with30p reswith30p">Name</div>
+							<div class="with70p reswith70p">
+								<span> {{user.Name }}</span>
+							</div>
+						</div>
+						<div class="position_relative displayflex mrg_top5px" ng-if="(user.Phone)">
+							<div class="with30p reswith30p">Phone</div>
+							<div class="with70p reswith70p">
+								<span> {{user.Phone }}</span>
+							</div>
+						</div>
+						<div class="position_relative displayflex mrg_top5px" ng-if="(user.Email)">
+							<div class="with30p reswith30p">Email</div>
+							<div class="with70p reswith70p">
+								<span> {{user.Email }}</span>
+							</div>
+						</div>
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with30p reswith30p">Address</div>
+							<div class="with70p reswith70p">
+								<span> <address vm.openMap(user.Address) parameter="user.Address"></address></span>
+							</div>
 						</div>
 					</div>
-					<div class="position_relative displayflex mrg_top5px">
-						<div class="with20p reswith30p">Adress</div>
-						<div class="with80p reswith70p">
-							<span>		
-								<address ng-click="vm.openMap(activity.allActivity.Address)"  
-								parameter="project.Address"></address>
-							</span>
+					<div class="col3 padding5px">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with30p reswith30p">Role</div>
+							<div class="with70p reswith70p">
+								<span> {{user.Role}}</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col3 padding5px resmrg_top5p resbtmborder">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with100p">
+								<span>
+									<button ng-click="vm.choosedCoordinator(user)" class="button themBackgroundColor text_white float_right">Select</button>
+								</span>
+
+
+							</div>
+
 						</div>
 					</div>
 				</div>
-
-				<div class="col3 mrgrgt5p resbtmborder">
-					<div class="position_relative displayflex mrg_top5px" ng-if="(project.Phone)">
-						<div class="with20p reswith30p">Phone</div>
-						<div class="with80p reswith70p">
-							<span>{{project.Phone}}</span>
-						</div>
-					</div>
-				</div>
-
 			</div>
 		</div>
-		</div>
-		<div class="display_inlineflex margin0auto with100p"><pagination  ng-model="currentPage" total-items="vm.projectList.length" max-size="noOfPages"  boundary-links="true" items-per-page="entryLimit"> </pagination></div>
+		<div class="display_inlineflex margin0auto with100p"><pagination  ng-model="currentPage" total-items="vm.user.data.length" max-size="noOfPages"  boundary-links="true" items-per-page="entryLimit">
+		</pagination></div>
+
 	</ion-content>
+</ion-modal-view>
+</script>
+
+</ion-content>
 </ion-view>

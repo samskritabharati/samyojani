@@ -22,7 +22,7 @@
 				<div class="col"> Co-ordinator Name                    
 					<div class="item item-input btmborder bordernone padding0">
 						<input type="Name" ng-model="vm.coordinatorName" name="coordinateName" class="bordernone background_transparent" ng-disabled = true required/>
-						<button ng-click="vm.seacrchForCoordinator()" class="button themBackgroundColor text_white">Choose</button>
+						<span ng-click="vm.seacrchForCoordinator()" class="ion-search orangeText font_size_30px"></span>
 
 					</div>
 
@@ -44,14 +44,15 @@
 				<div class="col">	Start Date
 
 					<input class="btmborder with100p bordernone" 
-					value="{{vm.editActivity.Start_date | date: 'dd-mm-yy'}}"  ui-date="{ dateFormat: 'dd-mm-yy' }"/> 
+					ng-model="vm.editActivity.Start_date"  ui-date="{ dateFormat: 'dd-mm-yy' }"/> 
 
 				</div>
 			</div>
 
 			<div class="row mrg_top5px">
 				<div class="col">	End Date
-					<input type="text" value="{{vm.editActivity.End_date | date: 'dd-mm-yy'}}" class="with100p btmborder bordernone" ui-date="{ dateFormat: 'dd-mm-yy' }"/>
+					<input type="text" ng-model="vm.editActivity.End_date" class="with100p btmborder bordernone"
+					 ui-date="{ dateFormat: 'dd-mm-yy' }"/>
 				</div>
 			</div>
 
@@ -75,6 +76,17 @@
 					</select> 
 				</div>
 			</div>
+
+			<!-- <div class="row mrg_top5px">
+				<div class="col">	Daily
+					
+				        <span ng-repeat="day in vm.daysList" class="padding10">
+					      <input type='checkbox' value="{{day}}" ng-model="vm.newActivity.Days" check-list='checked_days' 
+					      ng-disabled="'daily' == vm.newActivity.Recurrence"> {{day}}<br />
+				    	</span>
+				    </div>
+			    </div>
+		    </div> -->
 
 			<div class="row mrg_top5px">
 				<div class="col ">	URL
@@ -289,7 +301,7 @@
 								<div class="position_relative displayflex mrg_top5px">
 									<div class="with100p">
 										<span>
-											<button ng-click="vm.choosedCoordinator(user)" class="button themBackgroundColor text_white">Choose as Co-ordinator</button>
+											<button ng-click="vm.choosedCoordinator(user)" class="button themBackgroundColor text_white float_right">Select</button>
 										</span>
 
 

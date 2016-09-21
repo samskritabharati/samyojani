@@ -531,3 +531,9 @@ input{
 .mrgtop025{
         margin: 0 25px 25px 25px;
 }
+.googlesignbtn{
+    width: 100%;
+    position: relative;
+    display: table;
+    background: #e26228;
+}

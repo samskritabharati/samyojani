@@ -44,7 +44,8 @@
                 <div class="col"> Co-ordinator Name*
                     <div class="item item-input btmborder bordernone padding0">
                         <input type="Name" ng-model="vm.activityCo_ordinatorName" name="coordinateName" class="bordernone background_transparent" ng-disabled = true required/>
-                        <button ng-click="vm.seacrchForCoordinator()" class="button themBackgroundColor text_white">Choose</button>
+                        <!-- <button ng-click="vm.seacrchForCoordinator()" class="button themBackgroundColor text_white">Choose</button> -->
+                        <span ng-click="vm.seacrchForCoordinator()" class="ion-search orangeText font_size_30px"></span>
                         <div ng-messages="newActivityForm.coordinateName.$error" ng-show="newActivityForm.coordinateName.$touched">
                         <div ng-message="required">
                             choose co-ordinator
@@ -71,7 +72,7 @@
 
            
            <div class="row mrg_top5px">
-                <div class="col">  Days Of Week*
+                <div class="col">  Days Of Week
                     <!-- <select  name="daysofweek" ng-model="vm.newActivity.Days" ng-options="v for v in vm.daysList" class="bordernone with100p" required>
                     </select>
                     <div ng-messages="newActivityForm.daysofweek.$error" ng-if="userForm.daysofweek.$dirty" class="text_red">
@@ -80,10 +81,11 @@
                     <!-- <select ng-model="vm.newActivity.Days" multiple class="selecttodiv with100p bordernone btmborder padding6px">
     <option ng-repeat="option in vm.daysList" value="{{option}}">{{option}}</option>
 </select> -->
-<div class="display_inlineflex with100p bordernone btmborder">
+<div class="display_inlineflex with100p bordernone btmborder"  >
 
-<span ng-repeat="day in vm.daysList" class="padding10">
-      <input type='checkbox' value="{{day}}" ng-model="vm.newActivity.Days" check-list='checked_days'> {{day}}<br />
+        <span ng-repeat="day in vm.daysList" class="padding10">
+      <input type='checkbox' value="{{day}}" ng-model="vm.newActivity.Days" check-list='checked_days' 
+      ng-disabled="'daily' == vm.newActivity.Recurrence"> {{day}}<br />
     </span>
     </div>
   
@@ -97,7 +99,7 @@
             <div class="row mrg_top5px">
                 <div class="col">  Start Date*
 <!-- <input ng-model="date" ui-date> -->
-                   <input type="text" name="startDate" ng-model="vm.newActivity.Start_date" 
+                   <input type="text"  name="startDate" ng-model="vm.newActivity.Start_date" 
                     class="btmborder with100p"  ui-date="{ dateFormat: 'dd-mm-yy' }"/>
                  
 
@@ -400,8 +402,8 @@
                 <div class="col3 padding5px resmrg_top5p resbtmborder">
                     <div class="position_relative displayflex mrg_top5px">
                         <div class="with100p">
-                            <span>
-                                <button ng-click="vm.choosedCoordinator(user)" class="button themBackgroundColor text_white">Choose as Co-ordinator</button>
+                            <span >
+                                 <button ng-click="vm.choosedCoordinator(user)" class="button themBackgroundColor float_right text_white">Select</button> 
                             </span>
                             
 

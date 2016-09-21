@@ -38,7 +38,7 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
                 vm.user = userDetail;
                 $scope.currentPage = 1;
                 $scope.totalItems = userDetail.data.length;
-                $scope.entryLimit = 5; 
+                $scope.entryLimit = 2; 
                 $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
 
                 $scope.$watch('search', function (newVal, oldVal) {
@@ -266,10 +266,11 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
     }
 
     function routingTOMapView(userData){
+        console.log("filtered",userData);
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
       /*  $state.go('app.activitymapview');*/
-         $state.go('app.activitymapview',{'activitys':userData, 'type' : 'userInfo'},{location: false, inherit: false});
-    }
+/*         $state.go('app.activitymapview',{'activitys':userData, 'type' : 'userInfo'},{location: false, inherit: false});
+*/    }
 }

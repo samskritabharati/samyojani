@@ -1,0 +1,158 @@
+<ion-view>										
+
+	<div class="bar bar-subheader background_transparent text_align_center with100p bordernone">
+		<span class="btmborder padding5px orangeText font_size_20px boldtext margin0auto">Add Project</span>
+		<button class="button  button-light float_right background_transparent mrgrgt5p resmrg_right10p" ng-click="vm.closeAddProject()">
+			<span class="ion-android-cancel orangeText font_size_20px"></span>
+		</button>
+	</div>
+	<ion-content  overflow-scroll = "true" class="has-header" > 
+
+		<div class="spinnerDiv" ng-show="vm.showSpinner"  style="height: 200%"><span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span></div>
+
+		<form class="mrg25px" name="addProjectForm">
+
+			<div class="row mrg_top5px">
+				<div class="col">	Name*
+					<input type="text" name="projectName" ng-model="vm.newProject.Name" class="with100p btmborder" required/>
+				</div>
+				<div ng-messages="addProjectForm.projectName.$error" ng-if="addProjectForm.projectName.$dirty" class="text_red">
+					<div ng-message="required"> Please enter project name</div>
+				</div>
+			</div> 
+
+
+
+
+			<div class="row mrg_top5px">
+				<div class="col"> Co-ordinator Name*
+					<div class="item item-input btmborder bordernone padding0">
+						<input type="Name" ng-model="vm.coordinatorName" name="coordinateName" class="bordernone background_transparent" ng-disabled = true required/>
+
+						<span ng-click="vm.seacrchForCoordinator()" class="ion-search orangeText font_size_30px"></span>
+						<div ng-messages="newActivityForm.coordinateName.$error" ng-show="newActivityForm.coordinateName.$touched">
+							<div ng-message="required">
+								choose co-ordinator
+							</div>
+						</div>
+
+					</div>
+
+
+				</div>
+			</div>
+
+
+			<div class="row mrg_top5px">
+				<div  class="col "> Project Type*
+					<select  ng-model="vm.newProject.Project_type" name="projecttypename" ng-options="v for v in vm.projecTypetList" class="bordernone with100p btmborder padding5px">
+						<option value="" disabled selected="selected" style="display: none;">Project Type</option>
+					</select>
+					<div ng-messages="addProjectForm.projecttypename.$error" ng-if="addProjectForm.projecttypename.$dirty" class="text_red">
+						<div ng-message="required"> Please select project type</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row mrg_top5px">
+				<div class="col">Country*
+
+					<select name="country" ng-model="vm.newProject.Address.Country" ng-options="v for v in vm.countrList.data" class=" with100p padding5px bordernone btmborder" required><option value="" disabled selected="selected" style="display: none;">Country</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row mrg_top5px">
+				<div class="col">	Postal Code*
+					<div class="item item-input btmborder bordernone padding0">
+						<input type="text" name="projectPostalcode" ng-model="vm.newProject.Address.Postal_code" class="with100p" required/>
+						<span  ng-click="vm.autoFillAddressDetail('add')" 
+						class="ion-search orangeText font_size_30px"></span>
+					</div>
+					<div ng-messages="addProjectForm.projectPostalcode.$error" ng-if="addProjectForm.projectPostalcode.$dirty" class="text_red">
+						<div ng-message="required"> Please select postal code</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row mrg_top5px">
+				<div class="col">	Address Line1*
+					<input type="text" name="projectaddressline1" ng-model="vm.newProject.Address.Address_line1" class="with100p btmborder" required/>
+				</div>
+				<div ng-messages="addProjectForm.projectaddressline1.$error" ng-if="addProjectForm.projectaddressline1.$dirty" class="text_red">
+					<div ng-message="required"> Please enter address</div>
+				</div>
+			</div>
+
+			<div class="row mrg_top5px">
+				<div class="col">	Address Line2
+					<input type="text" ng-model="vm.newProject.Address.Address_line2" class="with100p btmborder">
+				</div>
+			</div>
+
+			<div class="row mrg_top5px">
+				<div class="col">	City
+					<input type="text" ng-model="vm.newProject.Address.City" class="with100p btmborder">
+				</div>
+			</div>
+
+			<div class="row mrg_top5px">
+				<div class="col">District
+					<input type="text" ng-model="vm.newProject.Address.District" class="with100p btmborder">
+				</div>
+			</div>
+
+			<div class="row mrg_top5px">
+				<div class="col">State	
+					<input type="text" ng-model="vm.newProject.Address.State" class="with100p btmborder">
+				</div>
+			</div>
+
+
+
+			<div class="row mrg_top5px">
+				<div class="col">	Start Date 
+					{{vm.newProject.Start_date}}
+					<input type="text" id="st_date"  class="btmborder with100p" mg-model = "vm.newProject.Start_date"
+					ui-date="{dateFormat: 'dd-mm-yy' }"/> 
+
+				</div>
+			</div>
+
+			<div class="row mrg_top5px">
+				<div class="col">	End Date
+					<input type="text"  id="ed_date"  class="with100p btmborder bordernone" 
+					ui-date="{dateFormat: 'dd-mm-yy' }"/>
+				</div>
+			</div>
+
+			<div class="row mrg_top5px">
+				<div class="col">	Phone
+					<input type="text" ng-model="vm.newProject.Phone" class="with100p btmborder">
+				</div>
+			</div>
+
+			<div class="row mrg_top5px">
+				<div class="col ">	Email
+					<input type="text" ng-model="vm.newProject.Email" class="with100p btmborder">
+				</div>
+			</div>
+
+
+			<div class="row mrg_top5px">
+				<div class="col ">	URL
+					<input type="text" ng-model="vm.newProject.URL" class="with100p btmborder">
+				</div>
+				</div>
+			<div class="row mrg_top5px">
+				<div class="text_align_center col valuetabletd">
+					<button class="button themBackgroundColor text_white" ng-click="vm.addProjectDetail()"
+					type="submit" ng-disabled="addProjectForm.$invalid">Add </button>
+				</div>
+			</div>
+			<div class="orangeText text_align_center">* fields are mandatory</div>
+		</form>
+
+	</ion-content>
+</ion-view> 

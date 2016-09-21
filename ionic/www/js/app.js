@@ -147,6 +147,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
       }
     }
   })
+  .state('app.addProject', {
+    cache: false,
+    url: '/addProject',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/addProject.html',
+        controller: 'projectController as vm'
+      }
+    }
+  })
   .state('app.userDetail', {
     cache: false,
     url: '/userDetail',
@@ -222,6 +232,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
       'menuContent': {
         templateUrl: 'templates/editactivitys.html',
         controller: 'editactivitysController as vm'
+      }
+    }
+  })
+ .state('app.editproject', {
+    cache: false,
+    url: '/editproject',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/editProject.html',
+        controller: 'projectController as vm'
       }
     }
   })

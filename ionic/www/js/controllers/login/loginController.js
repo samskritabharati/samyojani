@@ -174,17 +174,29 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
     function signInWithGoogle(){
         vm.showSpinner = true;
-        gapi.signin.render('signInButton',
+         $scope.start();
+       /*gapi.signin.render('signInButton',
         {
             'callback': $scope.signInCallback, 
-            'immediate': false,
             'clientid': constantsService.googleId, 
             'requestvisibleactions': 'http://schemas.google.com/AddActivity', 
             'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
             'cookiepolicy': 'single_host_origin',
+            'immediate': false
 
         }
-        );
+        );*/
+         /*gapi.auth.authorize(
+            {
+               
+                'clientid': constantsService.googleId, 
+                'requestvisibleactions': 'http://schemas.google.com/AddActivity', 
+                'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+                'cookiepolicy': 'single_host_origin',
+                'immediate': false
+
+            },$scope.signInCallback
+        );*/
     }
 
 
@@ -197,13 +209,28 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
                 {
                     'path':'/plus/v1/people/me',
                     'method':'GET',
-                    'immediate': false,
                     'callback': $scope.userInfoCallback,
                 }
                 );
 
-            } else if(authResult['error']) {
+            } else if(authResult['error']  == "immediate_failed") {
+                console.log("eeee");
+
                 $scope.signedIn = false;
+               
+                    /*    if (authRes['status']['signed_in']) {
+                            $scope.signedIn = true;
+                gapi.client.request(
+                {
+                    'path':'/plus/v1/people/me',
+                    'method':'GET',
+                    'immediate': true,
+                    'callback': $scope.userInfoCallback,
+                }
+                );
+
+                        }*/
+              
 
             }
         });
@@ -251,6 +278,61 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
             })
         }
     }
+
+       $scope.signedIn = false;
+ 
+   
+    $scope.processAuth = function(authResult) {
+        // Do a check if authentication has been successful.
+        if(authResult['access_token']) {
+            // Successful sign in.
+            $scope.signedIn = true;
+  gapi.client.request(
+                {
+                    'path':'/plus/v1/people/me',
+                    'method':'GET',
+                    'callback': $scope.userInfoCallback,
+                }
+                );
+            //     ...
+            // Do some work [1].
+            //     ...
+        } else if(authResult['error']) {
+            // Error while signing in.
+            $scope.signedIn = false;
+ 
+            // Report error.
+        }
+    };
+ 
+    // When callback is received, we need to process authentication.
+    $scope.signInCallback = function(authResult) {
+        $scope.$apply(function() {
+            $scope.processAuth(authResult);
+        });
+    };
+ 
+    // Render the sign in button.
+    $scope.renderSignInButton = function() {
+        gapi.signin.render('signInButton',
+            {
+                'callback': $scope.signInCallback, // Function handling the callback.
+                'clientid': constantsService.googleId, // CLIENT_ID from developer console which has been explained earlier.
+                'requestvisibleactions': 'http://schemas.google.com/AddActivity', // Visible actions, scope and cookie policy wont be described now,
+                                                                                  // as their explanation is available in Google+ API Documentation.
+                'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+                'cookiepolicy': 'single_host_origin'
+            }
+        );
+    }
+ 
+    // Start function in this example only renders the sign in button.
+    $scope.start = function() {
+        $scope.renderSignInButton();
+    };
+ 
+    // Call start function on load.
+   
 
 
 }

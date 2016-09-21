@@ -11,13 +11,14 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 	vm.Activity = $state.params.editdata;
 	vm.closeModel = closeModel;
 	vm.editActivity = vm.Activity;
+	console.log("vm.editActivity",vm.editActivity);
 	vm.seacrchForCoordinator = seacrchForCoordinator;
 	vm.searchUser = searchUser;
 	vm.choosedCoordinator =  choosedCoordinator;
 	vm.closeThisModel = closeThisModel;	
-	var st_date = $filter('date')(vm.Activity.Start_date, 'MM/dd/yyyy');
+	var st_date = $filter('date')(vm.Activity.Start_date, 'M/d/yy');
 	vm.editActivity.Start_date = st_date;
-	var ed_date = $filter('date')(vm.Activity.End_date, 'MMM dd yyyy');
+	var ed_date = $filter('date')(vm.Activity.End_date, 'M/d/yy');
 	vm.editActivity.End_date = ed_date;
 	userInfoService.getAllActivity().then(function(activity){
 		vm.activityList= activity.data ;
@@ -25,6 +26,7 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 	getCoordinatorInfo();
 	projectList();
 	recurrenceList();
+	daysList();
 
 	function getCoordinatorInfo(){
 		if(vm.editActivity.Coordinator_url){
@@ -35,10 +37,8 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 				console.log('error',error);
 			});
 		}
-
-
-
 	}
+
 	function saveUpdatedActivityDetail(updatedActivity){
 		vm.showSpinner = true;
 		userInfoService.updateActivity(updatedActivity).then(function(data){
@@ -166,5 +166,14 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 	function closeThisModel(){
 		$scope.modal.hide();
 	}
+
+	function daysList(){
+	    vm.showSpinner = true;
+	    activityService.getAllDays().then(function(daysList){
+	      vm.daysList= daysList.data;
+	      console.log("ooo",vm.daysList);
+	      vm.showSpinner = false;
+	    })
+  	}
 
 }
