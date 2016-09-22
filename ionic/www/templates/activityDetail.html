@@ -94,102 +94,6 @@
 			</div>
 		</div>
 
-		<!-- <div class="btmborder">
-			<div class ="row">
-				<div class="col3">
-					<table class="with100p">
-						<tr>
-							<td class="keytd with50p">Recurrence</td>
-							<td class="valuetabletd with100p">
-								<span>{{vm.activityDetail.activity_recurrence}}</span>
-							</td>
-						</tr>
-						<tr>
-							<td class="keytd with50p">Time</td>
-							<td class="valuetabletd with100p">
-								<span ng-if="(vm.activityDetail.activity_start_date)">{{vm.activityDetail.activity_start_time}}</span>
-								<span ng-if="(vm.activityDetail.activity_end_date)">
-									to {{vm.activityDetail.activity_end_time}}</span>
-								</td>
-							</tr>
-							<tr>
-								<td class="keytd with50p">Coordinator Name</td>
-								<td class="valuetabletd with100p">
-									<span>{{vm.activityDetail.coordinator_Name}}</span>
-								</td>
-							</tr>		
-						</table>
-					</div>
-
-					<div class="col3">
-						<table class="with100p">
-							<tr ng-if="(vm.activityDetail.activity_start_date)">
-								<td class="keytd with50p">Start Date</td>
-								<td class="valuetabletd with100p">
-									<span >{{vm.activityDetail.activity_start_date  | date }}</span>
-								</td>
-							</tr>
-							<tr ng-if="(vm.activityDetail.activity_phone)">
-								<td class="keytd with50p">Phone</td>
-								<td class="valuetabletd with100p">
-									<span >{{vm.activityDetail.activity_phone}}</span>
-								</td>
-							</tr>
-							<tr ng-if="!(vm.activityDetail.activity_phone)">
-								<td class="keytd with50p">Phone</td>
-								<td class="valuetabletd with100p">
-									<span >{{vm.activityDetail.coordinator_Phone}}</span>
-								</td>
-							</tr>
-							<tr>
-								<td class="keytd with50p">Address</td>
-								<td class="valuetabletd with100p">
-									<span>
-										<span ng-if='vm.activityDetail.activity_address.Line1'>{{vm.activityDetail.activity_address.Line1}},</span>
-
-										<span ng-if='vm.activityDetail.activity_address.Line2'>{{vm.activityDetail.activity_address.Line2}},</span>
-										<span ng-if='vm.activityDetail.activity_address.City'>{{vm.activityDetail.activity_address.City}},</span>
-
-										<span ng-if="vm.activityDetail.activity_address.District">{{vm.activityDetail.activity_address.District}},</span>
-
-										<span ng-if="vm.activityDetail.activity_address.State">{{vm.activityDetail.activity_address.State}},</span>
-
-										<span ng-if="vm.activityDetail.activity_address.Country">{{vm.activityDetail.activity_address.Country}},</span> 
-
-										<span ng-if="vm.activityDetail.activity_address.Postal_code">{{vm.activityDetail.activity_address.Postal_code}}.</span>
-									</td>
-								</tr>							
-							</table>
-						</div>
-						<div class="col3">
-							<table class="with100p">
-								<tr ng-if="(vm.activityDetail.activity_end_time)">
-									<td class="keytd with50p">End Date</td>
-									<td class="valuetabletd with100p">
-										<span >{{vm.activityDetail.activity_end_time | date }}</span>
-									</td>
-								</tr>
-								<tr ng-if="(vm.activityDetail.activity_email)">
-									<td class="keytd with50p">Email</td>
-									<td class="valuetabletd with100p">
-										<span >{{vm.activityDetail.activity_email}}</span>
-									</td>
-								</tr>
-								<tr ng-if="!(vm.activityDetail.activity_email)">
-									<td class="keytd with50p">Email</td>
-									<td class="valuetabletd with100p">
-										<span >{{vm.activityDetail.coordinator_Email}}</span>
-									</td>
-								</tr>
-
-							</table>
-						</div>
-					</div>					
-				</div>
-				<div>
- -->
-					<!-- <span><div class="text_align_center font_size_20px mrg_btm10px orangeText">Participants </div>
-					</span> -->
 					<div   class="boldtext font_size_20px orangeText text_align_center headerTextMrg ">
 			<span class="btmborder padding5px">Participants</span></div>
 					<div  ng-repeat="participant in vm.participentDetailList" class="">
@@ -291,12 +195,189 @@
 
 		<script id="addPerticipantToActivity.html" type="text/ng-template">
 			<ion-modal-view>
-				<!-- <ion-header-bar>
-					<h1 class="title orangeText">Add New Participant</h1>
-					<button class="button  button-light" ng-click="vm.closeModelAndRefeshParticipant()">
-						<span class="ion-android-cancel orangeText font_size_20px"></span>
-					</button>
-				</ion-header-bar> -->
+			
+				<ion-header-bar class="bar bar-header button-clear">
+					<div class="text_align_center with100p">
+						<span class="btmborder padding5px orangeText font_size_20px boldtext">Add New Participant</span>
+						<button class="button  button-light float_right background_transparent mrgrgt5p resmrg_right10p" ng-click="vm.closeModelAndRefeshParticipant()">
+							<span class="ion-android-cancel orangeText font_size_20px"></span>
+						</button>
+					</div>
+				</ion-header-bar>
+				<ion-content class="restop0">
+					<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+
+<div class="row">
+	<div class="col text_align_center"><button class="button  themBackgroundColor text_align_center text_white" ng-click="vm.seacrchForUser()" type="submit">ExistingUser</button></div>
+	<div class="col text_align_center">
+	<button class="button  themBackgroundColor text_align_center text_white" ng-click="vm.newUser()" type="submit">New User</button>
+	</div>
+</div>
+				</ion-content>
+			</ion-modal-view>
+		</script>
+<script id="chooseUser.html" type="text/ng-template">
+	<ion-modal-view>                                        
+		<ion-header-bar class="bar bar-header button-clear">
+			<div class="text_align_center with100p">
+				<span class="btmborder padding5px orangeText font_size_20px boldtext">Search For User</span>
+				<button class="button  button-light float_right background_transparent mrgrgt5p resmrg_right10p" ng-click="vm.closeModel()">
+					<span class="ion-android-cancel orangeText font_size_20px"></span>
+				</button>
+			</div>
+		</ion-header-bar>
+		<ion-content  overflow-scroll = "true" >
+
+			<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span></div>
+			<div class="padding10">
+				<div class ="row padding0">
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with50p">Name</div>
+							<div class="with50p">
+								<span> <input type="text" ng-model="vm.search.name" class="btmborder with100p" /></span>
+							</div>
+						</div>
+					</div>
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with50p">Email</div>
+							<div class="with50p">
+								<span> <input type="text" ng-model="vm.search.email" class="btmborder with100p" /></span>
+							</div>
+						</div>
+					</div>
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with50p">Phone</div>
+							<div class="with50p">
+								<span><input type="text" ng-model="vm.search.phone" class="btmborder with100p" /></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class ="row padding0">
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with50p">Role</div>
+							<div class="with50p">
+								<span>  <select  ng-model="vm.search.role" ng-options="v for v in vm.userRole" class="bordernone with100p btmborder padding5px"></select></span>
+							</div>
+						</div>
+					</div>
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with50p">Country</div>
+							<div class="with50p">
+								<span> <input type="text" ng-model="vm.search.country" class="btmborder with100p" /></span>
+							</div>
+						</div>
+					</div>
+					<div class="col3 mrgrgt5p resmrgbtm10">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with50p">State</div>
+							<div class="with50p">
+								<span><input type="text" ng-model="vm.search.state" class="btmborder with100p" /></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class ="row padding0">
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with50p">City</div>
+							<div class="with50p">
+								<span>  <input type="text" ng-model="vm.search.city" class="btmborder with100p" /></span>
+							</div>
+						</div>
+					</div>
+					<div class="col3 mrgrgt5p">
+						<div class="position_relative displayflex mrg_top5px">
+
+						</div>
+					</div>
+					<div class="col3 mrgrgt5p resmrgbtm10">
+						<div class="position_relative displayflex mrg_top5px">
+
+						</div>
+					</div>
+				</div>
+
+				<div class ="row padding0 mrg_top10px">
+					<div class="col text_align_center btmborder">
+						<button class="button   themBackgroundColor text_white" 
+						ng-click="vm.searchUser(vm.search)"
+						>Search</button>
+					</div>
+				</div>
+			</div>
+			<div  ng-repeat="user in filtered = vm.user.data | filter: vm.searchKeywordForUser 
+			| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+
+
+			<div class="padding10">
+
+				<div class ="row padding0 btmborder">
+					<div class="col3 padding5px">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with30p reswith30p">Name</div>
+							<div class="with70p reswith70p">
+								<span> {{user.Name }}</span>
+							</div>
+						</div>
+						<div class="position_relative displayflex mrg_top5px" ng-if="(user.Phone)">
+							<div class="with30p reswith30p">Phone</div>
+							<div class="with70p reswith70p">
+								<span> {{user.Phone }}</span>
+							</div>
+						</div>
+						<div class="position_relative displayflex mrg_top5px" ng-if="(user.Email)">
+							<div class="with30p reswith30p">Email</div>
+							<div class="with70p reswith70p">
+								<span> {{user.Email }}</span>
+							</div>
+						</div>
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with30p reswith30p">Address</div>
+							<div class="with70p reswith70p">
+								<span> <address vm.openMap(user.Address) parameter="user.Address"></address></span>
+							</div>
+						</div>
+					</div>
+					<div class="col3 padding5px">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with30p reswith30p">Role</div>
+							<div class="with70p reswith70p">
+								<span> {{user.Role}}</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="col3 padding5px resmrg_top5p resbtmborder">
+						<div class="position_relative displayflex mrg_top5px">
+							<div class="with100p">
+								<span>
+									<button ng-click="vm.choosedUser(user)" class="button themBackgroundColor text_white float_right">Select</button>
+								</span>
+
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="display_inlineflex margin0auto with100p"><pagination  ng-model="currentPage" total-items="vm.user.data.length" max-size="noOfPages"  boundary-links="true" items-per-page="entryLimit">
+		</pagination></div>
+
+	</ion-content>
+</ion-modal-view>
+</script>
+
+<script id="perticipantDetailToActivity.html" type="text/ng-template">
+			<ion-modal-view>
+			
 				<ion-header-bar class="bar bar-header button-clear">
 					<div class="text_align_center with100p">
 						<span class="btmborder padding5px orangeText font_size_20px boldtext">Add New Participant</span>
@@ -308,7 +389,8 @@
 				<ion-content overflow-scroll = "true" class="restop0">
 					<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
 
-					<form name="form" class="mrg25px" novalidate>
+
+					 <form name="form" class="mrg25px" novalidate>
 						
 						<div class="row mrg_top5px">
 							<div class="col">	Name
@@ -324,7 +406,7 @@
 						
 						<div class="row mrg_top5px">
 							<div class="col">	Phone
-								<input type="number" ng-model="vm.participant.Phone" class="with100p btmborder">
+								<input type="text" ng-model="vm.participant.Phone" class="with100p btmborder">
 							</div>
 						</div>
 						
@@ -347,10 +429,71 @@
 							</div>
 						</div>
 						<div ng-show="vm.participantAdded" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">Participant added</div>
-					</form>
+					</form> 
 				</ion-content>
 			</ion-modal-view>
 		</script>
+<script id="newUsersForm.html" type="text/ng-template">
+		<ion-modal-view>
+			<ion-header-bar class="bordernone padding0">
+
+				<div class="text_align_center with100p">
+					<span class="btmborder padding5px orangeText font_size_20px boldtext">Add New User</span>
+					<button class="button  button-light float_right background_transparent mrgrgt42" ng-click="vm.closeModel()">
+						<span class="ion-android-cancel orangeText font_size_20px"></span>
+					</button>
+				</div>
+			</ion-header-bar>
+			<ion-content overflow-scroll = "true" >
+
+				<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+
+				<div class="mrg25px">
+				 	<form name="newUserForm">
+						<div class="row mrg_top5px">
+							<div class="col">	Name
+								<input type="text" ng-model="vm.NewUserData.Name" class="with100p btmborder">
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Email
+								<input type="email" ng-model="vm.NewUserData.Email" class="with100p btmborder" 
+								ng-required="!(vm.NewUserData.Email ||vm.NewUserData.Phone)" >
+							</div>
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Phone
+								<input type="text" ng-model="vm.NewUserData.Phone" class="with100p btmborder" 
+								name="phonenumber" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/"ng-required="!(vm.NewUserData.Email ||vm.NewUserData.Phone)"/>
+							</div>
+
+						</div>
+
+						<div class="row mrg_top5px">
+							<div class="col">	Role
+								<select  ng-model="vm.NewUserData.Role" ng-options="v for v in vm.userRole" class="bordernone with100p btmborder padding6px">
+									<option value="" disabled selected="selected" style="display: none;">Choose role</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row mrg_top5px padding0">
+							<div class="col text_align_center">
+								<button class="button themBackgroundColor text_align_center text_white" 
+								ng-click="vm.addNewUser(vm.NewUserData)" type="submit" ng-disabled="!newUserForm.$valid">Add </button>
+							</div>
+						</div>
+						<div class="text_align_center font_size_15px orangeText">Email or Phone number is required</div>
+						<div ng-show="vm.userAdded" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">User added</div>
+						<div ng-show="vm.userExit" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">User already enroled</div>
+					</form>
+				</div>
+
+			</ion-content>
+		</ion-modal-view>
+	</script> 
 
 	</ion-content>
 </ion-view>
