@@ -15,7 +15,8 @@ function activityService($http, $q, constantsService) {
         getActivityParticipants: getActivityParticipants,
         getEventRole: getEventRole,
         getAllDays: getAllDays,
-        searchForActivity: searchForActivity
+        searchForActivity: searchForActivity,
+        getPartcipantFromActivity:getPartcipantFromActivity
     };
 
     return service;
@@ -161,12 +162,24 @@ function activityService($http, $q, constantsService) {
     }
 
     function searchForActivity(searchCriteria){
-        console.log('searchCriteria',searchCriteria);
-        
         var deferred = $q.defer();
         $http({
             method : 'GET',
             url : constantsService.url+'/activities?State='+searchCriteria.state+'&City='+searchCriteria.city
+        }).then(function(data){
+            deferred.resolve(data);
+        }, function(error){
+            console.log('error',error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+    function getPartcipantFromActivity(activityUrl,personUrl){
+          var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url : constantsService.url+'/roles?Activity_url='+activityUrl+'&Person_url='+personUrl
         }).then(function(data){
             deferred.resolve(data);
         }, function(error){

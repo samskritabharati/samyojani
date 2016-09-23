@@ -50,7 +50,7 @@
 							<div class="with20p reswith30p">Adress</div>
 							<div class="with80p reswith70p">
 								<span>		
-									<address ng-click="vm.openMap(project.Address)"  
+									<address  
 									parameter="project.Address"></address>
 								</span>
 							</div>
@@ -69,11 +69,14 @@
 <a href="mailto:{{activity.Email}}" class="ion-email font_size_30px mrgrgt20 orangeText "></a>
 </span> -->
 <span ng-click="vm.formForEditProject(project)">
-	<span  class="ion-edit font_size_30px mrgrgt20 orangeText"></span> 
+	<span  class="ion-edit icons font_size_30px mrgrgt20 orangeText"></span> 
 </span>
 <span ng-click="vm.deleteProject(project._url)">
-	<span  class="ion-trash-a font_size_30px mrgrgt20 orangeText"></span>
+	<span  class="ion-trash-a icons font_size_30px mrgrgt20 orangeText"></span>
 </span>
+<span>
+									<span ng-click="vm.openMap(project.Address)"  class="icons ion-android-pin font_size_30px mrgrgt20 orangeText "></span>
+								</span>
 </div>
 </div>
 </div>

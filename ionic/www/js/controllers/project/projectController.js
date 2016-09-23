@@ -63,8 +63,10 @@ function projectController($scope, $state, $localStorage, projectService,filterF
         userAuthenticationService.confirm('','Do You Want To Delet Project?','Yes','No',function(){
             vm.showSpinner = true;
             projectService.deleteProject(projectToDelete).then(function(data){
+                userAuthenticationService.alertUser('Project Deleted');
                 getProject();
             },function(error){
+                 userAuthenticationService.alertUser('Error Occured');
                 console.log(error);
             });
         },null)
@@ -190,6 +192,7 @@ function projectController($scope, $state, $localStorage, projectService,filterF
                 criteria.city =''
             }
             userInfoService.searchForUser(criteria).then(function(userDetail){
+                 if(userDetail.data.length > 0){
                 vm.showSearchCount = true;
                 vm.user = userDetail;
                 $scope.currentPage = 1;
@@ -205,7 +208,10 @@ function projectController($scope, $state, $localStorage, projectService,filterF
                     $scope.currentPage = 1;
                     vm.showSpinner = false;
                 }, true);
-
+}else{
+     userAuthenticationService.alertUser('No Matches');
+                vm.showSpinner = false;
+}
             },function(error){
                 console.log("Error in updating FacebookID")
             })
@@ -231,13 +237,14 @@ function projectController($scope, $state, $localStorage, projectService,filterF
         vm.newProject.End_date = angular.element('#ed_date').val()
 
         projectService.addProject(vm.newProject).then(function(project){
-
+            userAuthenticationService.alertUser('Project Added Successfully');
             vm.showSpinner = false;
             $ionicHistory.nextViewOptions({
                 disableBack: true
             });
             $state.go('app.project');
         },function(error){
+            userAuthenticationService.alertUser('Error Occured');
             console.log(error);
         })
     }
@@ -319,6 +326,7 @@ function projectController($scope, $state, $localStorage, projectService,filterF
         vm.editProject.Start_date = angular.element('#edit_st').val();
         vm.editProject.End_date = angular.element('#edit_ed').val()
         projectService.updateProject(projectToUpdate).then(function(updatedProject){
+            userAuthenticationService.alertUser('Details Updated');
             $rootScope.dataToEdit = ""
             vm.showSpinner = false;
             $ionicHistory.nextViewOptions({
@@ -326,6 +334,7 @@ function projectController($scope, $state, $localStorage, projectService,filterF
             });
             $state.go('app.project');
         },function(error){
+            userAuthenticationService.alertUser('Error Occured');
             console.log('error',error);
         });
     }

@@ -113,22 +113,25 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 	function saveUpdatedclassDetail(updatedDetail){
 		vm.showSpinner = true
 		coursesService.updateClassDetail(updatedDetail.allClass).then(function(data){
+			userAuthenticationService.alertUser('Details Updated Successfully');
 			vm.showSpinner = false
 			$scope.modal.hide();
 		},function(error){
+			userAuthenticationService.alertUser('Error Occurred');
 			console.log(error);
 		});
 	}
 
 	function deleteClass(classToDelete){
-		
 		userAuthenticationService.confirm('','Do You Want To Delet Class?','Yes','No',function(){
 			vm.showSpinner = true
 			coursesService.deleteClass(classToDelete.allClass).then(function(data){
 				vm.coursesList = [];
-				vm.showSpinner = false
+				vm.showSpinner = false;
+				userAuthenticationService.alertUser('Deleted Successfully');
 				showCourses();
 			},function(error){
+				userAuthenticationService.alertUser('Error Occurred');
 				console.log(error);
 			});
 		},function(){
@@ -148,8 +151,10 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 				Last_active_date:new Date()
 			}
 			coursesService.addToMyWisList(newWishList).then(function(data){
+				userAuthenticationService.alertUser('Class Added To Wish List');
 				vm.showSpinner = false
 			},function(error){
+				userAuthenticationService.alertUser('Error Occurred');
 				console.log(error);
 			})
 
@@ -172,12 +177,14 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 	function addClassDetail(newClassDetail){
 		vm.showSpinner = true
 		coursesService.addNewClass(newClassDetail).then(function( detail){
+			userAuthenticationService.alertUser('Class Added');
 			vm.coursesList = [];
 			showCourses();
 			vm.showSpinner = false
 			$scope.modal.hide();
 
 		},function(error){
+			userAuthenticationService.alertUser('Error Occurred');
 			console.log('Error in adding activity',error);
 		})
 	}

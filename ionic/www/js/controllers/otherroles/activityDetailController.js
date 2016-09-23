@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('activityDetailController', activityDetailController);
 
-activityDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService', '$localStorage', 'activityService','$timeout','$ionicHistory','filterFilter'];
+activityDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService', '$localStorage', 'activityService','$timeout','$ionicHistory','filterFilter','$ionicPopup'];
 
-function activityDetailController($scope, $stateParams, $state ,userInfoService, $ionicModal, userAuthenticationService, $localStorage, activityService,$timeout ,$ionicHistory,filterFilter) {
+function activityDetailController($scope, $stateParams, $state ,userInfoService, $ionicModal, userAuthenticationService, $localStorage, activityService,$timeout ,$ionicHistory,filterFilter,$ionicPopup) {
   var vm = this;
   vm.deleteUserFromActivity = deleteUserFromActivity;
   vm.updateUserDetailFromActivity = updateUserDetailFromActivity;
@@ -25,6 +25,7 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
   vm.participentDetailList = [];
   vm.newParticipantList = [];
   vm.activityEnrollTypes = ["Confirmed", "Tentative"];
+  getEventRole();
   /*vm.participant = {
     Status: 'Tentative',
     Role: 'Student'
@@ -53,7 +54,7 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
       ActivityDetailStructureWithoutCoordinator(activity);
     }
   }
-
+ 
   function ActivityDetailStructure(activity,coordinatorDetails){
     var _activityDetail = {
       activity_type_id: activity.Activity_type,
@@ -138,13 +139,15 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
   }
 
   function deleteUserFromActivity(activityDetail){
-    userAuthenticationService.confirm('','Do You Want To Leave This Activity?','Yes','No',function(){
+    userAuthenticationService.confirm('','Do You Want To Remove This Participant?','Yes','No',function(){
       vm.showSpinner = true;
       activityService.deletActivityFromUserList(activityDetail.participantStatus._url).then(function(data){
+        userAuthenticationService.alertUser('Participant Deleted');
         vm.participentDetailList = [];
 
         getParticipants();
       },function(error){
+         userAuthenticationService.alertUser('Error Occured');
         console.log("error in deleting userFrom activity",error);
       })
     },null)
@@ -153,10 +156,12 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
   function updateUserDetailFromActivity(perticipant){
     vm.showSpinner = true;
     activityService.updateActivity(perticipant.participantStatus,perticipant.participantStatus._url).then(function(data){
+      userAuthenticationService.alertUser('Details Updated');
       vm.participentDetailList = [];
       getParticipants();
       $scope.modal.hide();
     },function(error){
+      userAuthenticationService.alertUser('Error Occured');
       console.log(error);
     })
   }
@@ -174,13 +179,12 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
 
     });
 
-    $scope.closeModal = function() {
-      $scope.modal.hide();
-    };
+   
   }
 
   function closeModel(){
-
+    vm.participentDetailList = [];
+    getParticipants();
     $scope.modal.hide();
   }  
 
@@ -196,7 +200,7 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
 
   function showAddPerticipantForm(){
     console.log("ths call")
-    vm.showSpinner = true;
+   /* vm.showSpinner = true;
     getEventRole();
     $ionicModal.fromTemplateUrl('addPerticipantToActivity.html', {
       scope: $scope,
@@ -205,7 +209,34 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
       $scope.modal.show();
       vm.showSpinner = false;
 
+    });*/
+
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Add Participant',
+      templateUrl: '',
+      buttons: [{
+        text: 'Existing User',
+        type: 'button-positive',
+        onTap: function(){
+          seacrchForUser();
+        }
+
+      }, {
+          text: 'New User',
+          type: 'button-positive',
+          onTap: function(){
+            newUser();
+          }
+        }, {
+          text: 'Cancle ',
+          type: 'button-positive',
+          onTap: function(){
+            vm.participentDetailList = [];
+            getParticipants();
+          }
+        }]
     });
+    $(".popup").addClass("width390");
   }
 
   function addParticipentToActivity(newParticipantDetail){
@@ -277,6 +308,7 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
   }
 
   function addUserTOActivityList(newParticipantDetail,userData){
+    vm.showSpinner = true;
     var newJoindActivity = [];
     if(newParticipantDetail.Status == "Confirmed"){
       newJoindActivity = {
@@ -295,17 +327,44 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
         Last_active_date:new Date()
       }
     }
-    activityService.joinActivity(newJoindActivity).then(function(data){
-      vm.showSpinner = false;
-      vm.participantAdded = true;
-      $timeout(function () { vm.participantAdded = false; }, 1000); 
-      newParticipantDetail = []
-      $scope.modal.hide(); 
-      vm.participentDetailList = [];
-    getParticipants();
+
+    activityService.getPartcipantFromActivity(newJoindActivity.Activity_url,newJoindActivity.Person_url).then(function(res){
+      console.log("dataaaaaaaaaaaaaaaaaa",res);
+      if(res.data.length == 0) {
+         activityService.joinActivity(newJoindActivity).then(function(resonseData){
+      
+          console.log("datadatadatadatadata",resonseData);
+          vm.showSpinner = false;
+          userAuthenticationService.alertUser('Participant Added');
+          $timeout(function () {   showAddPerticipantForm();}, 2001);
+          /*vm.participantAdded = true;
+          $timeout(function () { vm.participantAdded = false; }, 1000); */
+          newParticipantDetail = []
+          $scope.modal.hide(); 
+          /*vm.participentDetailList = [];
+        getParticipants();*/
+       
+        },function(error){
+          userAuthenticationService.alertUser('Error Occured');
+          console.log(error);
+          vm.showSpinner = false;
+        })
+
+       }else{
+        newParticipantDetail = []
+          $scope.modal.hide(); 
+         userAuthenticationService.alertUser('User Already Enrolled In this Activity');
+         $timeout(function () {   showAddPerticipantForm();}, 2001);
+        
+         vm.showSpinner = false;
+       }
+      
+
     },function(error){
+      vm.showSpinner = false;
       console.log(error);
     })
+   
   }
 
 
@@ -327,7 +386,7 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
   }
 
   function seacrchForUser(){
-     $scope.modal.hide();
+     // $scope.modal.hide();
     console.log("chosse user")
         $ionicModal.fromTemplateUrl('chooseUser.html', {
             scope: $scope,
@@ -387,23 +446,27 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
             if(!criteria.city){
                 criteria.city =''
             }
-            userInfoService.searchForUser(criteria).then(function(userDetail){
-                vm.showSearchCount = true;
-                vm.user = userDetail;
-                $scope.currentPage = 1;
-                $scope.totalItems = userDetail.data.length;
-                $scope.entryLimit = 10; 
-                $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+           userInfoService.searchForUser(criteria).then(function(userDetail){
+              if(userDetail.data.length > 0){
+                  vm.showSearchCount = true;
+                  vm.user = userDetail;
+                  $scope.currentPage = 1;
+                  $scope.totalItems = userDetail.data.length;
+                  $scope.entryLimit = 10; 
+                  $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
 
-                $scope.$watch('search', function (newVal, oldVal) {
+                  $scope.$watch('search', function (newVal, oldVal) {
 
-                    $scope.filtered = filterFilter(vm.user.data, newVal);
-                    $scope.totalItems = $scope.filtered.length;
-                    $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
-                    $scope.currentPage = 1;
-                    vm.showSpinner = false;
-                }, true);
-
+                      $scope.filtered = filterFilter(vm.user.data, newVal);
+                      $scope.totalItems = $scope.filtered.length;
+                      $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+                      $scope.currentPage = 1;
+                      vm.showSpinner = false;
+                  }, true);
+              }else{
+                userAuthenticationService.alertUser('No Matches');
+                vm.showSpinner = false;
+              }
             },function(error){
                 console.log("Error in updating FacebookID")
             })
@@ -411,6 +474,7 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
     }
 
     function choosedUser(choosedData){
+      console.log("choosedData",choosedData);
         $scope.modal.hide();
         console.log(choosedData);
         vm.participant ={
@@ -431,7 +495,7 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
     }
 
     function newUser(){
-       $scope.modal.hide();
+      /* $scope.modal.hide();*/
         vm.showSpinner = true;
         vm.NewUserData = {
           Role:'Student'
@@ -446,16 +510,22 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
     }
 
     function addNewUser(userDetail){
+       vm.showSpinner = true;
         vm.NewUserData = [];
-        vm.useraddSpinner = true;
-        vm.userExit = false;
+       /* vm.useraddSpinner = true;
+        vm.userExit = false;*/
        /* var newDetail = [];
         newDetail = userDetail*/
         if(userDetail.Email){
             userAuthenticationService.emailauthentication(userDetail.Email).then(function(userData){
                 if(userData.data.length > 0){
-                    vm.userExit = true;
-                    $timeout(function () { vm.userExit = false; }, 1000); 
+                   vm.showSpinner = false;
+                  userAuthenticationService.alertUser('User Already Exist');
+                   $scope.modal.hide();
+                  choosedUser(userData.data[0]);
+
+                    /*vm.userExit = true;
+                    $timeout(function () { vm.userExit = false; }, 1000); */
                 }else{
                         var newDetail = {
                             Name: userDetail.Name,
@@ -465,10 +535,11 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
                         }
                     
                     userInfoService.addNewUser(newDetail).then(function(newEnrolledUser){
-                        vm.useraddSpinner = false;
+                       vm.showSpinner = false;
+                        /*vm.useraddSpinner = false;
                         vm.userAdded = true;
 
-                        $timeout(function () { vm.userAdded = false; }, 1000); 
+                        $timeout(function () { vm.userAdded = false; }, 1000); */
                         choosedUser(newEnrolledUser.data);
                     },function(error){
                         console.log('error');
@@ -478,10 +549,13 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
             })
         }else{
             if(userDetail.Phone){
+               vm.showSpinner = false;
                 userAuthenticationService.phoneauthentication(userDetail.Phone).then(function(userData){
                     if(userData.data.length > 0){
-                        vm.userExit = true;
-                        $timeout(function () { vm.userExit = false; }, 1000); 
+                       vm.showSpinner = false;
+                         userAuthenticationService.alertUser('User Already Exist');
+                         $scope.modal.hide();
+                        choosedUser(userData.data[0]);
                     }else{
                         var newDetail = {
                             Name: userDetail.Name,
@@ -490,11 +564,12 @@ function activityDetailController($scope, $stateParams, $state ,userInfoService,
                             Role : userDetail.Role
                         }
                         userInfoService.addNewUser(newDetail).then(function(newEnrolledUser){
-                            vm.useraddSpinner = false;
-                            vm.userAdded = true;
+                           vm.showSpinner = false;
+                            /*vm.useraddSpinner = false;
+                            vm.userAdded = true;*/
                             choosedUser(newEnrolledUser.data);
-                            $timeout(function () { vm.userAdded = false; }, 1000); 
-
+                           /* $timeout(function () { vm.userAdded = false; }, 1000); 
+*/
                         },function(error){
                             console.log('error');
                         });
@@ -590,9 +665,9 @@ angular
 .module('starter')
 .controller('addActivityController', addActivityController);
 
-addActivityController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService','activityService', '$localStorage','$ionicHistory','projectService', 'filterFilter'];
+addActivityController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService','activityService', '$localStorage','$ionicHistory','projectService', 'filterFilter','$ionicPopup','postalCodeService','$timeout'];
 
-function addActivityController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, activityService, $localStorage, $ionicHistory,projectService, filterFilter) {
+function addActivityController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, activityService, $localStorage, $ionicHistory,projectService, filterFilter,$ionicPopup,postalCodeService,$timeout) {
   var vm = this;
 
   vm.closeModel = closeModel;
@@ -601,6 +676,7 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
   vm.searchUser = searchUser;
   vm.choosedCoordinator =  choosedCoordinator;
   vm.closeThisModel = closeThisModel;
+  vm.autoFillAddressDetail = autoFillAddressDetail;
 
   $scope.checked_days = [];
 
@@ -627,6 +703,8 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
   function addNewActivityDetail(newActivity){
     newActivity.Days = $scope.checked_days
     activityService.addNewActivity(newActivity).then(function(detail){
+      userAuthenticationService.alertUser('Activity Added Successfully');
+
       vm.showSpinner = false;
       $ionicHistory.nextViewOptions({
         disableBack: true
@@ -634,6 +712,7 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
       $state.go('app.activityDetail',{'activityDetail':detail.data},{location: false, inherit: false});
 
     },function(error){
+      userAuthenticationService.alertUser('Error Occured');
       console.log('Error in adding activity',error);
     })
   }
@@ -689,6 +768,7 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
   }
 
   function searchUser(criteria){ 
+      console.log("criteria",criteria);
     vm.showSpinner = true;
     if(!criteria){
       userInfoService.getUser().then(function(userDetail){
@@ -738,6 +818,7 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
         criteria.city =''
       }
       userInfoService.searchForUser(criteria).then(function(userDetail){
+        console.log("userDetail",userDetail);
         vm.showSearchCount = true;
         vm.user = userDetail;
         $scope.currentPage = 1;
@@ -769,5 +850,75 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
   function closeThisModel(){
     $scope.modal.hide();
   }
+
+
+  function autoFillAddressDetail(opType){
+    console.log("opType",opType);
+        if(opType== 'edit'){
+            /*if(vm.editProject.Address.Country){
+                vm.showSpinner = true;
+                postalCodeService.getDetailsByPostalCode(vm.editProject.Address.Country,vm.editProject.Address.Postal_code).then(function(addressDetails){
+                    if(addressDetails.data.length>0){
+                        vm.editProject.Address = {
+                            District : addressDetails.data[0].Address.District,
+                            Locality : addressDetails.data[0].Address.Locality,
+                            State : addressDetails.data[0].Address.State,
+                            City : addressDetails.data[0].Address.City,
+                            Country : addressDetails.data[0].Address.Country,
+                            Postal_code : addressDetails.data[0].Address.Postal_code
+                        }
+                    }
+                    vm.showSpinner = false;
+                },function(error){
+                    console.log(error);
+                })
+            }
+*/
+
+        }else{
+console.log("vm.newActivityForm.Address.Country",vm.newActivity);
+            if(vm.newActivity.Address.Country){
+
+                vm.showSpinner = true;
+                postalCodeService.getDetailsByPostalCode(vm.newActivity.Address.Country,vm.newActivity.Address.Postal_code).then(function(addressDetails){
+                    console.log("addressDetails",addressDetails);
+                    if(addressDetails.data.length>0){
+
+                        vm.newActivity.Address = {
+                            District : newActivity.data[0].Address.District,
+                            Locality : newActivity.data[0].Address.Locality,
+                            State : newActivity.data[0].Address.State,
+                            City : newActivity.data[0].Address.City,
+                            Country : newActivity.data[0].Address.Country,
+                            Postal_code : newActivity.data[0].Address.Postal_code
+                        }
+                    }
+                    vm.showSpinner = false;
+                },function(error){
+                    console.log(error);
+                })
+
+            }
+
+        }
+
+    }
+
+/*
+$scope.alerts = [
+   
+  ];
+
+  $scope.addAlert = function() {
+    $scope.alerts.push({msg: 'Anotherssss alert!'});
+$timeout(function(){
+        closeAlert();
+      }, 3000);
+
+  };
+
+  function closeAlert (index) {
+    $scope.alerts.splice(index, 1);
+  };*/
 
 }

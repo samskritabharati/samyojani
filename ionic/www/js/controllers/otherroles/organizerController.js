@@ -51,7 +51,6 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
             vm.projectList = project.data;
         })
        /* vm.editActivity = activity;*/
-        console.log(" vm.editActivity", vm.editActivity);
         /*$ionicModal.fromTemplateUrl('editActivity.html', {
             scope: $scope,
         }).then(function(modal) {
@@ -81,8 +80,10 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
         userAuthenticationService.confirm('','Do You Want To Delet Activity?','Yes','No',function(){
             vm.showSpinner = true;
             userInfoService.deleteActivity(activityToDelete).then(function(data){
+                userAuthenticationService.alertUser('Activity Deleted');
                 showActivity();
             },function(error){
+                userAuthenticationService.alertUser('Error Occured');
                 console.log(error);
             });
         },null)
@@ -198,10 +199,28 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
          $state.go('app.activitymapview',{'activitys':activityData, 'type' : 'activitInfos'},{location: false, inherit: false});
     }
 
-     $scope.datepickerOptions = {
+   /*  $scope.datepickerOptions = {
     format: 'yyyy-mm-dd',
     language: 'fr',
     autoclose: true,
-    weekStart: 0}
+    weekStart: 0}*/
+
+    $scope.alerts = [
+    /*{ type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+    { type: 'success', msg: 'Well done! You successfully read this important alert message.' }*/
+  ];
+
+  $scope.addAlert = function() {
+    $scope.alerts.push({msg: 'Anotherssss alert!'});
+/*$timeout(function(){
+        closeAlert();
+      }, 3000);
+*/
+  };
+
+  function closeAlert (index) {
+    $scope.alerts.splice(index, 1);
+  };
+  
 }
 

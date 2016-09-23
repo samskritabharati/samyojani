@@ -51,6 +51,7 @@ function userProfileController($scope, $state, userInfoService, $ionicHistory,$l
 	function updateUserProfile(updatedProfile){  
 		vm.showSpinner = true;   
 		userInfoService.updateUserDetail(updatedProfile).then(function(updatedProfileInfo){
+			  userAuthenticationService.alertUser('Details  Updated');
 			$localStorage.userInfo.data[0] = updatedProfileInfo.data;
 			vm.userProfileInfo = angular.copy($localStorage.userInfo.data[0]);
 			vm.fieldEditable = true;
@@ -60,6 +61,7 @@ function userProfileController($scope, $state, userInfoService, $ionicHistory,$l
 			vm.showUpdateButn = false;
 			vm.showSpinner = false;
 		},function(error){
+			 userAuthenticationService.alertUser('Error  Occured');
 			console.log(error);
 		});
 	}

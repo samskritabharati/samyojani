@@ -43,16 +43,16 @@
 			<div class="row mrg_top5px">
 				<div class="col">	Start Date
 
-					<input class="btmborder with100p bordernone" 
-					ng-model="vm.editActivity.Start_date"  ui-date="{ dateFormat: 'dd-mm-yy' }"/> 
+					<input class="btmborder with100p bordernone" id="edit_st"
+					value="{{vm.editActivity.Start_date}}"  ui-date="{ dateFormat: 'dd-mm-yy' }"/> 
 
 				</div>
 			</div>
 
 			<div class="row mrg_top5px">
 				<div class="col">	End Date
-					<input type="text" ng-model="vm.editActivity.End_date" class="with100p btmborder bordernone"
-					 ui-date="{ dateFormat: 'dd-mm-yy' }"/>
+					<input type="" id="edit_ed" value="{{vm.editActivity.End_date}}" 
+					class="with100p btmborder bordernone" ui-date="{ dateFormat: 'dd-mm-yy' }"/>
 				</div>
 			</div>
 

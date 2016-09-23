@@ -117,26 +117,26 @@
 				<div class="col3 resmrg_top5p resbtmborder">
 					<div class="position_relative displayflex">
 						<div class="with100p">
-							<span ng-click="vm.detailAboutActivity(activity.allActivity)" class="ion-share font_size_20px mrgrgt20 orangeText resfontsize"></span>
+							<span ng-click="vm.detailAboutActivity(activity.allActivity)" class="ion-share icons font_size_20px mrgrgt20 orangeText resfontsize"></span>
 
-							<span ng-if='(activity.allActivity.Phone != "")'><a  href="tel:{{activity.Phone}}" class="ion-ios-telephone font_size_20px mrgrgt20 orangeText resfontsize"></a></span>
+							<span ng-if='(activity.allActivity.Phone != "")'><a  href="tel:{{activity.Phone}}" class="ion-ios-telephone icons font_size_20px mrgrgt20 orangeText resfontsize"></a></span>
 									
-							<span ng-if='(activity.allActivity.Email != "")'><a href="mailto:{{activity.allActivity.Email}}" class="ion-email font_size_20px mrgrgt20 orangeText resfontsize"></a></span>
+							<span ng-if='(activity.allActivity.Email != "")'><a href="mailto:{{activity.allActivity.Email}}" class="ion-email icons font_size_20px mrgrgt20 orangeText resfontsize"></a></span>
 									
 							<span  ng-if='(activity.myActivity == "")' 
 							ng-click="vm.joinActivity(activity.allActivity,'Confirmed')">
-								<span class="ion-plus-circled font_size_20px mrgrgt20 orangeText resfontsize" 
+								<span class="ion-plus-circled icons font_size_20px mrgrgt20 orangeText resfontsize" 
 									ng-if="!(vm.joinbtn == activity.allActivity._url)">Join</span> 
 							</span>
 
 							<span ng-if="(activity.myActivity == '')" ng-click="vm.joinActivity(activity.allActivity,'Tentative')">
-								<span class="ion-help-circled font_size_20px mrgrgt20 orangeText resfontsize" 
+								<span class="ion-help-circled icons font_size_20px mrgrgt20 orangeText resfontsize" 
 									ng-if="!(vm.tentativebtn == activity.allActivity._url)">Tentative</span>
 							</span>
 
 							<span  ng-if='((activity.myActivity != "") && (activity.myActivity.Status == "Tentative"))'
 								ng-click="vm.updateActivityInfo(activity)" >
-								<span class="ion-plus-circled font_size_20px mrgrgt20 orangeText resfontsize" 
+								<span class="ion-plus-circled icons font_size_20px mrgrgt20 orangeText resfontsize" 
 								ng-if="!(vm.joinbtn == activity.allActivity._url)">Join</span> 
 							</span>
 

@@ -102,9 +102,11 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
 
             activityService.joinActivity(newJoindActivity).then(function(data){
                 console.log("test",data);
+                userAuthenticationService.alertUser('Joined');
                 vm.showSpinner = false;
 
             },function(error){
+                  userAuthenticationService.alertUser('Error Occured');
                 console.log(error);
             })
 

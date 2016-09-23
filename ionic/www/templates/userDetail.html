@@ -153,19 +153,22 @@
 					<div class="position_relative displayflex mrg_top5px">
 						<div class="with100p">
 							<span>
-								<span ng-click="vm.detailAboutUser(user)" class="ion-share font_size_30px mrgrgt20 orangeText resfontsize"></span>
+								<span ng-click="vm.detailAboutUser(user)" class="ion-share icons font_size_30px mrgrgt20 orangeText resfontsize"></span>
 							</span>
 							<span ng-if="!(vm.role == 'Student')">
-								<span ng-click="vm.deleteUser(user)" class="ion-trash-a font_size_30px mrgrgt20 orangeText resfontsize"></span>
+								<span ng-click="vm.deleteUser(user)" class="ion-trash-a icons font_size_30px mrgrgt20 orangeText resfontsize"></span>
 							</span>
 							<span ng-if="!(vm.role == 'Student')">
-								<span ng-click="vm.updateUser(user)" class="ion-edit font_size_30px mrgrgt20 orangeText resfontsize"></span> 
+								<span ng-click="vm.updateUser(user)" class="ion-edit icons font_size_30px mrgrgt20 orangeText resfontsize"></span> 
 							</span>
 							<span ng-if='(user.Phone != "")'>
-								<a  href="tel:{{user.Phone}}" class="ion-ios-telephone font_size_30px mrgrgt20 orangeText resfontsize"></a>
+								<a  href="tel:{{user.Phone}}" class="ion-ios-telephone icons font_size_30px mrgrgt20 orangeText resfontsize"></a>
 							</span>
 							<span ng-if='(user.Email != "")'>
-								<a href="mailto:{{user.Email}}" class="ion-email font_size_30px mrgrgt20 orangeText resfontsize"></a>
+								<a href="mailto:{{user.Email}}" class="ion-email icons font_size_30px mrgrgt20 orangeText resfontsize"></a>
+							</span>
+							<span>
+								<span ng-click="vm.openMap(user.Address)"  class="icons ion-android-pin font_size_30px mrgrgt20 orangeText "></span>
 							</span>
 
 						</div>

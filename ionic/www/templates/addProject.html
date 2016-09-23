@@ -29,7 +29,7 @@
 					<div class="item item-input btmborder bordernone padding0">
 						<input type="Name" ng-model="vm.coordinatorName" name="coordinateName" class="bordernone background_transparent" ng-disabled = true required/>
 
-						<span ng-click="vm.seacrchForCoordinator()" class="ion-search orangeText font_size_30px"></span>
+						<span ng-click="vm.seacrchForCoordinator()" class="ion-search icons orangeText font_size_30px"></span>
 						<div ng-messages="newActivityForm.coordinateName.$error" ng-show="newActivityForm.coordinateName.$touched">
 							<div ng-message="required">
 								choose co-ordinator
@@ -68,7 +68,7 @@
 					<div class="item item-input btmborder bordernone padding0">
 						<input type="text" name="projectPostalcode" ng-model="vm.newProject.Address.Postal_code" class="with100p" required/>
 						<span  ng-click="vm.autoFillAddressDetail('add')" 
-						class="ion-search orangeText font_size_30px"></span>
+						class="ion-search icons orangeText font_size_30px"></span>
 					</div>
 					<div ng-messages="addProjectForm.projectPostalcode.$error" ng-if="addProjectForm.projectPostalcode.$dirty" class="text_red">
 						<div ng-message="required"> Please select postal code</div>

@@ -255,7 +255,7 @@ li a{
     background: white !important
 }
 .button:hover{
-    opacity: 0.8;
+    opacity: 0.4;
     color: white;
 }
 .themBackgroundColor.activated{
@@ -279,7 +279,8 @@ background: #e26228;
 
   .popup{
     border-radius: 10px !important;
-    border: 1px solid black!important;
+    border: 1px solid #e26228!important;
+   
 }
 .popup-body{
     font-size: 19px !important;
@@ -290,7 +291,12 @@ background: #e26228;
     width: 100% !important;
     margin: 0 auto !important;
    /* background: #e26228 !important;*/
-
+}
+.popup-head{
+    border: none !important;
+}
+.popup-title{
+ color:  #e26228!important;
 }
 .popup-container.popup-showing{
     background: transparent !important;
@@ -531,9 +537,14 @@ input{
 .mrgtop025{
         margin: 0 25px 25px 25px;
 }
-.googlesignbtn{
-    width: 100%;
-    position: relative;
-    display: table;
-    background: #e26228;
+
+
+.icons:hover{
+     opacity: 0.4 !important;
+}
+/*.popup-container .popup{
+    width: 390px !important;
+}*/
+.width390{
+    width: 390px !important;
 }

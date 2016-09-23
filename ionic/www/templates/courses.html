@@ -66,14 +66,14 @@
 				<div class="col3 padding_right5p resbtmborder">
 					<div class="position_relative displayflex mrg_top5px">
 							<span ng-if="!(vm.role == 'Student')" ng-click="vm.showFormToEditCourse(course)">
-								<span  class="ion-edit font_size_30px mrgrgt20 orangeText resfontsize"></span> 
+								<span  class="ion-edit icons font_size_30px mrgrgt20 orangeText resfontsize"></span> 
 							</span>
 							<span  ng-if="!(vm.role == 'Student')" ng-click="vm.deleteClass(course)">
-								<span  class="ion-trash-a font_size_30px mrgrgt20 orangeText resfontsize"></span>
+								<span  class="ion-trash-a icons  font_size_30px mrgrgt20 orangeText resfontsize"></span>
 							</span>
 							<span ng-if = "!(course.myWishClass.Person_url)">
 							<span ng-if="!(vm.addwishbtn == course.allClass._url)" ng-click="vm.addToWishList(course)">
-								<span  class="ion-android-favorite font_size_30px mrgrgt20 orangeText resfontsize">
+								<span  class="ion-android-favorite icons font_size_30px mrgrgt20 orangeText resfontsize">
 									<span class="font_size_15px">Add to WishList</span></span>
 								</span>
 								</span>
@@ -137,6 +137,7 @@
 							<div class="row mrg_top5px">
 								<div class="col">	Duration
 									<select  ng-model="vm.editClassDetail.allClass.Duration" ng-options="v for v in vm.durationOptions" class="bordernone with100p btmborder">
+									<option value="" disabled selected="selected" style="display: none;">{{vm.editClassDetail.allClass.Duration}}</option>
 									</select>
 								</div>
 							</div>

@@ -83,6 +83,7 @@ function studentClassController($scope, $stateParams, $state, $location, $localS
     function DeletActivityFromList(activity){
         userAuthenticationService.confirm('','Do You Want To Leave This Activity?','Yes','No',function(){
             activityService.deletActivityFromUserList(activity.roleurl).then(function(data){
+                userAuthenticationService.alertUser('Activity Deleted From Your List');
                 vm.activityList = [];
                 $state.go('app.studentClass', {}, {reload: true});
             });

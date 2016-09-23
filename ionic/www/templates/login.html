@@ -3,6 +3,10 @@
     <ion-content class="has-header" overflow-scroll = "true">
 
         <div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span></div>
+<!-- <input type="tel" id="demo" placeholder="" ng-model="vm.phonenumberformate"> -->
+
+
+
 
         <div class="text_align_center login_parentdiv login_parentdiv">
             <div class="row row-no-padding">
@@ -50,6 +54,7 @@
  
 </script> -->
         <div id="emailSigninPopUp" class="displayNone">
+
             <form class="padding_top10px mrglftrt20px" name="loginForm">
                 <div class="list list-inset mrgtopbtm20px">
                     <label class="item item-input border_color_orange">
@@ -88,8 +93,8 @@
             <ion-modal-view>
                 <ion-header-bar class="bar bar-header button-clear">
                     <h1 class="title orangeText">Enter Email Address</h1>
-                    <button class="button  button-light" ng-click="vm.closeModel()">
-                        <span class="ion-android-cancel orangeText font_size_20px"></span>
+                    <button class="button button-light" ng-click="vm.closeModel()">
+                        <span class="ion-android-cancel orangeText font_size_20px icons"></span>
                     </button>
                 </ion-header-bar>
                 <ion-content class="has-header" overflow-scroll = "false">
@@ -125,7 +130,7 @@
                 <ion-header-bar class="bar bar-header button-clear">
                     <h1 class="title orangeText">Enter Phone Number</h1>
                     <button class="button  button-light" ng-click="vm.closeModel()">
-                        <span class="ion-android-cancel orangeText font_size_20px"></span>
+                        <span class="ion-android-cancel icons orangeText font_size_20px"></span>
                     </button>
                 </ion-header-bar>
                 <ion-content class="has-header" overflow-scroll = "false">
@@ -191,7 +196,13 @@
                 </div>
                 
         </div> -->
+<script type="text/javascript">
+    
+    $("#demo").intlTelInput();
+    $("#demo").intlTelInput("loadUtils", "js/plugins/utils.js");
+    $("#demo").intlTelInput("setNumber", "+44 ");
 
+</script>
         <div id="phonetogglediv" class="displayNone">
               <form class="padding_top10px mrglftrt20px" name="phonenumberloginForm">
                         <div class="list list-inset">

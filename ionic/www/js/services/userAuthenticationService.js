@@ -2,9 +2,9 @@ angular
 .module('starter')
 .factory('userAuthenticationService', userAuthenticationService);
 
-userAuthenticationService.$inject = ['$http', '$q', 'constantsService', '$ionicPopup'];
+userAuthenticationService.$inject = ['$http', '$q', 'constantsService', '$ionicPopup','$timeout'];
 
-function userAuthenticationService($http, $q, constantsService, $ionicPopup) {
+function userAuthenticationService($http, $q, constantsService, $ionicPopup,$timeout) {
     var service = {
         emailauthentication: emailauthentication,
         getProfession: getProfession,
@@ -66,13 +66,25 @@ function userAuthenticationService($http, $q, constantsService, $ionicPopup) {
     });
   } 
 
-   function alertUser(title,className,alertMsg,okAction){
+  /* function alertUser(title,className,alertMsg,okAction){
     $ionicPopup.alert({
      title: title,
      cssClass: className,
      template: alertMsg
    }).then(okAction);
+  }*/
+
+   function alertUser(alertMsg){
+    var alertPopup = $ionicPopup.alert({
+                title:  alertMsg,
+                template: ''
+
+            });
+     $(".popup-buttons").addClass("displayNone");
+           
+ $timeout(function () {   alertPopup.close()}, 2000);
   }
+
 
   function phoneauthentication(phone){
         var deferred = $q.defer();

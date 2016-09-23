@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('loginController', loginController);
 
-loginController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$ionicModal', 'userInfoService', '$ionicHistory','$localStorage' ,'$rootScope','constantsService','$timeout'];
+loginController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$ionicModal', 'userInfoService', '$ionicHistory','$localStorage' ,'$rootScope','constantsService','$timeout','$ionicPopup'];
 
-function loginController($scope, $stateParams, $state, userAuthenticationService, $ionicModal, userInfoService, $ionicHistory,$localStorage,$rootScope,constantsService,$timeout ) {
+function loginController($scope, $stateParams, $state, userAuthenticationService, $ionicModal, userInfoService, $ionicHistory,$localStorage,$rootScope,constantsService,$timeout,$ionicPopup ) {
     var vm = this;
 
     vm.signInWithEmail = signInWithEmail;
@@ -34,6 +34,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
                 vm.hideSignIn = true
             }
         }) 
+
 
     function signInWithFacebook(){
         vm.showSpinner = true;
@@ -107,11 +108,35 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
 
     function popupForEmailLogin(){
-        $("#emailSigninPopUp").slideToggle(600);
+     /* var alertPopup = $ionicPopup.alert({
+                title: '<b>' + 'login' + '</b>',
+                template: ''
+
+            });
+     $(".popup-buttons").addClass("displayNone");
+           
+ $timeout(function () {   alertPopup.close()}, 1000); */
+     
+   $("#emailSigninPopUp").slideToggle(600);
     }
 
     function popupForPhoneLogin(){
-        $("#phonetogglediv").slideToggle(600);
+/*console.log("vm.phonenumberformate",$("#demo").val());
+        var extension = $("#demo").intlTelInput("getExtension");
+
+console.log('extension',extension);
+
+var intlNumber = $("#demo").intlTelInput("getNumber");
+
+ console.log('intlNumber',intlNumber);
+
+
+
+var numberType = $("#demo").intlTelInput("getNumberType");
+console.log('numberType',numberType);
+*/
+
+      $("#phonetogglediv").slideToggle(600);
     }
 
     function closeModel(){

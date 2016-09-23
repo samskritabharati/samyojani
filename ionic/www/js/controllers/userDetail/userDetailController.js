@@ -16,6 +16,7 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
     vm.showFormForNewUser = showFormForNewUser;
     vm.detailAboutUser = detailAboutUser;
     vm.routingTOMapView = routingTOMapView;
+    vm.openMap = openMap;
 
     vm.showSpinner = false;
     vm.showSearchCount = false;
@@ -80,22 +81,27 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
                 criteria.city =''
             }
             userInfoService.searchForUser(criteria).then(function(userDetail){
-                vm.showSearchCount = true;
-                vm.user = userDetail;
-                $scope.currentPage = 1;
-                $scope.totalItems = userDetail.data.length;
-                $scope.entryLimit = 10; 
-                $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
-
-                $scope.$watch('search', function (newVal, oldVal) {
-
-                    $scope.filtered = filterFilter(vm.user.data, newVal);
-                    $scope.totalItems = $scope.filtered.length;
-                    console.log("filtered",$scope.totalItems)
-                    $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+                if(userDetail.data.length > 0){
+                    vm.showSearchCount = true;
+                    vm.user = userDetail;
                     $scope.currentPage = 1;
+                    $scope.totalItems = userDetail.data.length;
+                    $scope.entryLimit = 10; 
+                    $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+
+                    $scope.$watch('search', function (newVal, oldVal) {
+
+                        $scope.filtered = filterFilter(vm.user.data, newVal);
+                        $scope.totalItems = $scope.filtered.length;
+                        console.log("filtered",$scope.totalItems)
+                        $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+                        $scope.currentPage = 1;
+                        vm.showSpinner = false;
+                    }, true);
+                }else{
+                    userAuthenticationService.alertUser('No Matches');
                     vm.showSpinner = false;
-                }, true);
+                }
 
             },function(error){
                 console.log("Error in updating FacebookID")
@@ -148,9 +154,11 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
     function saveUpdatedUserDetail(updatedUserDetail){
         vm.showSpinner = true;
         userInfoService.updateUserDetail(updatedUserDetail).then(function(data){
+             userAuthenticationService.alertUser('Details Updated');
             vm.showSpinner = false;
             $scope.modal.hide();
         },function(error){
+             userAuthenticationService.alertUser('Error Occurred');
             console.log(error);
         });
     }
@@ -159,8 +167,11 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
         userAuthenticationService.confirm('','Do You Want To Delet This User?','Yes','No',function(){
             vm.showSpinner = true;
             userInfoService.deleteActivity(user).then(function(data){
+                 userAuthenticationService.alertUser('User Deleted');
                 searchUser(vm.search);
+                 
             },function(error){
+                userAuthenticationService.alertUser('Error Occurred');
                 console.log(error);
             });
         },function(){
@@ -212,11 +223,13 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
                         }
                     
                     userInfoService.addNewUser(newDetail).then(function(data){
+                         userAuthenticationService.alertUser('User Added');
                         vm.useraddSpinner = false;
                         vm.userAdded = true;
                         $timeout(function () { vm.userAdded = false; }, 1000); 
 
                     },function(error){
+                        userAuthenticationService.alertUser('Error Occurred');
                         console.log('error');
                     });
                 }
@@ -236,11 +249,13 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
                             Role : userDetail.Role
                         }
                         userInfoService.addNewUser(newDetail).then(function(data){
+                             userAuthenticationService.alertUser('User Added');
                             vm.useraddSpinner = false;
                             vm.userAdded = true;
                             $timeout(function () { vm.userAdded = false; }, 1000); 
 
                         },function(error){
+                            userAuthenticationService.alertUser('Error Occurred');
                             console.log('error');
                         });
                     }
@@ -273,4 +288,40 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
       /*  $state.go('app.activitymapview');*/
 /*         $state.go('app.activitymapview',{'activitys':userData, 'type' : 'userInfo'},{location: false, inherit: false});
 */    }
+
+ function openMap(address){
+        var locationAddress = [];
+        if(address.Address_line1){
+            locationAddress.push(address.Address_line1)
+        }
+        if(address.Address_line2){
+            locationAddress.push(address.Address_line2)
+        }
+        if(address.Locality){
+            locationAddress.push(address.Locality)
+        }
+        if(address.District){
+            locationAddress.push(address.District)
+        }
+        if(address.City){
+            locationAddress.push(address.City)
+        }
+        if(address.State){
+            locationAddress.push(address.State)
+        }
+        if(address.Country){
+            locationAddress.push(address.Country)
+        }
+        if(address.Postal_code){
+            locationAddress.push(address.Postal_code)
+        }
+
+        var Completeaddress=""
+        for (var i = 0; i < locationAddress.length; i++) {
+            locationAddress[i]
+            Completeaddress = Completeaddress+ locationAddress[i]
+        }
+        window.open("http://maps.google.com/?q=" + Completeaddress, '_system');
+    }
+
 }

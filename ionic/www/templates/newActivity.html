@@ -2,7 +2,7 @@
 
     <ion-header-bar class="bar bar-header button-clear resmrg_top5p">
         <div class="text_align_center with100p">
-                            <!-- <span class="btmborder padding5px orangeText font_size_20px boldtext">Enter New Activity Detail</span> -->
+                           
                             <span class="btmborder padding5px orangeText font_size_20px boldtext">Enter New Activity Detail</span>
                             <button class="button  button-light float_right background_transparent resmrg_right10p " ng-click="vm.closeModel()" style=" margin-right: 6%;">
                             <span class="ion-android-cancel orangeText font_size_20px"></span>
@@ -11,6 +11,11 @@
     </ion-header-bar>
     <ion-content class="has-header resmrg_top5p" overflow-scroll = "true" >
 <div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span></div>
+<!-- <div class="spinnerDiv background_transparent">
+        <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
+  <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>
+  </div>
+ -->
         <form class="margin0auto width90p" name="newActivityForm">
           
             <div class="row mrg_top5px">
@@ -45,7 +50,7 @@
                     <div class="item item-input btmborder bordernone padding0">
                         <input type="Name" ng-model="vm.activityCo_ordinatorName" name="coordinateName" class="bordernone background_transparent" ng-disabled = true required/>
                         <!-- <button ng-click="vm.seacrchForCoordinator()" class="button themBackgroundColor text_white">Choose</button> -->
-                        <span ng-click="vm.seacrchForCoordinator()" class="ion-search orangeText font_size_30px"></span>
+                        <span ng-click="vm.seacrchForCoordinator()" class="ion-search icons orangeText font_size_30px"></span>
                         <div ng-messages="newActivityForm.coordinateName.$error" ng-show="newActivityForm.coordinateName.$touched">
                         <div ng-message="required">
                             choose co-ordinator
@@ -116,7 +121,8 @@
             <div class="row mrg_top5px">
                 <div class="col">  End Date*
 
-                    <input type="text" name="enddate" ng-model="vm.newActivity.End_date" class="btmborder with100p"  ui-date/>
+                    <input type="text" name="enddate" ng-model="vm.newActivity.End_date" class="btmborder with100p"  
+                    ui-date="{ dateFormat: 'dd-mm-yy' }"/>
                     <div ng-messages="newActivityForm.enddate.$error" ng-show="newActivityForm.enddate.$touched">
                         <div ng-message="required">
                             select date
@@ -196,9 +202,11 @@
            
             <div class="row">
                 <div class="col">  Postal code*
-                    <label class="item item-input bordernone padding0">
+                    <div class="item item-input bordernone padding0">
                         <input type="text" name="postalCode" ng-model="vm.newActivity.Address.Postal_code"  class="btmborder" required/>
-                    </label>
+                        <span  ng-click="vm.autoFillAddressDetail('add')" 
+                        class="ion-search orangeText font_size_30px"></span>
+                    </div>
                     <div ng-messages="newActivityForm.postalCode.$error" ng-if="newActivityForm.postalCode.$dirty" class="text_red">
                         <div ng-message="required">PostalCode is required</div>
                     </div>

@@ -5,33 +5,76 @@
 	</div> -->
 
 	<ion-content class="has-header"  overflow-scroll = "true">
-<!-- 	<div>
-            Country:
-            <select id="country" ng-model="statessource" ng-options="country for (country, states) in countries"
-                ng-change="GetSelectedCountry()">
-                <option value=''>Select</option>
-            </select>
-        </div>
-        <div style='height: 15px;'>
-            &nbsp;</div>
-        <div>
-            States:<select id="state" ng-disabled="!statessource" ng-model="citiessource" ng-options="state for (state,city) in statessource"
-                ng-change="GetSelectedState()"><option value=''>Select</option>
-            </select>
-        </div>
-        <div style='height: 15px;'>
-            &nbsp;</div>
-        <div>
-            City:<select id="city" ng-disabled="!citiessource || !statessource" ng-model="city"><option value=''>
-                Select</option>
-                <option ng-repeat="city in citiessource" value='{{city}}'>{{city}}</option>
-            </select>
-        </div>
-        {{citiessource}}
-       
-        {{city}} -->
 
-       <div>
+    <div>your Region Path Now = {{vm.parent}}<span ng-if="vm.level1">/{{vm.level1}}</span>
+    <span ng-if="vm.level2">/{{vm.level2}}</span> <span ng-if="vm.level3">/{{vm.level3}}</span></div>
+
+        <div class="row">
+            <div class="col">
+                 <span class="ion-chevron-left float_right" ng-click="vm.leftArrowClick()"></span>
+            </div>
+            <div class="col">
+                <input type="text" ng-model ="vm.currentValue" class="border1px with100p">
+            </div>
+            <div class="col">
+                 <span class="ion-chevron-right" ng-click="vm.rightArrowClick()">Next Level</span>
+            </div>
+            <div ng-if="vm.nextLevel1Options">
+                <select  ng-model="vm.selectedData1" ng-change="vm.level1ChangeEvent()" ng-options="v as v.Name for v in vm.nextLevelData1" class="bordernone with100p btmborder padding5px">
+                    <option value="" disabled selected="selected" style="display: none;">Choose Next Level</option>
+                </select>
+            </div>
+            <div ng-if="vm.nextLevel2Options">
+                <select  ng-model="vm.selectedData2" ng-change="vm.level2ChangeEvent()" ng-options="v as v.Name for v in vm.nextLevelData2" class="bordernone with100p btmborder padding5px">
+                    <option value="" disabled selected="selected" style="display: none;">Choose Next Level</option>
+                </select>
+            </div>
+
+             <div ng-if="vm.nextLevel3Options">
+                <select  ng-model="vm.selectedData3" ng-change="vm.level3ChangeEvent()" ng-options="v as v.Name for v in vm.nextLevelData3" class="bordernone with100p btmborder padding5px">
+                    <option value="" disabled selected="selected" style="display: none;">Choose Next Level</option>
+                </select>
+            </div>
+           
+                
+           
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!--  <div>
             Country:
             <select id="country" ng-model="statessource" ng-options="country for (country, states) in countries"
                 ng-change="GetSelectedCountry()">
@@ -73,6 +116,6 @@
             <span>Selected City: </span>
             <label>
                 {{city}}</label>
-        </div>
+        </div> -->
 	</ion-content>
 </ion-view>

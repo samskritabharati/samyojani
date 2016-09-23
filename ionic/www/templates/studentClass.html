@@ -56,18 +56,18 @@
 					<div class="position_relative displayflex mrg_top5px">
 						<div class="with100p">
 							<span ng-if="activity.activityState == 'Tentative'" ng-click="vm.joinActivity(activity,'Confirmed')">
-								<span  class="ion-plus-circled font_size_20px mrgrgt20 orangeText resfontsize" >Confirm</span> 
+								<span  class="ion-plus-circled icons font_size_20px mrgrgt20 orangeText resfontsize" >Confirm</span> 
 							</span>
 
 							<span ng-click="vm.DeletActivityFromList(activity)">
-								<span  class="ion-help-circled font_size_20px mrgrgt20 orangeText resfontsize" >Leave</span>
+								<span  class="ion-help-circled icons font_size_20px mrgrgt20 orangeText resfontsize" >Leave</span>
 							</span>
 							<span ng-if='(activity.activity_phone != "")'>
-								<span ><a  href="tel:activity.activity_phone" class="ion-ios-telephone font_size_20px mrgrgt20 orangeText resfontsize"></a></span>
+								<span ><a  href="tel:activity.activity_phone" class="ion-ios-telephone icons font_size_20px mrgrgt20 orangeText resfontsize"></a></span>
 							</span>
 							<span ng-if='(activity.activity_email != "")'>
 								<span>
-									<a href="mailto:{{activity.activity_email}}" class="ion-email font_size_20px mrgrgt20 orangeText resfontsize" 
+									<a href="mailto:{{activity.activity_email}}" class="ion-email icons font_size_20px mrgrgt20 orangeText resfontsize" 
 									title="mail"></a>
 								</span>
 							</span>

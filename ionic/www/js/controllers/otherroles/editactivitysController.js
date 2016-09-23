@@ -2,24 +2,25 @@ angular
 .module('starter')
 .controller('editactivitysController', editactivitysController);
 
-editactivitysController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory','$timeout' ,'activityService' ,'filterFilter','$rootScope','$filter'];
+editactivitysController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory','$timeout' ,'activityService' ,'filterFilter','$rootScope','$filter','$ionicPopup'];
 
-function editactivitysController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout,activityService,filterFilter,$rootScope,$filter) {
+function editactivitysController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout,activityService,filterFilter,$rootScope,$filter,$ionicPopup) {
 	var vm = this;
 	vm.showSpinner = false;
 	vm.saveUpdatedActivityDetail = saveUpdatedActivityDetail;
 	vm.Activity = $state.params.editdata;
 	vm.closeModel = closeModel;
 	vm.editActivity = vm.Activity;
-	console.log("vm.editActivity",vm.editActivity);
 	vm.seacrchForCoordinator = seacrchForCoordinator;
 	vm.searchUser = searchUser;
 	vm.choosedCoordinator =  choosedCoordinator;
 	vm.closeThisModel = closeThisModel;	
-	var st_date = $filter('date')(vm.Activity.Start_date, 'M/d/yy');
+
+	var st_date = $filter('date')(vm.Activity.Start_date, 'MM/dd/yyyy');
 	vm.editActivity.Start_date = st_date;
-	var ed_date = $filter('date')(vm.Activity.End_date, 'M/d/yy');
+	var ed_date = $filter('date')(vm.Activity.End_date, 'MM/dd/yyyy');
 	vm.editActivity.End_date = ed_date;
+
 	userInfoService.getAllActivity().then(function(activity){
 		vm.activityList= activity.data ;
 	})
@@ -41,8 +42,13 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 
 	function saveUpdatedActivityDetail(updatedActivity){
 		vm.showSpinner = true;
-		userInfoService.updateActivity(updatedActivity).then(function(data){
+		   console.log("updatedActivity",vm.editActivity);
+		vm.editActivity.Start_date = angular.element('#edit_st').val();
+        vm.editActivity.End_date = angular.element('#edit_ed').val();
+        console.log("updatedActivity",vm.editActivity);
+		userInfoService.updateActivity(vm.editActivity).then(function(data){
 			vm.showSpinner = false;
+			userAuthenticationService.alertUser('Activity Updated Successfully');
 			$ionicHistory.nextViewOptions({
 				disableBack: true
 			});
@@ -90,6 +96,7 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 		if(!criteria){
 			userInfoService.getUser().then(function(userDetail){
 				vm.showSearchCount = true;
+
 				vm.user = userDetail;
 				$scope.currentPage = 1;
 				$scope.totalItems = userDetail.data.length;
@@ -135,22 +142,26 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 				criteria.city =''
 			}
 			userInfoService.searchForUser(criteria).then(function(userDetail){
-				vm.showSearchCount = true;
-				vm.user = userDetail;
-				$scope.currentPage = 1;
-				$scope.totalItems = userDetail.data.length;
-				$scope.entryLimit = 10; 
-				$scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
-
-				$scope.$watch('search', function (newVal, oldVal) {
-
-					$scope.filtered = filterFilter(vm.user.data, newVal);
-					$scope.totalItems = $scope.filtered.length;
-					$scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+				if(userDetail.data.length > 0){
+					vm.showSearchCount = true;
+					vm.user = userDetail;
 					$scope.currentPage = 1;
-					vm.showSpinner = false;
-				}, true);
+					$scope.totalItems = userDetail.data.length;
+					$scope.entryLimit = 10; 
+					$scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
 
+					$scope.$watch('search', function (newVal, oldVal) {
+
+						$scope.filtered = filterFilter(vm.user.data, newVal);
+						$scope.totalItems = $scope.filtered.length;
+						$scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+						$scope.currentPage = 1;
+						vm.showSpinner = false;
+					}, true);
+				}else{
+					vm.showSpinner = false;
+					userAuthenticationService.alertUser('No Matches ');
+				}
 			},function(error){
 				console.log("Error in updating FacebookID")
 			})

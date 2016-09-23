@@ -2,7 +2,7 @@
 	
 	<div class="bar bar-subheader floatingHeader" ng-if="!(vm.role == 'Student')">
 
-		<span class="ion-plus-circled floatingbtn font_size_30px orangeText" ng-click="vm.showAddPerticipantForm()">
+		<span class="ion-plus-circled icons floatingbtn font_size_30px orangeText" ng-click="vm.showAddPerticipantForm()">
 		</span>
 	</div>
 	<ion-content class="has-header " overflow-scroll = "true">
@@ -132,9 +132,9 @@
 							<div class="col3 padding_right5p resmrg_top5p resbtmborder" resmrg10px" ng-if="!(vm.role == 'Student')">
 								<div class="position_relative displayflex">
 									<div class="with100p">
-										<span ng-click="vm.showFormToUpdatePerticipantInActivity(participant)" class="ion-edit font_size_20px mrgrgt20 orangeText resfontsize"></span>
+										<span ng-click="vm.showFormToUpdatePerticipantInActivity(participant)" class="ion-edit icons font_size_20px mrgrgt20 orangeText resfontsize"></span>
 									
-										<span ng-click="vm.deleteUserFromActivity(participant)" class="ion-trash-a font_size_20px mrgrgt20 orangeText resfontsize"></span>
+										<span ng-click="vm.deleteUserFromActivity(participant)" class="ion-trash-a icons font_size_20px mrgrgt20 orangeText resfontsize"></span>
 									</div>
 								</div>
 							</div>
@@ -193,29 +193,34 @@
 			</ion-modal-view>
 		</script>
 
-		<script id="addPerticipantToActivity.html" type="text/ng-template">
-			<ion-modal-view>
+		<!-- <script id="addPerticipantToActivity.html" type="text/ng-template">
+			<ion-modal-view style="height: 0%; width:20%" scroll="false">
 			
 				<ion-header-bar class="bar bar-header button-clear">
 					<div class="text_align_center with100p">
-						<span class="btmborder padding5px orangeText font_size_20px boldtext">Add New Participant</span>
+						<span class="btmborder padding5px orangeText font_size_20px boldtext">New Participant</span>
 						<button class="button  button-light float_right background_transparent mrgrgt5p resmrg_right10p" ng-click="vm.closeModelAndRefeshParticipant()">
 							<span class="ion-android-cancel orangeText font_size_20px"></span>
 						</button>
 					</div>
 				</ion-header-bar>
-				<ion-content class="restop0">
-					<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+				<ion-content  overflow-scroll = "false">
+					
 
+<div class="row" style="margin-top: 10%">
+	<div class="col text_align_center"><button class="button  themBackgroundColor text_align_center text_white" ng-click="vm.seacrchForUser()" type="submit">Existing User</button></div>
+	</div>
+</div>
+<div class="text_align_center">---- OR -----</div>
 <div class="row">
-	<div class="col text_align_center"><button class="button  themBackgroundColor text_align_center text_white" ng-click="vm.seacrchForUser()" type="submit">ExistingUser</button></div>
 	<div class="col text_align_center">
 	<button class="button  themBackgroundColor text_align_center text_white" ng-click="vm.newUser()" type="submit">New User</button>
 	</div>
-</div>
+	</div>
+	
 				</ion-content>
 			</ion-modal-view>
-		</script>
+		</script> -->
 <script id="chooseUser.html" type="text/ng-template">
 	<ion-modal-view>                                        
 		<ion-header-bar class="bar bar-header button-clear">
