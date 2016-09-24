@@ -33,6 +33,11 @@ class _Praanta_name(fields.Raw):
         #print p
         return p['path'] if p and 'path' in p else 'Unknown'
 
+class _Subregions(fields.Raw):
+    def format(self, subregions):
+        subr = dict((name, _Region_url().format(id)) for name, id in subregions.items())
+        return subr
+
 class _Rsrc_url(fields.Raw):
     cname = None
     def format(self, id):
@@ -49,6 +54,8 @@ class _Activity_url(_Rsrc_url):
     cname = 'activities'
 class _Project_url(_Rsrc_url):
     cname = 'projects'
+class _Region_url(_Rsrc_url):
+    cname = 'regions'
 
 attr2external = {
     'Coordinator_id' : { 'Coordinator_url' : _User_url(attribute='Coordinator_id') },
@@ -56,8 +63,9 @@ attr2external = {
     'Course_id' : { 'Course_url' : _Course_url(attribute='Course_id') },
     'Activity_id' : { 'Activity_url' : _Activity_url(attribute='Activity_id') },
     'Project_id' : { 'Project_url' : _Project_url(attribute='Project_id') },
-    'Praanta_id' : { 'SB_Region' : _Praanta_name(attribute='Praanta_id') },
-    'Parent_praanta_id' : { 'SB_Parent_Region' : _Praanta_name(attribute='Parent_praanta_id') },
+    'Region_id' : { 'Region_url' : _Region_url(attribute='Region_id') },
+    'Parent_region_id' : { 'Parent_region_url' : _Region_url(attribute='Parent_region_id') },
+    'subregions' : { 'Subregions' : _Subregions(attribute='subregions') },
     'Address_line1' : { 'Address' : _address_fields },
     'Address_line2' : { 'Address' : _address_fields },
     'City' : { 'Address' : _address_fields },
@@ -70,7 +78,6 @@ attr2external = {
 
 class _SBCollection(Resource):
     schema = {}
-    schema_ext = {}
     cname = None
     key = None
     helpprefix = ''
@@ -83,6 +90,7 @@ class _SBCollection(Resource):
                 self.schema = u
                 #self.attrs.pop('_id')
             break
+        self.schema_ext = {}
 
         self.get_parser = reqparse.RequestParser()
         self.exported_fields = {}
@@ -153,29 +161,21 @@ class _SBCollection(Resource):
         for k in entry:
             if entry[k] in ['null', 'undefined']:
                 entry[k] = ''
-        if 'SB_Region' in entry:
-            entry['Praanta_id'] = '' if entry['SB_Region'] in ['', 'null', 'undefined'] \
-                else sbget().sbregions().from_path(entry['SB_Region'])['_id']
-            entry.pop('SB_Region')
-
-        if 'SB_Parent_Region' in entry:
-            entry['Parent_Praanta_id'] = '' if entry['SB_Parent_Region'] in ['', 'null'] \
-                else sbget().sbregions().from_path(entry['SB_Parent_Region'])['_id']
-            entry.pop('SB_Parent_Region')
-
-        if 'Praanta_id' in entry and entry['Praanta_id'] == '':
-            entry['Praanta_id'] = sbget().sbregions().root['_id']
-
-        if 'Parent_praanta_id' in entry and entry['Parent_praanta_id'] == '':
-            entry['Parent_praanta_id'] = sbget().sbregions().root['Parent_praanta_id']
 
         #if 'Role' in entry and entry['Role'] == '':
         #    entry['Role'] = 'Student'
 
-        for f in ['Coordinator', 'Project', 'Activity', 'Person', 'Course']:
+        for f in ['Coordinator', 'Project', 'Activity', 'Person', 'Course', \
+                'Region', 'Parent_region']:
             if f + '_url' in entry:
                 entry[f + '_id'] = _Rsrc_url().id(entry[f + '_url'])
                 entry.pop(f + '_url')
+
+        if 'Region_id' in entry and entry['Region_id'] == '':
+            entry['Region_id'] = sbget().sbregions().root['_id']
+
+        if 'Parent_region_id' in entry and entry['Parent_region_id'] == '':
+            entry['Parent_region_id'] = sbget().sbregions().root['Parent_region_id']
 
         if 'Address' in entry:
             addr = entry['Address']
@@ -221,9 +221,9 @@ class _SBCollection(Resource):
         #   print "Default for {} is {}".format(k, val)
 
     def set_defaults(self, entry):
-        if 'Postal_code' in entry and 'Praanta_id' not in entry and \
-            'Praanta_id' in self.schema:
-            entry['Praanta_id'] = sbget().sbregions().from_address(entry)
+        if 'Postal_code' in entry and 'Region_id' not in entry and \
+            'Region_id' in self.schema:
+            entry['Region_id'] = sbget().sbregions().from_address(entry)
         missing_keys = []
         for k, v in self.schema.items():
             if k not in entry:
@@ -257,6 +257,7 @@ class _SBCollection(Resource):
 
     def get(self, _id=None):
         if 'schema' in request.url_rule.rule:
+            print "Schema returned", self.schema_ext
             return self.schema_ext
 
         if _id:
@@ -288,7 +289,7 @@ class _SBCollection(Resource):
 
             query = {}
             for k, v in args.items():
-                if k == 'Praanta_id' or not v:
+                if k == 'Region_id' or not v:
                     args.pop(k)
                     continue
                 if exact:
@@ -308,10 +309,10 @@ class Users(_SBCollection):
         self.schema = {
             'Email': '',
             'Name': '',
-            'Date_joined': '',
+            'Signup_date': '',
             'Phone': '',
-            'Praanta_id': { 'ref' : 'regions', 'default' : '' },
-            'Profession': { 'options' : Presets().get('Profession'), 'default' : 'Student' },
+            'Region_id': { 'ref' : 'regions', 'default' : '' },
+            'Profession': { 'options' : Presets().get('Profession'), 'default' : '' },
             'Interests': { 'options' : Presets().get('Interests'), 'default' : 'Student' },
             'Facebook_id': '',
             'Role': { 'ref' : 'roles', 'default' : 'Student' },
@@ -361,13 +362,14 @@ class Projects(_SBCollection):
         self.key = ['Name']
         self.helpprefix = 'The project\'s '
         self.schema = {
-            'Project_type': { 'ref' : 'project_types', 'default' : 'varga' },
+            'Project_type': { 'ref' : 'project_types', 'default' : 'shibiram' },
             'Coordinator_id': { 'ref' : 'users', 'default' : '' },
             'Name': '',
-            'Email': '',
-            'Phone': '',
+            'Description' : '',
             'Start_date': '',
             'End_date': '',
+            'Phone': '',
+            'Email': '',
             'URL': '' }
         for f in _address_fields.keys():
             self.schema[f] = ''
@@ -404,12 +406,15 @@ class Regions(_SBCollection):
         self.schema = {
             'Coordinator_id': { 'ref' : 'users', 'default' : '' },
             'Description': '',
-            'Parent_praanta_id': { 'ref' : 'regions', 'default' : '' },
+            'Parent_region_id': { 'ref' : 'regions', 'default' : '' },
             'Praanta_type': { 'ref' : 'praanta_types', 'default' : '' },
             'path': '',
+            'subregions': { 'ref' : 'regions', 'default' : {} },
             'URL' : '',
             'Name' : '',
             }
+        for f in _address_fields.keys():
+            self.schema[f] = ''
         _SBCollection.__init__(self)
 
 class Locations(_SBCollection):
@@ -417,7 +422,7 @@ class Locations(_SBCollection):
         self.cname = 'locations'
         self.helpprefix = 'The Geo location\'s '
         self.schema = {
-            'Praanta_id': { 'ref' : 'users', 'default' : '' },
+            'Region_id': { 'ref' : 'regions', 'default' : '' },
             }
         for f in _address_fields.keys():
             self.schema[f] = ''

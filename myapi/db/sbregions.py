@@ -1,29 +1,58 @@
 import json
 import re
+from mydb import *
 from pprint import pprint
 
-class SBRegions:
-    cname = 'regions'
-    mycollection = None
+class SBRegions(MyCollection):
     root = None
     addr_fields = ['Country', 'State', 'District', 'City', 'Locality']
     idx = {}
 
     def __init__(self, mydb):
-        self.mydb = mydb
-        self.mycollection = mydb[self.cname]
+        MyCollection.__init__(self, 'regions', mydb, True)
+        mydb.c[self.name] = self
         self.load()
 
     def __getitem__(self, praanta_id):
-        return self.mycollection.get(praanta_id)
-            
+        return self.get(praanta_id)
+
+    def insert(self, item):
+        newid = MyCollection.insert(self, item)
+        if newid:
+            parent = item['Parent_region_id']
+            parent['subregions'][item['Name']] = newid
+        return newid
+
+    def delete(self, item_id):
+        r = self.get(item_id)
+        if not r:
+            return False
+        parent = r['Parent_region_id']
+        if parent:
+            parent['subregions'].pop(r['Name'])
+        return MyCollection.delete(self, item)
+
+    def update(self, item_id, fields):
+        r = self.get(item_id)
+        parent = None
+        if r:
+            if 'Name' in fields and fields['Name'] != r['Name']:
+                oldname = fields['Name']
+                parent = r['Parent_region_id']
+                if parent:
+                    parent['subregions'].pop(oldname)
+        success = MyCollection.update(self, item_id, fields)
+        if success and parent:
+            parent['subregions'][fields['Name']] = item_id
+        return success
+
     def region_path(self, r):
         path = [r['Name']]
-        p_id = r['Parent_praanta_id']
+        p_id = r['Parent_region_id']
         while p_id != None and p_id >= 0:
-            p = self.mycollection.get(p_id)
+            p = self.get(p_id)
             path.append(p['Name'])
-            p_id = p['Parent_praanta_id']
+            p_id = p['Parent_region_id']
         path.reverse()
         return "/".join(path)
 
@@ -82,19 +111,19 @@ class SBRegions:
     def load(self):
         print "Loading SB regions data ..."
         self.root = None
-        self.mycollection.slurp()
+        self.slurp()
         
-        for id, r in self.mycollection.all().items():
-            parent_id = r['Parent_praanta_id']
+        for id, r in self.all().items():
+            parent_id = r['Parent_region_id']
             if parent_id is None:
                 self.root = r
-                #r['Parent_praanta_id'] = None
+                #r['Parent_region_id'] = None
                 continue
-            if parent_id not in self.mycollection.local:
+            if parent_id not in self.local:
                 print "Skipping orphan region: ", json.dumps(r)
                 continue
 
-            myparent = self.mycollection.local[parent_id]
+            myparent = self.local[parent_id]
             if 'subregions' not in myparent:
                 myparent['subregions'] = {}
             myparent['subregions'][r['Name']] = id
@@ -102,9 +131,9 @@ class SBRegions:
             #r.pop('Praanta_type_id')
             #r['type'] = praantatypes.get(rtype)['Name']
 
-        for id, r in self.mycollection.all().items():
+        for id, r in self.all().items():
             r['path'] = self.region_path(r)
-            self.mycollection.update(id, {'path' : r['path']})
+            self.update(id, {'path' : r['path']})
             self.idx[r['path']] = r
 
         return self.root

@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `Recurrence` varchar(30) NOT NULL DEFAULT '',
   `Project_id` bigint(20) NOT NULL DEFAULT '0',
   `Coordinator_id` bigint(20) NOT NULL DEFAULT '0',
-  `Praanta_id` bigint(20) NOT NULL DEFAULT '0',
+  `Region_id` bigint(20) NOT NULL DEFAULT '0',
   `Email` varchar(40) NOT NULL DEFAULT '',
   `Phone` varchar(50) NOT NULL,
   `URL` varchar(50) NOT NULL DEFAULT '',
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
 -- Dumping data for table `activity`
 --
 
-INSERT INTO `activity` (`Activity_id`, `Name`, `Activity_type`, `Start_date`, `End_date`, `Start_time`, `End_time`, `Recurrence`, `Project_id`, `Coordinator_id`, `Praanta_id`, `Email`, `Phone`, `URL`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`) VALUES
+INSERT INTO `activity` (`Activity_id`, `Name`, `Activity_type`, `Start_date`, `End_date`, `Start_time`, `End_time`, `Recurrence`, `Project_id`, `Coordinator_id`, `Region_id`, `Email`, `Phone`, `URL`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`) VALUES
 (16, 'bhaashaa-bodhana-varga-Khammam', 3, '2011-04-24', '2011-04-28', '9am', '5pm', 'daily', 13, 68, 92, '', '', 'http://', 'mamillagudem', '', 'Khammam', '', 'Andhra Pradesh', '', 0),
 (13, 'Padmaraonagar Shibiram', 3, '2011-04-04', '2011-04-13', '6:30pm', '8:30pm', 'Daily', 12, 62, 95, 'krupaluv@rediffmail.com', '', 'http://', 'Pavani-Satya', '', 'Hyderabad', '', 'AP', '', 0),
 (28, 'bhaashaa-bodhana-varga-Chittoor', 3, '2011-04-25', '2011-04-29', '9am', '5pm', 'daily', 13, 72, 92, '', '', 'http://', 'Oriental College', 'Tirupathi', 'Chittoor', '', 'Andhra Pradesh', '', 0),
@@ -254,7 +254,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `Name` varchar(30) NOT NULL DEFAULT '',
   `Profession` varchar(30) NOT NULL,
   `Role` bigint(20) NOT NULL DEFAULT '0',
-  `Praanta_id` bigint(20) NOT NULL,
+  `Region_id` bigint(20) NOT NULL,
   `Phone` varchar(30) NOT NULL DEFAULT '',
   `Email` varchar(40) NOT NULL DEFAULT '',
   `URL` varchar(50) NOT NULL DEFAULT '',
@@ -265,14 +265,14 @@ CREATE TABLE IF NOT EXISTS `person` (
   `Country` varchar(25) NOT NULL DEFAULT '',
   `Geo_id` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Person_id`),
-  UNIQUE KEY `Name` (`Name`,`Praanta_id`)
+  UNIQUE KEY `Name` (`Name`,`Region_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=280 ;
 
 --
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`Person_id`, `Name`, `Profession`, `Role`, `Praanta_id`, `Phone`, `Email`, `URL`, `Address_line1`, `Address_line2`, `City`, `State`, `Country`, `Geo_id`) VALUES
+INSERT INTO `person` (`Person_id`, `Name`, `Profession`, `Role`, `Region_id`, `Phone`, `Email`, `URL`, `Address_line1`, `Address_line2`, `City`, `State`, `Country`, `Geo_id`) VALUES
 (1, 'Bhawana Purohit', 'Sanskrit teaching', 4, 18, '+919341254067', '', 'http://', '', '', '', '', '', 0),
 (3, 'Dharmvir Singh', 'Sanskrit teaching', 5, 18, '+919740396256', 'dharmvir.singh@hotmail.com', 'http://', '207, Pawani Prestige,Kundanhalli Gate, Marathalli', '', 'Bangalore', 'Karnataka', '', 0),
 (4, 'Suneesh Kumar TK', 'Sanskrit teaching', 11, 5, '+919035195170', 'suneeshkumar@gmail.com', 'http://', 'Aksharam, Girinagar, Second Phase, 8th Cr', '', 'Bangalore', 'Karnataka', '', 560085),
@@ -550,24 +550,23 @@ INSERT INTO `personrole` (`Role`, `Name`, `Level`) VALUES
 
 DROP TABLE IF EXISTS `praanta`;
 CREATE TABLE IF NOT EXISTS `praanta` (
-  `Praanta_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Region_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `Name` varchar(30) NOT NULL DEFAULT '',
   `Description` varchar(70) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `Praanta_type` bigint(20) NOT NULL DEFAULT '0',
   `Coordinator_id` bigint(20) NOT NULL DEFAULT '0',
-  `Parent_praanta_id` bigint(20) NOT NULL DEFAULT '0',
+  `Parent_region_id` bigint(20) NOT NULL DEFAULT '0',
   `Geo_id` bigint(20) NOT NULL,
   `URL` varchar(70) NOT NULL,
-  PRIMARY KEY (`Praanta_id`),
-  UNIQUE KEY `Name` (`Name`,`Parent_praanta_id`)
+  PRIMARY KEY (`Region_id`),
+  UNIQUE KEY `Name` (`Name`,`Parent_region_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=232 ;
 
 --
 -- Dumping data for table `praanta`
 --
 
-INSERT INTO `praanta` (`Praanta_id`, `Name`, `Description`, `Praanta_type`, `Coordinator_id`, `Parent_praanta_id`, `Geo_id`, `URL`) VALUES
-(0, 'World', '', 0, 56, -1, 0, 'http://samskritabharati.org'),
+INSERT INTO `praanta` (`Region_id`, `Name`, `Description`, `Praanta_type`, `Coordinator_id`, `Parent_region_id`, `Geo_id`, `URL`) VALUES
 (1, 'Karnataka', '', 3, 55, 2, 560085, ''),
 (2, 'India', '', 1, 56, 0, 0, 'http://samskritabharati.in'),
 (3, 'Karnataka Dakshina', '', 4, 201, 1, 0, 'http://'),
@@ -757,7 +756,7 @@ CREATE TABLE IF NOT EXISTS `project` (
   `End_date` date NOT NULL DEFAULT '0000-00-00',
   `Coordinator_id` bigint(20) NOT NULL DEFAULT '0',
   `Project_type` bigint(20) NOT NULL DEFAULT '1',
-  `Praanta_id` bigint(20) NOT NULL DEFAULT '0',
+  `Region_id` bigint(20) NOT NULL DEFAULT '0',
   `Phone` varchar(30) NOT NULL DEFAULT '',
   `Email` varchar(40) NOT NULL DEFAULT '',
   `URL` varchar(50) NOT NULL DEFAULT '',
@@ -775,7 +774,7 @@ CREATE TABLE IF NOT EXISTS `project` (
 -- Dumping data for table `project`
 --
 
-INSERT INTO `project` (`Project_id`, `Name`, `Start_date`, `End_date`, `Coordinator_id`, `Project_type`, `Praanta_id`, `Phone`, `Email`, `URL`, `Address_line1`, `Address_line2`, `City`, `State`, `Country`, `Geo_id`) VALUES
+INSERT INTO `project` (`Project_id`, `Name`, `Start_date`, `End_date`, `Coordinator_id`, `Project_type`, `Region_id`, `Phone`, `Email`, `URL`, `Address_line1`, `Address_line2`, `City`, `State`, `Country`, `Geo_id`) VALUES
 (10, 'Samskrit in Wikipedia', '0000-00-00', '0000-00-00', 0, 1, 5, '', '', '', '', '', '', '', '', 0),
 (12, '10-day Spoken Samskrit Classes', '0000-00-00', '0000-00-00', 56, 1, 2, '', '', 'http://samskritabharati.in/spoken-samskrit-class', '', '', '', '', '', 0),
 (13, 'bhaashaa bodhana vargaah', '2011-04-24', '2014-04-24', 57, 1, 92, '+919848444906', 'uramanamurty@yahoo.in', '', '', '', '', '', '', 0),
@@ -829,7 +828,7 @@ CREATE TABLE IF NOT EXISTS `visitor` (
   `Profession` varchar(30) NOT NULL DEFAULT '',
   `Interest` varchar(70) CHARACTER SET utf8 NOT NULL,
   `Message` varchar(70) NOT NULL,
-  `Praanta_id` bigint(20) NOT NULL DEFAULT '0',
+  `Region_id` bigint(20) NOT NULL DEFAULT '0',
   `Phone` varchar(30) NOT NULL DEFAULT '',
   `Email` varchar(40) NOT NULL DEFAULT '',
   `Address_line1` varchar(50) NOT NULL DEFAULT '',
@@ -848,7 +847,7 @@ CREATE TABLE IF NOT EXISTS `visitor` (
 -- Dumping data for table `visitor`
 --
 
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (12, 'Nitin Dahra', 'technical professional', 'Learn Samskrit', '', 2, '9886201562', 'nitinkd@gmail.com', 'Nagavarapalaya Main Road, CV Raman Nagar', '', 'Bangalore', '', 'Karnataka', '', 0, '2011-06-21 08:24:01'),
 (14, 'Priya', 'technical professional', 'Learn Samskrit', '', 5, '9731523404', 'ammu9priya@gmail.com', 'ammu9priya@yahoo.com', 'No 192, 1st Floor, Ayyappa  Temple Road, C. N. Hal', 'Bangalore', 'Bangalore', 'Karnataka', '', 560032, '2004-07-16 06:00:00'),
 (16, 'DEVENDRA  SINGH  DANDOTIYA', 'student', 'Learn Samskrit', '', 100, '9013743469', 'dandotiya03@gmail.com', 'samkalp bhawan, plot no. 15, sector-4 ', 'r.k.puram', 'new delhi', '', 'delhi', '', 110022, '2004-07-15 06:00:00'),
@@ -1065,7 +1064,7 @@ INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`
 (227, 'SANJOY MAZUMDER', 'self-employed', 'Learn Samskrit', '', 2, '9434743643', 'sanjoymazumder@indiatimes.com', 'sanjoymazumders@gmail.com', 'sanjoymazumders@yahoo.com', 'Kolkata', 'Kolkata', 'West Bengal', '', 700030, '2011-09-26 08:53:20'),
 (228, 'eesleyanto', 'Sanskrit teaching', 'Scribe Samskrit texts', '', 100, '800-810-4700', 'kopaldjlu@hotmail.com', 'The five Street NewYork NewYork USA 10001', 'The five Street NewYork NewYork USA 10001', 'NewYork', '18', 'NewYork', '', 10001, '2011-09-26 10:22:14'),
 (229, 'praveen kumar .m .s', 'unemployed', 'Learn Samskrit', '', 2, '09843954226', 'praveenmspk@yahoo.co.in', '#37, Karthik Nagar', 'Marathahalli Post', 'Bangalore', '', 'Karnataka', '', 560037, '2011-09-26 13:00:22');
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (230, 'v.ramachandran', 'other', 'Learn Samskrit', '', 2, '9322215211', 'vram21@gmail.com', '4A Francis Mansion, Agashe Path, Dadar S', '', 'Mumbai', 'Mumbai', 'maharashtra', '', 400028, '2011-09-26 18:38:47'),
 (231, 'tultsjess', 'Sanskrit teaching', 'Teach Samskrit', '', 3, '1-202-328 2516', 'qczapajmxdks@hotmail.com', 'The five Street NewYork NewYork USA 10001', 'The five Street NewYork NewYork USA 10001', 'NewYork', '18', 'NewYork', '', 10001, '2011-09-27 00:33:46'),
 (232, 'sneckeldo', 'Sanskrit teaching', 'Volunteer for Samskrit', '', 16, '800-810-4700', 'zhennanstnyvh@21cn.com', 'The five Street NewYork NewYork USA 10001', 'The five Street NewYork NewYork USA 10001', 'NewYork', '18', 'NewYork', '', 10001, '2011-09-27 02:57:25'),
@@ -1284,7 +1283,7 @@ INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`
 (445, 'OMER ISMAIL', 'technical professional', 'Learn Samskrit', '', 103, '416-694-1330', 'oishmail@gmail.com', 'PH 2305-30 Denton Ave', '', 'Toronto', '', 'On', '', 0, '2011-11-18 02:32:34'),
 (446, 'Parvatha Vardhini K B', 'other', 'Learn Samskrit,Teach Samskrit', '', 2, '080-26696660', 'vardhiniananth@gmail.com', 'Flat 1A, Pavan Paranjyothi Apartments', '#22/1, 4th Cross, Kaveri Nagar, BSK III Stage', 'Bangalore', 'Bangalore', 'Karnataka', '', 560085, '2011-11-18 11:45:35'),
 (447, 'Rajasekhar', 'technical professional', 'Learn Samskrit', '', 5, '9036056981', 'somanchi.r@gmail.com', 'BMP 85 3rd cross 1st main', 'Malleshpalya', 'Bangalore', '', 'Karnataka', '', 560075, '2011-11-19 09:19:13');
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (448, 'uttara swaminathan', 'student', 'Learn Samskrit', '', 5, '080-25831122', 'uttu2m@gmail.com', '122,rbd layout ,', 'sarjapura road,', 'bangalore', '', 'Karnataka', '', 560035, '2011-11-20 03:57:15'),
 (449, 'uddhava swaminathan', 'student', 'Learn Samskrit', '', 2, '080-25831122', 'uddhava2m@gmail.com', '122,rbd layout,', 'sarjapura road,', 'bengaluru', '', 'Karnataka', '', 560035, '2011-11-20 03:59:42'),
 (450, 'HAJEESH.K.H', 'student', 'Learn Samskrit', '', 2, '9846695897', 'K.h.hajeesh.2011@gmail.com', 'S/o HARIDAS.K KUTTININGAD (HOU)  THALI (PO)  VARAV', '', 'NELLUVAY', 'THRISSUR', 'KERALA', '', 680585, '2011-11-20 05:12:24'),
@@ -1476,7 +1475,7 @@ INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`
 (637, 'maruthi prasad', 'other', 'Learn Samskrit', 'sir,\r\n i am genuinely interested to learn samskrit please guide me thr', 1, '9844813544', 'pulakunta@rediffmail.com', '588/1 officers quarters af jalahalli', '', 'bangalore', 'bangalore', 'karnataka', '', 560015, '2012-01-11 17:26:05'),
 (638, 'Subhendu. R', 'technical professional', 'Learn Samskrit', 'want to speak sanskrit in home', 2, '09237035884', 'srath.bbsr@gmail.com', 'unit-9, Bhubaneswar City', '', 'Bhubaneswar', 'Khurdha', 'Odisha', '', 751001, '2012-01-12 03:39:37'),
 (639, 'k. kausalya devi', 'other', 'Learn Samskrit', '', 16, '9901605515', 'kausalya73@gmail.com', '204,shravanti classic,4th main,N S Palya,', 'B T M 2nd stage', 'BANGLORE', '', 'Karnataka', '', 560076, '2012-01-12 04:52:50');
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (640, 'v r venkatesh gupta', 'self-employed', 'Learn Samskrit', '', 1, '9448956535', 'vrvenkateshgupta@gmail.com', '1481 5th main II stage', 'rajajinagar', 'bangalore', '', 'karnataka', '', 560010, '2012-01-12 14:17:14'),
 (641, 'Sanjiv Jadhav', 'self-employed', 'Learn Samskrit', 'Interested to learn Samskrit verses and language', 2, '919945500918', 'sanjeevjadhav07@gmail.com', 'Ramdev Galli Vadgaon Belgaum', 'Ramdev Galli Vadgaon Belgaum', 'Belgaum', 'Belgaum', 'Karnataka', '', 590005, '2012-01-13 04:44:48'),
 (642, 'ascetic angel', 'technical professional', 'Learn Samskrit', 'Please keep up the good work and with all our efforts we''ll keep our S', 2, '8888801186', 'anasceticangel@gmail.com', '#12, keshavnagar,', '', 'Dharwad', '', 'Karnataka', '', 580007, '2012-01-13 10:00:00'),
@@ -1666,7 +1665,7 @@ INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`
 (826, 'Potladurthy Ramakrishna Sharma', 'technical professional', 'Learn Samskrit', '', 92, '9866419171', 'prkrishna72@gmail.com', 'TF-4, Teja Towers, Ramdooth nagar', 'New R.T.C coloney, Patamata', 'vijayawada', 'krishna', 'Andhrapradesh', '', 520007, '2012-03-16 03:21:58'),
 (827, 'sugathagnana', 'Sanskrit teaching', 'Learn Samskrit', '', 0, '094718075472', 'lsugathagnana@yahoo.com', '10c', 'sangharaja mw', 'kandy', '', 'Sri Lanka', '', 2000, '2012-03-18 04:49:23'),
 (828, 'rohit', 'student', 'Scribe Samskrit texts', '', 96, '9561350245', 'rohti2pharkande@rediffmail.com', 'sps,srtmu nanded', '', 'nanded', 'naded', 'maharashtra', '', 431606, '2012-03-18 05:15:07');
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (829, 'Sridhar Krishnamoorthy', 'technical professional', 'Learn Samskrit', 'I want to learn and understand our Veda with sanscrit knowledge to avo', 2, '9444463254', 'pdmasri@yahoo.com', 'F1 Sakthipriyanka Apts. Kesari Nagar 3rd Street', 'Adambakkam', 'Chennai', 'Chennai', 'Tamilnadu', '', 600088, '2012-03-18 08:58:54'),
 (830, 'srivenugobal', 'Sanskrit teaching', 'Teach Samskrit', 'I have joined already in Sanskrit classes but unfortunately I could no', 111, '9080763985', 'srivenugobal@aim.com', 'No 1/22,Thiruneermalai main  Road,', 'sarswathipuram,Chrompet', 'Chennai', 'chennai', 'Tamil nadu', '', 600, '2012-03-18 12:01:34'),
 (831, 'Lalitha Baskar', 'student', 'Learn Samskrit', '', 91, '9397197666', 'lalitabaskar@gmail.com', 'Sri sai nilayam', '', 'bhavanipuram', 'krishna', 'andhra pradesh', '', 521241, '2012-03-18 15:45:32'),
@@ -1853,7 +1852,7 @@ INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`
 (1012, 'Indu', 'unemployed', 'Learn Samskrit,Teach Samskrit,Volunteer for Samskrit', 'I want to learn sanskrit in dubai, uae.', 0, '0097150 6941309', 'Indukmr@gmail.com', 'Flat 2032, al qusais', '', 'Dubai', '', 'Dubai', '', 1515, '2012-05-16 19:43:18'),
 (1013, 'anoop o', 'student', 'Learn Samskrit', 'namasthe,i want  to learn sanskrit\r\nnow am in bahrian,', 105, '0097338329128', 'anupcrossfield@gmail.com', 'anugragh,28/396b,chevarambalam(po),thondyad', 'anugragh,28/396b,chevarambalam(po),thondyad', 'thondyad', 'kozhikode', 'kerela', '', 673017, '2012-05-17 04:42:04'),
 (1014, 'Mekhola', 'student', 'Learn Samskrit', 'I am interested in Sanskrit home tuition based at jalahalli', 1, '9845564848', 'mekhola.gomes@gmail.com', '2053 prestige Wellington park apts', 'Gangamma circle, jalahalli ', 'Bangalore', '', 'Karnataka ', '', 560013, '2012-05-17 06:12:09');
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (1015, 'Madhu K', 'technical professional', 'Learn Samskrit', 'Please let me know where can I learn samskrit in Hyderabad.', 95, '9642100477', 'madhu_k515@yahoo.co.in', 'Gandhi Nagar, Near RTC X road', '', 'Hyderabad', '', 'Andhra Pradesh', '', 500080, '2012-05-17 08:13:18'),
 (1016, 'Shailaja Satish Puranik', 'other', 'Learn Samskrit', '', 2, '8237846926', 'shailaj_puranik1957@rediffmail.com', 'Flat N0. 5, Swapnagandha Apartment,', 'Plot N0.144, D Sousa Colony, College Road,', 'Nashik', 'Nashik', 'Maharashtra', '', 422005, '2012-05-17 08:34:21'),
 (1017, 'Shagun Sinha', 'student', 'Volunteer for Samskrit', '', 100, '9350683954', 'feelinbest@gmail.com', '101,Media Times apartments', 'Abhay khand-4, Indrapuram, Ghaziabad', 'Ghaziabad', 'Indrapuram', 'Uttar Pradesh', '', 110012, '2012-05-18 05:50:11'),
@@ -2045,7 +2044,7 @@ INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`
 (1203, 'gopika', 'student', 'Learn Samskrit', '', 2, '9745680625', 'gopikagopal20@gmail.com', 'kannadi', '', 'palakkad', 'palakkad', 'kerala', '', 678001, '2012-06-29 13:21:58'),
 (1204, 'Rajesh Pattaje', 'other', 'Learn Samskrit', 'Idam bahu uttama karyam. Sarve samskritham patathu.', 1, '9448075176', 'rajeshpattaje@gmail.com', 'c/o Vyakti Vikas Kendra', '#19, 39th ''A'' cross, 11th main, 4th ''T'' block, Jay', 'Bangalore', 'Bangalore', 'Karnataka', '', 560041, '2012-06-30 07:58:32'),
 (1205, 'Chander Prakash', 'technical professional', 'Learn Samskrit', '', 2, '911972254344', 'chandermanali@gmail.com', 'Assistant Professor, Civil Engineering Department,', '', 'Hamirpur', 'Hamirpur', 'Himachal Pradesh', '', 177005, '2012-06-30 08:57:52');
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (1206, 'N GOPIKA', 'other', 'Learn Samskrit', 'I AM INTERESTED IN ENRROLLING MYSELF IN MA SANSKRIT. PLEASE HELP. ', 2, '9840427123', 'gops.sam@gmail.com', 'G-2, ''Prasanti apartments'', 6A, VI main road,', 'Vijaya nagar, Velachery,', 'Chennai - 42.', '', 'Tamil Nadu', '', 600042, '2012-06-30 15:05:30'),
 (1207, 'S Bhuvaneshwari', 'Sanskrit teaching', 'Learn Samskrit,Teach Samskrit', 'I want to speak in Sanskrit, looking for a continued course in Perungu', 111, '9940059778', 'nissangab@yahoo.com', 'Doshi Etopia II Block 4C 201', '3rd Link Panchayat Road, Perungudi', 'Chennai', '', 'Tamilnadu', '', 600096, '2012-07-01 14:54:03'),
 (1208, 'Haridathan', 'self-employed', 'Learn Samskrit', '', 105, '9447369811', 'haridathans@gmail.com', 'K.M.Mana', 'Malapallipuram ', 'MALA', '', 'KERALA', '', 680732, '2012-07-01 18:05:32'),
@@ -2231,7 +2230,7 @@ INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`
 (1388, 'Vishnuprasad Chandrakant Trive', 'Sanskrit teaching', 'Learn Samskrit', '', 98, '919879321701', 'vishnutrivedi@ymail.com', 'Juna Vas', 'Nakhatrana', 'Bhuj-Kutch', 'Bhuj-Kutch', 'Gujarat', '', 370615, '2012-08-09 14:53:25'),
 (1389, 'KB Nagaraju', 'technical professional', 'Learn Samskrit', 'I am a keen student of Advaita Vedanta . I would like to learn sanskri', 16, '08065626873', 'kb.nagaraju@gmail.com', 'G2, sai madhura Nivas, 135/16, 6B Main, 14 Cross', 'JP Nagar 3 phase', 'Bangalore', 'Bangalore', 'karnataka', '', 560078, '2012-08-10 07:53:16'),
 (1390, 'Aswini TA', 'Sanskrit teaching', 'Learn Samskrit,Teach Samskrit,Fund Samskrit work,Volunteer for Samskri', 'Dear Samskrita Bharati\r\nI am glad to become a member here. I learned s', 119, '09994182230', 'taswini.2005@gmail.com', 'No.28 Ramakrishnapuram Third Street', 'West Mambalam', 'Chennai', '', 'TamilNadu', '', 600033, '2012-08-10 11:24:51');
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (1391, 'Paramanand Upadhyay', 'self-employed', 'Learn Samskrit', '', 119, '9710218552', 'paramanandupadhyay@gmail.com', '17/1 DR.SADASIVAM ROAD, NEW BAZAAR NORTH T.NAGAR, ', '', 'CHENNAI', '', 'TAMILNADU', '', 600017, '2012-08-10 11:48:13'),
 (1392, 'srinivasan varadharajan', 'other', 'Volunteer for Samskrit', 'i like very mach learn samskritam\r\nplese kindle help i have only son\r\n', 131, '9444560788', 'paricharan2012@yahoo.com', '26 raman street nandhavana mettur', 'kamarajar nagar avadi', 'chennai', 'tiruvallur dt', 'tamil nadu', '', 600071, '2012-08-10 12:56:26'),
 (1393, 'shyam', 'student', 'Learn Samskrit', '', 2, '08714290232', 'kumarksshyam46@gmail.com', 'sivaparavathy house,vazhapally po', '', 'changanacherry', 'kottayam', 'kerala', '', 686103, '2012-08-10 17:41:38'),
@@ -2425,7 +2424,7 @@ samskritam , jayati bharatam ', 2, '9321802805', 'cprakash_4u@rediffmail.com', '
 (1580, 'M.N.S Chandrasekaran', 'other', 'Learn Samskrit', 'Dear Sir,\r\n\r\nI have applied for MA sanskrit in Sastra university throu', 111, '9789986693', 'mns.chandrasekaran@tcs.com', 'New no 6/1, Old No 14', '10th street, Nanganallur', 'Chennai', '', 'Tamilnadu', '', 600061, '2012-09-25 08:20:13'),
 (1581, 'Joel John Joseph', 'self-employed', 'Learn Samskrit', 'I am very much interested in learning Sanskrit right from my childhood', 2, '9820300911', 'joelzion@gmail.com', 'EMP 20/602, ', 'Thakur Village, Kandivali East', 'Mumbai', 'Mumbai', 'Maharashtra', '', 400101, '2012-09-26 01:25:20'),
 (1582, 'Shreeya', 'student', 'Learn Samskrit', 'I wanted to Learn Samskrit, please suggest the nearby location where I', 16, '90083 95966', 'rohivid3300@gmail.com', '159,6thcross,9th main', 'Ag''s Layout', 'Bangalore', 'Bangalore', 'karnataka', '', 560061, '2012-09-26 05:06:50');
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (1583, 'T.V.VENKATANARAYANAN', 'other', 'Learn Samskrit', '', 94, '9710430866', 'tvvnarayanan@gmail.com', '7/11 B.V.NAGAR SOUTH-5TH STREET', 'NANGANALLUR', 'CHENNAI', 'CHENNAI', 'TAMILNADU', '', 600061, '2012-09-26 05:57:54'),
 (1584, 'shubham agarwal', 'student', 'Learn Samskrit', 'please give me opportunity to learn sanskrit so that i can contribute ', 2, '9760197707', 'shubh2545@gmail.com', 'sunita gupta, prakash dairy form', 'shanti kunj colony ', 'alwar', 'alwar', 'rajasthan', '', 301001, '2012-09-26 10:01:12'),
 (1585, 'Baskar', 'technical professional', 'Learn Samskrit', 'I have already sent mail to you but I have not received any response. ', 119, '9445401605', 'd21baskar@yahoo.co.in', '13/8, Leela Nagar,', 'East Tambaram, Chennai 59', 'Chennai', 'Kancheepuram', 'Tamilnadu', '', 600, '2012-09-26 12:04:37'),
@@ -2611,7 +2610,7 @@ INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`
 (1765, 'yogita chhatre', 'student', 'Learn Samskrit', 'i just love you SB:)', 2, '(0832)2374498', 'expressyogita@gmail.com', 'Ambedem', 'Nagargao', 'Valpoi', 'North Goa', 'Goa', '', 403506, '2012-11-27 14:02:42'),
 (1766, 'Nishant Samant', 'student', 'Learn Samskrit', 'I always wanted to learn samskrit, but never got true guidance. please', 97, '9260132254', 'samant.nishant98@gmail.com', '103, A, Mudra residency,Mahim road, Palghar, Thane', '', 'Palghar', 'Thane', 'Maharashtra', '', 401, '2012-11-27 17:45:49'),
 (1767, 'Akshat', 'student', 'Learn Samskrit', '', 100, '8882428874', 'akshat2@gmail.com', 'Dwarka', '', 'New Dekhi', 'New Delhi', 'Delhi', '', 110075, '2012-11-28 20:08:00');
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (1768, 'prabhakar', 'other', 'Learn Samskrit', 'learning to read old scripts of hinduism', 2, '9935609511', 'dwivedip@gmail.com', '283 kailash vihar', 'kalyanpur', 'kanpur', 'kanpur nagar', 'uttar pradesh', '', 208017, '2012-11-29 02:12:24'),
 (1769, 'dhiraj bisht', 'self-employed', 'Learn Samskrit', '', 100, '9899280069', 'dhirajism@gmail.com', 'Near AshaRam Bapu Ashram', 'Rajokri', 'Delhi', 'Delhi', 'Delhi', '', 110030, '2012-11-29 04:18:09'),
 (1770, 'Parthasarathi Patel', 'student', 'Learn Samskrit', '', 2, '9845376834', 'parthasarathi.patel@hotmail.com', 'D-204, Ashram', 'Real House Apartments, Anjanapura Township', 'Bangalore', 'Bangalore', 'Karnataka', '', 560062, '2012-11-29 06:50:47'),
@@ -2796,7 +2795,7 @@ INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`
 (1949, 'Lakshmi Santala Gudla', 'technical professional', 'Learn Samskrit', 'Hi, I am working in IT.  Interested in learning and speaking in Samskr', 18, '7829448222', 'santalag@gmail.com', '#206, SV Residency, Green Glen Layout', 'Bellandur', 'Bangalore', 'Bangalore', 'Karnataka', '', 560103, '2013-04-19 07:00:48'),
 (1950, 'Muraleekrishnan', 'technical professional', 'Learn Samskrit', 'I want to learn sanskrit to understand meaning of hymns of bhagavad gi', 5, '9742647896', 'rmuraleekrishnan@gmail.com', 'Flat No:1X, Lake View County Apartments', 'Manipal County Road, Singasandra', 'Bangalore', 'Bangalore', 'Karnataka', '', 560068, '2013-04-20 06:41:13'),
 (1951, 'Debabrata Nandi', 'Sanskrit teaching', 'Learn Samskrit', 'I want to read The Gita, Upasisadh in Sanskrit', 123, '9831366085', 'dnandii@rediffmail.com', '256 Gopal Lal Tagore Road', '4th Floor', 'Kolkata', '24 Paraganas', 'West Bengal', '', 700036, '2013-04-23 08:00:41');
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (1952, 'Kishore Kumar C', 'technical professional', 'Learn Samskrit', 'Need contact number of your office and details of courses.', 18, '9901915284', 'aerokishore@gmail.com', 'CV Raman Nagar', '', 'Bangalore', '', 'Karnataka', '', 560093, '2013-04-28 09:29:18'),
 (1953, 'dr satish valsangkar', 'self-employed', 'Learn Samskrit', 'sanskrit speakers club at Solapur ', 124, '02172727005', '22june1984@gmail.com', '80.railway Lines ,duffrin Chowk', 'DR VALSANGKARCHOWK', 'SOLAPUR ', 'SOLAPUR', 'MAHARASHTRA', '', 413001, '2013-05-03 00:53:27'),
 (1954, 'Prasanna Shrinivas', 'technical professional', 'Learn Samskrit', 'Namaste. I want to learn sanskrit', 12, '9900217109', 'vpshri@gmail.com', 'C1, Maitree Apts, 96 6ty Main, Malleswaram', '', 'Bangalore', '', 'Karnataka', '', 560003, '2013-05-03 07:59:59'),
@@ -2985,7 +2984,7 @@ INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`
 (2137, 'Usha Chandak', 'Sanskrit teaching', 'Learn Samskrit', '', 2, '9320234005', 'chandakusha@yahoo.com', '3 , 6 th floor A wing', 'Avanti Apartment Kings Circle', 'Mumbai', 'Mumbai', 'Maharastra', '', 400022, '2013-08-25 13:44:13'),
 (2138, 'Anand Pavan Mandala', 'technical professional', 'Learn Samskrit', 'Hello, i would like to learn the language in a part time in person cla', 95, '9849053571', 'anand.pavan@gmail.com', 'Plot No. 20', 'Vikaspuri', 'Hyderabad', 'Hyderabad', 'Telangana', '', 500038, '2013-08-25 17:44:22'),
 (2139, 'M.Balaji', 'technical professional', 'Learn Samskrit', 'I am from chennai , working in bangalore . I am interested to learn/re', 4, '9886693799', 'balajichi11@gmail.com', 'No:12, shanthi nilaya,', 'Mestri Palya, SRK nagar', 'Bangalore', 'Bangalore', 'Karnataka', '', 560077, '2013-08-25 18:49:41');
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (2140, 's.lalitha', 'Sanskrit teaching', 'Learn Samskrit', 'to teach my children', 2, '9702255963', 'tnsubbu@yahoo.co.in', 'A9 - 301 runwal plaza, kores road', 'vartek nagar, thane west', 'thane', 'thane', 'maharadhtra', '', 400606, '2013-08-26 02:01:43'),
 (2141, 'Kapil sharmaa', 'student', 'Learn Samskrit', '', 100, '8860149162', 'freakme@me.com', 'C-2/82, ground floor, phase-2, Ashok vihar', 'C-2/82, ground floor, phase-2, Ashok vihar', 'Delhi', 'Delhi', 'Delhi ', '', 110052, '2013-08-26 07:34:39'),
 (2142, 'Prathibha', 'technical professional', 'Learn Samskrit', '', 2, '9886897848', 'prathibhaca@gmail.com', '1985-A, Srinidhi, 6th cross ', 'SS Puram ', 'Tumkur', '', 'karnataka', '', 562102, '2013-08-26 08:20:49'),
@@ -3172,7 +3171,7 @@ INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`
 (2323, 'SIVAPRAKASH.S', 'other', 'Learn Samskrit', 'I am a retired LIC employee aged 50 yrs. who wishes to study SAMSKRIT', 105, '9447468824', 'sivalictvla@gmail.com', 'SIVANIVAS', 'PALIAKKARA (NORTH)', 'TIRUVALLA', 'PATHANAMTHITTA', 'KERALA', '', 689101, '2013-11-02 15:30:59'),
 (2324, 'Sairam Subramaniam', 'technical professional', 'Learn Samskrit', 'I am tamil brahmin (only by birth and not by practice!). I have learnt', 5, '9632514803', 'sairam.subramaniam@gmail.com', 'B-7, Sai Krupa, Near Hotel Sai Renaissance,', 'Sai Colony, Kadugodi', 'Bangalore', '', 'Karnataka', '', 560067, '2013-11-05 03:35:16'),
 (2325, 'Ashwini S.A', 'other', 'Learn Samskrit', 'Want to learn Samskrit and take it as teaching profession.', 2, '9008779495', 'saashwini@yahoo.com', '# 50, 4th Cross, U.A.S Layout,', 'R.M.V 2nd Stage, Sanjayanagar,', 'Bangalore', 'Bangalore', 'Karnataka', '', 560, '2013-11-05 05:08:38');
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (2326, 'Vasudeva Murthy Vadlakonda', 'other', 'Learn Samskrit', 'I am retired and going through Bhagavad-Gita and Upanishads.\r\nWant to ', 2, '9391385590', 'vasudevamurthy.vadlakonda@gmail.com', '2-2-647/107/201, Sai Chalam Apt.', 'Central Excise Colony, Bagh Amberpet,', 'hyderabad', 'hyderabad', 'AP', '', 500013, '2013-11-05 13:29:43'),
 (2327, 'nanjunda swamy.tg', 'other', 'Learn Samskrit', 'i am hindhu,but i don''t know our mother tongue.that''s why i want learn', 5, '7760860480', 'tgns143786@gmail.com', 'thammarasana halli,tb post,hesaraghatta main rd', '', 'bangalore', 'bangalore north', 'karnataka', '', 560089, '2013-11-06 09:02:20'),
 (2328, 'anil kumar upadhyay ', 'Sanskrit teaching', 'Teach Samskrit', 'i had done pg in sanskrit with bed', 104, '9981300737', 'upadhyayanilkumar97@yahoo.com', 'vill/p.o. bhainsola, taq badnawar, dist dhar mp', 'same', 'dhar', 'dhar', 'Madhya Pradesh', '', 454660, '2013-11-06 16:08:17'),
@@ -3358,7 +3357,7 @@ INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`
 (2508, 'Saradha', 'other', 'Learn Samskrit', 'Sir,\r\nI want to learn Sanskrit', 94, '9442180106', 'saradhavnarayanan@gmail.com', 'K1, santhisadan,kochadai,melakal main road, madura', '', 'Madurai', 'Madurai', 'Tamilnadu', '', 625016, '2014-01-28 09:01:56'),
 (2509, 'Alladi mohan', 'technical professional', 'Learn Samskrit', '', 2, '22576056', 'mvp004@gmail.com', 'D20-28, Adyar Avenue', '', 'Tirupati', '', 'Andhra Pradesh', '', 517501, '2014-01-29 03:14:14'),
 (2510, 'Santosh Kumar Donthi', 'other', 'Learn Samskrit', 'Dear Sir , I am Looking to Learn Sanskrit', 95, '9394733441', 'donthi.skumar@gmail.com', '14-9-880 Jinci Chowraha Near Begum Bazar', '', 'Hyderabad', 'Hyderabad', 'AP', '', 500012, '2014-01-29 10:25:42');
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (2511, 'Archana', 'technical professional', 'Learn Samskrit', '', 2, '9962373736', 'rouge0288@gmail.com', 'G 427 maple leaf apartments', 'raheja vihar, chandivali', 'mumbai', 'mumbai', 'maharashtra', '', 400072, '2014-01-29 15:09:00'),
 (2512, 'Srikanth', 'technical professional', 'Learn Samskrit', 'Dear Sir/Madam I would love to learn Samskritham', 5, '9448347196', 'amudanar@gmail.com', '#51/17,2nd Main Road, Sripuram Extn', 'Seshadripuram ', 'Bangalore', 'Bangalore', 'Karnataka', '', 560020, '2014-01-29 15:14:42'),
 (2513, 'K Venkatesan', 'other', 'Learn Samskrit', 'Interested in Samskrit Spoken Class in Delhi.', 2, '8860557990', 'krishnamurthy.venkatesan54@gmail.com', 'Laxmi Bai Nagar', '', 'Delhi', '', 'New Delhi', '', 110023, '2014-01-30 02:38:13'),
@@ -3546,7 +3545,7 @@ INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`
 (2695, 'V.Nithyasri', 'student', 'Learn Samskrit', 'can u pls send the books required 4 the 1st level.preferred languqage ', 95, '8220466644,8220466677', 'v.nithyasrigokul@gmail.com', 'B-3-02 Emarald Vistas,opposite  to kendriya vidyal', '', 'coimbatore', 'coimbatore', 'tamil nadu', '', 641028, '2014-04-27 07:38:43'),
 (2696, 'sivakumar mani', 'technical professional', 'Learn Samskrit', '', 94, '9843766162', 'svkmr_mani@yahoo.co.in', '163/4 typeII ,Qrtrs. CF Estate,CFA', 'Nilgiris-643202', 'Aruvankadu', 'Nilgiris', 'TamilNadu', '', 643202, '2014-04-27 15:23:14'),
 (2697, 'SUBRAMANIAN', 'technical professional', 'Learn Samskrit', 'Please inform the next batch for spoken Sanskrit class', 11, '9448483598', 'vedapati@yahoo.co.in', '# 5, BDA Layout, L.G.Halli', 'RMV 2nd Stage', 'Bangalore', '', 'karnataka', '', 560094, '2014-04-28 03:56:18');
-INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Praanta_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
+INSERT INTO `visitor` (`Visitor_id`, `Name`, `Profession`, `Interest`, `Message`, `Region_id`, `Phone`, `Email`, `Address_line1`, `Address_line2`, `City`, `District`, `State`, `Country`, `Geo_id`, `Last_active`) VALUES
 (2698, 'sandip mallick', 'Sanskrit teaching', 'Teach Samskrit', 'i love sanskrit... i will teach everybody...', 2, '7278560156', 'sandipmallicksm66@gmail.com', '543 netaji coloni kolkata 700090', '', 'kolkata', 'kolkata', 'west bengal', '', 700090, '2014-04-28 09:20:22'),
 (2699, 'Ramya', 'technical professional', 'Learn Samskrit', 'I would like to learn samskrit. Please let me know the future class de', 111, '9965528584', 'cuteram85@gmail.com', '14 ranjani block ragamalika apartments', 'medavakkam', 'chennai', 'chennai', 'tamilnadu', '', 600100, '2014-04-28 10:11:09'),
 (2700, 'MADHURI', 'other', 'Learn Samskrit', 'Learn Samskrit', 95, '9603563876', 'madhuri_metta@gmail.com', 'H.No.18-6-146', 'Gowlipura', 'Gowlipura', 'Hyderabad', 'Andhrapradesh', '', 500, '2014-04-29 04:22:59'),

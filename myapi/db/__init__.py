@@ -10,6 +10,8 @@ def sbinit(reset=False):
     sbmgmt = SBMgmtDB()
     if reset:
         sbmgmt.reset()
+    sbmgmt.sbregions()
+    sbmgmt.locations()
 
 def sbget():
     global sbmgmt

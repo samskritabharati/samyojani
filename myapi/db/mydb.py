@@ -37,7 +37,6 @@ class MyCollection:
         return { self.name : self.slurp() }
 
     def fromJSON(self, data):
-        self.collection.drop()
         try:
             self.collection.insert_many(data)
         except Exception as e:
@@ -56,7 +55,9 @@ class MyCollection:
             return None
 
     def get(self, item_id):
-        res = self.local[item_id] if self.cache else None
+        res = None
+        if self.cache and (item_id in self.local):
+                res = self.local[item_id]
         if not res:
             query = self.oid(item_id)
             if not query:
@@ -64,6 +65,8 @@ class MyCollection:
             res = self.collection.find_one(query)
             if res:
                 res['_id'] = str(res['_id'])
+                if self.cache:
+                    self.local[res['_id']] = res
         return res
 
     def find_one(self, query):
@@ -78,7 +81,10 @@ class MyCollection:
         except Exception as e:
             print "Error inserting into " + self.name + ": ", e
             return None
-        return str(result.inserted_id)
+        newid = str(result.inserted_id)
+        if self.cache:
+            self.get(newid)
+        return newid
 
     def update(self, item_id, fields):
         query = self.oid(item_id)
@@ -86,6 +92,8 @@ class MyCollection:
             return False
         result = self.collection.update(query, {"$set" : fields})
         isSuccess = (result['n'] > 0)
+        if isSuccess and self.cache:
+            self.get(item_id)
         return isSuccess
 
     def delete(self, item_id):
@@ -94,11 +102,15 @@ class MyCollection:
             return False
         res = self.collection.delete_one(query)
         if res:
+            if (res.deleted_count > 0) and self.cache:
+                self.local.pop(item_id)
             return res.deleted_count > 0
         else:
             return False
 
     def reset(self):
+        if self.cache:
+            self.local = {}
         return self.collection.drop()
 
     def find(self, query = {}, fields = []):

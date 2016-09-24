@@ -18,6 +18,7 @@ class TableDict:
             if table['name'] == 'praanta':
                 r.pop('Geo_id')
             elif table['name'] == 'visitor':
+                r['Interests'] = r['Interest']
                 r.pop('Interest')  # discard Interest and Message columns
                 r.pop('Message')
                 r['Role'] = 0   # Set visitor's role to 'Student'
@@ -43,8 +44,10 @@ class TableDict:
         if pincode != None and pincode > 0:
             #print "Pin code == " + str(pincode) + ", country = " + r['Country']
             #print r
-            addr = locations.address(pincode, r['Country'])
-            if addr != None:
+            addr = locations.mycollection.find_one({'Postal_code' : pincode, \
+                'Country' : r['Country']})
+
+            if addr:
                 #print "Address == " + str(addr)
                 # Correct address fields based on pincode
                 for f in locations.addrfields:
@@ -59,7 +62,8 @@ class TableDict:
                 (('Postal_code' not in r) or (r['Postal_code'] == 0)):
             res = locations.match(r)
             if not res['match_fields']:
-                print "Unknown address: " + str(r)
+                pass
+                #print "Unknown address: " + str(r)
             elif res['match_fields'][-1] == 'Locality':
                 r['Postal_code'] = res.val
             else:
@@ -135,11 +139,12 @@ sbmgmt = sbget()
 
 # First import address/pincode database
 locations = Locations(sbmgmt)
+locations.reset()
 locations.importIndia("all_india_pin_code.csv")
-locations.save()
+#locations.importUS("us_zipcode.csv")
 
 localtables = {
-        "regions" : TableDict(mytables['praanta'], 'Praanta_id'),
+        "regions" : TableDict(mytables['praanta'], 'Region_id'),
         "users" : TableDict(mytables['person'], 'Person_id'),
         "roles" : TableDict(mytables['activity_assignee']),
         "projects" : TableDict(mytables['project'], 'Project_id'),
@@ -168,8 +173,8 @@ visitortable.dbupload(sbmgmt, 'users')
 
 id_mappings = {
     "Coordinator_id" : "users",
-    "Parent_praanta_id" : "regions",
-    "Praanta_id" : "regions",
+    "Parent_region_id" : "regions",
+    "Region_id" : "regions",
     "Person_id" : "users",
     "Project_id" : "projects",
     "Activity_id" : "activities",

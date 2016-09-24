@@ -17,7 +17,7 @@ class SBMgmtDB(MyDB):
         MyDB.initialize(self)
         try:
             for cname in ['project_types', 'role_types', 'activity_types', \
-               'region_types', 'regions']:
+               'region_types']:
                 self.add(cname, True)
             for cname in ['users', 'activities', 'projects', 'roles' ]:
                 self.add(cname)
@@ -35,5 +35,4 @@ class SBMgmtDB(MyDB):
     def locations(self):
         if not self._geodb:
             self._geodb = Locations(self)
-            self._geodb.load()
         return self._geodb
