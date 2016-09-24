@@ -1,10 +1,9 @@
 <ion-view>
-	
+
 	<div  ng-if="!(vm.role == 'Student')" class="bar bar-subheader floatingHeader background_transparent top8p">
 		<span class="ion-plus-circled floatingbtn font_size_30px orangeText" ng-click="vm.showAddClassForm()"></span>
 	</div>
 	<ion-content class="has-header" overflow-scroll = "true">
-		<!-- <div  class=" font_size_30px orangeText text_align_center headerTextMrg ">Courses Offered</div> -->
 		<div   class="boldtext font_size_20px orangeText text_align_center headerTextMrg ">
 			<span class="btmborder padding5px">Courses Offered</span>
 		</div>
@@ -13,231 +12,205 @@
 
 		<div  ng-repeat="course in filtered = vm.coursesList | filter: vm.searchKeyword 
 		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" >
-
-		<!-- <div class ="row">
-				<div class="col3">
-					<div class="position_relative displayflex mrg_top5px">
-						<div class="with20p reswith30p">Name</div>
-						<div class="with20p reswith30p">
-							<span >{{course.courseInfo.Name}}</span>
-						</div>
-					</div> -->
-<div class="padding10">
+		<div class="padding10 selectable">
 			<div class ="row btmborder padding0">
 				<div class="col3 padding_right5p">
 					<div class="position_relative displayflex mrg_top5px">
-							<div class="with30p reswith30p">Name</div>
-							<div class="with80p reswith70p">
-								<span >{{course.allClass.Name}}</span>
-							</div>
+						<div class="with30p reswith30p">Name</div>
+						<div class="with80p reswith70p">
+							<span >{{course.allClass.Name}}</span>
 						</div>
+					</div>
 
-						<div class="position_relative displayflex mrg_top5px">
-							<div class="with30p reswith30p">Duration</div>
-							<div class="with80p reswith70p">
-								{{course.allClass.Duration}}{{course.allClass.Units}}
+					<div class="position_relative displayflex mrg_top5px">
+						<div class="with30p reswith30p">Duration</div>
+						<div class="with80p reswith70p">
+							{{course.allClass.Duration}}{{course.allClass.Units}}
 
-							</div>
 						</div>
-						<div class="position_relative displayflex mrg_top5px" ng-if="course.allClass.URL">
-							<div class="with30p reswith30p">URL</div>
-							<div class="with80p reswith70p">
-								{{course.allClass.URL}}
-							</div>
+					</div>
+					<div class="position_relative displayflex mrg_top5px" ng-if="course.allClass.URL">
+						<div class="with30p reswith30p">URL</div>
+						<div class="with80p reswith70p">
+							{{course.allClass.URL}}
 						</div>
+					</div>
 				</div>
 
 				<div class="col3 padding_right5p">
 					<div class="position_relative displayflex mrg_top5px">
-							<div class="with30p reswith30p">Type</div>
-							<div class="with80p reswith70p">
-								<span >{{course.allClass.Type}}</span>
+						<div class="with30p reswith30p">Type</div>
+						<div class="with80p reswith70p">
+							<span >{{course.allClass.Type}}</span>
 
-							</div>
 						</div>
-						<div class="position_relative displayflex padding_right5p">
-							<div class="with30p reswith30p">Description</div>
-							<div class="with80p reswith70p paddingleft5">
-								{{course.allClass.Description}}
-							</div>
+					</div>
+					<div class="position_relative displayflex padding_right5p">
+						<div class="with30p reswith30p">Description</div>
+						<div class="with80p reswith70p paddingleft5">
+							{{course.allClass.Description}}
 						</div>
+					</div>
 				</div>
 
 				<div class="col3 padding_right5p resbtmborder">
 					<div class="position_relative displayflex mrg_top5px">
-							<span ng-if="!(vm.role == 'Student')" ng-click="vm.showFormToEditCourse(course)">
-								<span  class="ion-edit icons font_size_30px mrgrgt20 orangeText resfontsize"></span> 
-							</span>
-							<span  ng-if="!(vm.role == 'Student')" ng-click="vm.deleteClass(course)">
-								<span  class="ion-trash-a icons  font_size_30px mrgrgt20 orangeText resfontsize"></span>
-							</span>
-							<span ng-if = "!(course.myWishClass.Person_url)">
+						<span ng-if="!(vm.role == 'Student')" ng-click="vm.showFormToEditCourse(course)">
+							<span  class="ion-edit icons font_size_30px mrgrgt20 orangeText resfontsize"></span> 
+						</span>
+						<span  ng-if="!(vm.role == 'Student')" ng-click="vm.deleteClass(course)">
+							<span  class="ion-trash-a icons  font_size_30px mrgrgt20 orangeText resfontsize"></span>
+						</span>
+						<span ng-if = "!(course.myWishClass.Person_url)">
 							<span ng-if="!(vm.addwishbtn == course.allClass._url)" ng-click="vm.addToWishList(course)">
 								<span  class="ion-android-favorite icons font_size_30px mrgrgt20 orangeText resfontsize">
 									<span class="font_size_15px">Add to WishList</span></span>
 								</span>
-								</span>
-							
+							</span>
+
 						</div>
 					</div>
 
 				</div>
-				</div>
 			</div>
-			<div class="display_inlineflex margin0auto with100p"><pagination  
-					ng-model="currentPage"
-					total-items="vm.coursesList.length"
-					max-size="noOfPages"  
-					boundary-links="true" items-per-page="entryLimit">
-			</pagination></div>
+		</div>
+		<div class="display_inlineflex margin0auto with100p"><pagination  
+			ng-model="currentPage"
+			total-items="vm.coursesList.length"
+			max-size="5"  
+			boundary-links="true" items-per-page="entryLimit" boundary-link-numbers = "true">
+		</pagination></div>
 
-			<script id="editClassDetail.html" type="text/ng-template">
-				<ion-modal-view>										
-					<!-- <ion-header-bar class="bar bar-header button-clear padding0">
-						
-						<h1 class="title orangeText">Edit Class Detail</h1>
-				<button class="button  button-light mrgrgt42" ng-click="vm.closeModel()">
-					<span class="ion-android-cancel orangeText font_size_20px"></span>
-				</button>
-					</ion-header-bar> -->
-					<ion-header-bar class="bordernone padding0">
+		<script id="editClassDetail.html" type="text/ng-template">
+			<ion-modal-view>
+				<ion-header-bar class="bordernone padding0">
 
-				<div class="text_align_center with100p">
-					<span class="btmborder padding5px orangeText font_size_20px boldtext">Edit Class Detail</span>
-					<button class="button  button-light float_right background_transparent mrgrgt42" 
-					ng-click="vm.closeModel()">
+					<div class="text_align_center with100p">
+						<span class="btmborder padding5px orangeText font_size_20px boldtext">Edit Class Detail</span>
+						<button class="button  button-light float_right background_transparent mrgrgt42" 
+						ng-click="vm.closeModel()">
 						<span class="ion-android-cancel orangeText font_size_20px"></span>
 					</button>
 				</div>
 			</ion-header-bar>
 
-					<ion-content overflow-scroll = "true"  class="restop0">
-						<div class="mrg25px">
-							
-							<div class="row mrg_top5px">
-								<div class="col">	Name
-									<input type="text" ng-model="vm.editClassDetail.allClass.Name" class="with100p btmborder">
-								</div>
-							</div>
-							
-							<div class="row mrg_top5px">
-								<div class="col">	Type
-									<select  ng-model="vm.editClassDetail.allClass.Type" ng-options="v for v in vm.typeOptions" class="bordernone with100p btmborder">
-									</select> 
-								</div>
-							</div>
-							
-							<div class="row mrg_top5px">
-								<div class="col">	Units
-									<select  ng-model="vm.editClassDetail.allClass.Units" ng-options="v for v in vm.unitOption" class="bordernone with100p btmborder">
-									</select>
-								</div>
-							</div>
-							
-							<div class="row mrg_top5px">
-								<div class="col">	Duration
-									<select  ng-model="vm.editClassDetail.allClass.Duration" ng-options="v for v in vm.durationOptions" class="bordernone with100p btmborder">
-									<option value="" disabled selected="selected" style="display: none;">{{vm.editClassDetail.allClass.Duration}}</option>
-									</select>
-								</div>
-							</div>
-							
-							<div class="row mrg_top5px">
-								<div class="col">	URL
-									<input type="text" ng-model="vm.editClassDetail.allClass.URL" class="with100p btmborder">
-								</div>
-							</div>
-							
-							<div class="row mrg_top5px">
-								<div class="col">	Description
-									<textarea rows="4" cols="50"  ng-model="vm.editClassDetail.allClass.Description" class="with100p btmborder"></textarea>
-								</div>
-							</div>
+			<ion-content overflow-scroll = "true"  class="restop0">
+				<div class="mrg25px">
 
-							<div class="row mrg_top5px">
-								<div class="text_align_center col valuetabletd">
-									<button class="button themBackgroundColor text_white" ng-click="vm.saveUpdatedclassDetail(vm.editClassDetail)" type="submit">Update </button>
-								</div>
-							</div>
+					<div class="row mrg_top5px">
+						<div class="col">	Name
+							<input type="text" ng-model="vm.editClassDetail.allClass.Name" class="with100p btmborder">
 						</div>
-					</ion-content>
-				</ion-modal-view>
-			</script>
+					</div>
 
-			<script id="addClassDetail.html" type="text/ng-template">
-				<ion-modal-view>										
-					<!-- <ion-header-bar class="bar bar-header button-clear padding0">
-						<h1 class="title orangeText">Add Class Detail</h1>
-						<button class="button  button-light" ng-click="vm.closeModel()">
-							<span class="ion-android-cancel orangeText font_size_20px"></span>
-						</button>
-						<h1 class="title orangeText text_align_center">Add Class Detail</h1>
-				<button class="button  button-light mrgrgt42" ng-click="vm.closeModel()">
-					<span class="ion-android-cancel orangeText font_size_20px"></span>
-				</button>
-					</ion-header-bar> -->
-					<ion-header-bar class="bordernone padding0">
+					<div class="row mrg_top5px">
+						<div class="col">	Type
+							<select  ng-model="vm.editClassDetail.allClass.Type" ng-options="v for v in vm.typeOptions" class="bordernone with100p btmborder">
+							</select> 
+						</div>
+					</div>
+
+					<div class="row mrg_top5px">
+						<div class="col">	Units
+							<select  ng-model="vm.editClassDetail.allClass.Units" ng-options="v for v in vm.unitOption" class="bordernone with100p btmborder">
+							</select>
+						</div>
+					</div>
+
+					<div class="row mrg_top5px">
+						<div class="col">	Duration
+							<select  ng-model="vm.editClassDetail.allClass.Duration" ng-options="v for v in vm.durationOptions" class="bordernone with100p btmborder">
+								<option value="" disabled selected="selected" style="display: none;">{{vm.editClassDetail.allClass.Duration}}</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row mrg_top5px">
+						<div class="col">	URL
+							<input type="text" ng-model="vm.editClassDetail.allClass.URL" class="with100p btmborder">
+						</div>
+					</div>
+
+					<div class="row mrg_top5px">
+						<div class="col">	Description
+							<textarea rows="4" cols="50"  ng-model="vm.editClassDetail.allClass.Description" class="with100p btmborder"></textarea>
+						</div>
+					</div>
+
+					<div class="row mrg_top5px">
+						<div class="text_align_center col valuetabletd">
+							<button class="button themBackgroundColor text_white" ng-click="vm.saveUpdatedclassDetail(vm.editClassDetail)" type="submit">Update </button>
+						</div>
+					</div>
+				</div>
+			</ion-content>
+		</ion-modal-view>
+	</script>
+
+	<script id="addClassDetail.html" type="text/ng-template">
+		<ion-modal-view>
+			<ion-header-bar class="bordernone padding0">
 
 				<div class="text_align_center with100p">
 					<span class="btmborder padding5px orangeText font_size_20px boldtext">Add Class Detail</span>
 					<button class="button  button-light float_right background_transparent mrgrgt42" 
 					ng-click="vm.closeModel()">
-						<span class="ion-android-cancel orangeText font_size_20px"></span>
-					</button>
-				</div>
-			</ion-header-bar>
-					<ion-content  overflow-scroll = "true" class=" restop0">
-						<div class="mrg25px">
-							
-							<div class="row mrg_top5px">
-								<div class="col">	Name
-									<input type="text" ng-model="vm.newClassDetail.Name" class="with100p btmborder">
-								</div>
-							</div>
-							
-							<div class="row mrg_top5px">
-								<div class="col">	Type
-									<select  ng-model="vm.newClassDetail.Type" ng-options="v for v in vm.unitOption" class="bordernone with100p btmborder">
-									<option value="" disabled selected="selected" style="display: none;">{{vm.newClassDetail.Type}}</option>
-									</select> 
-								</div>
-							</div>
-							
-							<div class="row mrg_top5px">
-								<div class="col">	Units
-									<select  ng-model="vm.newClassDetail.Units" ng-options="v for v in vm.unitOption" class="bordernone with100p btmborder"> <option value="" disabled selected="selected" style="display: none;">{{vm.newClassDetail.Units}}</option>
-									</select>
-								</div>
-							</div>
-							
-							<div class="row mrg_top5px">
-								<div class="col">	Duration
-									<select  ng-model="vm.newClassDetail.Duration" ng-options="v for v in vm.durationOptions" class="bordernone with100p btmborder">
-									option value="" disabled selected="selected" style="display: none;">{{vm.newClassDetail.Duration}}</option>
-									</select>
-								</div>
-							</div>
-							
-							<div class="row mrg_top5px">
-								<div class="col">	URL
-									<input type="text" ng-model="vm.newClassDetail.URL" class="with100p btmborder">
-								</div>
-							</div>
-							
-							<div class="row mrg_top5px">
-								<div class="col">	Description
-									<textarea rows="4" cols="50" ng-model="vm.newClassDetail.Description" class="with100p btmborder"></textarea>
-								</div>
-							</div>
+					<span class="ion-android-cancel orangeText font_size_20px"></span>
+				</button>
+			</div>
+		</ion-header-bar>
+		<ion-content  overflow-scroll = "true" class=" restop0">
+			<div class="mrg25px">
 
-							<div class="row mrg_top5px">
-								<div class="text_align_center col valuetabletd">
-									<button class="button themBackgroundColor text_white" ng-click="vm.addClassDetail(vm.newClassDetail)" type="submit">Add </button>
-								</div>
-							</div>
-						</div>
-					</ion-content>
-				</ion-modal-view>
-			</script>
+				<div class="row mrg_top5px">
+					<div class="col">	Name
+						<input type="text" ng-model="vm.newClassDetail.Name" class="with100p btmborder">
+					</div>
+				</div>
+
+				<div class="row mrg_top5px">
+					<div class="col">	Type
+						<select  ng-model="vm.newClassDetail.Type" ng-options="v for v in vm.unitOption" class="bordernone with100p btmborder">
+							<option value="" disabled selected="selected" style="display: none;">{{vm.newClassDetail.Type}}</option>
+						</select> 
+					</div>
+				</div>
+
+				<div class="row mrg_top5px">
+					<div class="col">	Units
+						<select  ng-model="vm.newClassDetail.Units" ng-options="v for v in vm.unitOption" class="bordernone with100p btmborder"> <option value="" disabled selected="selected" style="display: none;">{{vm.newClassDetail.Units}}</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="row mrg_top5px">
+					<div class="col">	Duration
+						<select  ng-model="vm.newClassDetail.Duration" ng-options="v for v in vm.durationOptions" class="bordernone with100p btmborder">
+							option value="" disabled selected="selected" style="display: none;">{{vm.newClassDetail.Duration}}</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="row mrg_top5px">
+					<div class="col">	URL
+						<input type="text" ng-model="vm.newClassDetail.URL" class="with100p btmborder">
+					</div>
+				</div>
+
+				<div class="row mrg_top5px">
+					<div class="col">	Description
+						<textarea rows="4" cols="50" ng-model="vm.newClassDetail.Description" class="with100p btmborder"></textarea>
+					</div>
+				</div>
+
+				<div class="row mrg_top5px">
+					<div class="text_align_center col valuetabletd">
+						<button class="button themBackgroundColor text_white" ng-click="vm.addClassDetail(vm.newClassDetail)" type="submit">Add </button>
+					</div>
+				</div>
+			</div>
 		</ion-content>
-	</ion-view>
+	</ion-modal-view>
+</script>
+</ion-content>
+</ion-view>

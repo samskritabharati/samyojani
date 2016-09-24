@@ -9,63 +9,47 @@
 			<span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span>
 		</div>
 
-
-
-
-
 		<div   class="boldtext font_size_20px orangeText text_align_center headerTextMrg ">
 			<span class="btmborder padding5px">Upcoming Events</span>
 		</div>
-
-		
-
 		<div class="padding10">
-		<div class ="row padding0">
-			<div style="position: relative;display: table;" class="reswidth100p mrgrgt5p">
-				<table class="reswidth100p">
-					<tr class="">
-						<td class="with50p verticalalignmiddle">Search By State</td>
-						<td class=" with50p verticalalignmiddle">
-							<input type="text" ng-model="vm.search.state" class="btmborder with100p " />
-						</td>
-					</tr>
-				</table>
+			<div class ="row padding0">
+				<div style="position: relative;display: table;" class="reswidth100p mrgrgt5p">
+					<table class="reswidth100p">
+						<tr class="">
+							<td class="with50p verticalalignmiddle">Search By State</td>
+							<td class=" with50p verticalalignmiddle">
+								<input type="text" ng-model="vm.search.state" class="btmborder with100p " />
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div style="position: relative;display: table;" class="reswidth100p resmrg_top5p ">
+					<table class="reswidth100p">
+						<tr>
+							<td class="with50p verticalalignmiddle">Search By City</td>
+							<td class="with50p verticalalignmiddle">
+								<input type="text" ng-model="vm.search.city" class="btmborder with100p" />
+							</td>
+						</tr>
+					</table>
+				</div>
 			</div>
-			<div style="position: relative;display: table;" class="reswidth100p resmrg_top5p ">
-				<table class="reswidth100p">
-					<tr>
-						<td class="with50p verticalalignmiddle">Search By City</td>
-						<td class="with50p verticalalignmiddle">
-							<input type="text" ng-model="vm.search.city" class="btmborder with100p" />
-						</td>
-					</tr>
-				</table>
+			<div class ="row padding0 mrg_top10px">
+				<div class="col text_align_center btmborder">
+					<button class="button   themBackgroundColor text_white" 
+					ng-click="vm.searchActivity(vm.search)"
+					>Search</button>
+				</div>
 			</div>
 		</div>
-		<div class ="row padding0 mrg_top10px">
-			<div class="col text_align_center btmborder">
-				<button class="button   themBackgroundColor text_white" 
-				ng-click="vm.searchActivity(vm.search)"
-				>Search</button>
-			</div>
+		<div class="list list-inset btmborder ">
+			<label class="item item-input bordernone padding0">
+				<i class="icon ion-search placeholder-icon"></i>
+				<input type="text" placeholder="Search in result" ng-model="vm.searchKeyword">
+
+			</label>
 		</div>
-</div>
-		
-
-		<!-- <div class="row display_inlineflex mrgtopbtm10px searchbtn" style="margin-top:0">
-		<div class="col-10">
-			 <span class="ion-android-search font_size_30px orangeText float_right"></span>
-			 <i class="icon ion-search placeholder-icon"></i>
-			</div><div class="col-90"><input type="text" ng-model="vm.searchKeyword" class="btmborder width90p" placeholder="Search in result">
-			</div>
-		</div> -->
-<div class="list list-inset btmborder ">
-  <label class="item item-input bordernone padding0">
-    <i class="icon ion-search placeholder-icon"></i>
-    <input type="text" placeholder="Search in result" ng-model="vm.searchKeyword">
-
-  </label>
-</div>
 		<div>
 			<span class="padding10 line_height3 verticalalignmiddle orangeText">Found {{vm.activityData.length}} results</span>
 			<button class="button themBackgroundColor  text_white float_right bordernone mrgrgt10" 
@@ -74,232 +58,92 @@
 
 		<div  ng-repeat="activity in filtered = vm.activityData | filter: vm.searchKeyword 
 		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
-<div class="padding10">
-		<div class ="row valuetabletd  btmborder">
-			<div class="col3 padding_right5p">
-				<div class="position_relative displayflex">
-					<div class="with20p reswith30p">Date</div>
-					<div class="with80p reswith70p">
-						<span ng-if="(activity.Start_date)">{{activity.Start_date | date }}</span>
-						<span ng-if="(activity.End_date)">
-							to {{activity.End_date | date }}</span>
-						</div>
-					</div>
-
+		<div class="padding10">
+			<div class ="row valuetabletd  btmborder selectable">
+				<div class="col3 padding_right5p">
 					<div class="position_relative displayflex">
-						<div class="with20p reswith30p">Time</div>
-						<div class="with80p reswith70p">
-							<span ng-if="(activity.Start_time)">{{activity.Start_time}}</span>
-							<span ng-if="(activity.End_time)">
-								to {{activity.End_time}}</span>
-							</div>
-						</div>
-
-						<div class="position_relative displayflex" ng-if="(activity.Phone)">
-							<div class="with20p reswith30p">Phone</div>
-							<div class="with80p reswith70p">
-								<span >{{activity.Phone}}</span>
-							</div>
-						</div>
-
-						<div class="position_relative displayflex" ng-if="(activity.Email)">
-							<div class="with20p reswith30p">Email</div>
-							<div class="with80p reswith70p">
-								<span>{{activity.Email}}</span>
+						<div class="with40p reswith30p">Date</div>
+						<div class="with60p reswith70p">
+							<span ng-if="(activity.Start_date)">{{activity.Start_date | date }}</span>
+							<span ng-if="(activity.End_date)">
+								to {{activity.End_date | date }}</span>
 							</div>
 						</div>
 
 						<div class="position_relative displayflex">
-							<div class="with20p reswith30p">Address</div>
-							<div class="with80p reswith70p">
-								<span><address parameter="activity.Address"></address>
-								</span>
+							<div class="with40p reswith30p">Time</div>
+							<div class="with60p reswith70p">
+								<span ng-if="(activity.Start_time)">{{activity.Start_time}}</span>
+								<span ng-if="(activity.End_time)">
+									to {{activity.End_time}}</span>
+								</div>
+							</div>
+
+							<div class="position_relative displayflex" ng-if="(activity.Phone)">
+								<div class="with40p reswith30p">Phone</div>
+								<div class="with60p reswith70p">
+									<span >{{activity.Phone}}</span>
+								</div>
+							</div>
+
+							<div class="position_relative displayflex" ng-if="(activity.Email)">
+								<div class="with40p reswith30p">Email</div>
+								<div class="with60p reswith70p">
+									<span>{{activity.Email}}</span>
+								</div>
+							</div>
+
+							<div class="position_relative displayflex">
+								<div class="with40p reswith30p">Address</div>
+								<div class="with60p reswith70p">
+									<span><address parameter="activity.Address"></address>
+									</span>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col3 padding_right5p">
-						<div class="position_relative displayflex">
-							<div class="with20p reswith30p">Activity</div>
-							<div class="with80p reswith70p">
-								<span>{{activity.Activity_type}}</span>
+						<div class="col3 padding_right5p">
+							<div class="position_relative displayflex">
+								<div class="with40p reswith30p">Activity</div>
+								<div class="with60p reswith70p">
+									<span>{{activity.Activity_type}}</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="col3 resmrg_top5p resbtmborder">
+							<div class="position_relative displayflex with100p">
+								<div class="with100p">
+									<span ng-click="vm.detailAboutActivity(activity)" class="icons ion-share font_size_30px mrgrgt20 orangeText"></span>
+
+									<span ng-if='(activity.Phone)'>
+										<a  href="tel:{{activity.Phone}}" class="icons ion-ios-telephone font_size_30px mrgrgt20 orangeText "></a>
+									</span>
+									<span ng-if='(activity.Email)'>
+										<a href="mailto:{{activity.Email}}" class="icons ion-email font_size_30px mrgrgt20 orangeText "></a>
+									</span>
+									<span>
+										<span ng-click="vm.openMap(activity.Address)"  class="icons ion-android-pin font_size_30px mrgrgt20 orangeText "></span>
+									</span>
+									<span ng-click="vm.updateActivity(activity)">
+										<span  class="ion-edit icons font_size_30px mrgrgt20 orangeText"></span> 
+									</span>
+									<span ng-click="vm.deleteActivity(activity)">
+										<span  class="ion-trash-a icons font_size_30px mrgrgt20 orangeText"></span>
+									</span>
+								</div>
 							</div>
 						</div>
 					</div>
 
-					<div class="col3 resmrg_top5p resbtmborder">
-						<div class="position_relative displayflex with100p">
-							<div class="with100p">
-								<span ng-click="vm.detailAboutActivity(activity)" class="icons ion-share font_size_30px mrgrgt20 orangeText"></span>
-
-								<span ng-if='(activity.Phone)'>
-									<a  href="tel:{{activity.Phone}}" class="icons ion-ios-telephone font_size_30px mrgrgt20 orangeText "></a>
-								</span>
-								<span ng-if='(activity.Email)'>
-									<a href="mailto:{{activity.Email}}" class="icons ion-email font_size_30px mrgrgt20 orangeText "></a>
-								</span>
-								<span>
-									<span ng-click="vm.openMap(activity.Address)"  class="icons ion-android-pin font_size_30px mrgrgt20 orangeText "></span>
-								</span>
-								<span ng-click="vm.updateActivity(activity)">
-									<span  class="ion-edit icons font_size_30px mrgrgt20 orangeText"></span> 
-								</span>
-								<span ng-click="vm.deleteActivity(activity)">
-									<span  class="ion-trash-a icons font_size_30px mrgrgt20 orangeText"></span>
-								</span>
-							</div>
-						</div>
-					</div>
 				</div>
-
 			</div>
-</div>
 			<div class="display_inlineflex margin0auto with100p"><pagination  
-			ng-model="currentPage"
-			total-items="vm.activityData.length"
-			max-size="noOfPages"  
-			boundary-links="true" items-per-page="entryLimit">
-		</pagination></div>
+				ng-model="currentPage"
+				total-items="vm.activityData.length"
+				max-size="5"  
+				boundary-links="true" items-per-page="entryLimit" boundary-link-numbers = "true">
+			</pagination></div>
 
-	<!-- 	<script id="editActivity.html" type="text/ng-template">
-			<ion-modal-view>										
-				<ion-header-bar class="bar bar-header button-clear">
-					<div class="text_align_center with100p">
-						<span class="btmborder padding5px orangeText font_size_20px boldtext">Edit Activity</span>
-						<button class="button  button-light float_right background_transparent mrgrgt5p resmrg_right10p" ng-click="vm.closeModel()">
-							<span class="ion-android-cancel orangeText font_size_20px"></span>
-						</button>
-					</div>
-				</ion-header-bar>
-				<ion-content  overflow-scroll = "true" style="top:0">
+		</ion-content>
 
-					<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
-
-					<div class="mrg25px">
-
-						<div class="row mrg_top5px">
-							<div class="col">	Name
-								<input type="text" ng-model="vm.editActivity.Name" class="with100p btmborder">
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col">	Phone
-								<input type="text" ng-model="vm.editActivity.Phone" class="with100p btmborder">
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col ">	Email
-								<input type="text" ng-model="vm.editActivity.Email" class="with100p btmborder">
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col">	Start Date
-								
-								 <input type="text" class="btmborder with100p" ng-model="vm.text" 
-								 ui-date="{dateFormat: 'dd-mm-yy' }"/> 
-                 
-							</div>
-						</div>
-
-				<div class="row mrg_top5px">
-							<div class="col">	End Date
-								<input type="text" value="{{vm.editActivity.End_date | date: 'dd-mm-yy'}}" class="with100p btmborder bordernone" ui-date/>
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col">	Start Time
-								<input type="text" ng-model="vm.editActivity.Start_time" class="with100p btmborder" >
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col">	End Time
-								<input type="text" ng-model="vm.editActivity.End_time" class="with100p btmborder">
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col">	Recurrence
-								<input type="text" ng-model="vm.editActivity.Recurrence" class="with100p btmborder">
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col ">	URL
-								<input type="text" ng-model="vm.editActivity.URL" class="with100p btmborder">
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col">	Activity Type
-								<select  ng-model="vm.editActivity.Activity_type" ng-options="v for v in vm.activityList" class="bordernone with100p btmborder padding5px ">
-									<optgroup style="border: 1px solid red"><option value="" disabled selected="selected" style="display: none;">{{vm.editActivity.Activity_type}}</option></optgroup> 
-								</select>
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col">	Project
-								<select  ng-model="vm.editActivity.Project_url" ng-options="v._url as v.Name for v in vm.projectList" class="bordernone with100p btmborder padding5px">
-
-								</select> 
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col">	Address Line1
-								<input type="text" ng-model="vm.editActivity.Address.Address_line1" class="with100p btmborder">
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col">	Address Line2
-								<input type="text" ng-model="vm.editActivity.Address.Address_line2" class="with100p btmborder">
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col">	City
-								<input type="text" ng-model="vm.editActivity.Address.City" class="with100p btmborder">
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col">District
-								<input type="text" ng-model="vm.editActivity.Address.District" class="with100p btmborder">
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col">State	
-								<input type="text" ng-model="vm.editActivity.Address.State" class="with100p btmborder">
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col">Country
-								<input type="text" ng-model="vm.editActivity.Address.Country" class="with100p btmborder">
-							</div>
-						</div>
-
-						<div class="row mrg_top5px">
-							<div class="col">	Postal Code
-								<input type="text" ng-model="vm.editActivity.Address.Postal_code" class="with100p btmborder">
-							</div>
-						</div>
-						<div class="row mrg_top5px">
-							<div class="text_align_center col valuetabletd">
-								<button class="button themBackgroundColor text_white" ng-click="vm.saveUpdatedActivityDetail(vm.editActivity)" type="submit">Update </button>
-							</div>
-						</div>
-					</div>
-				</ion-content>
-			</ion-modal-view>
-		</script> -->
-
-	</ion-content>
-
-</ion-view>
+	</ion-view>

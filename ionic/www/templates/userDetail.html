@@ -1,7 +1,7 @@
 <ion-view>
 	<div class="bar bar-subheader floatingHeader top8p background_transparent">
 
-		<span  class="ion-plus-circled floatingbtn font_size_30px orangeText" 
+		<span  class="ion-plus-circled icons floatingbtn font_size_30px orangeText" 
 		ng-click="vm.showFormForNewUser()"></span> 
 	</div>
 	<ion-content class="has-header"  overflow-scroll = "true">
@@ -101,8 +101,7 @@
 		<div ng-if="vm.showSearchCount">
 			<span class="padding10 line_height3 verticalalignmiddle orangeText">Found {{vm.user.data.length}} results</span>
 			<button class="button themBackgroundColor  text_white float_right bordernone mrgrgt10" 
-			ng-click="vm.routingTOMapView({{vm.user.data | filter: vm.searchKeywordForUser 
-		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit}})">Map View</button>
+			ng-click="vm.routingTOMapView(vm.user.data)">Map View</button>
 		</div>
 
 
@@ -111,7 +110,7 @@
 		| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit)">
 
 
-		<div class="padding10">
+		<div class="padding10 selectable">
 
 			<div class ="row padding0 btmborder">
 				<div class="col3 padding5px">
@@ -178,7 +177,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="display_inlineflex margin0auto with100p"><pagination  ng-model="currentPage" total-items="vm.user.data.length" max-size="noOfPages"  boundary-links="true" items-per-page="entryLimit">
+	<div class="display_inlineflex margin0auto with100p"><pagination  ng-model="currentPage" total-items="vm.user.data.length" max-size="5"  boundary-links="true" items-per-page="entryLimit" boundary-link-numbers = "true">
 	</pagination></div>
 
 
@@ -300,7 +299,7 @@
 					</button>
 				</div>
 			</ion-header-bar>
-			<ion-content overflow-scroll = "true" style="top:0">
+			<ion-content overflow-scroll = "true">
 
 				<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
 
@@ -364,7 +363,7 @@
 
 				<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
 
-				<div class="mrg25px">
+				<div class="mrg25px selectable">
 
 
 					<div class="row mrg_top5px">

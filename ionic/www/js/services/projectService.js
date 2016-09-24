@@ -60,7 +60,6 @@ function projectService($http, $q, constantsService) {
     }
 
     function addProject(newProjectDetail){
-        console.log('data from controller',newProjectDetail);
         var deferred = $q.defer();
         $http({
             method : 'POST',
@@ -76,7 +75,6 @@ function projectService($http, $q, constantsService) {
     }
 
     function updateProject(projectDetail){
-        console.log('updateurl',projectDetail);
         var deferred = $q.defer();
         $http({
             method : 'PUT',

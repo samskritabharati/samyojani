@@ -13,6 +13,8 @@ function userProfileController($scope, $state, userInfoService, $ionicHistory,$l
 	vm.updateUserProfile = updateUserProfile
 	vm.userProfileInfo  = [];
 	vm.userProfileInfo = angular.copy($localStorage.userInfo.data[0]);
+	vm.autoFillAddressDetail = autoFillAddressDetail;
+
 	vm.showSpinner = false;
 	vm.fieldEditable = true;
 	vm.edititemtrue = true;
@@ -75,5 +77,39 @@ function userProfileController($scope, $state, userInfoService, $ionicHistory,$l
 			console.log(error);
 		})
 	} 
+
+	function autoFillAddressDetail(){
+		if(vm.newUser.Address.Country){
+			if(vm.newUser.Address.Postal_code){
+				vm.showSpinner = true;
+				postalCodeService.getDetailsByPostalCode(vm.newUser.Address.Country,vm.newUser.Address.Postal_code).then(function(addressDetails){
+					if(addressDetails.data.length>0){
+						vm.newUser.Address = {
+							District : addressDetails.data[0].Address.District,
+							Locality : addressDetails.data[0].Address.Locality,
+							State : addressDetails.data[0].Address.State,
+							City : addressDetails.data[0].Address.City,
+							Country : addressDetails.data[0].Address.Country,
+							Postal_code : addressDetails.data[0].Address.Postal_code
+						}
+						userAuthenticationService.alertUser('Address Autofilled');
+					}else{
+						userAuthenticationService.alertUser('Address Not Found');
+					}
+
+					vm.showSpinner = false;
+				},function(error){
+					console.log(error);
+				})
+			}else{
+				userAuthenticationService.alertUser('Please Enter Postal_code');
+			}
+
+		}else{
+			userAuthenticationService.alertUser('Please Enter Country');
+		}
+	}
+
+
 
 }

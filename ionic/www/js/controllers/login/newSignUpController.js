@@ -2,14 +2,15 @@ angular
 .module('starter')
 .controller('newSignUpController', newSignUpController);
 
-newSignUpController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$ionicModal', 'userInfoService', 'userAuthenticationService', '$localStorage','$rootScope','$ionicHistory'];
+newSignUpController.$inject = ['$scope', '$stateParams', '$state', 'userAuthenticationService', '$ionicModal', 'userInfoService', 'userAuthenticationService', '$localStorage','$rootScope','$ionicHistory','postalCodeService'];
 
-function newSignUpController($scope, $stateParams, $state, userAuthenticationService, $ionicModal, userInfoService, userAuthenticationService, $localStorage,$rootScope,$ionicHistory) {
+function newSignUpController($scope, $stateParams, $state, userAuthenticationService, $ionicModal, userInfoService, userAuthenticationService, $localStorage,$rootScope,$ionicHistory,postalCodeService) {
 	var vm = this;
 
 	vm.addUser = addUser;
 	vm.closeModel =  closeModel;
 	vm.updateUser = updateUser;
+	vm.autoFillAddressDetail = autoFillAddressDetail;
 
 	vm.showUpdateButtn = false;
 	vm.showText = false
@@ -82,21 +83,7 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 		$ionicHistory.nextViewOptions({
 			disableBack: true
 		});
-$state.go('app.main');
-		/*if($localStorage.userInfo == ""){
-			$state.go('app.main');
-		}else {
-			if($localStorage.userInfo.data[0].Role == 'Student'){
-				$state.go('app.student');
-			}
-			if($localStorage.userInfo.data[0].Role != 'Student'){
-				$state.go('app.organizer');
-			}
-			if($localStorage.userInfo.data[0].Role == null){
-				$state.go('app.student');
-			}
-		}*/
-
+		$state.go('app.main');
 	} 
 
 	function userProfession(){
@@ -120,6 +107,7 @@ $state.go('app.main');
 			newUserDetail.Facebook_id = $rootScope.fbResponse.id;
 		}
 		newUserDetail.Role = "Student";
+		newUserDetail.Signup_date = new Date();
 		userInfoService.addNewUser(newUserDetail).then(function(responsedata){
 			userAuthenticationService.emailauthentication(responsedata.data.Email).then(function(userData){
 				$localStorage.userInfo = [];
@@ -193,5 +181,37 @@ $state.go('app.main');
 
 			}
 		})
+
+	function autoFillAddressDetail(){
+		if(vm.newUser.Address.Country){
+			if(vm.newUser.Address.Postal_code){
+				vm.showSpinner = true;
+				postalCodeService.getDetailsByPostalCode(vm.newUser.Address.Country,vm.newUser.Address.Postal_code).then(function(addressDetails){
+					if(addressDetails.data.length>0){
+						vm.newUser.Address = {
+							District : addressDetails.data[0].Address.District,
+							Locality : addressDetails.data[0].Address.Locality,
+							State : addressDetails.data[0].Address.State,
+							City : addressDetails.data[0].Address.City,
+							Country : addressDetails.data[0].Address.Country,
+							Postal_code : addressDetails.data[0].Address.Postal_code
+						}
+						userAuthenticationService.alertUser('Address Autofilled');
+					}else{
+						userAuthenticationService.alertUser('Address Not Found');
+					}
+
+					vm.showSpinner = false;
+				},function(error){
+					console.log(error);
+				})
+			}else{
+				userAuthenticationService.alertUser('Please Enter Postal_code');
+			}
+
+		}else{
+			userAuthenticationService.alertUser('Please Enter Country');
+		}
+	}
 
 }

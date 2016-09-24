@@ -1,15 +1,12 @@
 <ion-modal-view class="signupmodel has-header resmrgtop15p" >
    <ion-header-bar class="bar bar-header button-clear">
-      <!-- <h1 class="title orangeText btmborder">User Profile</h1>
-      <button class="button  button-light" ng-click="vm.closeModel()">
-         <span class="ion-android-cancel orangeText font_size_20px"></span>
-      </button> -->
+
       <div class="text_align_center with100p">
-                  <span class="btmborder padding5px orangeText font_size_20px boldtext">User Profile</span>
-                  <button class="button  button-light float_right background_transparent" ng-click="vm.closeModel()">
-                     <span class="ion-android-cancel orangeText font_size_20px"></span>
-                  </button>
-               </div>
+         <span class="btmborder padding5px orangeText font_size_20px boldtext">User Profile</span>
+         <button class="button  button-light float_right background_transparent" ng-click="vm.closeModel()">
+            <span class="ion-android-cancel orangeText font_size_20px"></span>
+         </button>
+      </div>
    </ion-header-bar>
 
    <ion-content overflow-scroll = "true" class="has-header">
@@ -17,10 +14,10 @@
       <div class="">
          <form name="userForm" class="margin0auto width90p">
             <div class="field list">
-               Email*
+
                <div class="row">
-                  <div class="col">
-                     <label class="item item-input border_color_orange">
+                  <div class="col">  Email*
+                     <label class="item item-input btmborder bordernone padding0">
                         <input type="email" name="emailAddress" ng-model="vm.newUser.Email" required />
                      </label>
                      <div ng-messages="userForm.emailAddress.$error" ng-show="userForm.emailAddress.$touched" class="text_red">
@@ -35,10 +32,10 @@
                   </div>
                </div>
 
-               Name*
+
                <div class="row">
-                  <div class="col">
-                     <label class="item item-input border_color_orange">
+                  <div class="col"> Name*
+                     <label class="item item-input btmborder bordernone padding0">
                         <input type="text" name="userName" ng-model="vm.newUser.Name" required/>
                      </label>
                      <div ng-messages="userForm.userName.$error" ng-if="userForm.userName.$dirty" class="text_red" >
@@ -49,10 +46,10 @@
                </div>
 
 
-               Phone*
+
                <div class="row">
-                  <div class="col">
-                     <label class="item item-input border_color_orange">
+                  <div class="col"> Phone*
+                     <label class="item item-input btmborder bordernone padding0">
                         <input type="text" name="userPhoneNumber" ng-model="vm.newUser.Phone" 
                         ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/"  required/>
                      </label>
@@ -63,10 +60,10 @@
 
                   </div>
                </div>
-               Profession*
+
                <div class="row">
-                  <div class="col">
-                     <label class="item item-input border_color_orange">
+                  <div class="col">  Profession* 
+                     <label class="item item-input btmborder bordernone padding0">
                         <select  name="userProfession"   ng-model="vm.newUser.Profession" ng-options="v for v in vm.userProfessionList.data" class="bordernone with100p" required><option value="" disabled selected="selected" style="display: none;">Choose profession</option>
                         </select>
                      </label>
@@ -76,10 +73,10 @@
 
                   </div>
                </div>
-               Interest
+
                <div class="row">
-                  <div class="col">
-                     <label class="item item-input border_color_orange">
+                  <div class="col"> Interest
+                     <label class="item item-input btmborder bordernone padding0">
                         <select  multiple name="userInterestsList"   ng-model="vm.newUser.Interests" ng-options="v for v in vm.userInterestsList.data" class="bordernone with100p">
                            <option value="" disabled selected="selected" style="display: none;">Choose Interest</option>
 
@@ -87,100 +84,94 @@
                      </label>
                      <div ng-if="vm.showText" class="mrg_top10px">               
                         <input type="text" ng-model="vm.newUser.Interests" class="with100p border1px"></div>
-                  </div>
-               </div> 
-
-               Country*
-               <div class="row">
-                  <div class="col">
-                     <label class="item item-input border_color_orange">
-                        <select name="userCountry" ng-model="vm.newUser.Address.Country" ng-options="v for v in vm.countrList.data" class="bordernone with100p" required><option value="" disabled selected="selected" style="display: none;">Country</option>
-                        </select>
-                     </label>
-                     <div ng-messages="userForm.userCountry.$error" ng-if="userForm.userCountry.$dirty" class="text_red">
-                        <div ng-message="required">Country is required</div>
                      </div>
+                  </div> 
 
-                  </div>
-               </div>
-               PostalCode*
-               <div class="row">
-                  <div class="col">
-                     <label class="item item-input border_color_orange">
-                        <input type="text" name="userPostalCode" ng-model="vm.newUser.Address.Postal_code" required/>
-                     </label>
-                     <div ng-messages="userForm.userPostalCode.$error" ng-if="userForm.userPostalCode.$dirty" class="text_red">
-                        <div ng-message="required">PostalCode is required</div>
+
+                  <div class="row">
+                     <div class="col">    Country*
+                        <label class="item item-input btmborder bordernone padding0">
+                           <select name="userCountry" ng-model="vm.newUser.Address.Country" ng-options="v for v in vm.countrList.data" class="bordernone with100p" required><option value="" disabled selected="selected" style="display: none;">Country</option>
+                           </select>
+                        </label>
+                        <div ng-messages="userForm.userCountry.$error" ng-if="userForm.userCountry.$dirty" class="text_red">
+                           <div ng-message="required">Country is required</div>
+                        </div>
+
                      </div>
-
                   </div>
-               </div>
-               Address Line 1*
-               <div class="row">
-                  <div class="col">
-                     <label class="item item-input border_color_orange">
-                        <input type="text" name="userAddress1" ng-model="vm.newUser.Address.Address_line1" required/>
-                     </label>
-                     <div ng-messages="userForm.userAddress1.$error" ng-if="userForm.userAddress1.$dirty" class="text_red">
-                        <div ng-message="required">Address line 1 is required</div>
+
+                  <div class="row">
+                     <div class="col">   PostalCode*
+                        <div class="item item-input btmborder bordernone padding0">
+                           <input type="text" name="userPostalCode" ng-model="vm.newUser.Address.Postal_code" required/>
+                           <span  ng-click="vm.autoFillAddressDetail()" 
+                           class="ion-search icons orangeText font_size_30px"></span>
+                        </div>
+                        <div ng-messages="userForm.userPostalCode.$error" ng-if="userForm.userPostalCode.$dirty" class="text_red">
+                           <div ng-message="required">PostalCode is required</div>
+                        </div>
+
                      </div>
-
                   </div>
-               </div>
-               Address Line 2
-               <div class="row">
-                  <div class="col">
-                     <label class="item item-input border_color_orange">
-                        <input type="text" name="userAddress2" ng-model="vm.newUser.Address.Address_line2"/>
-                     </label>
 
+                  <div class="row">
+                     <div class="col">Address Line 1*
+                        <label class="item item-input btmborder bordernone padding0">
+                           <input type="text" name="userAddress1" ng-model="vm.newUser.Address.Address_line1" required/>
+                        </label>
+                        <div ng-messages="userForm.userAddress1.$error" ng-if="userForm.userAddress1.$dirty" class="text_red">
+                           <div ng-message="required">Address line 1 is required</div>
+                        </div>
+
+                     </div>
                   </div>
-               </div>
-               City
-               <div class="row">
-                  <div class="col">
-                     <label class="item item-input border_color_orange">
-                        <input type="text" name="userCity" ng-model="vm.newUser.Address.City"/>
-                     </label>
+
+                  <div class="row">
+                     <div class="col">Address Line 2
+                        <label class="item item-input btmborder bordernone padding0">
+                           <input type="text" name="userAddress2" ng-model="vm.newUser.Address.Address_line2"/>
+                        </label>
+
+                     </div>
                   </div>
-               </div>
-               District
-               <div class="row">
-                  <div class="col">
-                     <label class="item item-input border_color_orange">
-                        <input type="text" ng-model="vm.newUser.Address.District"/>
-                     </label>
+
+                  <div class="row">
+                     <div class="col">City
+                        <label class="item item-input btmborder bordernone padding0">
+                           <input type="text" name="userCity" ng-model="vm.newUser.Address.City"/>
+                        </label>
+                     </div>
                   </div>
-               </div>
-               State
-               <div class="row">
-                  <div class="col">
-                     <label class="item item-input border_color_orange">
-                        <input type="text" name="userState" ng-model="vm.newUser.Address.State"/>
-                     </label>
 
+                  <div class="row">
+                     <div class="col"> District
+                        <label class="item item-input btmborder bordernone padding0">
+                           <input type="text" ng-model="vm.newUser.Address.District"/>
+                        </label>
+                     </div>
                   </div>
+
+                  <div class="row">
+                     <div class="col"> State
+                        <label class="item item-input btmborder bordernone padding0">
+                           <input type="text" name="userState" ng-model="vm.newUser.Address.State"/>
+                        </label>
+
+                     </div>
+                  </div>
+                  <div class="list list-inset" ng-show="!vm.showUpdateButtn" >
+                     <button class="button button-block themBackgroundColor text_white float_right bordernone" ng-click="vm.addUser(vm.newUser)" ng-disabled="userForm.$invalid">Sign up</button>
+                  </div>
+                  <div class="list list-inset" ng-show="vm.showUpdateButtn">
+                     <button class="button button-block themBackgroundColor text_white float_right bordernone" ng-click="vm.updateUser(vm.newUser)" ng-disabled="userForm.$invalid">Update</button>
+                  </div>
+
+                  <div class="orangeText text_align_center">* mandatory fields are required</div>
+
                </div>
-               <div class="list list-inset" ng-show="!vm.showUpdateButtn" >
-                  <button class="button button-block themBackgroundColor text_white float_right bordernone" ng-click="vm.addUser(vm.newUser)" ng-disabled="userForm.$invalid">Sign up</button>
-               </div>
-               <div class="list list-inset" ng-show="vm.showUpdateButtn">
-                  <button class="button button-block themBackgroundColor text_white float_right bordernone" ng-click="vm.updateUser(vm.newUser)" >Update</button>
-               </div>
+            </form>
+         </div>
 
-               <!-- <div class="list list-inset" ng-show="!vm.showUpdateButtn" >
-                  <button type="submit" class="button button-block themBackgroundColor text_white"  ng-disabled="userForm.$invalid">Sign up<button>
-               </div> 
-
-               <div class="list list-inset" ng-show="vm.showUpdateButtn">
-                  <button class="button button-block themBackgroundColor text_white" ng-click="vm.updateUser(vm.newUser)" ng-show="vm.showUpdateButtn">Update<button>
-               </div>  -->
-
-               <div class="orangeText text_align_center">* mandatory fields are required</div>
-
-            </div>
-         </form>
-      </div>
-
-   </ion-content>
-</ion-modal-view>
+      </ion-content>
+   </ion-modal-view>

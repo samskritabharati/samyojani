@@ -1,7 +1,7 @@
 <ion-modal-view class="signupmodel">										
 	<ion-header-bar class="bar bar-header button-clear">
 		<div class="text_align_center with100p">
-		<span class="btmborder padding5px orangeText font_size_20px boldtext">Edit Project</span>
+			<span class="btmborder padding5px orangeText font_size_20px boldtext">Edit Project</span>
 			<button class="button  button-light float_right background_transparent mrgrgt5p resmrg_right10p" ng-click="vm.closeAddProject()">
 				<span class="ion-android-cancel orangeText font_size_20px"></span>
 			</button>
@@ -78,7 +78,6 @@
 
 			<div class="row mrg_top5px">
 				<div class="col">Country
-					<!-- <input type="text" ng-model="vm.newProject.Address.Country" class="with100p btmborder"> -->
 					<select name="country" ng-model="vm.editProject.Address.Country" ng-options="v for v in vm.countrList.data" class=" with100p padding5px bordernone btmborder" required><option value="" disabled selected="selected" style="display: none;">Country</option>
 					</select>
 				</div>

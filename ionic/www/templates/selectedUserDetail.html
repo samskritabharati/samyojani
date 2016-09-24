@@ -1,0 +1,68 @@
+<ion-modal-view>                                        
+            <ion-header-bar class="bar bar-header button-clear padding0">
+                <h1 class="title orangeText"> User Detail</h1>
+                <button class="button  button-light mrgrgt42" ng-click="vm.closeModel()">
+                    <span class="ion-android-cancel orangeText font_size_20px"></span>
+                </button>
+            </ion-header-bar>
+            <ion-content overflow-scroll = "true">
+
+                <div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+
+                <div class="padding10">
+            <div class="row padding0" style="display: flex !important; ">
+                <div class="with30p reswith30p bg_lightgry text_black line_height2p5">Name</div>
+                <div class="with80p reswith70p">
+                    <input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Name" ng-readonly="true">
+                </div>
+            </div>
+            <div class="row padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Role</div>
+                <div class="with80p reswith70p">
+                    <input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Role" ng-readonly="true">
+                </div>
+            </div>
+            <div class="row padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Joined Date</div>
+                <div class="with80p reswith70p">
+                    <input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Signup_date" ng-readonly= "true">
+                </div>
+            </div>
+
+            <div class="row  padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Phone
+<a  href="tel:{{vm.userProfileInfo.Phone}}" class="icons ion-ios-telephone  mrgrgt20 orangeText float_right font_size_15px "></a>
+                </div>
+                <div class="with80p reswith70p">
+                    <input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Phone" ng-readonly="true">
+                </div>
+            </div>
+            <div class="row  padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Email
+                <a href="mailto:{{vm.userProfileInfo.Email}}" class="icons ion-email  mrgrgt20 orangeText float_right font_size_15px"></a>
+                </div>
+                <div class="with80p reswith70p">
+                    <input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Email" ng-readonly="true">
+                </div>
+            </div>
+            <div class="row padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Profession</div>
+                <div class="with80p reswith70p">
+                    <select  name="userProfession"   ng-model="vm.userProfileInfo.Profession" ng-options="v for v in vm.userProfessionList.data" class="bordernone with100p backgroundNone" ng-readonly="vm.true">
+                        <option value="" disabled selected="selected" style="display: none;">{{vm.userProfileInfo.Profession}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Address</div>
+                <div class="with80p reswith70p">
+                    <!-- <input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Address.Address_line1" ng-readonly="vm.true"> -->
+               <address parameter="vm.userProfileInfo.Address"></address>
+                </div>
+
+            </div>
+            
+
+                </div>
+            </ion-content>
+        </ion-modal-view>

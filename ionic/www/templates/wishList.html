@@ -14,7 +14,7 @@
 		</div>
 		
 		<div  ng-repeat="course in vm.coursesDetailList | filter: vm.searchKeyword">
-		<div class="padding10">
+		<div class="padding10 selectable">
 			<div class ="row btmborder valuetabletd">
 				<div class="col3">
 					<div class="position_relative displayflex mrg_top5px">
@@ -60,7 +60,7 @@
 					<div class="position_relative displayflex mrg_top5px">
 						<div class="with50p">
 							<span ng-click="vm.DeletClassFromMyList(course.wishListInfo)">
-								<span  class="ion-help-circled font_size_20px mrgrgt20 orangeText resfontsize" >Remove from WishList</span>
+								<span  class="ion-help-circled icons font_size_20px mrgrgt20 orangeText resfontsize" >Remove from WishList</span>
 							</span>
 
 						</div>

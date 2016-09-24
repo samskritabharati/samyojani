@@ -20,8 +20,13 @@ function projectController($scope, $state, $localStorage, projectService,filterF
     vm.closeModel = closeModel;
     vm.UpdateProject = UpdateProject;
 
+    vm.newProject = {
+        Address : {
+            Postal_code: '',
+            Country: ''
+        }
 
-
+    }
 
     $rootScope.currentMenu = 'project';
 
@@ -47,7 +52,7 @@ function projectController($scope, $state, $localStorage, projectService,filterF
             vm.projectList = project.data;
             $scope.currentPage = 1;
             $scope.totalItems =  vm.projectList.length;
-            $scope.entryLimit = 5; 
+            $scope.entryLimit = 10; 
             $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
             $scope.$watch('search', function (newVal, oldVal) {
                 $scope.filtered = filterFilter( vm.projectList, newVal);
@@ -66,7 +71,7 @@ function projectController($scope, $state, $localStorage, projectService,filterF
                 userAuthenticationService.alertUser('Project Deleted');
                 getProject();
             },function(error){
-                 userAuthenticationService.alertUser('Error Occured');
+                userAuthenticationService.alertUser('Error Occured');
                 console.log(error);
             });
         },null)
@@ -192,26 +197,26 @@ function projectController($scope, $state, $localStorage, projectService,filterF
                 criteria.city =''
             }
             userInfoService.searchForUser(criteria).then(function(userDetail){
-                 if(userDetail.data.length > 0){
-                vm.showSearchCount = true;
-                vm.user = userDetail;
-                $scope.currentPage = 1;
-                $scope.totalItems = userDetail.data.length;
-                $scope.entryLimit = 10; 
-                $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
-
-                $scope.$watch('search', function (newVal, oldVal) {
-
-                    $scope.filtered = filterFilter(vm.user.data, newVal);
-                    $scope.totalItems = $scope.filtered.length;
-                    $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+                if(userDetail.data.length > 0){
+                    vm.showSearchCount = true;
+                    vm.user = userDetail;
                     $scope.currentPage = 1;
+                    $scope.totalItems = userDetail.data.length;
+                    $scope.entryLimit = 10; 
+                    $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+
+                    $scope.$watch('search', function (newVal, oldVal) {
+
+                        $scope.filtered = filterFilter(vm.user.data, newVal);
+                        $scope.totalItems = $scope.filtered.length;
+                        $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+                        $scope.currentPage = 1;
+                        vm.showSpinner = false;
+                    }, true);
+                }else{
+                    userAuthenticationService.alertUser('No Matches');
                     vm.showSpinner = false;
-                }, true);
-}else{
-     userAuthenticationService.alertUser('No Matches');
-                vm.showSpinner = false;
-}
+                }
             },function(error){
                 console.log("Error in updating FacebookID")
             })
@@ -252,46 +257,66 @@ function projectController($scope, $state, $localStorage, projectService,filterF
     function autoFillAddressDetail(opType){
         if(opType== 'edit'){
             if(vm.editProject.Address.Country){
-                vm.showSpinner = true;
-                postalCodeService.getDetailsByPostalCode(vm.editProject.Address.Country,vm.editProject.Address.Postal_code).then(function(addressDetails){
-                    if(addressDetails.data.length>0){
-                        vm.editProject.Address = {
-                            District : addressDetails.data[0].Address.District,
-                            Locality : addressDetails.data[0].Address.Locality,
-                            State : addressDetails.data[0].Address.State,
-                            City : addressDetails.data[0].Address.City,
-                            Country : addressDetails.data[0].Address.Country,
-                            Postal_code : addressDetails.data[0].Address.Postal_code
+
+                if(vm.editProject.Address.Postal_code){
+                    vm.showSpinner = true;
+                    postalCodeService.getDetailsByPostalCode(vm.editProject.Address.Country,vm.editProject.Address.Postal_code).then(function(addressDetails){
+                        if(addressDetails.data.length>0){
+                            vm.editProject.Address = {
+                                District : addressDetails.data[0].Address.District,
+                                Locality : addressDetails.data[0].Address.Locality,
+                                State : addressDetails.data[0].Address.State,
+                                City : addressDetails.data[0].Address.City,
+                                Country : addressDetails.data[0].Address.Country,
+                                Postal_code : addressDetails.data[0].Address.Postal_code
+                            }
+                            userAuthenticationService.alertUser('Address Autofilled');
                         }
-                    }
-                    vm.showSpinner = false;
-                },function(error){
-                    console.log(error);
-                })
+                        else{
+                            userAuthenticationService.alertUser('Address Not Found');
+                        }
+                        vm.showSpinner = false;
+                    },function(error){
+                        userAuthenticationService.alertUser('Error Occured');
+                        console.log(error);
+                    })
+                }else{
+                    userAuthenticationService.alertUser('Please Enter Postal_code');
+                }
+            }else{
+                userAuthenticationService.alertUser('Please Enter Country');
             }
 
 
         }else{
 
             if(vm.newProject.Address.Country){
-
-                vm.showSpinner = true;
-                postalCodeService.getDetailsByPostalCode(vm.newProject.Address.Country,vm.newProject.Address.Postal_code).then(function(addressDetails){
-                    if(addressDetails.data.length>0){
-                        vm.newProject.Address = {
-                            District : addressDetails.data[0].Address.District,
-                            Locality : addressDetails.data[0].Address.Locality,
-                            State : addressDetails.data[0].Address.State,
-                            City : addressDetails.data[0].Address.City,
-                            Country : addressDetails.data[0].Address.Country,
-                            Postal_code : addressDetails.data[0].Address.Postal_code
+                if(vm.newProject.Address.Postal_code){
+                    vm.showSpinner = true;
+                    postalCodeService.getDetailsByPostalCode(vm.newProject.Address.Country,vm.newProject.Address.Postal_code).then(function(addressDetails){
+                        if(addressDetails.data.length>0){
+                            vm.newProject.Address = {
+                                District : addressDetails.data[0].Address.District,
+                                Locality : addressDetails.data[0].Address.Locality,
+                                State : addressDetails.data[0].Address.State,
+                                City : addressDetails.data[0].Address.City,
+                                Country : addressDetails.data[0].Address.Country,
+                                Postal_code : addressDetails.data[0].Address.Postal_code
+                            }
+                            userAuthenticationService.alertUser('Address Autofilled');
                         }
-                    }
-                    vm.showSpinner = false;
-                },function(error){
-                    console.log(error);
-                })
-
+                        else{
+                            userAuthenticationService.alertUser('Address Not Found');
+                        }
+                        vm.showSpinner = false;
+                    },function(error){
+                        console.log(error);
+                    })
+                }else{
+                    userAuthenticationService.alertUser('Please Enter Postal_code');
+                }
+            }else{
+                userAuthenticationService.alertUser('Please Enter Country');
             }
 
         }

@@ -22,7 +22,7 @@ function activityService($http, $q, constantsService) {
     return service;
 
     function getRecurrence(){
-    	var deferred = $q.defer();
+        var deferred = $q.defer();
         $http({
             method : 'GET',
             url :  constantsService.url+'/presets/Recurrence'
@@ -36,14 +36,12 @@ function activityService($http, $q, constantsService) {
     }
 
     function addNewActivity(newActivityDetail){
-    	console.log('data from controller',newActivityDetail);
         var deferred = $q.defer();
         $http({
             method : 'POST',
             url :  constantsService.url+'/activities',
             data : newActivityDetail
         }).then(function(data){
-            console.log('newactivity return',data);
             deferred.resolve(data);
         }, function(error){
             console.log('error',error);
@@ -51,16 +49,14 @@ function activityService($http, $q, constantsService) {
         });
         return deferred.promise;
     }
-    
+
     function joinActivity(newJoindActivity){
-        console.log("new join activit service",newJoindActivity);
         var deferred = $q.defer();
         $http({
             method : 'POST',
             url :  constantsService.url+'/roles?Person_url='+newJoindActivity.Person_url,
             data: newJoindActivity
         }).then(function(data){
-            console.log('newactivity return',data);
             deferred.resolve(data);
         }, function(error){
             console.log('error',error);
@@ -84,13 +80,11 @@ function activityService($http, $q, constantsService) {
     }
 
     function deletActivityFromUserList(roleurl){
-        console.log('i am deleting',roleurl);
         var deferred = $q.defer();
         $http({
             method : 'DELETE',
             url :  constantsService.url+roleurl
         }).then(function(data){
-            console.log('delete data',data);
             deferred.resolve(data);
         }, function(error){
             console.log('error',error);
@@ -100,15 +94,12 @@ function activityService($http, $q, constantsService) {
     }
 
     function updateActivity(newJoindActivity,roleurl){
-        console.log('updateurl',newJoindActivity);
-        console.log('roleurl',roleurl);
         var deferred = $q.defer();
         $http({
             method : 'PUT',
             url :  constantsService.url+roleurl,
             data: newJoindActivity
         }).then(function(data){
-            console.log('newactivity return',data);
             deferred.resolve(data);
         }, function(error){
             console.log('error',error);
@@ -118,7 +109,6 @@ function activityService($http, $q, constantsService) {
     }
 
     function getActivityParticipants(activityUrl){
-        console.log('activityUrl',activityUrl);
         var deferred = $q.defer();
         $http({
             method : 'GET',
@@ -138,8 +128,7 @@ function activityService($http, $q, constantsService) {
             method : 'GET',
             url : constantsService.url+'/presets/EventRole'
         }).then(function(data){
-            console.log(data);
-             deferred.resolve(data);
+            deferred.resolve(data);
         }, function(error){
             console.log('error',error);
             deferred.reject(error);
@@ -176,7 +165,7 @@ function activityService($http, $q, constantsService) {
     }
 
     function getPartcipantFromActivity(activityUrl,personUrl){
-          var deferred = $q.defer();
+        var deferred = $q.defer();
         $http({
             method : 'GET',
             url : constantsService.url+'/roles?Activity_url='+activityUrl+'&Person_url='+personUrl

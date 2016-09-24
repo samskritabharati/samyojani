@@ -2,432 +2,402 @@
 
     <ion-header-bar class="bar bar-header button-clear resmrg_top5p">
         <div class="text_align_center with100p">
-                           
-                            <span class="btmborder padding5px orangeText font_size_20px boldtext">Enter New Activity Detail</span>
-                            <button class="button  button-light float_right background_transparent resmrg_right10p " ng-click="vm.closeModel()" style=" margin-right: 6%;">
-                            <span class="ion-android-cancel orangeText font_size_20px"></span>
-                        </button>
+
+            <span class="btmborder padding5px orangeText font_size_20px boldtext">Enter New Activity Detail</span>
+            <button class="button  button-light float_right background_transparent resmrg_right10p " ng-click="vm.closeModel()" style=" margin-right: 6%;">
+                <span class="ion-android-cancel orangeText font_size_20px"></span>
+            </button>
         </div>
     </ion-header-bar>
     <ion-content class="has-header resmrg_top5p" overflow-scroll = "true" >
-<div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span></div>
-<!-- <div class="spinnerDiv background_transparent">
-        <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
-  <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>
-  </div>
- -->
+        <div class="spinnerDiv" ng-show="vm.showSpinner" style="height: 200%"><span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span></div>
         <form class="margin0auto width90p" name="newActivityForm">
-          
+
             <div class="row mrg_top5px">
                 <div class="col"> Activity Type*
                     <select name="activityType" ng-model="vm.newActivity.Activity_type" 
                     ng-options="v for v in vm.activityList" class="bordernone with100p btmborder padding6px" required>
-                         <option value="" disabled selected="selected" style="display: none;">{{vm.newActivity.Activity_type}}</option>
-                    </select>
-                </div> 
-                <div ng-messages="newActivityForm.activityType.$error" ng-if="userForm.activityType.$dirty" class="text_red">
-                    <div ng-message="required"> Please select activity type</div>
-                </div>
+                    <option value="" disabled selected="selected" style="display: none;">{{vm.newActivity.Activity_type}}</option>
+                </select>
+            </div> 
+            <div ng-messages="newActivityForm.activityType.$error" ng-if="userForm.activityType.$dirty" class="text_red">
+                <div ng-message="required"> Please select activity type</div>
             </div>
+        </div>
 
-           
-            <div class="row mrg_top5px">
-                <div class="col">  Activity Name*
-                    <label class="item item-input btmborder bordernone padding0">
-                        <input type="Name" ng-model="vm.newActivity.Name" name="activityName" class="bordernone" required/>
-                    </label>
-                    <div ng-messages="newActivityForm.activityName.$error" ng-show="newActivityForm.activityName.$touched">
-                        <div ng-message="required">
-                            Please enter activity name
-                        </div>
+
+        <div class="row mrg_top5px">
+            <div class="col">  Activity Name*
+                <label class="item item-input btmborder bordernone padding0">
+                    <input type="Name" ng-model="vm.newActivity.Name" name="activityName" class="bordernone" required/>
+                </label>
+                <div ng-messages="newActivityForm.activityName.$error" ng-show="newActivityForm.activityName.$touched">
+                    <div ng-message="required">
+                        Please enter activity name
                     </div>
-
                 </div>
-            </div>
 
-            <div class="row mrg_top5px">
-                <div class="col"> Co-ordinator Name*
-                    <div class="item item-input btmborder bordernone padding0">
-                        <input type="Name" ng-model="vm.activityCo_ordinatorName" name="coordinateName" class="bordernone background_transparent" ng-disabled = true required/>
-                        <!-- <button ng-click="vm.seacrchForCoordinator()" class="button themBackgroundColor text_white">Choose</button> -->
-                        <span ng-click="vm.seacrchForCoordinator()" class="ion-search icons orangeText font_size_30px"></span>
-                        <div ng-messages="newActivityForm.coordinateName.$error" ng-show="newActivityForm.coordinateName.$touched">
+            </div>
+        </div>
+
+        <div class="row mrg_top5px">
+            <div class="col"> Co-ordinator Name*
+                <div class="item item-input btmborder bordernone padding0">
+                    <input type="Name" ng-model="vm.activityCo_ordinatorName" name="coordinateName" class="bordernone background_transparent" ng-disabled = true required/>
+
+                    <span ng-click="vm.seacrchForCoordinator()" class="ion-search icons orangeText font_size_30px"></span>
+                    <div ng-messages="newActivityForm.coordinateName.$error" ng-show="newActivityForm.coordinateName.$touched">
                         <div ng-message="required">
                             choose co-ordinator
                         </div>
                     </div>
 
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="row mrg_top5px">
+            <div class="col">  Recurrence*
+                <select  name="recurrence" ng-model="vm.newActivity.Recurrence" ng-options="v for v in vm.recurrenceList.data" class="bordernone with100p btmborder bordernone padding6px" required>
+                    <option value="" disabled selected="selected" style="display: none;">{{vm.newActivity.Recurrence}}</option>
+                </select> 
+            </div>
+            <div ng-messages="newActivityForm.recurrence.$error" ng-if="userForm.recurrence.$dirty" class="text_red">
+                <div ng-message="required"> Please select recurrence</div>
+            </div>
+        </div>
+
+
+        <div class="row mrg_top5px">
+            <div class="col">  Days Of Week
+
+                <div class="display_inlineflex with100p bordernone btmborder"  >
+
+                    <span ng-repeat="day in vm.daysList" class="padding10">
+                        <input type='checkbox' value="{{day}}" ng-model="vm.newActivity.Days" check-list='checked_days' 
+                        ng-disabled="'daily' == vm.newActivity.Recurrence"> {{day}}<br />
+                    </span>
+                </div>
+            </div>
+        </div> 
+
+        <div class="row mrg_top5px">
+            <div class="col">  Start Date*
+                <input type="text"  name="startDate" ng-model="vm.newActivity.Start_date" 
+                class="btmborder with100p"  ui-date="{ dateFormat: 'dd-mm-yy' }"/>
+
+
+                <div ng-messages="newActivityForm.startDate.$error" ng-show="newActivityForm.startDate.$touched" >
+                    <div ng-message="required">
+                        select date
                     </div>
-                   
+                </div> 
 
+            </div>
+        </div> 
+
+
+        <div class="row mrg_top5px">
+            <div class="col">  End Date*
+
+                <input type="text" name="enddate" ng-model="vm.newActivity.End_date" class="btmborder with100p"  
+                ui-date="{ dateFormat: 'dd-mm-yy' }"/>
+                <div ng-messages="newActivityForm.enddate.$error" ng-show="newActivityForm.enddate.$touched">
+                    <div ng-message="required">
+                        select date
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row mrg_top5px">
+            <div class="col"><input type="checkbox" ng-model="vm.disabletime">All-day event</div>
+        </div>
+        <div class="row mrg_top5px">
+            <div  class="col">  Start Time
+                <div class="mrg_top5px padding0 mrg0" ng-disabled="vm.disabletime" ng-class="{border_color_orange: !vm.disabletime}">  
+                    <time-picker ng-model="vm.newActivity.Start_time" ng-disabled="vm.disabletime"></time-picker>  
                 </div>
             </div>
+        </div>
 
-           
-            <div class="row mrg_top5px">
-                <div class="col">  Recurrence*
-                    <select  name="recurrence" ng-model="vm.newActivity.Recurrence" ng-options="v for v in vm.recurrenceList.data" class="bordernone with100p btmborder bordernone padding6px" required>
-                        <option value="" disabled selected="selected" style="display: none;">{{vm.newActivity.Recurrence}}</option>
-                    </select> 
-                </div>
-                <div ng-messages="newActivityForm.recurrence.$error" ng-if="userForm.recurrence.$dirty" class="text_red">
-                    <div ng-message="required"> Please select recurrence</div>
+
+        <div class="row mrg_top5px">
+            <div  class="col"> End Time
+                <div class="mrg_top5px padding0 mrg0" ng-disabled="vm.disabletime" ng-class="{border_color_orange: !vm.disabletime}">  
+                    <time-picker ng-model="vm.newActivity.End_time" ng-disabled="vm.disabletime"></time-picker>   
                 </div>
             </div>
+        </div>
 
-           
-           <div class="row mrg_top5px">
-                <div class="col">  Days Of Week
-                    <!-- <select  name="daysofweek" ng-model="vm.newActivity.Days" ng-options="v for v in vm.daysList" class="bordernone with100p" required>
+        <div class="row mrg_top5px">
+            <div  class="col "> Project
+                <select  ng-model="vm.newActivity.Project_url" ng-options="v._url as v.Name for v in vm.projectList" class="bordernone with100p btmborder padding5px">
+
+                </select>
+            </div>
+        </div>
+
+        <div class="row mrg_top5px">
+            <div  class="col "> Phone
+                <input type="text" ng-model="vm.newActivity.Phone"  class="btmborder with100p" />
+            </div>
+        </div>
+
+
+        <div class="row mrg_top5px">
+            <div  class="col"> Email
+                <input type="email" ng-model="vm.newActivity.Email" class="btmborder with100p" />
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col">   Country*
+                <label class="item item-input bordernone padding0">
+                    <select name="country" ng-model="vm.newActivity.Address.Country" ng-options="v for v in vm.countrList.data" class=" with100p padding5px bordernone btmborder" required><option value="" disabled selected="selected" style="display: none;">Country</option>
                     </select>
-                    <div ng-messages="newActivityForm.daysofweek.$error" ng-if="userForm.daysofweek.$dirty" class="text_red">
-                        <div ng-message="required"> Please select days of week</div>
-                    </div> --> 
-                    <!-- <select ng-model="vm.newActivity.Days" multiple class="selecttodiv with100p bordernone btmborder padding6px">
-    <option ng-repeat="option in vm.daysList" value="{{option}}">{{option}}</option>
-</select> -->
-<div class="display_inlineflex with100p bordernone btmborder"  >
-
-        <span ng-repeat="day in vm.daysList" class="padding10">
-      <input type='checkbox' value="{{day}}" ng-model="vm.newActivity.Days" check-list='checked_days' 
-      ng-disabled="'daily' == vm.newActivity.Recurrence"> {{day}}<br />
-    </span>
-    </div>
-  
-    
-
+                </label>
+                <div ng-messages="newActivityForm.country.$error" ng-if="newActivityForm.country.$dirty" class="text_red">
+                    <div ng-message="required">Country is required</div>
                 </div>
-            </div> 
 
-
-          
-            <div class="row mrg_top5px">
-                <div class="col">  Start Date*
-<!-- <input ng-model="date" ui-date> -->
-                   <input type="text"  name="startDate" ng-model="vm.newActivity.Start_date" 
-                    class="btmborder with100p"  ui-date="{ dateFormat: 'dd-mm-yy' }"/>
-                 
-
-                    <div ng-messages="newActivityForm.startDate.$error" ng-show="newActivityForm.startDate.$touched" >
-                        <div ng-message="required">
-                            select date
-                        </div>
-                    </div> 
-
-                </div>
-            </div> 
-
-          
-            <div class="row mrg_top5px">
-                <div class="col">  End Date*
-
-                    <input type="text" name="enddate" ng-model="vm.newActivity.End_date" class="btmborder with100p"  
-                    ui-date="{ dateFormat: 'dd-mm-yy' }"/>
-                    <div ng-messages="newActivityForm.enddate.$error" ng-show="newActivityForm.enddate.$touched">
-                        <div ng-message="required">
-                            select date
-                        </div>
-                    </div>
-
-                </div>
             </div>
+        </div>
 
-            <div class="row mrg_top5px">
-                <!--  <div class="col">Timings</div> -->
-                <div class="col"><input type="checkbox" ng-model="vm.disabletime">All-day event</div>
-            </div>
-
-
-
-          
-            <div class="row mrg_top5px">
-                <div  class="col">  Start Time
-                    <div class="mrg_top5px padding0 mrg0" ng-disabled="vm.disabletime" ng-class="{border_color_orange: !vm.disabletime}">  
-                        <time-picker ng-model="vm.newActivity.Start_time" ng-disabled="vm.disabletime"></time-picker>  
-                    </div>
+        <div class="row">
+            <div class="col">  Postal code*
+                <div class="item item-input bordernone padding0 btmborder">
+                    <input type="text" name="postalCode" ng-model="vm.newActivity.Address.Postal_code"  class="" required/>
+                    <span  ng-click="vm.autoFillAddressDetail()" 
+                    class="ion-search icons orangeText font_size_30px"></span>
                 </div>
-            </div>
-
-           
-            <div class="row mrg_top5px">
-                <div  class="col"> End Time
-                    <div class="mrg_top5px padding0 mrg0" ng-disabled="vm.disabletime" ng-class="{border_color_orange: !vm.disabletime}">  
-                        <time-picker ng-model="vm.newActivity.End_time" ng-disabled="vm.disabletime"></time-picker>   
-                    </div>
+                <div ng-messages="newActivityForm.postalCode.$error" ng-if="newActivityForm.postalCode.$dirty" class="text_red">
+                    <div ng-message="required">PostalCode is required</div>
                 </div>
+
             </div>
+        </div>
 
- <div class="row mrg_top5px">
-                <div  class="col "> Project
-                    <select  ng-model="vm.newActivity.Project_url" ng-options="v._url as v.Name for v in vm.projectList" class="bordernone with100p btmborder padding5px">
-
-                                </select>
+        <div class="row">
+            <div class="col">  Street address1*
+                <label class="item item-input bordernone padding0">
+                    <input type="text" name="address1" ng-model="vm.newActivity.Address.Address_line1" class="btmborder" required/>
+                </label>
+                <div ng-messages="newActivityForm.address1.$error" ng-if="newActivityForm.address1.$dirty" class="text_red">
+                    <div ng-message="required">Address line 1 is required</div>
                 </div>
-            </div>
-<!-- <div class="row mrg_top5px">
-                            <div class="col">   Project
-                                <select  ng-model="vm.editActivity.Project_url" ng-options="v._url as v.Name for v in vm.projectList" class="bordernone with100p btmborder padding5px">
 
-                                </select> 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">   Street address2
+                <label class="item item-input bordernone padding0">
+                    <input type="text"  ng-model="vm.newActivity.Address.Address_line2" class="btmborder"/>
+                </label>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">   City
+                <label class="item item-input bordernone padding0">
+                    <input type="text" ng-model="vm.newActivity.Address.City" class="btmborder" />
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">  District
+                <label class="item item-input bordernone padding0">
+                    <input type="text" ng-model="vm.newActivity.Address.District" class="btmborder" />
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">    State
+                <label class="item item-input bordernone padding0">
+                    <input type="text" ng-model="vm.newActivity.Address.State" class="btmborder" />
+                </label>
+
+            </div>
+        </div>
+        <div class=" row text_align_center">
+            <div class="col padding0">
+                <button  class="button themBackgroundColor text_white" 
+                ng-click="vm.addNewActivityDetail(vm.newActivity)" type="submit" ng-disabled="newActivityForm.$invalid">Submit </button>
+            </div>
+        </div>
+        <div class="orangeText text_align_center">* fields are mandatory</div>
+    </form>
+
+
+
+    <script id="chooseCoordinator.html" type="text/ng-template">
+        <ion-modal-view>                                        
+            <ion-header-bar class="bar bar-header button-clear">
+                <div class="text_align_center with100p">
+                    <span class="btmborder padding5px orangeText font_size_20px boldtext">Search For User</span>
+                    <button class="button  button-light float_right background_transparent mrgrgt5p resmrg_right10p" ng-click="vm.closeThisModel()">
+                        <span class="ion-android-cancel orangeText font_size_20px"></span>
+                    </button>
+                </div>
+            </ion-header-bar>
+            <ion-content  overflow-scroll = "true" >
+
+                <div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+                <div class="padding10">
+                    <div class ="row padding0">
+                        <div class="col3 mrgrgt5p">
+                            <div class="position_relative displayflex mrg_top5px">
+                                <div class="with50p">Name</div>
+                                <div class="with50p">
+                                    <span> <input type="text" ng-model="vm.search.name" class="btmborder with100p" /></span>
+                                </div>
                             </div>
-                        </div> -->
-           
-            <div class="row mrg_top5px">
-                <div  class="col "> Phone
-                    <input type="text" ng-model="vm.newActivity.Phone"  class="btmborder with100p" />
-                </div>
-            </div>
+                        </div>
+                        <div class="col3 mrgrgt5p">
+                            <div class="position_relative displayflex mrg_top5px">
+                                <div class="with50p">Email</div>
+                                <div class="with50p">
+                                    <span> <input type="text" ng-model="vm.search.email" class="btmborder with100p" /></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col3 mrgrgt5p">
+                            <div class="position_relative displayflex mrg_top5px">
+                                <div class="with50p">Phone</div>
+                                <div class="with50p">
+                                    <span><input type="text" ng-model="vm.search.phone" class="btmborder with100p" /></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class ="row padding0">
+                        <div class="col3 mrgrgt5p">
+                            <div class="position_relative displayflex mrg_top5px">
+                                <div class="with50p">Role</div>
+                                <div class="with50p">
+                                    <span>  <select  ng-model="vm.search.role" ng-options="v for v in vm.userRole" class="bordernone with100p btmborder padding5px"></select></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col3 mrgrgt5p">
+                            <div class="position_relative displayflex mrg_top5px">
+                                <div class="with50p">Country</div>
+                                <div class="with50p">
+                                    <span> <input type="text" ng-model="vm.search.country" class="btmborder with100p" /></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col3 mrgrgt5p resmrgbtm10">
+                            <div class="position_relative displayflex mrg_top5px">
+                                <div class="with50p">State</div>
+                                <div class="with50p">
+                                    <span><input type="text" ng-model="vm.search.state" class="btmborder with100p" /></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class ="row padding0">
+                        <div class="col3 mrgrgt5p">
+                            <div class="position_relative displayflex mrg_top5px">
+                                <div class="with50p">City</div>
+                                <div class="with50p">
+                                    <span>  <input type="text" ng-model="vm.search.city" class="btmborder with100p" /></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col3 mrgrgt5p">
+                            <div class="position_relative displayflex mrg_top5px">
 
-           
-            <div class="row mrg_top5px">
-                <div  class="col"> Email
-                    <input type="email" ng-model="vm.newActivity.Email" class="btmborder with100p" />
-                </div>
-            </div>
+                            </div>
+                        </div>
+                        <div class="col3 mrgrgt5p resmrgbtm10">
+                            <div class="position_relative displayflex mrg_top5px">
 
-
-          
-            <div class="row">
-                <div class="col">   Country*
-                    <label class="item item-input bordernone padding0">
-                        <select name="country" ng-model="vm.newActivity.Address.Country" ng-options="v for v in vm.countrList.data" class=" with100p padding5px bordernone btmborder" required><option value="" disabled selected="selected" style="display: none;">Country</option>
-                        </select>
-                    </label>
-                    <div ng-messages="newActivityForm.country.$error" ng-if="newActivityForm.country.$dirty" class="text_red">
-                        <div ng-message="required">Country is required</div>
+                            </div>
+                        </div>
                     </div>
 
-                </div>
-            </div>
-           
-            <div class="row">
-                <div class="col">  Postal code*
-                    <div class="item item-input bordernone padding0">
-                        <input type="text" name="postalCode" ng-model="vm.newActivity.Address.Postal_code"  class="btmborder" required/>
-                        <span  ng-click="vm.autoFillAddressDetail('add')" 
-                        class="ion-search orangeText font_size_30px"></span>
-                    </div>
-                    <div ng-messages="newActivityForm.postalCode.$error" ng-if="newActivityForm.postalCode.$dirty" class="text_red">
-                        <div ng-message="required">PostalCode is required</div>
-                    </div>
-
-                </div>
-            </div>
-           
-            <div class="row">
-                <div class="col">  Street address1*
-                    <label class="item item-input bordernone padding0">
-                        <input type="text" name="address1" ng-model="vm.newActivity.Address.Address_line1" class="btmborder" required/>
-                    </label>
-                    <div ng-messages="newActivityForm.address1.$error" ng-if="newActivityForm.address1.$dirty" class="text_red">
-                        <div ng-message="required">Address line 1 is required</div>
-                    </div>
-
-                </div>
-            </div>
-          
-            <div class="row">
-                <div class="col">   Street address2
-                    <label class="item item-input bordernone padding0">
-                        <input type="text"  ng-model="vm.newActivity.Address.Address_line2" class="btmborder"/>
-                    </label>
-
-                </div>
-            </div>
-          
-            <div class="row">
-                <div class="col">   City
-                    <label class="item item-input bordernone padding0">
-                        <input type="text" ng-model="vm.newActivity.Address.City" class="btmborder" />
-                    </label>
-                </div>
-            </div>
-           
-            <div class="row">
-                <div class="col">  District
-                    <label class="item item-input bordernone padding0">
-                        <input type="text" ng-model="vm.newActivity.Address.District" class="btmborder" />
-                    </label>
-                </div>
-            </div>
-         
-            <div class="row">
-                <div class="col">    State
-                    <label class="item item-input bordernone padding0">
-                        <input type="text" ng-model="vm.newActivity.Address.State" class="btmborder" />
-                    </label>
-
-                </div>
-            </div>
-            <div class=" row text_align_center">
-                <div class="col padding0">
-                    <button  class="button themBackgroundColor text_white" 
-                    ng-click="vm.addNewActivityDetail(vm.newActivity)" type="submit" ng-disabled="newActivityForm.$invalid">Submit </button>
-                </div>
-            </div>
-            <div class="orangeText text_align_center">* fields are mandatory</div>
-        </form>
-
-
-
-        <script id="chooseCoordinator.html" type="text/ng-template">
-            <ion-modal-view>                                        
-                <ion-header-bar class="bar bar-header button-clear">
-                    <div class="text_align_center with100p">
-                        <span class="btmborder padding5px orangeText font_size_20px boldtext">Search For User</span>
-                        <button class="button  button-light float_right background_transparent mrgrgt5p resmrg_right10p" ng-click="vm.closeThisModel()">
-                            <span class="ion-android-cancel orangeText font_size_20px"></span>
-                        </button>
-                    </div>
-                </ion-header-bar>
-                <ion-content  overflow-scroll = "true" >
-
-                    <div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
-<div class="padding10">
-            <div class ="row padding0">
-                <div class="col3 mrgrgt5p">
-                    <div class="position_relative displayflex mrg_top5px">
-                        <div class="with50p">Name</div>
-                        <div class="with50p">
-                            <span> <input type="text" ng-model="vm.search.name" class="btmborder with100p" /></span>
+                    <div class ="row padding0 mrg_top10px">
+                        <div class="col text_align_center btmborder">
+                            <button class="button   themBackgroundColor text_white" 
+                            ng-click="vm.searchUser(vm.search)"
+                            >Search</button>
                         </div>
                     </div>
                 </div>
-                <div class="col3 mrgrgt5p">
-                    <div class="position_relative displayflex mrg_top5px">
-                        <div class="with50p">Email</div>
-                        <div class="with50p">
-                            <span> <input type="text" ng-model="vm.search.email" class="btmborder with100p" /></span>
+                <div  ng-repeat="user in filtered = vm.user.data | filter: vm.searchKeywordForUser 
+                | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+
+
+                <div class="padding10">
+
+                    <div class ="row padding0 btmborder">
+                        <div class="col3 padding5px">
+                            <div class="position_relative displayflex mrg_top5px">
+                                <div class="with30p reswith30p">Name</div>
+                                <div class="with70p reswith70p">
+                                    <span> {{user.Name }}</span>
+                                </div>
+                            </div>
+                            <div class="position_relative displayflex mrg_top5px" ng-if="(user.Phone)">
+                                <div class="with30p reswith30p">Phone</div>
+                                <div class="with70p reswith70p">
+                                    <span> {{user.Phone }}</span>
+                                </div>
+                            </div>
+                            <div class="position_relative displayflex mrg_top5px" ng-if="(user.Email)">
+                                <div class="with30p reswith30p">Email</div>
+                                <div class="with70p reswith70p">
+                                    <span> {{user.Email }}</span>
+                                </div>
+                            </div>
+                            <div class="position_relative displayflex mrg_top5px">
+                                <div class="with30p reswith30p">Address</div>
+                                <div class="with70p reswith70p">
+                                    <span> <address vm.openMap(user.Address) parameter="user.Address"></address></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col3 mrgrgt5p">
-                    <div class="position_relative displayflex mrg_top5px">
-                        <div class="with50p">Phone</div>
-                        <div class="with50p">
-                            <span><input type="text" ng-model="vm.search.phone" class="btmborder with100p" /></span>
+                        <div class="col3 padding5px">
+                            <div class="position_relative displayflex mrg_top5px">
+                                <div class="with30p reswith30p">Role</div>
+                                <div class="with70p reswith70p">
+                                    <span> {{user.Role}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col3 padding5px resmrg_top5p resbtmborder">
+                            <div class="position_relative displayflex mrg_top5px">
+                                <div class="with100p">
+                                    <span >
+                                        <button ng-click="vm.choosedCoordinator(user)" class="button themBackgroundColor float_right text_white">Select</button> 
+                                    </span>
+
+
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class ="row padding0">
-                <div class="col3 mrgrgt5p">
-                    <div class="position_relative displayflex mrg_top5px">
-                        <div class="with50p">Role</div>
-                        <div class="with50p">
-                            <span>  <select  ng-model="vm.search.role" ng-options="v for v in vm.userRole" class="bordernone with100p btmborder padding5px"></select></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col3 mrgrgt5p">
-                    <div class="position_relative displayflex mrg_top5px">
-                        <div class="with50p">Country</div>
-                        <div class="with50p">
-                            <span> <input type="text" ng-model="vm.search.country" class="btmborder with100p" /></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col3 mrgrgt5p resmrgbtm10">
-                    <div class="position_relative displayflex mrg_top5px">
-                        <div class="with50p">State</div>
-                        <div class="with50p">
-                            <span><input type="text" ng-model="vm.search.state" class="btmborder with100p" /></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class ="row padding0">
-                <div class="col3 mrgrgt5p">
-                    <div class="position_relative displayflex mrg_top5px">
-                        <div class="with50p">City</div>
-                        <div class="with50p">
-                            <span>  <input type="text" ng-model="vm.search.city" class="btmborder with100p" /></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col3 mrgrgt5p">
-                    <div class="position_relative displayflex mrg_top5px">
+            <div class="display_inlineflex margin0auto with100p"><pagination  ng-model="currentPage" total-items="vm.user.data.length" max-size="noOfPages"  boundary-links="true" items-per-page="entryLimit">
+            </pagination></div>
 
-                    </div>
-                </div>
-                <div class="col3 mrgrgt5p resmrgbtm10">
-                    <div class="position_relative displayflex mrg_top5px">
+        </ion-content>
+    </ion-modal-view>
+</script>
 
-                    </div>
-                </div>
-            </div>
-
-            <div class ="row padding0 mrg_top10px">
-                <div class="col text_align_center btmborder">
-                    <button class="button   themBackgroundColor text_white" 
-                    ng-click="vm.searchUser(vm.search)"
-                    >Search</button>
-                </div>
-            </div>
-        </div>
-<div  ng-repeat="user in filtered = vm.user.data | filter: vm.searchKeywordForUser 
-        | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
-
-
-        <div class="padding10">
-
-            <div class ="row padding0 btmborder">
-                <div class="col3 padding5px">
-                    <div class="position_relative displayflex mrg_top5px">
-                        <div class="with30p reswith30p">Name</div>
-                        <div class="with70p reswith70p">
-                            <span> {{user.Name }}</span>
-                        </div>
-                    </div>
-                    <div class="position_relative displayflex mrg_top5px" ng-if="(user.Phone)">
-                        <div class="with30p reswith30p">Phone</div>
-                        <div class="with70p reswith70p">
-                            <span> {{user.Phone }}</span>
-                        </div>
-                    </div>
-                    <div class="position_relative displayflex mrg_top5px" ng-if="(user.Email)">
-                        <div class="with30p reswith30p">Email</div>
-                        <div class="with70p reswith70p">
-                            <span> {{user.Email }}</span>
-                        </div>
-                    </div>
-                    <div class="position_relative displayflex mrg_top5px">
-                        <div class="with30p reswith30p">Address</div>
-                        <div class="with70p reswith70p">
-                            <span> <address vm.openMap(user.Address) parameter="user.Address"></address></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col3 padding5px">
-                    <div class="position_relative displayflex mrg_top5px">
-                        <div class="with30p reswith30p">Role</div>
-                        <div class="with70p reswith70p">
-                            <span> {{user.Role}}</span>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col3 padding5px resmrg_top5p resbtmborder">
-                    <div class="position_relative displayflex mrg_top5px">
-                        <div class="with100p">
-                            <span >
-                                 <button ng-click="vm.choosedCoordinator(user)" class="button themBackgroundColor float_right text_white">Select</button> 
-                            </span>
-                            
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="display_inlineflex margin0auto with100p"><pagination  ng-model="currentPage" total-items="vm.user.data.length" max-size="noOfPages"  boundary-links="true" items-per-page="entryLimit">
-    </pagination></div>
-
-                </ion-content>
-            </ion-modal-view>
-        </script>
-
-    </ion-content>
+</ion-content>
 </ion-modal-view>

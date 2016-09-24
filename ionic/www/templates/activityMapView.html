@@ -5,7 +5,18 @@
 			<button class="button themBackgroundColor text_white float_right bordernone" 
 			ng-click="vm.routingListView()">List View</button>
 		</div>
-	  	<div id="map"></div>
 
-   </ion-content>
+		<span ng-show="false">{{vm.showingPage = currentPage}}</span>
+		<!-- <input ng-model="vm.showingPage = currentPage" ng-show="false"/>   -->
+
+		<div class="display_inlineflex margin0auto with100p"><pagination  
+			ng-model="currentPage"
+			total-items="vm.activitys.length"
+			max-size="5"  
+			boundary-links="true" items-per-page="entryLimit" boundary-link-numbers = "true">
+		</pagination></div>
+
+		<div id="map"></div>
+
+	</ion-content>
 </ion-view>

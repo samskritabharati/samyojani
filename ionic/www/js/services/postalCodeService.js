@@ -8,8 +8,6 @@ function postalCodeService($http, $q, constantsService) {
     var service = {
         
         getDetailsByPostalCode: getDetailsByPostalCode,
-      
-
     };
 
     return service;

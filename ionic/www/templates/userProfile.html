@@ -2,7 +2,6 @@
 
 	<ion-content class="has-header"  overflow-scroll = "true">
 
-		<!-- <div   class=" font_size_30px orangeText text_align_center headerTextMrg " >UserProfile</div> -->
 		<div   class="boldtext font_size_20px orangeText text_align_center headerTextMrg ">
 			<span class="btmborder padding5px">UserProfile</span>
 		</div>
@@ -27,6 +26,12 @@
 				<div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Role</div>
 				<div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
 					<input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Role" ng-readonly="vm.nonEditableField">
+				</div>
+			</div>
+			<div class="row padding0 mrg_top10px" style="display: flex !important; ">
+				<div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Joined Date</div>
+				<div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
+					<input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Signup_date" ng-readonly="vm.nonEditableField" >
 				</div>
 			</div>
 
@@ -101,8 +106,11 @@
 
 
 			<div class=" with50p  margin0auto text_align_center mrg_top10px">
-				<button class="button themBackgroundColor text_white" ng-click="vm.updateUserProfile(vm.userProfileInfo)" ng-show="vm.showUpdateButn">Update</button></div>
+				<button class="button themBackgroundColor text_white" ng-click="vm.updateUserProfile(vm.userProfileInfo)" ng-show="vm.showUpdateButn">Update</button>
 			</div>
+			
+		</div>
+
 
 		</ion-content>
 	</ion-view>

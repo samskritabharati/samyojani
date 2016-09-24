@@ -246,6 +246,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngStor
     }
   })
 
+ .state('app.selectedUser', {
+    cache: false,
+    url: '/selectedUser',
+    /*params: {
+     userInfo: null,
+     pagetype: null
+    },*/
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/selectedUserDetail.html',
+        /*controller: 'selectedUserDetailController as vm'*/
+      }
+    }
+  })
+
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('app/main');
 });

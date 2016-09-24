@@ -1,15 +1,73 @@
 <ion-view>
 
-	<!-- <div class="bar bar-subheader floatingHeader background_transparent">
-		<span  ng-show="vm.addActivityIcon" class="ion-plus-circled floatingbtn font_size_30px orangeText" ng-click="vm.showNewActivityForm()"></span>
-	</div> -->
+	<div class="bar bar-subheader floatingHeader background_transparent" style="top:7%">
+		<span  class="ion-plus-circled floatingbtn font_size_30px orangeText" ng-click="vm.showSetLocationForm()"></span>
+	</div>
 
 	<ion-content class="has-header"  overflow-scroll = "true">
 
-    <div>your Region Path Now = {{vm.parent}}<span ng-if="vm.level1">/{{vm.level1}}</span>
-    <span ng-if="vm.level2">/{{vm.level2}}</span> <span ng-if="vm.level3">/{{vm.level3}}</span></div>
+        <div class="text_align_center"><span class="orangeText ">Region Path:</span> &nbsp&nbsp{{vm.myRegionPath}}</div>
 
-        <div class="row">
+        <div class="with100p text_align_center display_inlineflex resmrgtop10">
+       
+        <div class="width10p reswith25p orangeText">
+            Sub Region :         
+        </div>
+            <div class="width10p">
+                 <span class="ion-chevron-left icons orangeText font_size_20px" ng-click="vm.leftArrowClick()"></span>
+            </div>
+
+            <div class="with30p reswith50p" ng-show="vm.showDropDown">
+
+                <select  ng-model="vm.selectedData" ng-change="vm.levelChangeEvent()" ng-options="value as key for (key , value) in  vm.nextLevelData" class="bordernone with100p btmborder padding5px">
+                    <option value="" disabled selected="selected" style="display: none;">Select sub-region</option>
+                </select>
+
+            </div>
+
+            
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--   <div>your Region Path Now = {{vm.parent}}<span ng-if="vm.level1">/{{vm.level1}}</span>
+    <span ng-if="vm.level2">/{{vm.level2}}</span> <span ng-if="vm.level3">/{{vm.level3}}</span></div> -->
+
+       <!--  <div class="row">
             <div class="col">
                  <span class="ion-chevron-left float_right" ng-click="vm.leftArrowClick()"></span>
             </div>
@@ -38,11 +96,312 @@
            
                 
            
+        </div> -->
+
+
+
+
+
+
+
+
+<script id="setLocationForm.html" type="text/ng-template">
+    <ion-modal-view class="signupmodel">                                        
+    <ion-header-bar class="bar bar-header button-clear">
+        <div class="text_align_center with100p">
+            <span class="btmborder padding5px orangeText font_size_20px boldtext">Set Location</span>
+            <button class="button  button-light float_right background_transparent mrgrgt5p resmrg_right10p" ng-click="vm.closeModel()">
+                <span class="ion-android-cancel orangeText font_size_20px"></span>
+            </button>
+        </div>
+    </ion-header-bar>
+    <ion-content  overflow-scroll = "true" style="top:0">
+
+        <div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+
+        <div class="mrg25px">
+
+            <div class="row mrg_top5px">
+                <div class="col">   Name
+                    <input type="text" ng-model="vm.newLocation.Name" class="with100p btmborder">
+                </div>
+            </div>
+            <div class="row mrg_top5px">
+                <div class="col"> Co-ordinator Name                    
+                    <div class="item item-input btmborder bordernone padding0">
+                        <input type="Name" ng-model="vm.coordinatorName" name="coordinateName" class="bordernone background_transparent" ng-disabled = true required/>
+                        <span ng-click="vm.seacrchForCoordinator()" class="ion-search icons orangeText font_size_30px"></span>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row mrg_top5px">
+                <div class="col">   Praanta Type
+                    <select  name="recurrence" ng-model="vm.newLocation.Praanta_type" ng-options="v for v in vm.praantaTypes" class="bordernone with100p btmborder bordernone padding6px" required>
+                        <option value="" disabled selected="selected" style="display: none;">{{vm.newLocation.Praanta_type}}</option>
+                    </select> 
+                </div>
+            </div>
+
+
+             <div class="row mrg_top5px">
+                <div class="col ">  URL
+                    <input type="text" ng-model="vm.newLocation.URL" class="with100p btmborder">
+                </div>
+            </div>
+
+            <div class="row mrg_top5px">
+                        <div class="col">   Description
+                            <textarea rows="4" cols="50"  ng-model="vm.newLocation.Description" class="with100p btmborder"></textarea>
+                        </div>
+                    </div>
+<div class="row">
+            <div class="col">   Country*
+                <label class="item item-input bordernone padding0">
+                    <select name="country" ng-model="vm.newLocation.Address.Country" ng-options="v for v in vm.countrList.data" class=" with100p padding5px bordernone btmborder" required><option value="" disabled selected="selected" style="display: none;">Country</option>
+                    </select>
+                </label>
+                <div ng-messages="newActivityForm.country.$error" ng-if="newActivityForm.country.$dirty" class="text_red">
+                    <div ng-message="required">Country is required</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">  Postal code*
+                <div class="item item-input bordernone padding0 btmborder">
+                    <input type="text" name="postalCode" ng-model="vm.newLocation.Address.Postal_code"  class="" required/>
+                    <span  ng-click="vm.autoFillAddressDetail()" 
+                    class="ion-search icons orangeText font_size_30px"></span>
+                </div>
+                <div ng-messages="newActivityForm.postalCode.$error" ng-if="newActivityForm.postalCode.$dirty" class="text_red">
+                    <div ng-message="required">PostalCode is required</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">  Street address1*
+                <label class="item item-input bordernone padding0">
+                    <input type="text" name="address1" ng-model="vm.newLocation.Address.Address_line1" class="btmborder" required/>
+                </label>
+                <div ng-messages="newActivityForm.address1.$error" ng-if="newActivityForm.address1.$dirty" class="text_red">
+                    <div ng-message="required">Address line 1 is required</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">   Street address2
+                <label class="item item-input bordernone padding0">
+                    <input type="text"  ng-model="vm.newLocation.Address.Address_line2" class="btmborder"/>
+                </label>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">   City
+                <label class="item item-input bordernone padding0">
+                    <input type="text" ng-model="vm.newLocation.Address.City" class="btmborder" />
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">  District
+                <label class="item item-input bordernone padding0">
+                    <input type="text" ng-model="vm.newLocation.Address.District" class="btmborder" />
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">    State
+                <label class="item item-input bordernone padding0">
+                    <input type="text" ng-model="vm.newLocation.Address.State" class="btmborder" />
+                </label>
+
+            </div>
+        </div>
+
+           <!--  <div class="row mrg_top5px">
+                <div class="col">   Phone
+                    <input type="text" ng-model="vm.editActivity.Phone" class="with100p btmborder">
+                </div>
+            </div>
+
+            <div class="row mrg_top5px">
+                <div class="col ">  Email
+                    <input type="text" ng-model="vm.editActivity.Email" class="with100p btmborder">
+                </div>
+            </div>
+
+            <div class="row mrg_top5px">
+                <div class="col">   Start Date
+
+                    <input class="btmborder with100p bordernone" id="edit_st"
+                    value="{{vm.editActivity.Start_date}}"  ui-date="{ dateFormat: 'dd-mm-yy' }"/> 
+
+                </div>
+            </div>
+
+            <div class="row mrg_top5px">
+                <div class="col">   End Date
+                    <input type="" id="edit_ed" value="{{vm.editActivity.End_date}}" 
+                    class="with100p btmborder bordernone" ui-date="{ dateFormat: 'dd-mm-yy' }"/>
+                </div>
+            </div>
+
+            <div class="row mrg_top5px">
+                <div class="col">   Start Time
+
+                    <time-picker ng-model="vm.editActivity.Start_time"></time-picker>  
+                </div>
+            </div>
+
+            <div class="row mrg_top5px">
+                <div class="col">   End Time
+                    <time-picker ng-model="vm.editActivity.End_time"></time-picker> 
+                </div>
+            </div>
+
+            <div class="row mrg_top5px">
+                <div class="col">   Recurrence
+                    <select  name="recurrence" ng-model="vm.editActivity.Recurrence" ng-options="v for v in vm.recurrenceList.data" class="bordernone with100p btmborder bordernone padding6px" required>
+                        <option value="" disabled selected="selected" style="display: none;">{{vm.newActivity.Recurrence}}</option>
+                    </select> 
+                </div>
+            </div> -->
+           
+
+
+
+            <div class="row mrg_top5px">
+                <div class="text_align_center col valuetabletd">
+                    <button class="button themBackgroundColor text_white" ng-click="vm.addNewLocation()" type="submit">Add </button>
+                </div>
+            </div>
         </div>
 
 
 
 
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<div class="resmrgtop10">
+            <button ng-show="vm.showEditButton" class="button themBackgroundColor text_white float_right bordernone" 
+            ng-click="vm.showEdit()">Edit Profile</button>
+            <button ng-show="!vm.showEditButton" class="button themBackgroundColor text_white float_right bordernone" 
+            ng-click="vm.decline()">Cancel</button>
+        </div>
+
+        <div class="padding10">
+            <div class="row padding0" style="display: flex !important; ">
+                <div class="with30p reswith30p bg_lightgry text_black line_height2p5">Region Name</div>
+                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
+                    <input type="text" class="backgroundNone with100p"  ng-model="vm.regionDetail.Name" ng-readonly="vm.fieldEditable">
+                </div>
+            </div>
+            <div class="row padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black" >Coordinator<span ng-click="vm.coordinatorDetail()" class="ion-share float_right mrgrgt5p orangeText icons font_size_20px" style="line-height: 1.5"></span></div>
+                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
+                    <input type="text" class="backgroundNone with100p" ng-model="vm.regionDetail.Coordinator_url" ng-readonly="vm.nonEditableField">
+                </div>
+              
+            </div>
+            <!-- <div class="row padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Joined Date</div>
+                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
+                    <input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Signup_date" ng-readonly="vm.nonEditableField" >
+                </div>
+            </div>
+
+            <div class="row  padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Phone</div>
+                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
+                    <input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Phone" ng-readonly="vm.fieldEditable">
+                </div>
+            </div>
+            <div class="row  padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Email</div>
+                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
+                    <input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Email" ng-readonly="vm.fieldEditable">
+                </div>
+            </div> -->
+            <div class="row padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Region type</div>
+                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
+                    <select  name="userProfession"   ng-model="vm.regionDetail.Praanta_type" ng-options="v for v in vm.userProfessionList.data" class="bordernone with100p backgroundNone" ng-readonly="vm.fieldEditable">
+                        <option value="" disabled selected="selected" style="display: none;">{{vm.regionDetail.Praanta_type}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Country</div>
+                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
+                    <input type="text" class="backgroundNone with100p"  ng-model="vm.regionDetail.Address.Country" ng-readonly="vm.fieldEditable">
+                </div>
+            </div>
+
+             <div class="row padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">State</div>
+                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
+                    <input type="text" class="backgroundNone with100p" ng-model="vm.regionDetail.Address.State" ng-readonly="vm.fieldEditable">
+                </div>
+            </div>
+
+             <div class="row padding0  mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">District</div>
+                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
+                    <input type="text"class="backgroundNone with100p" ng-model="vm.regionDetail.Address.District" ng-readonly="vm.fieldEditable">
+                </div>
+            </div>
+
+            <div class="row padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">City</div>
+                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
+                    <input type="text" class="backgroundNone with100p" ng-model="vm.regionDetail.Address.City" ng-readonly="vm.fieldEditable">
+                </div>
+            </div>
+
+            <div class="row padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Locality</div>
+                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
+                    <input type="text" class="backgroundNone with100p" ng-model="vm.regionDetail.Address.Locality" ng-readonly="vm.fieldEditable">
+                </div>
+            </div>
+           
+
+            <div class="row padding0 mrg_top10px" style="display: flex !important; ">
+                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Address Line1</div>
+                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
+                    <input type="text" class="backgroundNone with100p" ng-model="vm.regionDetail.Address.Address_line1" ng-readonly="vm.fieldEditable">
+                </div>
+            </div>
+           
+            
+          
+
+
+            <div class=" with50p  margin0auto text_align_center mrg_top10px">
+                <button class="button themBackgroundColor text_white" ng-click="vm.updateUserProfile(vm.regionDetail)" ng-show="vm.showUpdateButn">Update</button></div>
+            </div>
 
 
 
@@ -56,6 +415,182 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script id="chooseCoordinator.html" type="text/ng-template">
+            <ion-modal-view>                                        
+                <ion-header-bar class="bar bar-header button-clear">
+                    <div class="text_align_center with100p">
+                        <span class="btmborder padding5px orangeText font_size_20px boldtext">Search For User</span>
+                        <button class="button  button-light float_right background_transparent mrgrgt5p resmrg_right10p" ng-click="vm.closeModel()">
+                            <span class="ion-android-cancel orangeText font_size_20px"></span>
+                        </button>
+                    </div>
+                </ion-header-bar>
+                <ion-content  overflow-scroll = "true" >
+
+                    <div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="lines" class="spinner-energized"></ion-spinner></span></div>
+                    <div class="padding10">
+                        <div class ="row padding0">
+                            <div class="col3 mrgrgt5p">
+                                <div class="position_relative displayflex mrg_top5px">
+                                    <div class="with50p">Name</div>
+                                    <div class="with50p">
+                                        <span> <input type="text" ng-model="vm.search.name" class="btmborder with100p" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col3 mrgrgt5p">
+                                <div class="position_relative displayflex mrg_top5px">
+                                    <div class="with50p">Email</div>
+                                    <div class="with50p">
+                                        <span> <input type="text" ng-model="vm.search.email" class="btmborder with100p" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col3 mrgrgt5p">
+                                <div class="position_relative displayflex mrg_top5px">
+                                    <div class="with50p">Phone</div>
+                                    <div class="with50p">
+                                        <span><input type="text" ng-model="vm.search.phone" class="btmborder with100p" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class ="row padding0">
+                            <div class="col3 mrgrgt5p">
+                                <div class="position_relative displayflex mrg_top5px">
+                                    <div class="with50p">Role</div>
+                                    <div class="with50p">
+                                        <span>  <select  ng-model="vm.search.role" ng-options="v for v in vm.userRole" class="bordernone with100p btmborder padding5px"></select></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col3 mrgrgt5p">
+                                <div class="position_relative displayflex mrg_top5px">
+                                    <div class="with50p">Country</div>
+                                    <div class="with50p">
+                                        <span> <input type="text" ng-model="vm.search.country" class="btmborder with100p" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col3 mrgrgt5p resmrgbtm10">
+                                <div class="position_relative displayflex mrg_top5px">
+                                    <div class="with50p">State</div>
+                                    <div class="with50p">
+                                        <span><input type="text" ng-model="vm.search.state" class="btmborder with100p" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class ="row padding0">
+                            <div class="col3 mrgrgt5p">
+                                <div class="position_relative displayflex mrg_top5px">
+                                    <div class="with50p">City</div>
+                                    <div class="with50p">
+                                        <span>  <input type="text" ng-model="vm.search.city" class="btmborder with100p" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col3 mrgrgt5p">
+                                <div class="position_relative displayflex mrg_top5px">
+
+                                </div>
+                            </div>
+                            <div class="col3 mrgrgt5p resmrgbtm10">
+                                <div class="position_relative displayflex mrg_top5px">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class ="row padding0 mrg_top10px">
+                            <div class="col text_align_center btmborder">
+                                <button class="button   themBackgroundColor text_white" 
+                                ng-click="vm.searchUser(vm.search)"
+                                >Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div  ng-repeat="user in filtered = vm.user.data | filter: vm.searchKeywordForUser 
+                    | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+
+
+                    <div class="padding10">
+
+                        <div class ="row padding0 btmborder selectable">
+                            <div class="col3 padding5px">
+                                <div class="position_relative displayflex mrg_top5px">
+                                    <div class="with30p reswith30p">Name</div>
+                                    <div class="with70p reswith70p">
+                                        <span> {{user.Name }}</span>
+                                    </div>
+                                </div>
+                                <div class="position_relative displayflex mrg_top5px" ng-if="(user.Phone)">
+                                    <div class="with30p reswith30p">Phone</div>
+                                    <div class="with70p reswith70p">
+                                        <span> {{user.Phone }}</span>
+                                    </div>
+                                </div>
+                                <div class="position_relative displayflex mrg_top5px" ng-if="(user.Email)">
+                                    <div class="with30p reswith30p">Email</div>
+                                    <div class="with70p reswith70p">
+                                        <span> {{user.Email }}</span>
+                                    </div>
+                                </div>
+                                <div class="position_relative displayflex mrg_top5px">
+                                    <div class="with30p reswith30p">Address</div>
+                                    <div class="with70p reswith70p">
+                                        <span> <address vm.openMap(user.Address) parameter="user.Address"></address></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col3 padding5px">
+                                <div class="position_relative displayflex mrg_top5px">
+                                    <div class="with30p reswith30p">Role</div>
+                                    <div class="with70p reswith70p">
+                                        <span> {{user.Role}}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col3 padding5px resmrg_top5p resbtmborder">
+                                <div class="position_relative displayflex mrg_top5px">
+                                    <div class="with100p">
+                                        <span>
+                                            <button ng-click="vm.choosedCoordinator(user)" class="button themBackgroundColor text_white float_right">Select</button>
+                                        </span>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="display_inlineflex margin0auto with100p"><pagination  ng-model="currentPage" total-items="vm.user.data.length" max-size="noOfPages"  boundary-links="true" items-per-page="entryLimit">
+                </pagination></div>
+
+            </ion-content>
+        </ion-modal-view>
+    </script>
 
 
 

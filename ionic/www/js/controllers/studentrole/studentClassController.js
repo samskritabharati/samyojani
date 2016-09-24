@@ -19,9 +19,9 @@ function studentClassController($scope, $stateParams, $state, $location, $localS
         $localStorage.userlogin = true;
     }
     function showStudentClass(){
-            vm.showSpinner = true;
+        vm.showSpinner = true;
         userInfoService.getUserClassList($localStorage.userInfo.data[0]._url).then( function (studentClass){
-                vm.showSpinner = false;
+            vm.showSpinner = false;
             angular.forEach(studentClass.data, function (piece, index) {
                 activityService.getActivityByUrl(piece.Activity_url).then(function(activity){
                     ActivityDetailStructure(activity.data,piece);

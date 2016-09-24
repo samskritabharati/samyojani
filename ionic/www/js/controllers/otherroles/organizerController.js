@@ -10,12 +10,10 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
     vm.showSpinner = true;
     vm.detailAboutActivity = detailAboutActivity;
     vm.updateActivity = updateActivity;
-  /*  vm.saveUpdatedActivityDetail = saveUpdatedActivityDetail;*/
     vm.deleteActivity = deleteActivity;
     vm.searchActivity = searchActivity;
     vm.routingTOMapView = routingTOMapView;
     $rootScope.currentMenu = 'organizerActivity';
-     /*var activity = $state.params.activitys;*/
     vm.showNewActivityForm = showNewActivityForm;
     vm.closeModel = closeModel;
 
@@ -50,31 +48,11 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
         projectService.getAllProject().then(function(project){
             vm.projectList = project.data;
         })
-       /* vm.editActivity = activity;*/
-        /*$ionicModal.fromTemplateUrl('editActivity.html', {
-            scope: $scope,
-        }).then(function(modal) {
-            $scope.modal = modal;
-            vm.showSpinner = false;
-            $scope.modal.show();
-        });*/
-        /* $state.go('app.editactivitys',{'editdata': activity});*/
-         $ionicHistory.nextViewOptions({
+        $ionicHistory.nextViewOptions({
             disableBack: true
         });
         $state.go('app.editactivity',{'editdata': activity},{location: false, inherit: false});
     }
-
-    /*function saveUpdatedActivityDetail(updatedActivity){
-        vm.showSpinner = true;
-        updatedActivity.Coordinator_url = $localStorage.userInfo.data[0]._url;    
-        userInfoService.updateActivity(updatedActivity).then(function(data){
-            vm.showSpinner = false;
-            $scope.modal.hide();
-        },function(error){
-            console.log(error);
-        });
-    }*/
 
     function deleteActivity(activityToDelete){
         userAuthenticationService.confirm('','Do You Want To Delet Activity?','Yes','No',function(){
@@ -92,9 +70,8 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
 
     function showActivity(){
         vm.showSpinner = true;
-        userInfoService.getUserActivities($localStorage.userInfo.data[0].SB_Region).then(function(activityData){
+        userInfoService.getUserActivities($localStorage.userInfo.data[0].Region_url).then(function(activityData){
             vm.activityData = activityData.data;
-
             $scope.currentPage = 1;
             $scope.totalItems = vm.activityData.length;
             $scope.entryLimit = 10; 
@@ -172,8 +149,7 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
     }
 
     function searchActivity(criteria){
-        console.log("!criteria",!criteria);
-         if(criteria){
+        if(criteria){
             vm.showSpinner = true;
             if(!criteria.state){
                 criteria.state =''
@@ -195,32 +171,7 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
-      /*  $state.go('app.activitymapview');*/
-         $state.go('app.activitymapview',{'activitys':activityData, 'type' : 'activitInfos'},{location: false, inherit: false});
+        $state.go('app.activitymapview',{'activitys':activityData, 'type' : 'activitInfos'},{location: false, inherit: false});
     }
-
-   /*  $scope.datepickerOptions = {
-    format: 'yyyy-mm-dd',
-    language: 'fr',
-    autoclose: true,
-    weekStart: 0}*/
-
-    $scope.alerts = [
-    /*{ type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
-    { type: 'success', msg: 'Well done! You successfully read this important alert message.' }*/
-  ];
-
-  $scope.addAlert = function() {
-    $scope.alerts.push({msg: 'Anotherssss alert!'});
-/*$timeout(function(){
-        closeAlert();
-      }, 3000);
-*/
-  };
-
-  function closeAlert (index) {
-    $scope.alerts.splice(index, 1);
-  };
-  
 }
 

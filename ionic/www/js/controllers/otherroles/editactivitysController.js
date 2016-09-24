@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('editactivitysController', editactivitysController);
 
-editactivitysController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory','$timeout' ,'activityService' ,'filterFilter','$rootScope','$filter','$ionicPopup'];
+editactivitysController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory','$timeout' ,'activityService' ,'filterFilter','$rootScope','$filter','$ionicPopup','postalCodeService'];
 
-function editactivitysController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout,activityService,filterFilter,$rootScope,$filter,$ionicPopup) {
+function editactivitysController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout,activityService,filterFilter,$rootScope,$filter,$ionicPopup,postalCodeService) {
 	var vm = this;
 	vm.showSpinner = false;
 	vm.saveUpdatedActivityDetail = saveUpdatedActivityDetail;
@@ -15,6 +15,7 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 	vm.searchUser = searchUser;
 	vm.choosedCoordinator =  choosedCoordinator;
 	vm.closeThisModel = closeThisModel;	
+	vm.autoFillAddressDetail = autoFillAddressDetail;
 
 	var st_date = $filter('date')(vm.Activity.Start_date, 'MM/dd/yyyy');
 	vm.editActivity.Start_date = st_date;
@@ -28,6 +29,7 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 	projectList();
 	recurrenceList();
 	daysList();
+	getCountry();
 
 	function getCoordinatorInfo(){
 		if(vm.editActivity.Coordinator_url){
@@ -42,10 +44,8 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 
 	function saveUpdatedActivityDetail(updatedActivity){
 		vm.showSpinner = true;
-		   console.log("updatedActivity",vm.editActivity);
 		vm.editActivity.Start_date = angular.element('#edit_st').val();
-        vm.editActivity.End_date = angular.element('#edit_ed').val();
-        console.log("updatedActivity",vm.editActivity);
+		vm.editActivity.End_date = angular.element('#edit_ed').val();
 		userInfoService.updateActivity(vm.editActivity).then(function(data){
 			vm.showSpinner = false;
 			userAuthenticationService.alertUser('Activity Updated Successfully');
@@ -179,12 +179,55 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 	}
 
 	function daysList(){
-	    vm.showSpinner = true;
-	    activityService.getAllDays().then(function(daysList){
-	      vm.daysList= daysList.data;
-	      console.log("ooo",vm.daysList);
-	      vm.showSpinner = false;
-	    })
-  	}
+		vm.showSpinner = true;
+		activityService.getAllDays().then(function(daysList){
+			vm.daysList= daysList.data;
+			vm.showSpinner = false;
+		})
+	}
+
+	function getCountry(){
+		vm.showSpinner = true;
+		userInfoService.getAllCountryList().then(function(countrty){
+			vm.countrList = countrty;
+			vm.showSpinner = false;
+		},function(error){
+			console.log(error);
+		})
+	}
+
+	function autoFillAddressDetail(){
+		if(vm.editActivity.Address.Country){
+			if(vm.editActivity.Address.Postal_code){
+				vm.showSpinner = true;
+				postalCodeService.getDetailsByPostalCode(vm.editActivity.Address.Country,vm.editActivity.Address.Postal_code).then(function(addressDetails){
+					if(addressDetails.data.length>0){
+						vm.editActivity.Address = {
+							District : addressDetails.data[0].Address.District,
+							Locality : addressDetails.data[0].Address.Locality,
+							State : addressDetails.data[0].Address.State,
+							City : addressDetails.data[0].Address.City,
+							Country : addressDetails.data[0].Address.Country,
+							Postal_code : addressDetails.data[0].Address.Postal_code
+						}
+						userAuthenticationService.alertUser('Address Autofilled');
+					}else{
+						userAuthenticationService.alertUser('Address Not Found');
+					}
+
+					vm.showSpinner = false;
+				},function(error){
+					console.log(error);
+				})
+			}else{
+				userAuthenticationService.alertUser('Please Enter Postal_code');
+			}
+
+		}else{
+			userAuthenticationService.alertUser('Please Enter Country');
+		}
+
+
+	}
 
 }

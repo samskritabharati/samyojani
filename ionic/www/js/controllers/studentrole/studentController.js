@@ -24,7 +24,7 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
 
     function showActivity(){
         vm.showSpinner = true;
-        userInfoService.getUserActivities($localStorage.userInfo.data.SB_Region).then(function(activityData){
+        userInfoService.getUserActivities($localStorage.userInfo.data.Region_url).then(function(activityData){
             vm.activityData = activityData.data;
             userInfoService.getUserClassList($localStorage.userInfo.data[0]._url).then( function (studentClass){
                 vm.showSpinner = false;
@@ -43,7 +43,7 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
 
                 $scope.currentPage = 1;
                 $scope.totalItems = vm.activityNewList.length;
-                $scope.entryLimit = 5; 
+                $scope.entryLimit = 10; 
                 $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
 
                 $scope.$watch('search', function (newVal, oldVal) {
@@ -101,12 +101,11 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
             }
 
             activityService.joinActivity(newJoindActivity).then(function(data){
-                console.log("test",data);
                 userAuthenticationService.alertUser('Joined');
                 vm.showSpinner = false;
 
             },function(error){
-                  userAuthenticationService.alertUser('Error Occured');
+                userAuthenticationService.alertUser('Error Occured');
                 console.log(error);
             })
 
@@ -165,7 +164,6 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
             locationAddress[i]
             Completeaddress = Completeaddress+ locationAddress[i]
         }
-        console.log("Completeaddress",Completeaddress)
         window.open("http://maps.google.com/?q=" + Completeaddress, '_system');
     }
 
@@ -227,17 +225,17 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
         })
     }
 
-   
-        function routingTOMapView(activityInfo){
-            var activityList = [];
-       angular.forEach(activityInfo, function (key, index) {
-        activityList.push(key.allActivity);
-       })
+
+    function routingTOMapView(activityInfo){
+        var activityList = [];
+        angular.forEach(activityInfo, function (key, index) {
+            activityList.push(key.allActivity);
+        })
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
-         $state.go('app.activitymapview',{'activitys':activityList, 'type' : 'activitInfos'},{location: false, inherit: false});
+        $state.go('app.activitymapview',{'activitys':activityList, 'type' : 'activitInfos'},{location: false, inherit: false});
     }
-    
+
 
 }

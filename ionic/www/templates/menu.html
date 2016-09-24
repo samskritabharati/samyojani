@@ -1,139 +1,138 @@
 <ion-side-menus >
-  <ion-side-menu-content>
-    <ion-nav-bar class="bar-stable lighterOrange">
-      <ion-nav-back-button>
-      </ion-nav-back-button>
+    <ion-side-menu-content>
+        <ion-nav-bar class="bar-stable lighterOrange">
+            <ion-nav-back-button>
+            </ion-nav-back-button>
 
-      <ion-nav-buttons side="left">
-        <button class="button button-icon button-clear ion-navicon orangeText" menu-toggle="left">
-        </button>
-        <div class="text_align_center with100p position_absolute font_size_30px  top10px orangeText"><span>संयोजनी </span>
-        <span class="float_right font_size_15px resfontsize10" style="margin-top: -20px; width: 30%; line-height: 1;">Namaste {{vm.userName}}</span>
-        </div>
-      </ion-nav-buttons>
-      
-    </ion-nav-bar>
-    <ion-nav-view name="menuContent"></ion-nav-view>
-  </ion-side-menu-content>
+            <ion-nav-buttons side="left">
+                <button class="button button-icon button-clear ion-navicon orangeText" menu-toggle="left">
+                </button>
+                <div class="text_align_center with100p position_absolute font_size_30px  top10px orangeText"><span>संयोजनी </span>
+                    <span class="float_right font_size_15px resfontsize10" style="margin-top: -20px; width: 30%; line-height: 1;">Namaste {{vm.userName}}</span>
+                </div>
+            </ion-nav-buttons>
 
-  <ion-side-menu side="left">
-    <ion-header-bar class="bar-stable lighterOrange ">
-      <h1 class="title orangeText"> </h1>
-    </ion-header-bar>
-    <ion-content>
-      <ion-list ng-if="vm.notlogin">
-      <div>
-        <ion-item menu-close  href="#/app/login">
-          Sign In&nbsp/&nbspRegister
-        </ion-item>
-        <ion-item menu-close>
-          About us
-        </ion-item>
-        
-      </div>
-      </ion-list>
+        </ion-nav-bar>
+        <ion-nav-view name="menuContent"></ion-nav-view>
+    </ion-side-menu-content>
 
-      <ion-list ng-if="vm.student">
-        <div>
-          
-           <ion-item menu-close ng-click="vm.home()" 
-           ng-class="'home' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-           Home
-          </ion-item>
-         
-          <ion-item menu-close ng-click="vm.updateProfile()" 
-          ng-class="'userProfile' ===  vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-            My Profile
-          </ion-item>
-         
-          <ion-item menu-close  ng-click="vm.showStudentClass()"  
-          ng-class="'classes' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-            My Classes
-          </ion-item>  
-        <ion-item menu-close ng-click="vm.showWishList()" 
-        ng-class="'wishLists' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-            My Wish List
-          </ion-item>
-        <ion-item menu-close ng-click="vm.setLocation()"
-        ng-class="'setLocation' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-           Set Location
-          </ion-item>
-          <ion-item menu-close> Browse
-            <ion-item menu-close ng-click="vm.upcomingEvent()" 
-            ng-class="'StudentUpcomingActivity' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-             Upcoming Events
-            </ion-item>
-            <ion-item menu-close ng-click="vm.redirectProject()" 
-            ng-class="'project' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-             Projects
-            </ion-item>
-            <ion-item menu-close ng-click="vm.redirectUserDetail()" 
-            ng-class="'usersDetail' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-             People
-            </ion-item>
-            
-          <ion-item menu-close ng-click="vm.showCourses()" 
-          ng-class="'courses' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-             Courses
-            </ion-item> 
-          </ion-item>
-          <ion-item menu-close ng-click="vm.studentLogOut()">
-            LogOut
-          </ion-item>
-        </div>
-  
-      </ion-list>
+    <ion-side-menu side="left">
 
-      <ion-list ng-if="vm.other">
-        <div>
-           <ion-item menu-close ng-click="vm.home()" ng-class="'home' === vm.currentTab ? 'themBackgroundColor' :  ''">
-           Home
-          </ion-item>
-          
-          <ion-item menu-close ng-click="vm.updateProfile()"
-          ng-class="'userProfile' ===  vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-            My Profile
-          </ion-item>
-         
-          <ion-item menu-close  ng-click="vm.showStudentClass()"  
-          ng-class="'classes' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-            My Classes
-          </ion-item>  
-         <ion-item menu-close ng-click="vm.showWishList()"
-         ng-class="'wishLists' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-            My Wish List
-          </ion-item>
-          <ion-item menu-close  ng-click="vm.setLocation()"
-        ng-class="'setLocation' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-           Set Location
-          </ion-item> 
-          <ion-item menu-close> Manage
-            <ion-item menu-close ng-click="vm.upcomingEvent()" 
-            ng-class="'organizerActivity' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-             Upcoming Events
-            </ion-item>
-            <ion-item menu-close ng-click="vm.redirectProject()" 
-            ng-class="'project' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-             Projects
-            </ion-item>
-            <ion-item menu-close ng-click="vm.redirectUserDetail()"
-            ng-class="'usersDetail' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-             People
-            </ion-item>
-          <ion-item menu-close ng-click="vm.showCourses()"
-          ng-class="'courses' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-             Courses
-            </ion-item>
-          </ion-item>
-          <ion-item menu-close ng-click="vm.studentLogOut()">
-            LogOut
-          </ion-item>
-        </div>
-  
-      </ion-list>
+        <ion-header-bar class="bar-stable lighterOrange ">
+            <h1 class="title orangeText"> </h1>
+        </ion-header-bar>
 
+        <ion-content>
 
+            <ion-list ng-if="vm.notlogin">
+                <div>
+                    <ion-item menu-close  href="#/app/login">
+                        Sign In&nbsp/&nbspRegister
+                    </ion-item>
+                    <ion-item menu-close>
+                        About us
+                    </ion-item>
+                </div>
+            </ion-list>
 
+            <ion-list ng-if="vm.student">
+                <div>
+                    <ion-item menu-close ng-click="vm.home()" 
+                    ng-class="'home' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                    Home
+                    </ion-item>
+
+                    <ion-item menu-close ng-click="vm.updateProfile()" 
+                    ng-class="'userProfile' ===  vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                    My Profile
+                    </ion-item>
+
+                    <ion-item menu-close  ng-click="vm.showStudentClass()"  
+                    ng-class="'classes' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                    My Classes
+                    </ion-item>  
+                    <ion-item menu-close ng-click="vm.showWishList()" 
+                    ng-class="'wishLists' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                    My Wish List
+                    </ion-item>
+                    <ion-item menu-close ng-click="vm.setLocation()"
+                    ng-class="'setLocation' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                    Set Location
+                    </ion-item>
+                    <ion-item menu-close> Browse
+                        <ion-item menu-close ng-click="vm.upcomingEvent()" 
+                            ng-class="'StudentUpcomingActivity' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                            Upcoming Events
+                        </ion-item>
+                        <ion-item menu-close ng-click="vm.redirectProject()" 
+                             ng-class="'project' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                            Projects
+                        </ion-item>
+                        <ion-item menu-close ng-click="vm.redirectUserDetail()" 
+                            ng-class="'usersDetail' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                            People
+                        </ion-item>
+
+                        <ion-item menu-close ng-click="vm.showCourses()" 
+                             ng-class="'courses' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                            Courses
+                        </ion-item> 
+                    </ion-item>
+                    <ion-item menu-close ng-click="vm.studentLogOut()">
+                        LogOut
+                    </ion-item>
+                </div>
+
+            </ion-list>
+
+            <ion-list ng-if="vm.other">
+                <div>
+                    <ion-item menu-close ng-click="vm.home()" 
+                    ng-class="'home' === vm.currentTab ? 'themBackgroundColor' :  ''">
+                        Home
+                    </ion-item>
+
+                    <ion-item menu-close ng-click="vm.updateProfile()"
+                    ng-class="'userProfile' ===  vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                    My Profile
+                    </ion-item>
+
+                    <ion-item menu-close  ng-click="vm.showStudentClass()"  
+                    ng-class="'classes' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                    My Classes
+                    </ion-item>  
+                    <ion-item menu-close ng-click="vm.showWishList()"
+                    ng-class="'wishLists' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                    My Wish List
+                    </ion-item>
+                    <ion-item menu-close  ng-click="vm.setLocation()"
+                    ng-class="'setLocation' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                    Set Location
+                    </ion-item> 
+                    <ion-item menu-close> Manage
+                        <ion-item menu-close ng-click="vm.upcomingEvent()" 
+                        ng-class="'organizerActivity' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                        Upcoming Events
+                    </ion-item>
+                    <ion-item menu-close ng-click="vm.redirectProject()" 
+                    ng-class="'project' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                    Projects
+                    </ion-item>
+                    <ion-item menu-close ng-click="vm.redirectUserDetail()"
+                    ng-class="'usersDetail' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                    People
+                    </ion-item>
+                    <ion-item menu-close ng-click="vm.showCourses()"
+                    ng-class="'courses' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                    Courses
+                    </ion-item>
+                </ion-item>
+                <ion-item menu-close ng-click="vm.studentLogOut()">
+                    LogOut
+                </ion-item>
+            </div>
+
+        </ion-list>
     </ion-content>
-  </ion-side-menu>
+</ion-side-menu>
 </ion-side-menus>

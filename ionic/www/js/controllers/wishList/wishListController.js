@@ -43,9 +43,13 @@ function wishListController($scope,  $state,coursesService, $localStorage,$ionic
         userAuthenticationService.confirm('','Do You Want To Remove this from WishList ?','Yes','No',function(){
             vm.showSpinner = true;
             coursesService.deletClassFromUserWishList(course._url).then(function(data){
+                userAuthenticationService.alertUser('Detail Removed From WishList');
                 vm.showSpinner = false;
                 vm.activityList = [];
                 $state.go('app.wishlist', {}, {reload: true});
+            },function(error){
+                console.log(error);
+                userAuthenticationService.alertUser('Error Occured');
             });
         },null)
     }

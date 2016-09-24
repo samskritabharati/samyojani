@@ -1,82 +1,66 @@
- <!DOCTYPE html> 
+<!DOCTYPE html> 
 
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <meta name="google-signin-client_id" content="50553260606-883fcje3co9pdt8v6dhcdgbbfaqvo90b.apps.googleusercontent.com"> 
-   <!--  <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">  -->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-<script src="https://apis.google.com/js/client:plusone.js" type="text/javascript"></script>
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2pJjI8-t-wcMuxw9GX1fdhiiZTwOpmVE&signed_in=true" async defer></script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <meta name="google-signin-client_id" content="50553260606-883fcje3co9pdt8v6dhcdgbbfaqvo90b.apps.googleusercontent.com"> 
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://apis.google.com/js/client:plusone.js" type="text/javascript"></script>
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2pJjI8-t-wcMuxw9GX1fdhiiZTwOpmVE&signed_in=true" async defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.css">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css"> 
+  <script src="js/plugins/jquery-latest.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script> 
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.css">
-   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css"> 
-  <!-- <link rel="stylesheet" src="js/plugins/jquery-ui.css"> -->
-  
-  
- <!--  <script src="https://code.jquery.com/jquery-latest.min.js"></script> -->
-   <script src="js/plugins/jquery-latest.min.js"></script>
- <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script> 
- <!-- <script src="js/plugins/jquery-ui.js"></script> -->
-
-    <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-    
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
-
-      <script data-require="ui-bootstrap@*" data-semver="0.12.1" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
-     <!-- <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js" type="text/javascript"></script> -->
-
-   <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+  <script data-require="ui-bootstrap@*" data-semver="0.12.1" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
   <script src="js/plugins/jquery.min.js"></script>
-    <!-- <script src="https://rawgithub.com/gsklee/ngStorage/master/ngStorage.js"></script> -->
-    <script src="js/plugins/ngStorage.js"></script>
+  <script src="js/plugins/ngStorage.js"></script>
 
-<script src="js/plugins/intlTelInput.js"></script>
- <link rel="stylesheet" href="js/plugins/intlTelInput.css">
-    <!-- your app's js -->
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/angular-messages.js"></script> 
-    <script src="js/controllers/login/loginController.js"></script>
-    <script src="js/controllers/login/newSignUpController.js"></script>
-    <script src="js/controllers/studentrole/studentClassController.js"></script>
-    <script src="js/controllers/menu/menuController.js"></script>
-    <script src="js/controllers/studentrole/studentController.js"></script>
-    <script src="js/controllers/otherroles/organizerController.js"></script>
-    <script src="js/controllers/otherroles/editactivitysController.js"></script>
-    <script src="js/controllers/otherroles/activityDetailController.js"></script>
-    <script src="js/controllers/otherroles/activityMapViewController.js"></script>
-    <script src="js/controllers/userDetail/userDetailController.js"></script>
-    <script src="js/controllers/userDetail/userProfileController.js"></script>
-    <script src="js/controllers/project/projectController.js"></script>
-    <script src="js/controllers/courses/coursesController.js"></script>
-    <script src="js/controllers/wishList/wishListController.js"></script>
-    <script src="js/controllers/userDetail/setLocationController.js"></script>
-   
-    <script src="js/services/userAuthenticationService.js"></script>
-    <script src="js/services/userInfoService.js"></script>
-    <script src="js/services/constantsService.js"></script>
-    <script src="js/services/projectService.js"></script>
-    <script src="js/services/activityService.js"></script>
-    <script src="js/services/coursesService.js"></script>
-    <script src="js/services/postalCodeService.js"></script>
-    <script src="js/directive/address_directive.js"></script>
-    <script src="js/directive/timepicker_directive.js"></script>
-  <!--   <script src="js/directive/datePicker_directive.js"></script> -->
-<!--   <script src="js/directive/googleSignin.js"></script> 
- -->   
-  </head>
+  <script src="js/plugins/intlTelInput.js"></script>
+  <link rel="stylesheet" href="js/plugins/intlTelInput.css">
+  <!-- your app's js -->
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/angular-messages.js"></script> 
+  <script src="js/controllers/login/loginController.js"></script>
+  <script src="js/controllers/login/newSignUpController.js"></script>
+  <script src="js/controllers/studentrole/studentClassController.js"></script>
+  <script src="js/controllers/menu/menuController.js"></script>
+  <script src="js/controllers/studentrole/studentController.js"></script>
+  <script src="js/controllers/otherroles/organizerController.js"></script>
+  <script src="js/controllers/otherroles/editactivitysController.js"></script>
+  <script src="js/controllers/otherroles/activityDetailController.js"></script>
+  <script src="js/controllers/otherroles/activityMapViewController.js"></script>
+  <script src="js/controllers/userDetail/userDetailController.js"></script>
+  <script src="js/controllers/userDetail/userProfileController.js"></script>
+  <script src="js/controllers/project/projectController.js"></script>
+  <script src="js/controllers/courses/coursesController.js"></script>
+  <script src="js/controllers/wishList/wishListController.js"></script>
+  <script src="js/controllers/userDetail/setLocationController.js"></script>
+  
 
-  <body ng-app="starter">
-    <ion-nav-view></ion-nav-view>
-  </body>
- 
+  <script src="js/services/userAuthenticationService.js"></script>
+  <script src="js/services/userInfoService.js"></script>
+  <script src="js/services/constantsService.js"></script>
+  <script src="js/services/projectService.js"></script>
+  <script src="js/services/activityService.js"></script>
+  <script src="js/services/coursesService.js"></script>
+  <script src="js/services/postalCodeService.js"></script>
+  <script src="js/services/setLocationService.js"></script>
+
+  <script src="js/directive/address_directive.js"></script>
+  <script src="js/directive/timepicker_directive.js"></script>
+
+</head>
+
+<body ng-app="starter">
+  <ion-nav-view></ion-nav-view>
+</body>
+
 </html>

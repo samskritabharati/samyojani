@@ -23,14 +23,14 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
     vm.userAdded = false
     vm.useraddSpinner = false;
     vm.userExit = false;
-     $rootScope.currentMenu = 'usersDetail';
+    $rootScope.currentMenu = 'usersDetail';
     userRole();
 
     if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
         $localStorage.userlogin = true;
 
     }
-    
+
     function searchUser(criteria){ 
         vm.showSpinner = true;
         if(!criteria){
@@ -55,7 +55,7 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
             })
 
         }else{
-        
+
             if(!criteria.name){
                 criteria.name =''
             }
@@ -93,7 +93,6 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
 
                         $scope.filtered = filterFilter(vm.user.data, newVal);
                         $scope.totalItems = $scope.filtered.length;
-                        console.log("filtered",$scope.totalItems)
                         $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
                         $scope.currentPage = 1;
                         vm.showSpinner = false;
@@ -154,11 +153,11 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
     function saveUpdatedUserDetail(updatedUserDetail){
         vm.showSpinner = true;
         userInfoService.updateUserDetail(updatedUserDetail).then(function(data){
-             userAuthenticationService.alertUser('Details Updated');
+            userAuthenticationService.alertUser('Details Updated');
             vm.showSpinner = false;
             $scope.modal.hide();
         },function(error){
-             userAuthenticationService.alertUser('Error Occurred');
+            userAuthenticationService.alertUser('Error Occurred');
             console.log(error);
         });
     }
@@ -167,9 +166,9 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
         userAuthenticationService.confirm('','Do You Want To Delet This User?','Yes','No',function(){
             vm.showSpinner = true;
             userInfoService.deleteActivity(user).then(function(data){
-                 userAuthenticationService.alertUser('User Deleted');
+                userAuthenticationService.alertUser('User Deleted');
                 searchUser(vm.search);
-                 
+
             },function(error){
                 userAuthenticationService.alertUser('Error Occurred');
                 console.log(error);
@@ -207,23 +206,21 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
         vm.NewUserData = [];
         vm.useraddSpinner = true;
         vm.userExit = false;
-       /* var newDetail = [];
-        newDetail = userDetail*/
         if(userDetail.Email){
             userAuthenticationService.emailauthentication(userDetail.Email).then(function(userData){
                 if(userData.data.length > 0){
                     vm.userExit = true;
                     $timeout(function () { vm.userExit = false; }, 1000); 
                 }else{
-                        var newDetail = {
-                            Name: userDetail.Name,
-                            Email: userDetail.Email,
-                            Phone: userDetail.Phone,
-                            Role : userDetail.Role
-                        }
-                    
+                    var newDetail = {
+                        Name: userDetail.Name,
+                        Email: userDetail.Email,
+                        Phone: userDetail.Phone,
+                        Role : userDetail.Role
+                    }
+
                     userInfoService.addNewUser(newDetail).then(function(data){
-                         userAuthenticationService.alertUser('User Added');
+                        userAuthenticationService.alertUser('User Added');
                         vm.useraddSpinner = false;
                         vm.userAdded = true;
                         $timeout(function () { vm.userAdded = false; }, 1000); 
@@ -249,7 +246,7 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
                             Role : userDetail.Role
                         }
                         userInfoService.addNewUser(newDetail).then(function(data){
-                             userAuthenticationService.alertUser('User Added');
+                            userAuthenticationService.alertUser('User Added');
                             vm.useraddSpinner = false;
                             vm.userAdded = true;
                             $timeout(function () { vm.userAdded = false; }, 1000); 
@@ -259,7 +256,7 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
                             console.log('error');
                         });
                     }
-            
+
                 })
             }
         }
@@ -281,15 +278,13 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
     }
 
     function routingTOMapView(userData){
-        console.log("filtered",userData);
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
-      /*  $state.go('app.activitymapview');*/
-/*         $state.go('app.activitymapview',{'activitys':userData, 'type' : 'userInfo'},{location: false, inherit: false});
-*/    }
+        $state.go('app.activitymapview',{'activitys':userData, 'type' : 'userInfo'},{location: false, inherit: false});
+    }
 
- function openMap(address){
+    function openMap(address){
         var locationAddress = [];
         if(address.Address_line1){
             locationAddress.push(address.Address_line1)

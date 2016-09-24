@@ -34,7 +34,6 @@ function coursesService($http, $q, constantsService) {
     }
 
     function getUserWishListList(userUrl){
-        console.log("servc",userUrl);
         var deferred = $q.defer();
         $http({
             method : 'GET',

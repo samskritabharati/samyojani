@@ -18,7 +18,7 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 	vm.coursesList = [];
 	$rootScope.currentMenu = 'courses';
 	vm.newClassDetail = {Units: 'days',
-		Duration: 1,
+	Duration: 1,
 	Type : 'Classroom'}
 	vm.unitOption = ["hours", "days", "weeks", "months", "years"]
 	vm.durationOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
@@ -50,18 +50,18 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 					})
 
 					$scope.currentPage = 1;
-		            $scope.totalItems =  vm.coursesList.length;
-		            $scope.entryLimit = 5; 
-		            $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+					$scope.totalItems =  vm.coursesList.length;
+					$scope.entryLimit = 10; 
+					$scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
 
-            		$scope.$watch('search', function (newVal, oldVal) {
+					$scope.$watch('search', function (newVal, oldVal) {
 
-		                $scope.filtered = filterFilter( vm.coursesList, newVal);
-		                $scope.totalItems = $scope.filtered.length;
-		                $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
-		                $scope.currentPage = 1;
-		                vm.showSpinner = false;
-            		}, true);
+						$scope.filtered = filterFilter( vm.coursesList, newVal);
+						$scope.totalItems = $scope.filtered.length;
+						$scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+						$scope.currentPage = 1;
+						vm.showSpinner = false;
+					}, true);
 
 				},function(error){
 					console.log('error in getting student class',error);
@@ -69,7 +69,7 @@ function coursesController($scope,  $state,coursesService, $localStorage,$ionicM
 			}else{
 				vm.showSpinner = false;
 			}
-			
+
 		},function(error){
 			console.log(error);
 		});

@@ -22,7 +22,7 @@
 				<div class="col"> Co-ordinator Name                    
 					<div class="item item-input btmborder bordernone padding0">
 						<input type="Name" ng-model="vm.coordinatorName" name="coordinateName" class="bordernone background_transparent" ng-disabled = true required/>
-						<span ng-click="vm.seacrchForCoordinator()" class="ion-search orangeText font_size_30px"></span>
+						<span ng-click="vm.seacrchForCoordinator()" class="ion-search icons orangeText font_size_30px"></span>
 
 					</div>
 
@@ -76,18 +76,6 @@
 					</select> 
 				</div>
 			</div>
-
-			<!-- <div class="row mrg_top5px">
-				<div class="col">	Daily
-					
-				        <span ng-repeat="day in vm.daysList" class="padding10">
-					      <input type='checkbox' value="{{day}}" ng-model="vm.newActivity.Days" check-list='checked_days' 
-					      ng-disabled="'daily' == vm.newActivity.Recurrence"> {{day}}<br />
-				    	</span>
-				    </div>
-			    </div>
-		    </div> -->
-
 			<div class="row mrg_top5px">
 				<div class="col ">	URL
 					<input type="text" ng-model="vm.editActivity.URL" class="with100p btmborder">
@@ -110,6 +98,22 @@
 				</div>
 			</div>
 
+			<div class="row mrg_top5px">
+				<div class="col">Country
+					<select name="country" ng-model="vm.editActivity.Address.Country" ng-options="v for v in vm.countrList.data" class=" with100p padding5px bordernone btmborder" required><option value="" disabled selected="selected" style="display: none;">Country</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row mrg_top5px">
+				<div class="col ">	Postal Code
+					<div class="item item-input bordernone padding0 btmborder">
+						<input type="text" ng-model="vm.editActivity.Address.Postal_code" class="with100p ">
+						<span  ng-click="vm.autoFillAddressDetail()" 
+						class="ion-search icons orangeText font_size_30px"></span>
+					</div>
+				</div>
+			</div>
 			<div class="row mrg_top5px">
 				<div class="col">	Address Line1
 					<input type="text" ng-model="vm.editActivity.Address.Address_line1" class="with100p btmborder">
@@ -140,17 +144,7 @@
 				</div>
 			</div>
 
-			<div class="row mrg_top5px">
-				<div class="col">Country
-					<input type="text" ng-model="vm.editActivity.Address.Country" class="with100p btmborder">
-				</div>
-			</div>
 
-			<div class="row mrg_top5px">
-				<div class="col">	Postal Code
-					<input type="text" ng-model="vm.editActivity.Address.Postal_code" class="with100p btmborder">
-				</div>
-			</div>
 			<div class="row mrg_top5px">
 				<div class="text_align_center col valuetabletd">
 					<button class="button themBackgroundColor text_white" ng-click="vm.saveUpdatedActivityDetail(vm.editActivity)" type="submit">Update </button>

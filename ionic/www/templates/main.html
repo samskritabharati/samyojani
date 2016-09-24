@@ -1,35 +1,26 @@
 <ion-view>
-	<!-- <ion-nav-buttons side="right">
-		<div>
-			<p class="orangeText"> <img src="./img/sb_fb_logo.jpg" class="menuheaderlogo"/></p>
-		</div>
-	</ion-nav-buttons> -->
 	<ion-nav-buttons side="right">
 		<div>
 			<p class="orangeText menuheaderlogo"> </p>
 		</div>
 	</ion-nav-buttons>
-		  <ion-content  class="has-header" overflow-scroll = "false">
-		  	<div class="text_align_center"><img src="./img/sb_logo.png"
-            class="menuimg "/><br><span class="font_size_20px boldtext
-            orangeText">संयोजनी</span></div>
-		  	<div class="text_align_center italictext">Stay Hooked to Samskritam!</div>
-		  	
-		  		<div class="text_align_center mrg_top55px ">
-                    Learn Samskrit naturally!<br>
-                    Connect to Samskrit lovers anywhere!<br>
-                    Spread Samskrit Literacy worldwide!
-                </div>
+	<ion-content  class="has-header" overflow-scroll = "false">
+		<div class="text_align_center"><img src="./img/sb_logo.png"
+			class="menuimg "/><br><span class="font_size_20px boldtext
+			orangeText">संयोजनी</span></div>
+			<div class="text_align_center italictext">Stay Hooked to Samskritam!</div>
 
+			<div class="text_align_center mrg_top55px ">
+				Learn Samskrit naturally!<br>
+				Connect to Samskrit lovers anywhere!<br>
+				Spread Samskrit Literacy worldwide!
+			</div>
+		</ion-content>
 
-		 
-		  </ion-content>
+		<ion-footer-bar ng-if="vm.hideSignIn" class="padding0">
 
-		  <ion-footer-bar ng-if="vm.hideSignIn" class="padding0">
-		
-		  		 <div class="with100p font_size_20px themBackgroundColor"> 
-		  		<a href="#/app/login" style="border-bottom:none; text-decoration:none"><button class="button button-full themBackgroundColor text_white font_size_20px" ng-click="vm.loginPage()"style="margin:0; text-decoration:none;">Sign In&nbsp/&nbspRegister</button></a>  </div> 
-		  
-      
-        </ion-footer-bar>
-  </ion-view>
+			<div class="with100p font_size_20px themBackgroundColor"> 
+				<a href="#/app/login" style="border-bottom:none; text-decoration:none"><button class="button button-full themBackgroundColor text_white font_size_20px" ng-click="vm.loginPage()"style="margin:0; text-decoration:none;">Sign In&nbsp/&nbspRegister</button></a>  
+			</div> 
+		</ion-footer-bar>
+</ion-view>
