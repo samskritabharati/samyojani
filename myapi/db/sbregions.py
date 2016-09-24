@@ -133,7 +133,10 @@ class SBRegions(MyCollection):
 
         for id, r in self.all().items():
             r['path'] = self.region_path(r)
-            self.update(id, {'path' : r['path']})
+            update_fields = { 'path' : r['path'] }
+            if 'subregions' in r:
+                update_fields['subregions'] = r['subregions']
+            self.update(id, update_fields)
             self.idx[r['path']] = r
 
         return self.root

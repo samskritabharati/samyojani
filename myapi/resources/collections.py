@@ -224,6 +224,8 @@ class _SBCollection(Resource):
         if 'Postal_code' in entry and 'Region_id' not in entry and \
             'Region_id' in self.schema:
             entry['Region_id'] = sbget().sbregions().from_address(entry)
+        if 'Region_id' in entry and not entry['Region_id']:
+            entry['Region_id'] = sbget().sbregions().from_address(entry)
         missing_keys = []
         for k, v in self.schema.items():
             if k not in entry:
