@@ -138,7 +138,7 @@ sbinit(True)
 sbmgmt = sbget()
 
 # First import address/pincode database
-locations = Locations(sbmgmt)
+locations = sbmgmt.locations()
 locations.reset()
 locations.importIndia("all_india_pin_code.csv")
 #locations.importUS("us_zipcode.csv")

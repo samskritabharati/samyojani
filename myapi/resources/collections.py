@@ -274,9 +274,14 @@ class _SBCollection(Resource):
             args = request.args.copy()
             self.sanitize(args)
             exact = False
+            distinct = None
+            if 'distinct' in args:
+                distinct = args['distinct']
+                args.pop('distinct')
             if 'exact' in args:
                 exact = True if int(args['exact']) > 0 else False
                 args.pop('exact')
+            offset = args['offset'] if 'offset' in args else 0
             offset = args['offset'] if 'offset' in args else 0
             if 'offset' in args:
                 args.pop('offset')
@@ -299,8 +304,12 @@ class _SBCollection(Resource):
                 else:
                     query[k] = { '$regex' : v, '$options' : 'i' }
             pprint(query)
-            elist = [e for e in self.mycollection.find(query) \
-                .sort('_id', pymongo.ASCENDING).skip(offset).limit(limit)]
+            if distinct:
+                elist = [e for e in self.mycollection.collection.distinct(distinct, query)]
+                return {distinct : elist}
+            else:
+                elist = [e for e in self.mycollection.find(query) \
+                    .sort('_id', pymongo.ASCENDING).skip(offset).limit(limit)]
             return self.mymarshal(elist, fields)
 
 class Users(_SBCollection):
