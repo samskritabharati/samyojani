@@ -179,6 +179,7 @@ function routingTONextPage(userData,email){
             }
         }
         $localStorage.userInfo = userData;
+        $localStorage.sbRegionPath = $localStorage.userInfo.data[0].Region_url;
         vm.showSpinner = false;
         $ionicHistory.nextViewOptions({
             disableBack: true
