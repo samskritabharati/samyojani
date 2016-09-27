@@ -41,7 +41,6 @@ function setLocationController($scope, $state, $localStorage,$ionicHistory,$root
    
     getPraanthTypes();
     getCountry();
-    console.log("$localStorage.userInfo.data[0].Region_url",$localStorage.userInfo.data[0].Region_url);
     getRegionsByurl($localStorage.sbRegionPath);
 
     if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
@@ -49,47 +48,13 @@ function setLocationController($scope, $state, $localStorage,$ionicHistory,$root
     }
     $rootScope.currentMenu = 'setLocation';
 
-    console.log("$localStorage.userInfo",$localStorage.userInfo);
 
 
 function levelChangeEvent(){
-    console.log("levelChangeEvent");
-    console.log("selectedData",vm.selectedData);
     getRegionsByurl(vm.selectedData);
 }
 
 
-
-
-/*
-
-function leftArrowClick(){
-    console.log("selectedData",vm.regionDetail.Parent_region_url);
-    getRegionsByurl(vm.regionDetail.Parent_region_url);
-
-    console.log("vm.subreginUrl", vm.regionDetail.Parent_region_url);
-
-    setLocationService.getRegionsByurl(vm.regionDetail.Parent_region_url).then(function(parentRegionDetail){
-        console.log("parentRegion",parentRegionDetail);
-
-        vm.myRegionPath = parentRegionDetail.data.path;
-        vm.regionDetail = parentRegionDetail.data;
-        vm.nextLevelData =  parentRegionDetail.data.Subregions
-         userInfoService.getActivityCoordinatorDetail(vm.regionDetail.Coordinator_url).then(function(coordinatorDetails){
-            vm.showSpinner = false;
-            console.log("coordinatorDetails",coordinatorDetails);
-            vm.userProfileInfo = coordinatorDetails.data;
-            vm.regionDetail.Coordinator_url = coordinatorDetails.data.Name;
-        },function(error){
-            console.log('error',error);
-        });
-
-    },function(error){
-        console.log(error);
-    })
-
-
-}*/
 
 
 
@@ -137,7 +102,6 @@ function getRegionsByurl(region_url){
         if(reginUrlServiceRes.data.Coordinator_url){
             userInfoService.getActivityCoordinatorDetail(reginUrlServiceRes.data.Coordinator_url).then(function(coordinatorDetails){
             vm.showSpinner = false;
-            console.log("coordinatorDetails",coordinatorDetails);
             vm.userProfileInfo = coordinatorDetails.data;
             vm.regionDetail.Coordinator_url = coordinatorDetails.data.Name;
             },function(error){
@@ -249,7 +213,6 @@ function searchUser(criteria){
 
 function choosedCoordinator(choosedData,type){
     $scope.modal.hide();
-    console.log("choosedData",choosedData);
     vm.coordinatorName = choosedData.Name;
     vm.newLocation.Coordinator_url = choosedData._url;
 }
@@ -257,10 +220,8 @@ function choosedCoordinator(choosedData,type){
 function addNewLocation(){
     vm.showSpinner =true;
     vm.newLocation.Parent_region_url = vm.selectedRegionUrl
-    console.log("vm.newLocation",vm.newLocation);
     
     setLocationService.addSubRegion(vm.newLocation).then(function(newSubRegionRes){
-        console.log("newsub",newSubRegionRes);
          vm.showSpinner =false;
          $scope.modal.hide();
          userAuthenticationService.alertUser('Sub Region Added');
@@ -370,14 +331,10 @@ function getCountry(){
     }
 
     function deletSubRegion(){
-        console.log("vm.regionDetail",vm.regionDetail);
-        console.log("vm.regionDetail.Subregions.length",vm.regionDetail.Subregions)
         if(!vm.regionDetail.Subregions){
-             console.log("no sub")
                 userAuthenticationService.confirm('','Do You Want To Delet Region?','Yes','No',function(){
                 vm.showSpinner = true;
              setLocationService.deletRegion(vm.regionDetail._url).then(function(deletRegionRes){
-                console.log("newsub",deletRegionRes);
                 getRegionsByurl(vm.regionDetail.Parent_region_url);
 
              vm.showSpinner =false;
