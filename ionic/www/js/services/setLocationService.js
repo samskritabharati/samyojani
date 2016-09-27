@@ -32,7 +32,6 @@ function setLocationService($http, $q, constantsService) {
             method : 'GET',
             url :  constantsService.url+url
         }).then(function(data){
-        	console.log("api res",data);
             deferred.resolve(data);
         }, function(error){
             console.log('error',error);

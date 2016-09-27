@@ -77,12 +77,22 @@
 				</div>
 				<div class="col3 mrgrgt5p">
 					<div class="position_relative displayflex mrg_top5px">
+						<div class="with50p">SB Region</div>
+						<div class="with50p">
+							<span> 	<select  ng-model="vm.search.Region_url" ng-change="vm.searchLevelChangeEvent()" ng-options="item.value as item.name for item in vm.nextLevelData" class="bordernone with100p btmborder padding6px">
+									<option value="" disabled selected="selected" style="display: none;">{{vm.search.Region_url}}</option>
+								</select></span>
+						</div>
 
 					</div>
 				</div>
 				<div class="col3 mrgrgt5p resmrgbtm10">
 					<div class="position_relative displayflex mrg_top5px">
-
+					<div class="with50p">Include Subregions</div>
+						<div class="with50p">
+							<span> 	<input type="checkbox" ng-model="vm.search.subRegion" class="btmborder with100p" 
+							style="width: 22px;height: 16px;margin-top: 8px;" /></span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -225,6 +235,14 @@
 						</div>
 					</div>
 
+					<div class="row mrg_top5px">
+							<div class="col">	SB Region
+								<select  ng-model="vm.showUserDetail.Region_url" ng-change="vm.editLevelChangeEvent()" ng-options="item.value as item.name for item in vm.nextLevelData" class="bordernone with100p btmborder padding6px">
+									<option value="" disabled selected="selected" style="display: none;">{{vm.showUserDetail.Region_url}}</option>
+								</select>
+							</div>
+					</div>
+
 
 					<div class="row mrg_top5px">
 						<div class="col">	Role
@@ -334,6 +352,15 @@
 							</div>
 						</div>
 
+						<div class="row mrg_top5px">
+							<div class="col">	SB Region
+								<select  ng-model="vm.NewUserData.Region_url" ng-change="vm.levelChangeEvent()" ng-options="item.value as item.name for item in vm.nextLevelData" class="bordernone with100p btmborder padding6px">
+									<option value="" disabled selected="selected" style="display: none;">{{vm.NewUserData.Region_url}}</option>
+								</select>
+							</div>
+						</div>
+
+
 						<div class="row mrg_top5px padding0">
 							<div class="col text_align_center">
 								<button class="button themBackgroundColor text_align_center text_white" 
@@ -341,8 +368,8 @@
 							</div>
 						</div>
 						<div class="text_align_center font_size_15px orangeText">Email or Phone number is required</div>
-						<div ng-show="vm.userAdded" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">User added</div>
-						<div ng-show="vm.userExit" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">User already enroled</div>
+						<!-- <div ng-show="vm.userAdded" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">User added</div>
+						<div ng-show="vm.userExit" class="ion-checkmark-circled text_align_center font_size_15px" style="color:green">User already enroled</div> -->
 					</form>
 				</div>
 
@@ -397,11 +424,19 @@
 
 
 					<div class="row mrg_top5px">
-
 						<div class="col">	Role
 							<input type="text" ng-model="vm.userDetailInfo.Role" class="with100p backgroundNone btmborder" ng-disabled = "true">
 						</div>
 					</div>
+
+					<div class="row mrg_top5px">
+							<div class="col">	SB Region
+							<input type="text" ng-model="vm.userDetailInfo.Region_url" class="with100p backgroundNone btmborder" ng-disabled = "true">
+								<!-- <select  ng-model="vm.userDetailInfo.Region_url" ng-change="vm.levelChangeEvent()" ng-options="item.value as item.name for item in vm.nextLevelData" class="bordernone with100p btmborder padding6px">
+									<option value="" disabled selected="selected" style="display: none;">{{vm.NewUserData.Region_url}}</option>
+								</select> -->
+							</div>
+						</div>
 
 
 					<div class="row mrg_top5px">

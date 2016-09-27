@@ -248,7 +248,7 @@ function userInfoService($http, $q, constantsService) {
         var deferred = $q.defer();
         $http({
             method : 'GET',
-            url : constantsService.url+'/users?Name='+searchCriteria.name+'&Email='+searchCriteria.email+'&Phone='+searchCriteria.phone+'&Role='+searchCriteria.role+'&State='+searchCriteria.state+'&Country='+searchCriteria.country+'&City='+searchCriteria.city+'&AddressString='+searchCriteria.address
+            url : constantsService.url+'/users?Name='+searchCriteria.name+'&Email='+searchCriteria.email+'&Phone='+searchCriteria.phone+'&Role='+searchCriteria.role+'&State='+searchCriteria.state+'&Country='+searchCriteria.country+'&City='+searchCriteria.city+'&Region_url='+searchCriteria.Region_url+'&Subregions='+searchCriteria.subRegion+'&AddressString='+searchCriteria.address
         }).then(function(data){
             deferred.resolve(data);
         }, function(error){

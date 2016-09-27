@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('userDetailController', userDetailController);
 
-userDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService', '$ionicHistory', '$localStorage','userAuthenticationService','$ionicModal', '$timeout','filterFilter','$rootScope'];
+userDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService', '$ionicHistory', '$localStorage','userAuthenticationService','$ionicModal', '$timeout','filterFilter','$rootScope' ,'setLocationService','$filter'];
 
-function userDetailController($scope, $stateParams, $state, userInfoService, $ionicHistory,$localStorage,userAuthenticationService,$ionicModal,$timeout,filterFilter,$rootScope) {
+function userDetailController($scope, $stateParams, $state, userInfoService, $ionicHistory,$localStorage,userAuthenticationService,$ionicModal,$timeout,filterFilter,$rootScope,setLocationService,$filter) {
     var vm = this;
     vm.updateUser = updateUser;
     vm.searchUser = searchUser;
@@ -17,6 +17,9 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
     vm.detailAboutUser = detailAboutUser;
     vm.routingTOMapView = routingTOMapView;
     vm.openMap = openMap;
+    vm.levelChangeEvent = levelChangeEvent;
+    vm.editLevelChangeEvent = editLevelChangeEvent;
+    vm.searchLevelChangeEvent = searchLevelChangeEvent;
 
     vm.showSpinner = false;
     vm.showSearchCount = false;
@@ -26,13 +29,30 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
     $rootScope.currentMenu = 'usersDetail';
     userRole();
 
+    vm.NewUserData = {
+        Region_url: ''
+    }
+    vm.userDetailInfo = [];
+     vm.showUserDetail = [];
+     vm.search = {
+        subRegion : true
+     };
+    
+    console.log("$localStorage.userInfo",$localStorage.userInfo);
+
     if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
         $localStorage.userlogin = true;
 
     }
 
+    if($localStorage.sbRegionPath){
+          getRegionsByurl($localStorage.sbRegionPath);
+
+    }
+
     function searchUser(criteria){ 
         vm.showSpinner = true;
+        console.log("vm.search.subRegion",criteria.subRegion);
         if(!criteria){
             userInfoService.getUser().then(function(userDetail){
                 vm.showSearchCount = true;
@@ -80,7 +100,18 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
             if(!criteria.city){
                 criteria.city =''
             }
+            if(!criteria.Region_url){
+                criteria.Region_url =''
+            }
+            if(criteria.Region_url){
+                criteria.Region_url = vm.reginPathSelected;
+            }
+            if(!criteria.subRegion){
+                criteria.subRegion = ''
+            }
+            console.log("criteria",criteria)
             userInfoService.searchForUser(criteria).then(function(userDetail){
+                vm.search.Region_url = vm.currentPath;
                 if(userDetail.data.length > 0){
                     vm.showSearchCount = true;
                     vm.user = userDetail;
@@ -98,6 +129,7 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
                         vm.showSpinner = false;
                     }, true);
                 }else{
+                     vm.search.Region_url = vm.currentPath;
                     userAuthenticationService.alertUser('No Matches');
                     vm.showSpinner = false;
                 }
@@ -122,6 +154,7 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
         },function(error){
             console.log(error);
         })
+        getRegionsByurl(userDetail.Region_url)
 
         userRole();
         $ionicModal.fromTemplateUrl('editUser.html', {
@@ -151,8 +184,10 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
     } 
 
     function saveUpdatedUserDetail(updatedUserDetail){
+        updatedUserDetail.Region_url=  vm.reginPathSelected
         vm.showSpinner = true;
         userInfoService.updateUserDetail(updatedUserDetail).then(function(data){
+            console.log("updateres",data);
             userAuthenticationService.alertUser('Details Updated');
             vm.showSpinner = false;
             $scope.modal.hide();
@@ -204,28 +239,32 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
 
     function addNewUser(userDetail){
         vm.NewUserData = [];
-        vm.useraddSpinner = true;
-        vm.userExit = false;
+        vm.showSpinner = true;
         if(userDetail.Email){
             userAuthenticationService.emailauthentication(userDetail.Email).then(function(userData){
                 if(userData.data.length > 0){
-                    vm.userExit = true;
-                    $timeout(function () { vm.userExit = false; }, 1000); 
+                     vm.showSpinner = false;
+                     userAuthenticationService.alertUser('User Already Enrolled');
                 }else{
                     var newDetail = {
                         Name: userDetail.Name,
                         Email: userDetail.Email,
                         Phone: userDetail.Phone,
-                        Role : userDetail.Role
+                        Role : userDetail.Role,
+                        Region_url:  vm.reginPathSelected
                     }
 
                     userInfoService.addNewUser(newDetail).then(function(data){
+                        console.log("return,data",data);
+                         vm.showSpinner = false;
                         userAuthenticationService.alertUser('User Added');
-                        vm.useraddSpinner = false;
+                         getRegionsByurl($localStorage.sbRegionPath);
+                      /*  vm.useraddSpinner = false;
                         vm.userAdded = true;
-                        $timeout(function () { vm.userAdded = false; }, 1000); 
+                        $timeout(function () { vm.userAdded = false; }, 1000); */
 
                     },function(error){
+                         vm.showSpinner = false;
                         userAuthenticationService.alertUser('Error Occurred');
                         console.log('error');
                     });
@@ -236,22 +275,29 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
             if(userDetail.Phone){
                 userAuthenticationService.phoneauthentication(userDetail.Phone).then(function(userData){
                     if(userData.data.length > 0){
-                        vm.userExit = true;
-                        $timeout(function () { vm.userExit = false; }, 1000); 
+                         vm.showSpinner = false;
+                         userAuthenticationService.alertUser('User Already Enrolled');
+                      /*  vm.userExit = true;
+                        $timeout(function () { vm.userExit = false; }, 1000); */
                     }else{
                         var newDetail = {
                             Name: userDetail.Name,
                             Email: userDetail.Email,
                             Phone: userDetail.Phone,
-                            Role : userDetail.Role
+                            Role : userDetail.Role,
+                            Region_url:  vm.reginPathSelected
                         }
                         userInfoService.addNewUser(newDetail).then(function(data){
+                             console.log("return,data",data);
+                             vm.showSpinner = false;
                             userAuthenticationService.alertUser('User Added');
-                            vm.useraddSpinner = false;
+                            getRegionsByurl($localStorage.sbRegionPath);
+                           /* vm.useraddSpinner = false;
                             vm.userAdded = true;
-                            $timeout(function () { vm.userAdded = false; }, 1000); 
+                            $timeout(function () { vm.userAdded = false; }, 1000);*/ 
 
                         },function(error){
+                             vm.showSpinner = false;
                             userAuthenticationService.alertUser('Error Occurred');
                             console.log('error');
                         });
@@ -265,6 +311,8 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
     function detailAboutUser(user){
         vm.userDetailInfo = [];
         vm.userDetailInfo = user;
+        console.log("user",user);
+        getRegionsByurl(user.Region_url);
         $ionicModal.fromTemplateUrl('userInfo.html', {
             scope: $scope
         }).then(function(modal) {
@@ -318,5 +366,65 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
         }
         window.open("http://maps.google.com/?q=" + Completeaddress, '_system');
     }
+
+    function levelChangeEvent(){
+        console.log("levelChangeEvent");
+        console.log("selectedData",vm.NewUserData.Region_url);
+        getRegionsByurl(vm.NewUserData.Region_url);
+    }
+
+    
+    function editLevelChangeEvent(){
+        console.log("levelChangeEvent");
+        console.log("selectedData",vm.showUserDetail.Region_url);
+        getRegionsByurl(vm.showUserDetail.Region_url);
+    }
+
+    function searchLevelChangeEvent(){
+        getRegionsByurl(vm.search.Region_url);
+    }
+
+    function getRegionsByurl(region_url){
+        if(region_url){
+vm.reginPathSelected = region_url;
+            setLocationService.getRegionsByurl(region_url).then(function(reginUrlServiceRes){
+                var listData = [];
+                vm.regionDetail = reginUrlServiceRes.data;
+                vm.subreginUrl = reginUrlServiceRes.data.Parent_region_url;
+               vm.NewUserData.Region_url =  reginUrlServiceRes.data.path;
+               vm.userDetailInfo.Region_url = reginUrlServiceRes.data.path;
+                vm.showUserDetail.Region_url = reginUrlServiceRes.data.path;
+                vm.search.Region_url = reginUrlServiceRes.data.path;
+                vm.currentPath = reginUrlServiceRes.data.path
+                parentData = {
+                  'name': 'Up One Level',
+                  'value': reginUrlServiceRes.data.Parent_region_url,
+                }
+
+                angular.forEach(reginUrlServiceRes.data.Subregions, function (key, index) {
+                    var DataSructure = {
+                        'name': index,
+                        'value': key,
+                    }
+                    listData.push(DataSructure);
+                });
+
+                var filterValue = $filter('orderBy')(listData, 'name');
+
+                vm.nextLevelData= [];
+                vm.nextLevelData.push(parentData);
+                angular.forEach(filterValue, function (key, index) {
+                    vm.nextLevelData.push(key);
+                })
+
+                
+
+            },function(error){
+                console.log(error);
+            })
+        }
+    }   
+
+
 
 }

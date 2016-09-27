@@ -13,16 +13,23 @@
         <div class="width10p reswith25p orangeText">
             Sub Region :         
         </div>
-            <div class="width10p">
+           <!--  <div class="width10p">
                  <span class="ion-chevron-left icons orangeText font_size_20px" ng-click="vm.leftArrowClick()"></span>
             </div>
+ -->
+            <div class="with30p reswith50p">
 
-            <div class="with30p reswith50p" ng-show="vm.showDropDown">
+            <!--   <select  ng-model="vm.selectedData" ng-change="vm.levelChangeEvent()" ng-options="value as key for (key , value) in  vm.nextLevelData" class="bordernone with100p btmborder padding5px">
+                   <option value="" disabled selected="selected" style="display: none;">Select sub-region</option> 
+                      
+              </select> -->
 
-                <select  ng-model="vm.selectedData" ng-change="vm.levelChangeEvent()" ng-options="value as key for (key , value) in  vm.nextLevelData" class="bordernone with100p btmborder padding5px">
-                    <option value="" disabled selected="selected" style="display: none;">Select sub-region</option>
-                </select>
+             <select  ng-model="vm.selectedData" ng-change="vm.levelChangeEvent()" ng-options="item.value as item.name for item in vm.nextLevelData" class="bordernone with100p btmborder padding5px">
+                      <option value="" disabled selected="selected" style="display: none;">Select sub-region</option> 
+            </select>
 
+       
+               
             </div>
 
             

@@ -151,10 +151,12 @@ function activityService($http, $q, constantsService) {
     }
 
     function searchForActivity(searchCriteria){
+     
+        console.log("searchCriteria",searchCriteria);
         var deferred = $q.defer();
         $http({
             method : 'GET',
-            url : constantsService.url+'/activities?State='+searchCriteria.state+'&City='+searchCriteria.city
+            url : constantsService.url+'/activities?State='+searchCriteria.state+'&City='+searchCriteria.city+'&Region_url='+searchCriteria.Region_url+'&Subregions='+searchCriteria.subRegion
         }).then(function(data){
             deferred.resolve(data);
         }, function(error){

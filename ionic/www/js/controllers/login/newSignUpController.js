@@ -117,6 +117,7 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 				$localStorage.update = [];
 				$localStorage.update = [];
 				$localStorage.userInfo = userData;
+				$localStorage.sbRegionPath = $localStorage.userInfo.data[0].Region_url;
 
 				$ionicHistory.nextViewOptions({
 					disableBack: true
@@ -143,6 +144,7 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 				$rootScope.googleInfo = [];
 				$localStorage.update = [];
 				$localStorage.userInfo = userData;
+				$localStorage.sbRegionPath = $localStorage.userInfo.data[0].Region_url;
 
 				$ionicHistory.nextViewOptions({
 					disableBack: true

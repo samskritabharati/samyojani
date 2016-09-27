@@ -2,12 +2,12 @@ angular
 .module('starter')
 .controller('setLocationController', setLocationController);
 
-setLocationController.$inject = ['$scope', '$state', '$localStorage', '$ionicHistory','$rootScope','projectService','coursesService', '$ionicModal','userInfoService','filterFilter','setLocationService'];
+setLocationController.$inject = ['$scope', '$state', '$localStorage', '$ionicHistory','$rootScope','projectService','coursesService', '$ionicModal','userInfoService','filterFilter','setLocationService','$filter'];
 
-function setLocationController($scope, $state, $localStorage,$ionicHistory,$rootScope,projectService,coursesService, $ionicModal,userInfoService,filterFilter,setLocationService) {
+function setLocationController($scope, $state, $localStorage,$ionicHistory,$rootScope,projectService,coursesService, $ionicModal,userInfoService,filterFilter,setLocationService,$filter) {
     var vm = this;
-    vm.leftArrowClick = leftArrowClick;
-    vm.levelChangeEvent = levelChangeEvent;
+/*    vm.leftArrowClick = leftArrowClick;
+*/    vm.levelChangeEvent = levelChangeEvent;
    
     vm.showSetLocationForm = showSetLocationForm;
     vm.searchUser = searchUser;
@@ -24,13 +24,14 @@ function setLocationController($scope, $state, $localStorage,$ionicHistory,$root
     vm.showEditButton = true;
     vm.showUpdateButn = false;
     vm.nonEditableField = true;
-     vm.showDropDown = true
+
 
 
     vm.regionDetail;
    
     getPraanthTypes();
-    getRegionsByurl($localStorage.userInfo.data[0].Region_url);
+    console.log("$localStorage.userInfo.data[0].Region_url",$localStorage.userInfo.data[0].Region_url);
+    getRegionsByurl($localStorage.sbRegionPath);
 
     if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
         $localStorage.userlogin = true;
@@ -41,6 +42,7 @@ function setLocationController($scope, $state, $localStorage,$ionicHistory,$root
 
 
 function levelChangeEvent(){
+    console.log("levelChangeEvent");
     console.log("selectedData",vm.selectedData);
     getRegionsByurl(vm.selectedData);
 }
@@ -48,11 +50,13 @@ function levelChangeEvent(){
 
 
 
+/*
+
 function leftArrowClick(){
     console.log("selectedData",vm.regionDetail.Parent_region_url);
     getRegionsByurl(vm.regionDetail.Parent_region_url);
 
-    /*console.log("vm.subreginUrl", vm.regionDetail.Parent_region_url);
+    console.log("vm.subreginUrl", vm.regionDetail.Parent_region_url);
 
     setLocationService.getRegionsByurl(vm.regionDetail.Parent_region_url).then(function(parentRegionDetail){
         console.log("parentRegion",parentRegionDetail);
@@ -71,33 +75,54 @@ function leftArrowClick(){
 
     },function(error){
         console.log(error);
-    })*/
+    })
 
 
-}
+}*/
 
 
 
 function getRegionsByurl(region_url){
 
-    console.log("rgn",region_url);
+    if(region_url){
+
+
     setLocationService.getRegionsByurl(region_url).then(function(reginUrlServiceRes){
-        console.log("reginUrlServiceRes",reginUrlServiceRes);
-
-
+        var listData = [];
         vm.regionDetail = reginUrlServiceRes.data;
         vm.subreginUrl = reginUrlServiceRes.data.Parent_region_url;
         vm.myRegionPath =  reginUrlServiceRes.data.path;
-         vm.nextLevelData =  reginUrlServiceRes.data.Subregions;
-         if(!reginUrlServiceRes.data.Subregions){
+         /*vm.nextLevelData =  reginUrlServiceRes.data.Subregions;*/
+        parentData = {
+          'name': 'Up One Level',
+          'value': reginUrlServiceRes.data.Parent_region_url,
+        }
+
+        angular.forEach(reginUrlServiceRes.data.Subregions, function (key, index) {
+            var DataSructure = {
+                'name': index,
+                'value': key,
+            }
+            listData.push(DataSructure);
+        });
+
+        var filterValue = $filter('orderBy')(listData, 'name');
+
+        vm.nextLevelData= [];
+        vm.nextLevelData.push(parentData);
+        angular.forEach(filterValue, function (key, index) {
+            vm.nextLevelData.push(key);
+        })
+
+
+       /* if(!reginUrlServiceRes.data.Subregions){
             console.log("no sub regin")
             vm.showDropDown = false;
-         }else{
+        }else{
              vm.showDropDown = true;
-         }
-       
-         console.log("dropdowns", vm.nextLevelData);
-         if(reginUrlServiceRes.data.Coordinator_url){
+        }*/
+
+        if(reginUrlServiceRes.data.Coordinator_url){
             userInfoService.getActivityCoordinatorDetail(reginUrlServiceRes.data.Coordinator_url).then(function(coordinatorDetails){
             vm.showSpinner = false;
             console.log("coordinatorDetails",coordinatorDetails);
@@ -108,12 +133,10 @@ function getRegionsByurl(region_url){
             });
          }
 
-        
-
-
     },function(error){
         console.log(error);
     })
+      }
 }
 
 function showSetLocationForm(){

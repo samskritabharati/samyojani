@@ -71,14 +71,14 @@
         </div>
 
 
-        <div class="row mrg_top5px">
+        <div class="row mrg_top5px"  ng-if="'weekly' == vm.newActivity.Recurrence">
             <div class="col">  Days Of Week
 
                 <div class="display_inlineflex with100p bordernone btmborder"  >
 
                     <span ng-repeat="day in vm.daysList" class="padding10">
                         <input type='checkbox' value="{{day}}" ng-model="vm.newActivity.Days" check-list='checked_days' 
-                        ng-disabled="'daily' == vm.newActivity.Recurrence"> {{day}}<br />
+                       > {{day}}<br />
                     </span>
                 </div>
             </div>
@@ -138,6 +138,14 @@
             <div  class="col "> Project
                 <select  ng-model="vm.newActivity.Project_url" ng-options="v._url as v.Name for v in vm.projectList" class="bordernone with100p btmborder padding5px">
 
+                </select>
+            </div>
+        </div>
+
+        <div class="row mrg_top5px">
+            <div  class="col "> SB Region
+                <select  ng-model="vm.newActivity.Region_url" ng-change="vm.levelChangeEvent()"  ng-options="item.value as item.name for item in vm.nextLevelData" class="bordernone with100p btmborder padding5px">
+                    <option value="" disabled selected="selected" style="display: none;">{{vm.newActivity.Region_url}}</option>
                 </select>
             </div>
         </div>

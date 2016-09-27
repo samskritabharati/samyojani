@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('organizerController', organizerController);
 
-organizerController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory','$timeout' ,'activityService' ,'filterFilter','$rootScope'];
+organizerController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory','$timeout' ,'activityService' ,'filterFilter','$rootScope','setLocationService','$filter'];
 
-function organizerController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout,activityService,filterFilter,$rootScope) {
+function organizerController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout,activityService,filterFilter,$rootScope,setLocationService,$filter) {
     var vm = this;
 
     vm.showSpinner = true;
@@ -16,16 +16,25 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
     $rootScope.currentMenu = 'organizerActivity';
     vm.showNewActivityForm = showNewActivityForm;
     vm.closeModel = closeModel;
+    vm.searchLevelChangeEvent = searchLevelChangeEvent;
 
     vm.openMap = openMap;
     vm.activityDetail = [];
     vm.userList = [];
+     vm.search = {
+        subRegion : true,
+        Region_url: ''
+     };
     $scope.dataLoading = true;
     if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
         $localStorage.userlogin = true;
 
     }
     showActivity();
+    if($localStorage.sbRegionPath){
+          getRegionsByurl($localStorage.sbRegionPath);
+
+    }
 
     vm.addActivityIcon = true;
     vm.addUserIcon = false;
@@ -157,11 +166,28 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
             if(!criteria.city){
                 criteria.city =''
             }
+            if(!criteria.Region_url){
+                criteria.Region_url =''
+            }
+            if(criteria.Region_url){
+                criteria.Region_url = vm.reginPathSelected;
+            }
+            if(!criteria.subRegion){
+                criteria.subRegion = ''
+            }
 
-            activityService.searchForActivity(criteria).then(function(activityDetail){            
-                vm.activityData = activityDetail.data;
+            activityService.searchForActivity(criteria).then(function(activityDetail){  
+                  if(activityDetail.data.length > 0){
+                     vm.search.Region_url = vm.currentPath;          
+                        vm.activityData = activityDetail.data;
+                  }else{
+                    vm.search.Region_url = vm.currentPath;
+                    userAuthenticationService.alertUser('No Matches');
+                  }
+               
                 vm.showSpinner = false;
             },function(error){
+                vm.search.Region_url = vm.currentPath;
                 console.log("Error in updating FacebookID")
             })
         }
@@ -173,5 +199,47 @@ function organizerController($scope, $stateParams, $state, userInfoService, $ion
         });
         $state.go('app.activitymapview',{'activitys':activityData, 'type' : 'activitInfos'},{location: false, inherit: false});
     }
+
+    function searchLevelChangeEvent(){
+        getRegionsByurl(vm.search.Region_url);
+    }
+
+    function getRegionsByurl(region_url){
+        if(region_url){
+            vm.reginPathSelected = region_url;
+            setLocationService.getRegionsByurl(region_url).then(function(reginUrlServiceRes){
+                var listData = [];
+            
+                vm.search.Region_url = reginUrlServiceRes.data.path;
+                vm.currentPath = reginUrlServiceRes.data.path
+                parentData = {
+                  'name': 'Up One Level',
+                  'value': reginUrlServiceRes.data.Parent_region_url,
+                }
+
+                angular.forEach(reginUrlServiceRes.data.Subregions, function (key, index) {
+                    var DataSructure = {
+                        'name': index,
+                        'value': key,
+                    }
+                    listData.push(DataSructure);
+                });
+
+                var filterValue = $filter('orderBy')(listData, 'name');
+
+                vm.nextLevelData= [];
+                vm.nextLevelData.push(parentData);
+                angular.forEach(filterValue, function (key, index) {
+                    vm.nextLevelData.push(key);
+                })
+
+                
+
+            },function(error){
+                console.log(error);
+            })
+        }
+    }   
+
 }
 

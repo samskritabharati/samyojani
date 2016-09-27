@@ -614,9 +614,9 @@ angular
 .module('starter')
 .controller('addActivityController', addActivityController);
 
-addActivityController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService','activityService', '$localStorage','$ionicHistory','projectService', 'filterFilter','$ionicPopup','postalCodeService','$timeout'];
+addActivityController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService','activityService', '$localStorage','$ionicHistory','projectService', 'filterFilter','$ionicPopup','postalCodeService','$timeout','setLocationService','$filter'];
 
-function addActivityController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, activityService, $localStorage, $ionicHistory,projectService, filterFilter,$ionicPopup,postalCodeService,$timeout) {
+function addActivityController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, activityService, $localStorage, $ionicHistory,projectService, filterFilter,$ionicPopup,postalCodeService,$timeout,setLocationService,$filter) {
   var vm = this;
 
   vm.closeModel = closeModel;
@@ -626,6 +626,7 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
   vm.choosedCoordinator =  choosedCoordinator;
   vm.closeThisModel = closeThisModel;
   vm.autoFillAddressDetail = autoFillAddressDetail;
+  vm.levelChangeEvent = levelChangeEvent;
 
   $scope.checked_days = [];
 
@@ -645,7 +646,10 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
   getCountry();
   projectList();
 
+ if($localStorage.sbRegionPath){
+          getRegionsByurl($localStorage.sbRegionPath);
 
+    }
 
   vm.showSpinner = true;
 
@@ -659,7 +663,9 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
   } 
   function addNewActivityDetail(newActivity){
     newActivity.Days = $scope.checked_days
+    newActivity.Region_url = vm.reginPathSelected;
     activityService.addNewActivity(newActivity).then(function(detail){
+      console.log("detail",detail);
       userAuthenticationService.alertUser('Activity Added Successfully');
 
       vm.showSpinner = false;
@@ -845,4 +851,47 @@ function addActivityController($scope, $stateParams, $state, userInfoService, $i
 
 
   }
+
+  function levelChangeEvent(){
+        console.log("levelChangeEvent");
+        console.log("selectedData",vm.newActivity.Region_url);
+        getRegionsByurl(vm.newActivity.Region_url);
+    }
+
+    function getRegionsByurl(region_url){
+        if(region_url){
+            vm.reginPathSelected = region_url;
+            setLocationService.getRegionsByurl(region_url).then(function(reginUrlServiceRes){
+                var listData = [];
+            
+                vm.newActivity.Region_url = reginUrlServiceRes.data.path;
+                vm.currentPath = reginUrlServiceRes.data.path
+                parentData = {
+                  'name': 'Up One Level',
+                  'value': reginUrlServiceRes.data.Parent_region_url,
+                }
+
+                angular.forEach(reginUrlServiceRes.data.Subregions, function (key, index) {
+                    var DataSructure = {
+                        'name': index,
+                        'value': key,
+                    }
+                    listData.push(DataSructure);
+                });
+
+                var filterValue = $filter('orderBy')(listData, 'name');
+
+                vm.nextLevelData= [];
+                vm.nextLevelData.push(parentData);
+                angular.forEach(filterValue, function (key, index) {
+                    vm.nextLevelData.push(key);
+                })
+
+                
+
+            },function(error){
+                console.log(error);
+            })
+        }
+    } 
 }

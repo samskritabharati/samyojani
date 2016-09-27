@@ -24,7 +24,7 @@
 						</tr>
 					</table>
 				</div>
-				<div style="position: relative;display: table;" class="reswidth100p resmrg_top5p ">
+				<div style="position: relative;display: table;" class="reswidth100p resmrg_top5p mrgrgt5p">
 					<table class="reswidth100p">
 						<tr>
 							<td class="with50p verticalalignmiddle">Search By City</td>
@@ -34,6 +34,36 @@
 						</tr>
 					</table>
 				</div>
+
+
+				<div style="position: relative;display: table;" class="reswidth100p resmrg_top5p mrgrgt5p">
+					<table class="reswidth100p" style="line-height: 3">
+						<tr>
+							<td class="with50p verticalalignmiddle">Set Region</td>
+							<td class="with50p verticalalignmiddle">
+								<select  ng-model="vm.search.Region_url" ng-change="vm.searchLevelChangeEvent()" 
+								ng-options="item.value as item.name for item in vm.nextLevelData" class="bordernone  btmborder with100p">
+                  					 <option value="" disabled selected="selected" style="display: none;">{{vm.search.Region_url}}</option> 
+             					 </select>
+							</td>
+						</tr>
+					</table>
+				</div>
+
+
+				 <div style="position: relative;display: table;" class="reswidth100p resmrg_top5p with100p ">
+					<table class="reswidth100p" style="line-height: 3">
+						<tr>
+							<td class="with50p verticalalignmiddle">Include Subregions</td>
+							<td class="with50p verticalalignmiddle">
+								<input type="checkbox" ng-model="vm.search.subRegion" class="btmborder with100p" 
+							style="width: 22px;height: 16px;margin-top: 8px;" />
+							</td>
+						</tr>
+					</table>
+				</div> 
+				
+
 			</div>
 			<div class ="row padding0 mrg_top10px">
 				<div class="col text_align_center btmborder">
