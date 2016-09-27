@@ -55,10 +55,7 @@
                     ng-class="'wishLists' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
                     My Wish List
                     </ion-item>
-                    <ion-item menu-close ng-click="vm.setLocation()"
-                    ng-class="'setLocation' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-                    Set Location
-                    </ion-item>
+                   
                     <ion-item menu-close> Browse
                         <ion-item menu-close ng-click="vm.upcomingEvent()" 
                             ng-class="'StudentUpcomingActivity' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
@@ -105,10 +102,7 @@
                     ng-class="'wishLists' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
                     My Wish List
                     </ion-item>
-                    <ion-item menu-close  ng-click="vm.setLocation()"
-                    ng-class="'setLocation' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
-                    Set Location
-                    </ion-item> 
+                    
                     <ion-item menu-close> Manage
                         <ion-item menu-close ng-click="vm.upcomingEvent()" 
                         ng-class="'organizerActivity' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
@@ -126,6 +120,11 @@
                     ng-class="'courses' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
                     Courses
                     </ion-item>
+                    <ion-item menu-close  ng-click="vm.setLocation()"
+                    ng-class="'setLocation' === vm.currentTab ? 'themBackgroundColor text_white' :  ''">
+                    Regions
+                    </ion-item> 
+
                 </ion-item>
                 <ion-item menu-close ng-click="vm.studentLogOut()">
                     LogOut

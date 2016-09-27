@@ -100,8 +100,13 @@ function studentController($scope, $stateParams, $state, $location, $localStorag
                 }
             }
 
-            activityService.joinActivity(newJoindActivity).then(function(data){
-                userAuthenticationService.alertUser('Joined');
+            activityService.joinActivity(newJoindActivity).then(function(resdata){
+                console.log("joindata",data)
+                if(resdata.data.Status == 'Confirmed'){
+                    userAuthenticationService.alertUser('Joined');
+                }else{
+                    userAuthenticationService.alertUser('Joined Tentatively');
+                }
                 vm.showSpinner = false;
 
             },function(error){

@@ -1,28 +1,26 @@
 <ion-view>
 
-	<div class="bar bar-subheader floatingHeader background_transparent" style="top:7%">
+	<!-- <div class="bar bar-subheader floatingHeader background_transparent" style="top:7%">
 		<span  class="ion-plus-circled floatingbtn font_size_30px orangeText" ng-click="vm.showSetLocationForm()"></span>
-	</div>
+	</div> -->
 
 	<ion-content class="has-header"  overflow-scroll = "true">
+     <div class="spinnerDiv" ng-show="vm.showSpinner"><span><ion-spinner icon="circles" class="spinner-energized"></ion-spinner></span></div>
+        <div   class=" boldtext font_size_20px orangeText text_align_center headerTextMrg " >
+            <span class="btmborder padding5px">SB Region Details</span>   
+        </div> 
+
 
         <div class="text_align_center"><span class="orangeText ">Region Path:</span> &nbsp&nbsp{{vm.myRegionPath}}</div>
 
         <div class="with100p text_align_center display_inlineflex resmrgtop10">
-       
-        <div class="width10p reswith25p orangeText">
-            Sub Region :         
-        </div>
-           <!--  <div class="width10p">
-                 <span class="ion-chevron-left icons orangeText font_size_20px" ng-click="vm.leftArrowClick()"></span>
+           
+            <div class="width10p reswith25p orangeText">
+                Sub Region :         
             </div>
- -->
+           
             <div class="with30p reswith50p">
 
-            <!--   <select  ng-model="vm.selectedData" ng-change="vm.levelChangeEvent()" ng-options="value as key for (key , value) in  vm.nextLevelData" class="bordernone with100p btmborder padding5px">
-                   <option value="" disabled selected="selected" style="display: none;">Select sub-region</option> 
-                      
-              </select> -->
 
              <select  ng-model="vm.selectedData" ng-change="vm.levelChangeEvent()" ng-options="item.value as item.name for item in vm.nextLevelData" class="bordernone with100p btmborder padding5px">
                       <option value="" disabled selected="selected" style="display: none;">Select sub-region</option> 
@@ -31,79 +29,55 @@
        
                
             </div>
+        </div>
+
+            <div class="float_right position_relative display_inlineflex">
+                <div class="mrg10px">
+                     <button  class="button themBackgroundColor text_white  bordernone" 
+                    ng-click="vm.showSetLocationForm()">Add</button>
+
+                </div>
+                <div class="mrg10px">
+                     <button  class="button themBackgroundColor text_white  bordernone" 
+                    ng-click="vm.decline()">Edit</button>
+
+                </div>
+                <div class="mrg10px">
+                     <button  class="button themBackgroundColor text_white  bordernone" 
+                    ng-click="vm.deletSubRegion()">Delet</button>
+
+                </div>
 
             
 
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <!--   <div>your Region Path Now = {{vm.parent}}<span ng-if="vm.level1">/{{vm.level1}}</span>
-    <span ng-if="vm.level2">/{{vm.level2}}</span> <span ng-if="vm.level3">/{{vm.level3}}</span></div> -->
-
-       <!--  <div class="row">
-            <div class="col">
-                 <span class="ion-chevron-left float_right" ng-click="vm.leftArrowClick()"></span>
-            </div>
-            <div class="col">
-                <input type="text" ng-model ="vm.currentValue" class="border1px with100p">
-            </div>
-            <div class="col">
-                 <span class="ion-chevron-right" ng-click="vm.rightArrowClick()">Next Level</span>
-            </div>
-            <div ng-if="vm.nextLevel1Options">
-                <select  ng-model="vm.selectedData1" ng-change="vm.level1ChangeEvent()" ng-options="v as v.Name for v in vm.nextLevelData1" class="bordernone with100p btmborder padding5px">
-                    <option value="" disabled selected="selected" style="display: none;">Choose Next Level</option>
-                </select>
-            </div>
-            <div ng-if="vm.nextLevel2Options">
-                <select  ng-model="vm.selectedData2" ng-change="vm.level2ChangeEvent()" ng-options="v as v.Name for v in vm.nextLevelData2" class="bordernone with100p btmborder padding5px">
-                    <option value="" disabled selected="selected" style="display: none;">Choose Next Level</option>
-                </select>
             </div>
 
-             <div ng-if="vm.nextLevel3Options">
-                <select  ng-model="vm.selectedData3" ng-change="vm.level3ChangeEvent()" ng-options="v as v.Name for v in vm.nextLevelData3" class="bordernone with100p btmborder padding5px">
-                    <option value="" disabled selected="selected" style="display: none;">Choose Next Level</option>
-                </select>
-            </div>
-           
-                
-           
-        </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -165,40 +139,34 @@
                         </div>
                     </div>
 <div class="row">
-            <div class="col">   Country*
+            <div class="col">   Country
                 <label class="item item-input bordernone padding0">
-                    <select name="country" ng-model="vm.newLocation.Address.Country" ng-options="v for v in vm.countrList.data" class=" with100p padding5px bordernone btmborder" required><option value="" disabled selected="selected" style="display: none;">Country</option>
+                    <select name="country" ng-model="vm.newLocation.Address.Country" ng-options="v for v in vm.countrList.data" class=" with100p padding5px bordernone btmborder" ><option value="" disabled selected="selected" style="display: none;">Country</option>
                     </select>
                 </label>
-                <div ng-messages="newActivityForm.country.$error" ng-if="newActivityForm.country.$dirty" class="text_red">
-                    <div ng-message="required">Country is required</div>
-                </div>
+                
 
             </div>
         </div>
 
         <div class="row">
-            <div class="col">  Postal code*
+            <div class="col">  Postal code
                 <div class="item item-input bordernone padding0 btmborder">
-                    <input type="text" name="postalCode" ng-model="vm.newLocation.Address.Postal_code"  class="" required/>
-                    <span  ng-click="vm.autoFillAddressDetail()" 
+                    <input type="text" name="postalCode" ng-model="vm.newLocation.Address.Postal_code"  class=""/>
+                    <span  ng-click="vm.autoFillAddressDetail('add')" 
                     class="ion-search icons orangeText font_size_30px"></span>
                 </div>
-                <div ng-messages="newActivityForm.postalCode.$error" ng-if="newActivityForm.postalCode.$dirty" class="text_red">
-                    <div ng-message="required">PostalCode is required</div>
-                </div>
+                
 
             </div>
         </div>
 
         <div class="row">
-            <div class="col">  Street address1*
+            <div class="col">  Street address1
                 <label class="item item-input bordernone padding0">
-                    <input type="text" name="address1" ng-model="vm.newLocation.Address.Address_line1" class="btmborder" required/>
+                    <input type="text" name="address1" ng-model="vm.newLocation.Address.Address_line1" class="btmborder" />
                 </label>
-                <div ng-messages="newActivityForm.address1.$error" ng-if="newActivityForm.address1.$dirty" class="text_red">
-                    <div ng-message="required">Address line 1 is required</div>
-                </div>
+                
 
             </div>
         </div>
@@ -237,57 +205,6 @@
             </div>
         </div>
 
-           <!--  <div class="row mrg_top5px">
-                <div class="col">   Phone
-                    <input type="text" ng-model="vm.editActivity.Phone" class="with100p btmborder">
-                </div>
-            </div>
-
-            <div class="row mrg_top5px">
-                <div class="col ">  Email
-                    <input type="text" ng-model="vm.editActivity.Email" class="with100p btmborder">
-                </div>
-            </div>
-
-            <div class="row mrg_top5px">
-                <div class="col">   Start Date
-
-                    <input class="btmborder with100p bordernone" id="edit_st"
-                    value="{{vm.editActivity.Start_date}}"  ui-date="{ dateFormat: 'dd-mm-yy' }"/> 
-
-                </div>
-            </div>
-
-            <div class="row mrg_top5px">
-                <div class="col">   End Date
-                    <input type="" id="edit_ed" value="{{vm.editActivity.End_date}}" 
-                    class="with100p btmborder bordernone" ui-date="{ dateFormat: 'dd-mm-yy' }"/>
-                </div>
-            </div>
-
-            <div class="row mrg_top5px">
-                <div class="col">   Start Time
-
-                    <time-picker ng-model="vm.editActivity.Start_time"></time-picker>  
-                </div>
-            </div>
-
-            <div class="row mrg_top5px">
-                <div class="col">   End Time
-                    <time-picker ng-model="vm.editActivity.End_time"></time-picker> 
-                </div>
-            </div>
-
-            <div class="row mrg_top5px">
-                <div class="col">   Recurrence
-                    <select  name="recurrence" ng-model="vm.editActivity.Recurrence" ng-options="v for v in vm.recurrenceList.data" class="bordernone with100p btmborder bordernone padding6px" required>
-                        <option value="" disabled selected="selected" style="display: none;">{{vm.newActivity.Recurrence}}</option>
-                    </select> 
-                </div>
-            </div> -->
-           
-
-
 
             <div class="row mrg_top5px">
                 <div class="text_align_center col valuetabletd">
@@ -312,8 +229,7 @@
 
 
 <div class="resmrgtop10">
-            <button ng-show="vm.showEditButton" class="button themBackgroundColor text_white float_right bordernone" 
-            ng-click="vm.showEdit()">Edit Profile</button>
+          
             <button ng-show="!vm.showEditButton" class="button themBackgroundColor text_white float_right bordernone" 
             ng-click="vm.decline()">Cancel</button>
         </div>
@@ -332,25 +248,7 @@
                 </div>
               
             </div>
-            <!-- <div class="row padding0 mrg_top10px" style="display: flex !important; ">
-                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Joined Date</div>
-                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
-                    <input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Signup_date" ng-readonly="vm.nonEditableField" >
-                </div>
-            </div>
-
-            <div class="row  padding0 mrg_top10px" style="display: flex !important; ">
-                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Phone</div>
-                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
-                    <input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Phone" ng-readonly="vm.fieldEditable">
-                </div>
-            </div>
-            <div class="row  padding0 mrg_top10px" style="display: flex !important; ">
-                <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Email</div>
-                <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">
-                    <input type="text" class="backgroundNone with100p" ng-model="vm.userProfileInfo.Email" ng-readonly="vm.fieldEditable">
-                </div>
-            </div> -->
+           
             <div class="row padding0 mrg_top10px" style="display: flex !important; ">
                 <div class="with30p reswith30p line_height2p5 bg_lightgry text_black">Region type</div>
                 <div class="with80p reswith70p" ng-class="vm.edititem === vm.edititemtrue ? 'btmborder' :  ''">

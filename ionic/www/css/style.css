@@ -183,6 +183,9 @@
 .float_right{
     float: right;
 }
+.float_left{
+    float: left;
+}
 .line_height3{
     line-height: 3
 }

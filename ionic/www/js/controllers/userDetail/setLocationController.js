@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('setLocationController', setLocationController);
 
-setLocationController.$inject = ['$scope', '$state', '$localStorage', '$ionicHistory','$rootScope','projectService','coursesService', '$ionicModal','userInfoService','filterFilter','setLocationService','$filter'];
+setLocationController.$inject = ['$scope', '$state', '$localStorage', '$ionicHistory','$rootScope','projectService','coursesService', '$ionicModal','userInfoService','filterFilter','setLocationService','$filter','userAuthenticationService','postalCodeService'];
 
-function setLocationController($scope, $state, $localStorage,$ionicHistory,$rootScope,projectService,coursesService, $ionicModal,userInfoService,filterFilter,setLocationService,$filter) {
+function setLocationController($scope, $state, $localStorage,$ionicHistory,$rootScope,projectService,coursesService, $ionicModal,userInfoService,filterFilter,setLocationService,$filter,userAuthenticationService,postalCodeService) {
     var vm = this;
 /*    vm.leftArrowClick = leftArrowClick;
 */    vm.levelChangeEvent = levelChangeEvent;
@@ -16,6 +16,8 @@ function setLocationController($scope, $state, $localStorage,$ionicHistory,$root
     vm.addNewLocation = addNewLocation;
     vm.coordinatorDetail = coordinatorDetail;
     vm.closeModel = closeModel;
+    vm.autoFillAddressDetail = autoFillAddressDetail;
+    vm.deletSubRegion = deletSubRegion;
 
     vm.showSpinner = false;
     vm.fieldEditable = true;
@@ -28,8 +30,17 @@ function setLocationController($scope, $state, $localStorage,$ionicHistory,$root
 
 
     vm.regionDetail;
+    vm.newLocation = {
+        Address : {
+            Postal_code: '',
+            Country: '',
+            Region_url : ''
+        }
+
+    }
    
     getPraanthTypes();
+    getCountry();
     console.log("$localStorage.userInfo.data[0].Region_url",$localStorage.userInfo.data[0].Region_url);
     getRegionsByurl($localStorage.sbRegionPath);
 
@@ -83,6 +94,7 @@ function leftArrowClick(){
 
 
 function getRegionsByurl(region_url){
+    vm.selectedRegionUrl = region_url;
 
     if(region_url){
 
@@ -243,7 +255,18 @@ function choosedCoordinator(choosedData,type){
 }
 
 function addNewLocation(){
+    vm.showSpinner =true;
+    vm.newLocation.Parent_region_url = vm.selectedRegionUrl
     console.log("vm.newLocation",vm.newLocation);
+    
+    setLocationService.addSubRegion(vm.newLocation).then(function(newSubRegionRes){
+        console.log("newsub",newSubRegionRes);
+         vm.showSpinner =false;
+         $scope.modal.hide();
+         userAuthenticationService.alertUser('Sub Region Added');
+    },function(error){
+        console.log(error);
+    })
 }
 
 function getPraanthTypes(){
@@ -267,5 +290,110 @@ function coordinatorDetail(){
 function closeModel(){
     $scope.modal.hide();  
 }
+function getCountry(){
+        vm.showSpinner = true;
+        userInfoService.getAllCountryList().then(function(countrty){
+            vm.countrList = countrty;
+            vm.showSpinner = false;
+        },function(error){
+            console.log(error);
+        })
+    } 
+
+     function autoFillAddressDetail(opType){
+        if(opType== 'edit'){
+            if(vm.editProject.Address.Country){
+
+                if(vm.editProject.Address.Postal_code){
+                    vm.showSpinner = true;
+                    postalCodeService.getDetailsByPostalCode(vm.editProject.Address.Country,vm.editProject.Address.Postal_code).then(function(addressDetails){
+                        if(addressDetails.data.length>0){
+                            vm.editProject.Address = {
+                                District : addressDetails.data[0].Address.District,
+                                Locality : addressDetails.data[0].Address.Locality,
+                                State : addressDetails.data[0].Address.State,
+                                City : addressDetails.data[0].Address.City,
+                                Country : addressDetails.data[0].Address.Country,
+                                Postal_code : addressDetails.data[0].Address.Postal_code
+                            }
+                            userAuthenticationService.alertUser('Address Autofilled');
+                        }
+                        else{
+                            userAuthenticationService.alertUser('Address Not Found');
+                        }
+                        vm.showSpinner = false;
+                    },function(error){
+                        userAuthenticationService.alertUser('Error Occured');
+                        console.log(error);
+                    })
+                }else{
+                    userAuthenticationService.alertUser('Please Enter Postal_code');
+                }
+            }else{
+                userAuthenticationService.alertUser('Please Enter Country');
+            }
+
+
+        }else{
+
+            if(vm.newLocation.Address.Country){
+                if(vm.newLocation.Address.Postal_code){
+                    vm.showSpinner = true;
+                    postalCodeService.getDetailsByPostalCode(vm.newLocation.Address.Country,vm.newLocation.Address.Postal_code).then(function(addressDetails){
+                        if(addressDetails.data.length>0){
+                            vm.newLocation.Address = {
+                                District : addressDetails.data[0].Address.District,
+                                Locality : addressDetails.data[0].Address.Locality,
+                                State : addressDetails.data[0].Address.State,
+                                City : addressDetails.data[0].Address.City,
+                                Country : addressDetails.data[0].Address.Country,
+                                Postal_code : addressDetails.data[0].Address.Postal_code
+                            }
+                            userAuthenticationService.alertUser('Address Autofilled');
+                        }
+                        else{
+                            userAuthenticationService.alertUser('Address Not Found');
+                        }
+                        vm.showSpinner = false;
+                    },function(error){
+                        console.log(error);
+                    })
+                }else{
+                    userAuthenticationService.alertUser('Please Enter Postal_code');
+                }
+            }else{
+                userAuthenticationService.alertUser('Please Enter Country');
+            }
+
+        }
+
+    }
+
+    function deletSubRegion(){
+        console.log("vm.regionDetail",vm.regionDetail);
+        console.log("vm.regionDetail.Subregions.length",vm.regionDetail.Subregions)
+        if(!vm.regionDetail.Subregions){
+             console.log("no sub")
+                userAuthenticationService.confirm('','Do You Want To Delet Region?','Yes','No',function(){
+                vm.showSpinner = true;
+             setLocationService.deletRegion(vm.regionDetail._url).then(function(deletRegionRes){
+                console.log("newsub",deletRegionRes);
+                getRegionsByurl(vm.regionDetail.Parent_region_url);
+
+             vm.showSpinner =false;
+           
+             userAuthenticationService.alertUser('Sub Region Deleted');
+        },function(error){
+            console.log(error);
+            getRegionsByurl(vm.regionDetail.Parent_region_url);
+            userAuthenticationService.alertUser('Error Occured');
+        })
+        },null)
+
+
+        }else{
+             userAuthenticationService.alertUser("Not A Leaf Region");
+        }
+    }
 
 }

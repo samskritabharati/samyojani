@@ -13,7 +13,6 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     vm.popupForPhoneLogin =  popupForPhoneLogin;
     vm.closeModel =  closeModel;
     vm.newSignInWithEmail = newSignInWithEmail;
-    vm.signInWithGoogle = signInWithGoogle;
     vm.newDirectSignUp = newDirectSignUp;
     vm.signInWithPhone = signInWithPhone;
     vm.signInWithPhoneNumber = signInWithPhoneNumber;
@@ -81,6 +80,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     }
 
     function signInWithEmail(){
+         $scope.modal.hide();
         if(vm.email){
             vm.showSpinner = true;
             userAuthenticationService.emailauthentication(vm.email).then(function(userData){
@@ -106,36 +106,28 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
 
 
     function popupForEmailLogin(){
-/* var alertPopup = $ionicPopup.alert({
-title: '<b>' + 'login' + '</b>',
-template: ''
 
-});
-$(".popup-buttons").addClass("displayNone");
+        $("#emailSigninPopUp").slideToggle(600);
+    }
 
-$timeout(function () {   alertPopup.close()}, 1000); */
+    function popupForPhoneLogin(){
+        /*console.log("vm.phonenumberformate",$("#demo").val());
+        var extension = $("#demo").intlTelInput("getExtension");
 
-$("#emailSigninPopUp").slideToggle(600);
-}
+        console.log('extension',extension);
 
-function popupForPhoneLogin(){
-/*console.log("vm.phonenumberformate",$("#demo").val());
-var extension = $("#demo").intlTelInput("getExtension");
+        var intlNumber = $("#demo").intlTelInput("getNumber");
 
-console.log('extension',extension);
-
-var intlNumber = $("#demo").intlTelInput("getNumber");
-
-console.log('intlNumber',intlNumber);
+        console.log('intlNumber',intlNumber);
 
 
 
-var numberType = $("#demo").intlTelInput("getNumberType");
-console.log('numberType',numberType);
-*/
+        var numberType = $("#demo").intlTelInput("getNumberType");
+        console.log('numberType',numberType);
+        */
 
-$("#phonetogglediv").slideToggle(600);
-}
+         $("#phonetogglediv").slideToggle(600);
+    }
 
 function closeModel(){
     $scope.modal.hide();
@@ -158,7 +150,6 @@ function newDirectSignUp (){
 
 
 function routingTONextPage(userData,email){
-    console.log("cam he")
     vm.showSpinner = true;
     if(userData.data[0].Email == null || userData.data[0].Name == null || userData.data[0].Phone == null  || userData.data[0].Address.Postal_code == null){
         $localStorage.update = email;
@@ -167,6 +158,7 @@ function routingTONextPage(userData,email){
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
+         userAuthenticationService.alertUser('Please Fill The Form');
         $state.go('app.signUp');
     }else{
         if($rootScope.fbResponse.length > 0) {
@@ -198,67 +190,9 @@ function routingTONextPage(userData,email){
     }
 }
 
-function signInWithGoogle(){
-    vm.showSpinner = true;
-   
-/*gapi.signin.render('signInButton',
-{
-'callback': $scope.signInCallback, 
-'clientid': constantsService.googleId, 
-'requestvisibleactions': 'http://schemas.google.com/AddActivity', 
-'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
-'cookiepolicy': 'single_host_origin',
-'immediate': false
-
-}
-);*/
-/*gapi.auth.authorize(
-{
-
-'clientid': constantsService.googleId, 
-'requestvisibleactions': 'http://schemas.google.com/AddActivity', 
-'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
-'cookiepolicy': 'single_host_origin',
-'immediate': false
-
-},$scope.signInCallback
-);*/
-}
 
 
-$scope.signInCallback = function(authResult) {
-    console.log("cal back",authResult);
-    $scope.$apply(function() {
-        if(authResult['access_token']) {
-            $scope.signedIn = true;
-            gapi.client.request(
-            {
-                'path':'/plus/v1/people/me',
-                'method':'GET',
-                'callback': $scope.userInfoCallback,
-            }
-            );
 
-        } else if(authResult['error']  == "immediate_failed") {
-            $scope.signedIn = false;
-
-/*    if (authRes['status']['signed_in']) {
-$scope.signedIn = true;
-gapi.client.request(
-{
-'path':'/plus/v1/people/me',
-'method':'GET',
-'immediate': true,
-'callback': $scope.userInfoCallback,
-}
-);
-
-}*/
-
-
-}
-});
-};
 
 $scope.userInfoCallback = function(userInfo) {
     console.log("userInfo",userInfo);
@@ -307,9 +241,6 @@ function signInWithPhone(){
 
 
 $scope.$on('event:google-plus-signin-success', function (event,authResult) {
-    console.log("succ")
-    console.log("event",event);
-    console.log("authResult",authResult);
      gapi.client.request(
                 {
                     'path':'/plus/v1/people/me',

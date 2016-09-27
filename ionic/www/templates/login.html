@@ -37,19 +37,10 @@
                     <button class="button button-block themBackgroundColor float_right text_white" ng-click="vm.popupForEmailLogin()"
                     >Sign In With Email</button>  
                 </div>
-            </div>  
-            <div class="row row-no-padding">
-                <div class="col">            
-                    <button class="button button-block themBackgroundColor float_right text_white" 
-                    ng-click="vm.popupForPhoneLogin()"
-                    >Sign In With Phone Number</button>  
-                </div>
             </div> 
-        </div>
+            <div id="emailSigninPopUp" class="displayNone">
 
-        <div id="emailSigninPopUp" class="displayNone">
-
-            <form class="padding_top10px mrglftrt20px" name="loginForm">
+            <form class="padding_top10px" name="loginForm">
                 <div class="list list-inset mrgtopbtm20px">
                     <label class="item item-input border_color_orange">
                         <i class="icon ion-android-mail placeholder-icon"></i>
@@ -64,24 +55,28 @@
                         </div>
                     </label>
                 </div>
-
-                <!--  <div class="list list-inset mrgtopbtm20px">
-                <label class="item item-input border_color_orange">
-                <i class="icon ion-android-lock placeholder-icon"></i>
-                <input type="text" ng-model="vm.password" placeholder="Enter Your Password">
-                </label>
-                </div> -->
                 <div class="list list-inset mrgtopbtm20px">
                     <button class="button button-block themBackgroundColor text_white" ng-click="vm.signInWithEmail()" >
                         Log In
                     </button>
                 </div>
                 <div class="list list-inset">
-                    <span class="font_size_15px orangeText">Forgot Password?</span>
+                    <span class="font_size_15px orangeText float_left">Forgot Password?</span>
                     <span class="float_right font_size_15px orangeText" ng-click="vm.newDirectSignUp()">Sign up</span>
                 </div>
             </form>
         </div>
+
+            <div class="row row-no-padding">
+                <div class="col">            
+                    <button class="button button-block themBackgroundColor float_right text_white" 
+                    ng-click="vm.popupForPhoneLogin()"
+                    >Sign In With Phone Number</button>  
+                </div>
+            </div> 
+        </div>
+
+        
 
         <script id="Enteremailpopup.html" type="text/ng-template">
             <ion-modal-view>
@@ -112,7 +107,9 @@
                     <div class="row ">
                         <div class="col text_align_center">            
                             <button class="button  themBackgroundColor text_white" ng-click="vm.signInWithEmail()"
-                            >Enter</button>  
+                            >Log In
+
+                            </button>  
                         </div>
                     </div> 
                 </ion-content>
@@ -215,7 +212,7 @@
                          <div class="row padding0">
                         <div class="col text_align_center padding0">            
                             <button class="button button-block themBackgroundColor text_white" ng-click="vm.signInWithPhone()"
-                            >Enter</button>  
+                            >Log In</button>  
                         </div>
                     </div> 
                      <div class="list list-inset">
