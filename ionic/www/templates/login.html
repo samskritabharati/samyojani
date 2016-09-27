@@ -16,22 +16,19 @@
                     </button>
                 </div>
             </div> 
-            <div class="row row-no-padding" ng-click="vm.signInWithGoogle()">
+            <div class="row row-no-padding" >
                 <div class="col">
 
-                <google-plus-signin clientid="50553260606-883fcje3co9pdt8v6dhcdgbbfaqvo90b"></google-plus-signin>
-  <p>^ This is a Google Plus sign-in button</p>
-  
-                  <!-- <span id="googleSignIn">
-            <div class="button button-block googleColor text_white" id="signInButton">
-            <span class="ion-social-googleplus font_size_20px">&nbsp</span>Sign In With Email
-            </div>
-        </span> -->
-                   <!--  <button class="button button-block  googleColor text_white" id="signInButton" ng-click="vm.signInWithGoogle()">  <span class="ion-social-googleplus font_size_20px">&nbsp</span>Sign In With Google       
+              
+
+  <google-plus-signin clientid="263423522351-9je87ajk003c55riacpphn7hk3dlh5hn" autorender="false" customtargetid="my-custom-element">
+      <div id="my-custom-element">
+      <button class="button button-block  googleColor text_white">  <span class="ion-social-googleplus font_size_20px">&nbsp</span>Sign In With Google       
                         <span id="googleSignIn" >
                         </span>
-                    </button>
- -->
+                    </button></div>
+  </google-plus-signin>
+  
                 </div>
             </div>
             <div class="font_size_20px">---------- OR ----------</div> 
@@ -49,14 +46,7 @@
                 </div>
             </div> 
         </div>
-<!-- <script type="text/javascript">
-    (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/client:plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-            })();
- 
-</script> -->
+
         <div id="emailSigninPopUp" class="displayNone">
 
             <form class="padding_top10px mrglftrt20px" name="loginForm">

@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('activityDetailController', activityDetailController);
 
-activityDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService', '$localStorage', 'activityService','$timeout','$ionicHistory','filterFilter','$ionicPopup'];
+activityDetailController.$inject = ['$scope', '$stateParams', '$state', 'userInfoService','$ionicModal','userAuthenticationService', '$localStorage', 'activityService','$timeout','$ionicHistory','filterFilter','$ionicPopup','setLocationService'];
 
-function activityDetailController($scope, $stateParams, $state ,userInfoService, $ionicModal, userAuthenticationService, $localStorage, activityService,$timeout ,$ionicHistory,filterFilter,$ionicPopup) {
+function activityDetailController($scope, $stateParams, $state ,userInfoService, $ionicModal, userAuthenticationService, $localStorage, activityService,$timeout ,$ionicHistory,filterFilter,$ionicPopup,setLocationService) {
   var vm = this;
   vm.deleteUserFromActivity = deleteUserFromActivity;
   vm.updateUserDetailFromActivity = updateUserDetailFromActivity;
@@ -43,19 +43,38 @@ if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].N
 
 function showDetailActivity(activity){
   vm.showSpinner = true;
+
+
+
+
   if(activity.Coordinator_url != null || activity.Coordinator_url == ""){
-    userInfoService.getActivityCoordinatorDetail(activity.Coordinator_url).then(function(coordinatorDetails){
+    setLocationService.getRegionsByurl(activity.Region_url).then(function(reginUrlServiceRes){
+      userInfoService.getActivityCoordinatorDetail(activity.Coordinator_url).then(function(coordinatorDetails){
       vm.showSpinner = false;
-      ActivityDetailStructure(activity,coordinatorDetails);
+      ActivityDetailStructure(activity,coordinatorDetails,reginUrlServiceRes.data.path);
     },function(error){
       console.log('error',error);
     });
+
+    /*console.log("reginUrlServiceRes",reginUrlServiceRes.data.path);*/
+    
+   },function(error){
+    console.log("error",error);
+   })
+
+    
   }else{
-    ActivityDetailStructureWithoutCoordinator(activity);
+    setLocationService.getRegionsByurl(activity.Region_url).then(function(reginUrlServiceRes){
+       ActivityDetailStructureWithoutCoordinator(activity,'',reginUrlServiceRes.data.path);
+      },function(error){
+    console.log("error",error);
+   })
+   
   }
 }
 
-function ActivityDetailStructure(activity,coordinatorDetails){
+function ActivityDetailStructure(activity,coordinatorDetails,path){
+  console.log("activity",activity);
   var _activityDetail = {
     activity_type_id: activity.Activity_type,
     activity_address: activity.Address,
@@ -67,7 +86,7 @@ function ActivityDetailStructure(activity,coordinatorDetails){
     activity_phone: activity.Phone,
     activity_project_url: activity.Project_url,
     activity_recurrence: activity.Recurrence,
-    activity_sb_Region: activity.SB_Region,
+    activity_sb_Region: path,
     activity_start_date: activity.Start_date,
     activity_start_time: activity.Start_time,
     activity_URL: activity.URL,
@@ -85,6 +104,7 @@ function ActivityDetailStructure(activity,coordinatorDetails){
   vm.activityDetail = _activityDetail;
 }
 function ActivityDetailStructureWithoutCoordinator(activity){
+  console.log("activity",activity)
   var _activityDetail = {
     activity_type_id: activity.Activity_type_id,
     activity_address: activity.Address,
@@ -96,7 +116,7 @@ function ActivityDetailStructureWithoutCoordinator(activity){
     activity_phone: activity.Phone,
     activity_project_url: activity.Project_url,
     activity_recurrence: activity.Recurrence,
-    activity_sb_Region: activity.SB_Region,
+    activity_sb_Region: path,
     activity_start_date: activity.Start_date,
     activity_start_time: activity.Start_time,
     activity_URL: activity.URL,

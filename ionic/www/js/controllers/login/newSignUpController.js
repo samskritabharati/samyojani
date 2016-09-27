@@ -76,6 +76,12 @@ function newSignUpController($scope, $stateParams, $state, userAuthenticationSer
 			Phone: $rootScope.userPhone,
 			Email: $rootScope.email
 		}
+		if($rootScope.googleInfo){
+			vm.newUser = {
+				Name: $rootScope.googleInfo.name,
+				Email:  $rootScope.googleInfo.email
+			}
+		}
 	}
 
 

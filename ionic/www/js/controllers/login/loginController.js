@@ -158,9 +158,11 @@ function newDirectSignUp (){
 
 
 function routingTONextPage(userData,email){
+    console.log("cam he")
     vm.showSpinner = true;
     if(userData.data[0].Email == null || userData.data[0].Name == null || userData.data[0].Phone == null  || userData.data[0].Address.Postal_code == null){
         $localStorage.update = email;
+        console.log("controller update",$localStorage.update);
         vm.showSpinner = false;
         $ionicHistory.nextViewOptions({
             disableBack: true
@@ -198,7 +200,7 @@ function routingTONextPage(userData,email){
 
 function signInWithGoogle(){
     vm.showSpinner = true;
-    $scope.start();
+   
 /*gapi.signin.render('signInButton',
 {
 'callback': $scope.signInCallback, 
@@ -259,6 +261,8 @@ gapi.client.request(
 };
 
 $scope.userInfoCallback = function(userInfo) {
+    console.log("userInfo",userInfo);
+    console.log("emaillllllllllllll",userInfo.emails[0].value);
     $rootScope.googleInfo = [];
     userAuthenticationService.emailauthentication(userInfo.emails[0].value).then(function(userData){
         if(userData.data.length != 0){
@@ -301,56 +305,26 @@ function signInWithPhone(){
     }
 }
 
-$scope.signedIn = false;
 
+$scope.$on('event:google-plus-signin-success', function (event,authResult) {
+    console.log("succ")
+    console.log("event",event);
+    console.log("authResult",authResult);
+     gapi.client.request(
+                {
+                    'path':'/plus/v1/people/me',
+                    'method':'GET',
+                    'callback': $scope.userInfoCallback,
+                }
+                )
 
-$scope.processAuth = function(authResult) {
-    if(authResult['access_token']) {
-        $scope.signedIn = true;
-        gapi.client.request(
-        {
-            'path':'/plus/v1/people/me',
-            'method':'GET',
-            'callback': $scope.userInfoCallback,
-        }
-        );
-       
-    } else if(authResult['error']) {
-// Error while signing in.
-$scope.signedIn = false;
-
-// Report error.
-}
-};
-
-// When callback is received, we need to process authentication.
-$scope.signInCallback = function(authResult) {
-    $scope.$apply(function() {
-        $scope.processAuth(authResult);
-    });
-};
-
-// Render the sign in button.
-$scope.renderSignInButton = function() {
-    gapi.signin.render('signInButton',
-    {
-'callback': $scope.signInCallback, // Function handling the callback.
-'clientid': constantsService.googleId, // CLIENT_ID from developer console which has been explained earlier.
-'requestvisibleactions': 'http://schemas.google.com/AddActivity', // Visible actions, scope and cookie policy wont be described now,
-// as their explanation is available in Google+ API Documentation.
-'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
-'cookiepolicy': 'single_host_origin'
-}
-);
-}
-
-// Start function in this example only renders the sign in button.
-$scope.start = function() {
-    $scope.renderSignInButton();
-};
-
-// Call start function on load.
-
+  });
+  $scope.$on('event:google-plus-signin-failure', function (event,authResult) {
+    console.log("error")
+    // Auth failure or signout detected
+     console.log("event",event);
+    console.log("authResult",authResult);
+  });
 
 
 }
