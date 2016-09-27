@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('projectController', projectController);
 
-projectController.$inject = ['$scope', '$state', '$localStorage', 'projectService','filterFilter','$rootScope','$ionicHistory','$ionicModal','userInfoService','userAuthenticationService','postalCodeService','$filter'];
+projectController.$inject = ['$scope', '$state', '$localStorage', 'projectService','filterFilter','$rootScope','$ionicHistory','$ionicModal','userInfoService','userAuthenticationService','postalCodeService','$filter','setLocationService'];
 
-function projectController($scope, $state, $localStorage, projectService,filterFilter,$rootScope, $ionicHistory, $ionicModal,userInfoService,userAuthenticationService,postalCodeService, $filter) {
+function projectController($scope, $state, $localStorage, projectService,filterFilter,$rootScope, $ionicHistory, $ionicModal,userInfoService,userAuthenticationService,postalCodeService, $filter,setLocationService) {
     var vm = this;
     vm.openMap = openMap;
     vm.deleteProject = deleteProject;
@@ -19,22 +19,32 @@ function projectController($scope, $state, $localStorage, projectService,filterF
     vm.formForEditProject = formForEditProject;
     vm.closeModel = closeModel;
     vm.UpdateProject = UpdateProject;
+    vm.levelChangeEvent = levelChangeEvent;
+    vm.editlevelChangeEvent = editlevelChangeEvent;
 
     vm.newProject = {
         Address : {
             Postal_code: '',
-            Country: ''
+            Country: '',
+            Region_url : ''
         }
 
     }
-
+     
+ 
     $rootScope.currentMenu = 'project';
 
     if($localStorage.userInfo.data[0].Name != '' || $localStorage.userInfo.data[0].Name != null){
         $localStorage.userlogin = true;
     }
 
+    if(!$rootScope.dataToEdit){
+        vm.editProject = []
+        getRegionsByurl($localStorage.userInfo.data[0].Region_url)
+    }
+
     if($rootScope.dataToEdit){
+        getRegionsByurl($rootScope.dataToEdit.Region_url);
         vm.editProject = $rootScope.dataToEdit;
         $rootScope.dataToEdit = ""
         var st_date = $filter('date')(vm.editProject.Start_date, 'MM/dd/yyyy');
@@ -114,6 +124,11 @@ function projectController($scope, $state, $localStorage, projectService,filterF
     }
 
     function formForNewProject(){
+
+       
+          /*getRegionsByurl($localStorage.userInfo.data[0].Region_url);*/
+ 
+
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
@@ -239,8 +254,8 @@ function projectController($scope, $state, $localStorage, projectService,filterF
     function addProjectDetail(){
         vm.showSpinner = true;
         vm.newProject.Start_date = angular.element('#st_date').val();
-        vm.newProject.End_date = angular.element('#ed_date').val()
-
+        vm.newProject.End_date = angular.element('#ed_date').val();
+        vm.newProject.Region_url = vm.reginPathSelected;
         projectService.addProject(vm.newProject).then(function(project){
             userAuthenticationService.alertUser('Project Added Successfully');
             vm.showSpinner = false;
@@ -349,7 +364,8 @@ function projectController($scope, $state, $localStorage, projectService,filterF
     function UpdateProject(projectToUpdate){
         vm.showSpinner = true;
         vm.editProject.Start_date = angular.element('#edit_st').val();
-        vm.editProject.End_date = angular.element('#edit_ed').val()
+        vm.editProject.End_date = angular.element('#edit_ed').val();
+         vm.editProject.Region_url =  vm.reginPathSelected;
         projectService.updateProject(projectToUpdate).then(function(updatedProject){
             userAuthenticationService.alertUser('Details Updated');
             $rootScope.dataToEdit = ""
@@ -376,4 +392,53 @@ function projectController($scope, $state, $localStorage, projectService,filterF
             }
         }
     }
+
+    function editlevelChangeEvent(){
+        getRegionsByurl(vm.editProject.Region_url);
+    }
+
+    function levelChangeEvent(){
+        getRegionsByurl(vm.newProject.Region_url);
+    }
+
+    function getRegionsByurl(region_url){
+        if(region_url){
+            vm.reginPathSelected = region_url;
+            setLocationService.getRegionsByurl(region_url).then(function(reginUrlServiceRes){
+                var listData = [];
+            
+                vm.newProject.Region_url = reginUrlServiceRes.data.path;
+               
+                    vm.editProject.Region_url = reginUrlServiceRes.data.path;
+              
+                
+                vm.currentPath = reginUrlServiceRes.data.path
+                parentData = {
+                  'name': 'Up One Level',
+                  'value': reginUrlServiceRes.data.Parent_region_url,
+                }
+
+                angular.forEach(reginUrlServiceRes.data.Subregions, function (key, index) {
+                    var DataSructure = {
+                        'name': index,
+                        'value': key,
+                    }
+                    listData.push(DataSructure);
+                });
+
+                var filterValue = $filter('orderBy')(listData, 'name');
+
+                vm.nextLevelData= [];
+                vm.nextLevelData.push(parentData);
+                angular.forEach(filterValue, function (key, index) {
+                    vm.nextLevelData.push(key);
+                })
+
+                
+
+            },function(error){
+                console.log(error);
+            })
+        }
+    } 
 }

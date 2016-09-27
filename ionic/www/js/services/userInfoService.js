@@ -32,7 +32,7 @@ function userInfoService($http, $q, constantsService) {
         var deferred = $q.defer();
         $http({
             method : 'GET',
-            url : constantsService.url+'/activities?SB_Region='+region
+            url : constantsService.url+'/activities?Region_url='+region
         }).then(function(data){
             deferred.resolve(data);
         }, function(error){

@@ -41,6 +41,15 @@
 			</div>
 
 			<div class="row mrg_top5px">
+	            <div  class="col "> SB Region
+	                <select  ng-model="vm.editProject.Region_url" ng-change="vm.editlevelChangeEvent()"  ng-options="item.value as item.name for item in vm.nextLevelData" class="bordernone with100p btmborder padding5px">
+	                    <option value="" disabled selected="selected" style="display: none;">{{vm.newProject.Region_url}}</option>
+	                </select>
+	            </div>
+        	</div>
+
+
+			<div class="row mrg_top5px">
 				<div class="col">	Start Date
 
 					<input id="edit_st" class="btmborder with100p bordernone" 

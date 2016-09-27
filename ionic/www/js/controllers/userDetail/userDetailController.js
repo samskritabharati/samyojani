@@ -129,6 +129,7 @@ function userDetailController($scope, $stateParams, $state, userInfoService, $io
                         vm.showSpinner = false;
                     }, true);
                 }else{
+                    vm.user=[];
                      vm.search.Region_url = vm.currentPath;
                     userAuthenticationService.alertUser('No Matches');
                     vm.showSpinner = false;
