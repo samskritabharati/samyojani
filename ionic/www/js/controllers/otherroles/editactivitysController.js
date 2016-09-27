@@ -2,9 +2,9 @@ angular
 .module('starter')
 .controller('editactivitysController', editactivitysController);
 
-editactivitysController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory','$timeout' ,'activityService' ,'filterFilter','$rootScope','$filter','$ionicPopup','postalCodeService'];
+editactivitysController.$inject = ['$scope', '$stateParams', '$state','userInfoService','$ionicModal','userAuthenticationService', 'projectService', '$localStorage','$ionicHistory','$timeout' ,'activityService' ,'filterFilter','$rootScope','$filter','$ionicPopup','postalCodeService','setLocationService'];
 
-function editactivitysController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout,activityService,filterFilter,$rootScope,$filter,$ionicPopup,postalCodeService) {
+function editactivitysController($scope, $stateParams, $state, userInfoService, $ionicModal, userAuthenticationService, projectService, $localStorage,$ionicHistory,$timeout,activityService,filterFilter,$rootScope,$filter,$ionicPopup,postalCodeService,setLocationService) {
 	var vm = this;
 	vm.showSpinner = false;
 	vm.saveUpdatedActivityDetail = saveUpdatedActivityDetail;
@@ -16,11 +16,14 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 	vm.choosedCoordinator =  choosedCoordinator;
 	vm.closeThisModel = closeThisModel;	
 	vm.autoFillAddressDetail = autoFillAddressDetail;
+	vm.levelChangeEvent = levelChangeEvent;
 
 	var st_date = $filter('date')(vm.Activity.Start_date, 'MM/dd/yyyy');
 	vm.editActivity.Start_date = st_date;
 	var ed_date = $filter('date')(vm.Activity.End_date, 'MM/dd/yyyy');
 	vm.editActivity.End_date = ed_date;
+
+	 getRegionsByurl(vm.editActivity.Region_url);
 
 	userInfoService.getAllActivity().then(function(activity){
 		vm.activityList= activity.data ;
@@ -30,6 +33,7 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 	recurrenceList();
 	daysList();
 	getCountry();
+
 
 	function getCoordinatorInfo(){
 		if(vm.editActivity.Coordinator_url){
@@ -46,6 +50,7 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 		vm.showSpinner = true;
 		vm.editActivity.Start_date = angular.element('#edit_st').val();
 		vm.editActivity.End_date = angular.element('#edit_ed').val();
+		 vm.editActivity.Region_url =  vm.reginPathSelected;
 		userInfoService.updateActivity(vm.editActivity).then(function(data){
 			vm.showSpinner = false;
 			userAuthenticationService.alertUser('Activity Updated Successfully');
@@ -229,5 +234,50 @@ function editactivitysController($scope, $stateParams, $state, userInfoService, 
 
 
 	}
+
+	function levelChangeEvent(){
+        getRegionsByurl(vm.editActivity.Region_url);
+    }
+
+    function getRegionsByurl(region_url){
+        if(region_url){
+            vm.reginPathSelected = region_url;
+            setLocationService.getRegionsByurl(region_url).then(function(reginUrlServiceRes){
+                var listData = [];
+            
+              
+               
+                    vm.editActivity.Region_url = reginUrlServiceRes.data.path;
+              
+                
+                vm.currentPath = reginUrlServiceRes.data.path
+                parentData = {
+                  'name': 'Up One Level',
+                  'value': reginUrlServiceRes.data.Parent_region_url,
+                }
+
+                angular.forEach(reginUrlServiceRes.data.Subregions, function (key, index) {
+                    var DataSructure = {
+                        'name': index,
+                        'value': key,
+                    }
+                    listData.push(DataSructure);
+                });
+
+                var filterValue = $filter('orderBy')(listData, 'name');
+
+                vm.nextLevelData= [];
+                vm.nextLevelData.push(parentData);
+                angular.forEach(filterValue, function (key, index) {
+                    vm.nextLevelData.push(key);
+                })
+
+                
+
+            },function(error){
+                console.log(error);
+            })
+        }
+    }
 
 }
