@@ -46,6 +46,7 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
                     userInfoService.findUserByFacebookID(response.id).then(function (res){
                         if(res.data.length>0){
                             if(res.data[0].Email != ""){
+                                $scope.modal.hide();
                                 routingTONextPage(res,res.data[0].Email);
                             }else{
 
@@ -80,7 +81,6 @@ function loginController($scope, $stateParams, $state, userAuthenticationService
     }
 
     function signInWithEmail(){
-         $scope.modal.hide();
         if(vm.email){
             vm.showSpinner = true;
             userAuthenticationService.emailauthentication(vm.email).then(function(userData){
